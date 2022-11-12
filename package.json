@@ -4,7 +4,10 @@
   "description": "부스트 DDㅏ방, 부따 Buddha ᕕ( ᐛ )ᕗ",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "concurrently --kill-others-on-fail \"npm run test:cov -w server\" \"npm run test -w client\"",
+    "dev": "concurrently --kill-others-on-fail \"npm run start:dev -w server\" \"npm run start -w client\"",
+    "build": "concurrently --kill-others-on-fail \"npm run build -w server\" \"npm run build -w client\"",
+    "prod": "concurrently --kill-others-on-fail \"npm run start:prod -w server\""
   },
   "repository": {
     "type": "git",
@@ -22,6 +25,7 @@
   "devDependencies": {
     "@typescript-eslint/eslint-plugin": "^5.42.1",
     "@typescript-eslint/parser": "^5.42.1",
+    "concurrently": "^7.5.0",
     "eslint": "^8.27.0",
     "eslint-config-prettier": "^8.5.0",
     "eslint-plugin-prettier": "^4.2.1",

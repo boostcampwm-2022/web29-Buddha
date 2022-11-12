@@ -1,0 +1,31 @@
+{
+  "name": "buddha",
+  "version": "0.0.1",
+  "description": "부스트 DDㅏ방, 부따 Buddha ᕕ( ᐛ )ᕗ",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/boostcampwm-2022/web29-Buddha.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/boostcampwm-2022/web29-Buddha/issues"
+  },
+  "homepage": "https://github.com/boostcampwm-2022/web29-Buddha#readme",
+  "workspaces": [
+    "./packages/*"
+  ],
+  "devDependencies": {
+    "@typescript-eslint/eslint-plugin": "^5.42.1",
+    "@typescript-eslint/parser": "^5.42.1",
+    "eslint": "^8.27.0",
+    "eslint-config-prettier": "^8.5.0",
+    "eslint-plugin-prettier": "^4.2.1",
+    "prettier": "^2.7.1",
+    "typescript": "^4.8.4"
+  }
+}

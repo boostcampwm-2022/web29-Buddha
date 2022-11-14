@@ -1,6 +1,7 @@
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import Layout from './Layout';
 import Signup from './pages/Signup';
+import Signin from './pages/Signin';
 
 function App() {
   return (
@@ -8,7 +9,7 @@ function App() {
       <Layout>
         <BrowserRouter>
           <Routes>
-            <Route path={'/'} element={<></>}></Route> {/* 로그인 */}
+            <Route path={'/'} element={<Signin />}></Route> {/* 로그인 */}
             <Route path={'/signup'} element={<Signup />}></Route> {/* 회원가입 */}
             <Route path={'/mypage'} element={<></>}></Route> {/* 마이페이지 */}
             <Route path={'/home'} element={<></>}></Route> {/* 고객 메인 */}

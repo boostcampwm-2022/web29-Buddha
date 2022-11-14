@@ -14,15 +14,35 @@ function Signup() {
   };
 
   const handleSubmit = () => {
-    alert(`nickname: ${nickname} \ncorporate: ${corporate}`);
+    if (isValidateNickname()) {
+      if (signupType === 'owner') {
+        if (isValidateCorporate()) {
+          alert(`nickname: ${nickname} \ncorporate: ${corporate}`);
+        } else {
+          alert('사업자 등록 번호 입력이 잘못됐습니다.');
+        }
+      } else {
+        alert(`nickname: ${nickname}`);
+      }
+    } else {
+      alert('닉네임 입력이 잘못됐습니다.');
+    }
   };
 
   const changeNickname = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setNickname(e.target.value);
+    setNickname(e.target.value.replace(/[^ㄱ-ㅎ|가-힣|a-z|A-Z|0-9|\s]/g, ''));
   };
 
   const changeCorporate = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setCorporate(e.target.value);
+    setCorporate(e.target.value.replace(/[^0-9-]/g, ''));
+  };
+
+  const isValidateNickname = () => {
+    return nickname.length > 2;
+  };
+
+  const isValidateCorporate = () => {
+    return corporate.length >= 10;
   };
 
   return (
@@ -36,8 +56,9 @@ function Signup() {
         <input
           onChange={changeNickname}
           type={'text'}
-          placeholder={'닉네임을 입력해주세요.'}
+          placeholder={'닉네임을 입력해주세요. 알파벳, 숫자만 사용'}
           maxLength={20}
+          value={nickname}
         />
       </div>
       {signupType === 'owner' ? (
@@ -47,7 +68,8 @@ function Signup() {
             onChange={changeCorporate}
             type={'text'}
             placeholder={'사업자 등록 번호를 입력해주세요.'}
-            maxLength={20}
+            maxLength={12}
+            value={corporate}
           />
         </div>
       ) : (

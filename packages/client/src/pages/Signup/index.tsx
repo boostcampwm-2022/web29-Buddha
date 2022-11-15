@@ -1,4 +1,14 @@
 import { useState } from 'react';
+import { PLACEHOLDER } from '../../constants';
+import {
+  PageWrapper,
+  ChangeForm,
+  ChangeButton,
+  InputWrapper,
+  InputTitle,
+  Input,
+  CustomButton,
+} from './styled';
 
 function Signup() {
   const [signupType, setSignupType] = useState<string>('customer');
@@ -46,37 +56,47 @@ function Signup() {
   };
 
   return (
-    <div>
-      <div>
-        <span onClick={handleClickCustomer}>고객</span>
-        <span onClick={handleClickOwner}>업주</span>
-      </div>
-      <div>
-        <p>닉네임</p>
-        <input
+    <PageWrapper>
+      <ChangeForm data-testid={'change-form'}>
+        <ChangeButton
+          className={signupType === 'customer' ? 'selected' : ''}
+          onClick={handleClickCustomer}
+        >
+          고객
+        </ChangeButton>
+        <ChangeButton
+          className={signupType === 'owner' ? 'selected' : ''}
+          onClick={handleClickOwner}
+        >
+          업주
+        </ChangeButton>
+      </ChangeForm>
+      <InputWrapper>
+        <InputTitle>닉네임</InputTitle>
+        <Input
           onChange={changeNickname}
           type={'text'}
-          placeholder={'닉네임을 입력해주세요. 알파벳, 숫자만 사용'}
+          placeholder={PLACEHOLDER.nickname}
           maxLength={20}
           value={nickname}
         />
-      </div>
+      </InputWrapper>
       {signupType === 'owner' ? (
-        <div>
-          <p>사업자 등록 번호</p>
-          <input
+        <InputWrapper>
+          <InputTitle>사업자 등록 번호</InputTitle>
+          <Input
             onChange={changeCorporate}
             type={'text'}
-            placeholder={'사업자 등록 번호를 입력해주세요.'}
+            placeholder={PLACEHOLDER.corporate}
             maxLength={12}
             value={corporate}
           />
-        </div>
+        </InputWrapper>
       ) : (
         <></>
       )}
-      <button onClick={handleSubmit}>회원가입</button>
-    </div>
+      <CustomButton onClick={handleSubmit}>회원가입</CustomButton>
+    </PageWrapper>
   );
 }
 

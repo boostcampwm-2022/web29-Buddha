@@ -1,26 +1,34 @@
+import { CafeMenu } from './entities/cafeMenu.entity';
+import { Menu } from './entities/menu.entity';
 import { Injectable } from '@nestjs/common';
-import { CreateCafeDto } from './dto/create-cafe.dto';
-import { UpdateCafeDto } from './dto/update-cafe.dto';
+import { InjectRepository } from '@nestjs/typeorm';
+import { Repository } from 'typeorm';
+import { Cafe } from './entities/cafe.entity';
+import { CafeMenuResDto } from './dto/CafeMenuRes.dto';
 
 @Injectable()
 export class CafeService {
-  create(createCafeDto: CreateCafeDto) {
-    return 'This action adds a new cafe';
-  }
+  constructor(
+    @InjectRepository(Cafe) private cafeRepository: Repository<Cafe>,
+    @InjectRepository(Menu) private menuRepository: Repository<Menu>
+  ) {}
 
-  findAll() {
-    return `This action returns all cafe`;
+  async findAllMenuById(cafeId: number): Promise<CafeMenuResDto> {
+    const cafe = await this.cafeRepository.findOne({
+      where: {
+        id: cafeId,
+      },
+      relations: {
+        cafeMenus: {
+          menu: true,
+        },
+      },
+    });
+
+    return new CafeMenuResDto(cafe);
   }
 
   findOne(id: number) {
     return `This action returns a #${id} cafe`;
-  }
-
-  update(id: number, updateCafeDto: UpdateCafeDto) {
-    return `This action updates a #${id} cafe`;
-  }
-
-  remove(id: number) {
-    return `This action removes a #${id} cafe`;
   }
 }

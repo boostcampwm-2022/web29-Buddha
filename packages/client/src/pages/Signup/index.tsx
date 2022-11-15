@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { PLACEHOLDER } from '../../constants';
 
 function Signup() {
   const [signupType, setSignupType] = useState<string>('customer');
@@ -47,7 +48,7 @@ function Signup() {
 
   return (
     <div>
-      <div>
+      <div data-testid={'change-form'}>
         <span onClick={handleClickCustomer}>고객</span>
         <span onClick={handleClickOwner}>업주</span>
       </div>
@@ -56,7 +57,7 @@ function Signup() {
         <input
           onChange={changeNickname}
           type={'text'}
-          placeholder={'닉네임을 입력해주세요. 알파벳, 숫자만 사용'}
+          placeholder={PLACEHOLDER.nickname}
           maxLength={20}
           value={nickname}
         />
@@ -67,7 +68,7 @@ function Signup() {
           <input
             onChange={changeCorporate}
             type={'text'}
-            placeholder={'사업자 등록 번호를 입력해주세요.'}
+            placeholder={PLACEHOLDER.corporate}
             maxLength={12}
             value={corporate}
           />

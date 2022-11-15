@@ -1,4 +1,5 @@
-import { Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
+import { Column, Entity, OneToMany, PrimaryGeneratedColumn } from 'typeorm';
+import { MenuOption } from './menuOption.entity';
 
 @Entity()
 export class Menu {
@@ -16,4 +17,7 @@ export class Menu {
 
   @Column({ type: 'varchar', length: '2000' })
   thumbnail: string;
+
+  @OneToMany(() => MenuOption, (menuOption) => menuOption.menu)
+  menuOptions: MenuOption[];
 }

@@ -1,3 +1,4 @@
+import { routeTable } from './../config/route';
 import { Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { UserModule } from './user/user.module';
@@ -6,6 +7,7 @@ import { CafeModule } from './cafe/cafe.module';
 import { AuthModule } from './auth/auth.module';
 
 import { ConfigModule } from '@nestjs/config';
+import { RouterModule } from '@nestjs/core';
 
 @Module({
   imports: [
@@ -25,6 +27,7 @@ import { ConfigModule } from '@nestjs/config';
       synchronize: process.env.NODE_ENV === 'development',
       logging: true,
     }),
+    RouterModule.register([routeTable]),
     UserModule,
     OrderModule,
     CafeModule,

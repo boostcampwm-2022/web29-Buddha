@@ -1,5 +1,6 @@
 import { ReactNode } from 'react';
 import { ThemeProvider } from '@emotion/react';
+import styled from '@emotion/styled';
 
 interface Props {
   children: ReactNode;
@@ -69,10 +70,20 @@ const theme = {
   },
 };
 
+const Container = styled.main`
+  width: 100%;
+  height: 100%;
+  min-width: 320px;
+  min-height: 448px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+`;
+
 function Layout({ children }: Props) {
   return (
     <ThemeProvider theme={theme}>
-      <div>{children}</div>
+      <Container>{children}</Container>
     </ThemeProvider>
   );
 }

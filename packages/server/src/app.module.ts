@@ -23,7 +23,7 @@ import { RouterModule } from '@nestjs/core';
       username: process.env.MYSQL_USERNAME,
       password: process.env.MYSQL_PASSWORD,
       database: process.env.MYSQL_DATABASE,
-      autoLoadEntities: true,
+      entities: ['dist/**/*.entity{.ts,.js}'],
       synchronize: process.env.NODE_ENV === 'development',
       logging: true,
     }),

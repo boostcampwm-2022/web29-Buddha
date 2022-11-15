@@ -1,34 +1,52 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common';
+import {
+  Controller,
+  Get,
+  Post,
+  Body,
+  Patch,
+  Param,
+  Delete,
+  HttpCode,
+} from '@nestjs/common';
 import { UserService } from './user.service';
-import { CreateUserDto } from './dto/create-user.dto';
+import { SignUpDto } from './dto/signUp.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
 
 @Controller('user')
 export class UserController {
   constructor(private readonly userService: UserService) {}
 
+  // 회원가입
   @Post()
-  create(@Body() createUserDto: CreateUserDto) {
-    return this.userService.create(createUserDto);
+  @HttpCode(201)
+  signUp(@Body() signUpDto: SignUpDto) {
+    return this.userService.signup(signUpDto);
   }
 
+  // 로그아웃
+  @Post()
+  signOut() {
+    const jwt = 'jwt';
+    return this.userService.signout(jwt);
+  }
+
+  // 회원정보(닉네임) 수정
+  @Patch()
+  update(@Body() updateUserDto: UpdateUserDto) {
+    return this.userService.update(updateUserDto);
+  }
+
+  // 회원 탈퇴
+  @Delete()
+  remove() {
+    const jwt = 'jwt';
+    return this.userService.remove(jwt);
+  }
+
+  // 유저 권한 확인
   @Get()
-  findAll() {
-    return this.userService.findAll();
-  }
-
-  @Get(':id')
-  findOne(@Param('id') id: string) {
-    return this.userService.findOne(+id);
-  }
-
-  @Patch(':id')
-  update(@Param('id') id: string, @Body() updateUserDto: UpdateUserDto) {
-    return this.userService.update(+id, updateUserDto);
-  }
-
-  @Delete(':id')
-  remove(@Param('id') id: string) {
-    return this.userService.remove(+id);
+  checkUser() {
+    const jwt = 'jwt';
+    return this.userService.checkUser(jwt);
   }
 }

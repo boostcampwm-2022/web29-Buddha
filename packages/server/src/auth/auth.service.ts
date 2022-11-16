@@ -1,5 +1,5 @@
 import { HttpService } from '@nestjs/axios';
-import { Injectable } from '@nestjs/common';
+import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import { Request } from 'express';
 import { USER_TYPE } from 'src/user/enum/userType.enum';
 import { JwtPayload } from './interfaces/jwtPayload';
@@ -19,6 +19,18 @@ export class AuthService {
     session.email = email;
   }
 
+  getUserInfoFromSession(req: Request) {
+    const session: any = req.session;
+    const { name, email } = session;
+    if (name === undefined || email === undefined) {
+      throw new HttpException(
+        '세션이 만료되었습니다.',
+        HttpStatus.UNAUTHORIZED
+      );
+    }
+    return { name, email };
+  }
+
   setJwt(id: number, userType: USER_TYPE) {
     const payload: JwtPayload = { id, userType };
     const accessToken = jwt.sign(payload, 'temp_jwt_secret', {
@@ -34,8 +46,10 @@ export class AuthService {
 
   async _getTokens(code: string, state: string) {
     const redirectURI = encodeURI(
-      'http://localhost:8080/api/v1/user/naver-oauth'
+      // 'http://localhost:8080/api/v1/user/naver-oauth'
+      'http://localhost:3000'
     );
+
     const clientId = process.env.CLIENT_ID;
     const clientSecret = process.env.CLIENT_SECRET;
 
@@ -73,3 +87,4 @@ export class AuthService {
 }
 
 // https://nid.naver.com/oauth2.0/authorize?response_type=code&client_id=YIMdxKjzC0ZIN_laeHBQ&redirect_uri=http%3A%2F%2Flocalhost%3A8080%2Fapi%2Fv1%2Fuser%2Fnaver-oauth&state=1234
+// https://nid.naver.com/oauth2.0/authorize?response_type=code&client_id=YIMdxKjzC0ZIN_laeHBQ&redirect_uri=http%3A%2F%2Flocalhost%3A3000&state=1234

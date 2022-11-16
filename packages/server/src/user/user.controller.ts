@@ -30,17 +30,17 @@ export class UserController {
   }
 
   // 회원가입
-  @Post()
+  @Post('/signup')
   @HttpCode(201)
-  signUp(@Body() signUpDto: SignUpDto) {
-    return this.userService.signup(signUpDto);
+  async signUp(@Req() req: Request, @Body() signUpDto: SignUpDto) {
+    return await this.userService.signUp(req, signUpDto);
   }
 
   // 로그아웃
-  @Post()
+  @Post('/signout')
   signOut() {
     const jwt = 'jwt';
-    return this.userService.signout(jwt);
+    return this.userService.signOut(jwt);
   }
 
   // 회원정보(닉네임) 수정

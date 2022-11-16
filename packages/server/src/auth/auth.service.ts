@@ -1,23 +1,25 @@
 import { HttpService } from '@nestjs/axios';
 import { Injectable } from '@nestjs/common';
-import { UserService } from 'src/user/user.service';
+import { Request } from 'express';
 
 @Injectable()
 export class AuthService {
-  constructor(
-    private readonly httpService: HttpService,
-    private readonly userService: UserService
-  ) {}
+  constructor(private readonly httpService: HttpService) {}
 
-  async naverOAuthSignIn(req, code, state) {
+  async getUserInfoFromNaver(code: string, state: string) {
     const { access_token } = await this._getTokens(code, state);
-    const { email, name } = await this._getUserInfo(access_token);
-    return this.userService.manageOAuth(req, email, name);
+    return await this._getUserInfo(access_token);
+  }
+
+  setSession(req: Request, email: string, name: string) {
+    const session: any = req.session;
+    session.name = name;
+    session.email = email;
   }
 
   async _getTokens(code: string, state: string) {
     const redirectURI = encodeURI(
-      'http://localhost:8080/api/v1/auth/naver-oauth'
+      'http://localhost:8080/api/v1/user/naver-oauth'
     );
     const clientId = process.env.CLIENT_ID;
     const clientSecret = process.env.CLIENT_SECRET;
@@ -55,4 +57,4 @@ export class AuthService {
   }
 }
 
-// https://nid.naver.com/oauth2.0/authorize?response_type=code&client_id=YIMdxKjzC0ZIN_laeHBQ&redirect_uri=http%3A%2F%2Flocalhost%3A8080%2Fapi%2Fv1%2Fauth%2Fnaver-oauth&state=1234
+// https://nid.naver.com/oauth2.0/authorize?response_type=code&client_id=YIMdxKjzC0ZIN_laeHBQ&redirect_uri=http%3A%2F%2Flocalhost%3A8080%2Fapi%2Fv1%2Fuser%2Fnaver-oauth&state=1234

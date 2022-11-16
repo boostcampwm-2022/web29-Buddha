@@ -5,12 +5,31 @@ import { SignUpDto } from './dto/signUp.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
 import { User } from './entities/user.entity';
 import { Request } from 'express';
+import { AuthService } from 'src/auth/auth.service';
+import { NaverSignInDto } from './dto/naver-singIn.dto';
 
 @Injectable()
 export class UserService {
   constructor(
+    private readonly authService: AuthService,
     @InjectRepository(User) private userRepository: Repository<User>
   ) {}
+
+  async naverSignIn(req: Request, naverSignInDto: NaverSignInDto) {
+    const { code, state } = naverSignInDto;
+    const { email, name } = await this.authService.getUserInfoFromNaver(
+      code,
+      state
+    );
+    const user: User | null = await this.userRepository.findOneBy({ email });
+    if (user) {
+      return 'jwt';
+    } else {
+      this.authService.setSession(req, email, name);
+      throw new HttpException('no user data found', HttpStatus.SEE_OTHER);
+    }
+  }
+
   signup(signUpDto: SignUpDto) {
     return 'This action adds a new user';
   }
@@ -29,21 +48,5 @@ export class UserService {
 
   checkUser(jwt: string) {
     return;
-  }
-
-  async manageOAuth(req: Request, email: string, name: string) {
-    const user: User | null = await this.userRepository.findOneBy({ email });
-    if (user) {
-      return 'jwt';
-    } else {
-      this._setSession(req, email, name);
-      throw new HttpException('no user data found', HttpStatus.SEE_OTHER);
-    }
-  }
-
-  _setSession(req: Request, email: string, name: string) {
-    const session: any = req.session;
-    session.name = name;
-    session.email = email;
   }
 }

@@ -7,15 +7,28 @@ import {
   Param,
   Delete,
   HttpCode,
+  Query,
+  Req,
 } from '@nestjs/common';
 import { UserService } from './user.service';
 import { SignUpDto } from './dto/signUp.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
+import { NaverSignInDto } from './dto/naver-singIn.dto';
+import { Request } from 'express';
 
-@Controller('user')
+@Controller()
 export class UserController {
   constructor(private readonly userService: UserService) {}
 
+  // 네이버 로그인
+  @Get('/naver-oauth')
+  async naverSignIn(
+    @Req() req: Request,
+    @Query() naverSignInDto: NaverSignInDto
+  ) {
+    await this.userService.naverSignIn(req, naverSignInDto);
+    return;
+  }
   // 회원가입
   @Post()
   @HttpCode(201)
@@ -47,6 +60,6 @@ export class UserController {
   @Get()
   async checkUser() {
     const jwt = 'jwt';
-    return await this.userService.checkUser(jwt);
+    return jwt;
   }
 }

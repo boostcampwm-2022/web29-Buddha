@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { PLACEHOLDER } from '../../constants';
+import { PLACEHOLDER } from '@/constants';
 import {
   PageWrapper,
   ChangeForm,

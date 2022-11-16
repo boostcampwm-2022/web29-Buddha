@@ -1,7 +1,7 @@
 import { render, screen, fireEvent } from '@testing-library/react';
-import Signup from './index';
-import Layout from '../../Layout';
-import { PLACEHOLDER } from '../../constants';
+import Signup from 'pages/Signup/index';
+import Layout from '@/Layout';
+import { PLACEHOLDER } from '@/constants';
 
 const setup = () => {
   render(

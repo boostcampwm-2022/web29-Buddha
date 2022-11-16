@@ -1,7 +1,9 @@
 import { HttpService } from '@nestjs/axios';
 import { Injectable } from '@nestjs/common';
 import { Request } from 'express';
-
+import { USER_TYPE } from 'src/user/enum/userType.enum';
+import { JwtPayload } from './interfaces/jwtPayload';
+import jwt from 'jsonwebtoken';
 @Injectable()
 export class AuthService {
   constructor(private readonly httpService: HttpService) {}
@@ -15,6 +17,19 @@ export class AuthService {
     const session: any = req.session;
     session.name = name;
     session.email = email;
+  }
+
+  setJwt(id: number, userType: USER_TYPE) {
+    const payload: JwtPayload = { id, userType };
+    const accessToken = jwt.sign(payload, 'temp_jwt_secret', {
+      expiresIn: '1h',
+      issuer: 'buddah.com',
+    });
+    const refreshToken = jwt.sign({ id, userType }, 'temp_jwt_secret', {
+      expiresIn: '7d',
+      issuer: 'buddah.com',
+    });
+    return { accessToken, refreshToken };
   }
 
   async _getTokens(code: string, state: string) {

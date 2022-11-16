@@ -7,6 +7,7 @@ import { User } from './entities/user.entity';
 import { Request } from 'express';
 import { AuthService } from 'src/auth/auth.service';
 import { NaverSignInDto } from './dto/naver-singIn.dto';
+import { USER_TYPE } from './enum/userType.enum';
 
 @Injectable()
 export class UserService {
@@ -23,7 +24,9 @@ export class UserService {
     );
     const user: User | null = await this.userRepository.findOneBy({ email });
     if (user) {
-      return 'jwt';
+      const userType: USER_TYPE = parseInt(user.role);
+      const tokens = this.authService.setJwt(user.id, userType);
+      return tokens;
     } else {
       this.authService.setSession(req, email, name);
       throw new HttpException('no user data found', HttpStatus.SEE_OTHER);

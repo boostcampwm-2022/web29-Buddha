@@ -26,9 +26,9 @@ export class UserController {
     @Req() req: Request,
     @Query() naverSignInDto: NaverSignInDto
   ) {
-    await this.userService.naverSignIn(req, naverSignInDto);
-    return;
+    return await this.userService.naverSignIn(req, naverSignInDto);
   }
+
   // 회원가입
   @Post()
   @HttpCode(201)

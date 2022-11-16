@@ -33,11 +33,11 @@ export class UserService {
     }
   }
 
-  signup(signUpDto: SignUpDto) {
+  signUp(signUpDto: SignUpDto) {
     return 'This action adds a new user';
   }
 
-  signout(jwt: string) {
+  signOut(jwt: string) {
     return 'This action signs out a user';
   }
 

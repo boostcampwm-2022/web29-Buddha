@@ -33,14 +33,14 @@ export class UserController {
   @Post()
   @HttpCode(201)
   signUp(@Body() signUpDto: SignUpDto) {
-    return this.userService.signup(signUpDto);
+    return this.userService.signUp(signUpDto);
   }
 
   // 로그아웃
   @Post()
   signOut() {
     const jwt = 'jwt';
-    return this.userService.signout(jwt);
+    return this.userService.signOut(jwt);
   }
 
   // 회원정보(닉네임) 수정

@@ -19,7 +19,7 @@ export class AuthController {
   async naverOAuthSignIn(@Req() req: Request) {
     const code = req.query.code;
     const state = req.query.state;
-    const result = await this.authService.naverOAuthSignIn(code, state);
+    const result = await this.authService.naverOAuthSignIn(req, code, state);
     return result;
   }
 }

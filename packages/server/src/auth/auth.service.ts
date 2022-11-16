@@ -9,10 +9,10 @@ export class AuthService {
     private readonly userService: UserService
   ) {}
 
-  async naverOAuthSignIn(code, state) {
+  async naverOAuthSignIn(req, code, state) {
     const { access_token } = await this._getTokens(code, state);
     const { email, name } = await this._getUserInfo(access_token);
-    return this.userService.manageOAuth(email, name);
+    return this.userService.manageOAuth(req, email, name);
   }
 
   async _getTokens(code: string, state: string) {

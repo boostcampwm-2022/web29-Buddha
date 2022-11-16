@@ -1,7 +1,6 @@
 import { NestFactory } from '@nestjs/core';
 import { AppModule } from './app.module';
 import session from 'express-session';
-import sessionFileStore from 'session-file-store';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
@@ -11,10 +10,10 @@ async function bootstrap() {
       resave: false,
       saveUninitialized: false,
       cookie: {
+        maxAge: 5000,
         secure: false,
         httpOnly: true,
       },
-      store: new sessionFileStore(session)(),
       name: 'sid',
     })
   );

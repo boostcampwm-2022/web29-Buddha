@@ -45,8 +45,8 @@ export class UserController {
 
   // 유저 권한 확인
   @Get()
-  checkUser() {
+  async checkUser() {
     const jwt = 'jwt';
-    return this.userService.checkUser(jwt);
+    return await this.userService.checkUser(jwt);
   }
 }

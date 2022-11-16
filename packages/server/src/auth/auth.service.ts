@@ -1,14 +1,18 @@
 import { HttpService } from '@nestjs/axios';
 import { Injectable } from '@nestjs/common';
+import { UserService } from 'src/user/user.service';
 
 @Injectable()
 export class AuthService {
-  constructor(private readonly httpService: HttpService) {}
+  constructor(
+    private readonly httpService: HttpService,
+    private readonly userService: UserService
+  ) {}
 
   async naverOAuthSignIn(code, state) {
     const { access_token } = await this._getTokens(code, state);
     const { email, name } = await this._getUserInfo(access_token);
-    return { email, name };
+    return this.userService.manageOAuth(email, name);
   }
 
   async _getTokens(code: string, state: string) {

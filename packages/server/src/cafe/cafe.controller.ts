@@ -1,34 +1,31 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common';
+import {
+  Controller,
+  Get,
+  Post,
+  Body,
+  Patch,
+  Param,
+  Delete,
+  ParseIntPipe,
+  ClassSerializerInterceptor,
+  UseInterceptors,
+} from '@nestjs/common';
 import { CafeService } from './cafe.service';
-import { CreateCafeDto } from './dto/create-cafe.dto';
-import { UpdateCafeDto } from './dto/update-cafe.dto';
-
-@Controller('cafe')
+import { CafeMenuResDto } from './dto/CafeMenuRes.dto';
+@Controller()
 export class CafeController {
   constructor(private readonly cafeService: CafeService) {}
 
-  @Post()
-  create(@Body() createCafeDto: CreateCafeDto) {
-    return this.cafeService.create(createCafeDto);
-  }
-
-  @Get()
-  findAll() {
-    return this.cafeService.findAll();
+  @UseInterceptors(ClassSerializerInterceptor)
+  @Get(':cafeId/menus')
+  async findAllMenuById(
+    @Param('cafeId', ParseIntPipe) cafeId: number
+  ): Promise<CafeMenuResDto> {
+    return await this.cafeService.findAllMenuById(cafeId);
   }
 
   @Get(':id')
   findOne(@Param('id') id: string) {
     return this.cafeService.findOne(+id);
-  }
-
-  @Patch(':id')
-  update(@Param('id') id: string, @Body() updateCafeDto: UpdateCafeDto) {
-    return this.cafeService.update(+id, updateCafeDto);
-  }
-
-  @Delete(':id')
-  remove(@Param('id') id: string) {
-    return this.cafeService.remove(+id);
   }
 }

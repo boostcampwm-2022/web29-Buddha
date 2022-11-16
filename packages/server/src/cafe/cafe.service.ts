@@ -5,6 +5,7 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { Cafe } from './entities/cafe.entity';
 import { CafeMenuResDto } from './dto/CafeMenuRes.dto';
+import { MenuDetailResDto } from './dto/MenuDetailRes.dto';
 
 @Injectable()
 export class CafeService {
@@ -28,7 +29,20 @@ export class CafeService {
     return new CafeMenuResDto(cafe);
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} cafe`;
+  async findOneMenuDetail(menuId: number): Promise<MenuDetailResDto> {
+    const menus = await this.menuRepository.findOne({
+      where: {
+        id: menuId,
+      },
+      relations: {
+        menuOptions: {
+          option: true,
+        },
+      },
+    });
+    console.log(menus);
+    console.log(menus.menuOptions);
+
+    return new MenuDetailResDto(menus);
   }
 }

@@ -30,8 +30,6 @@ export class CafeController {
   async findOneMenuDetail(
     @Param('menuId', ParseIntPipe) menuId: number
   ): Promise<MenuDetailResDto> {
-    const res = this.cafeService.findOneMenuDetail(menuId);
-    console.log(res);
-    return res;
+    return this.cafeService.findOneMenuDetail(menuId);
   }
 }

@@ -22,9 +22,11 @@ export class UserService {
       code,
       state
     );
+
     const user: User | null = await this.userRepository.findOneBy({ email });
+
     if (user) {
-      const userType: USER_TYPE = parseInt(user.role);
+      const userType: USER_TYPE = user.role;
       const tokens = this.authService.setJwt(user.id, userType);
       return tokens;
     } else {
@@ -33,8 +35,21 @@ export class UserService {
     }
   }
 
-  signUp(signUpDto: SignUpDto) {
-    return 'This action adds a new user';
+  async signUp(req: Request, signUpDto: SignUpDto) {
+    const userInfoFromSession = this.authService.getUserInfoFromSession(req);
+    const { userType } = signUpDto;
+
+    let user;
+    if (userType == USER_TYPE.CLIENT) {
+      user = User.createClient({ ...userInfoFromSession, ...signUpDto });
+    } else {
+      user = User.createManager({ ...userInfoFromSession, ...signUpDto });
+    }
+
+    await this.userRepository.save(user);
+
+    const tokens = this.authService.setJwt(user.id, userType);
+    return tokens;
   }
 
   signOut(jwt: string) {

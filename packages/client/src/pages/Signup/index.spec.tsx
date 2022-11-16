@@ -1,12 +1,39 @@
-import { render, screen, fireEvent } from '@testing-library/react';
-import Signup from 'pages/Signup/index';
-import Layout from '@/Layout';
+import { render, screen, fireEvent, waitFor } from '@testing-library/react';
 import { PLACEHOLDER } from '@/constants';
+import { rest, RestRequest } from 'msw';
+import { setupServer } from 'msw/node';
+import { SignupRequestBody } from '@/types/Signup';
+import { MemoryRouter } from 'react-router-dom';
+import Router from '@/Router';
+import Layout from '@/Layout';
+
+const server = setupServer(
+  rest.post(
+    'http://localhost:3000/api/v1/user/signup',
+    (req: RestRequest<SignupRequestBody>, res, next) => {
+      const { type, nickname, corporate } = req.body;
+      if (type === 'owner' && corporate && nickname) {
+        return res(next.status(201));
+      } else if (type === 'customer' && nickname) {
+        return res(next.status(201));
+      } else {
+        return res(next.status(400));
+      }
+    }
+  )
+);
+
+// jest 테스트 수명주기에 따라 server 상태 정의
+beforeAll(() => server.listen());
+afterEach(() => server.resetHandlers());
+afterAll(() => server.close());
 
 const setup = () => {
   render(
     <Layout>
-      <Signup></Signup>
+      <MemoryRouter initialEntries={['/signup']}>
+        <Router />
+      </MemoryRouter>
     </Layout>
   );
 };
@@ -91,15 +118,18 @@ describe('회원가입 페이지', () => {
     expect(inputCorporate.value).toBe('1456-790');
   });
 
-  it('정상 입력 후 가입 버튼을 눌렀을 때 (고객용)', () => {
+  it('정상 입력 후 가입 버튼을 눌렀을 때 페이지 이동 (고객용)', async () => {
     setup();
 
     const { inputNickname } = getInputNickname();
     fireEvent.change(inputNickname, { target: { value: 'normal nickname3' } });
     expect(inputNickname.value).toBe('normal nickname3');
+
+    fireEvent.click(screen.getByText('회원가입'));
+    await waitFor(() => screen.findByText('주문 내역 페이지'));
   });
 
-  it('정상 입력 후 가입 버튼을 눌렀을 때 (업주용)', () => {
+  it('정상 입력 후 가입 버튼을 눌렀을 때 페이지 이동 (업주용)', async () => {
     setup();
 
     fireEvent.click(screen.getByText('업주'));
@@ -111,6 +141,9 @@ describe('회원가입 페이지', () => {
     const { inputCorporate } = getInputCorporate();
     fireEvent.change(inputCorporate, { target: { value: '123-456-7890' } });
     expect(inputCorporate.value).toBe('123-456-7890');
+
+    fireEvent.click(screen.getByText('회원가입'));
+    await waitFor(() => screen.findByText('주문 내역 페이지'));
   });
 });
 

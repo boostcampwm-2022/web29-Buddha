@@ -1,4 +1,6 @@
+import axios from 'axios';
 import { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { PLACEHOLDER } from '@/constants';
 import {
   PageWrapper,
@@ -14,6 +16,7 @@ function Signup() {
   const [signupType, setSignupType] = useState<string>('customer');
   const [nickname, setNickname] = useState<string>('');
   const [corporate, setCorporate] = useState<string>('');
+  const navigate = useNavigate();
 
   const handleClickCustomer = () => {
     setSignupType('customer');
@@ -27,12 +30,39 @@ function Signup() {
     if (isValidateNickname()) {
       if (signupType === 'owner') {
         if (isValidateCorporate()) {
-          alert(`nickname: ${nickname} \ncorporate: ${corporate}`);
+          try {
+            axios
+              .post('http://localhost:3000/api/v1/user/signup', {
+                type: signupType,
+                nickname,
+                corporate,
+              })
+              .then((res) => {
+                if (res.status === 201) {
+                  navigate('/home');
+                }
+              });
+          } catch (e) {
+            console.log(e);
+          }
         } else {
           alert('사업자 등록 번호 입력이 잘못됐습니다.');
         }
       } else {
-        alert(`nickname: ${nickname}`);
+        try {
+          axios
+            .post('http://localhost:3000/api/v1/user/signup', {
+              type: signupType,
+              nickname,
+            })
+            .then((res) => {
+              if (res.status === 201) {
+                navigate('/home');
+              }
+            });
+        } catch (e) {
+          console.log(e);
+        }
       }
     } else {
       alert('닉네임 입력이 잘못됐습니다.');

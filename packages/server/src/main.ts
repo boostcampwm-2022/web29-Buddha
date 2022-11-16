@@ -1,17 +1,22 @@
 import { NestFactory } from '@nestjs/core';
 import { AppModule } from './app.module';
-
-import * as dotenv from 'dotenv';
-import * as path from 'path';
-
-dotenv.config({
-  path: path.resolve(
-    process.env.NODE_ENV === 'development' ? '.dev.env' : '.prod.env'
-  ),
-});
+import session from 'express-session';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
+  app.use(
+    session({
+      secret: 'buddah!@#$',
+      resave: false,
+      saveUninitialized: false,
+      cookie: {
+        maxAge: 5000,
+        secure: false,
+        httpOnly: true,
+      },
+      name: 'sid',
+    })
+  );
   await app.listen(8080);
 }
 bootstrap();

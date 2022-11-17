@@ -1,0 +1,31 @@
+version: '3'
+
+services:
+  node:
+    container_name: 'node-nest'
+    build: .
+    env_file:
+      - ./packages/server/.dev.env
+      - ./packages/server/.prod.env
+    ports:
+      - 8080:8080
+    depends_on:
+      - mysql
+
+  mysql:
+    image: mysql:8.0
+    container_name: 'mysql'
+    volumes:
+      - mysql-volume:/var/lib/mysql
+    ports:
+      - '3306:3306'
+    environment:
+      MYSQL_ROOT_PASSWORD: buddah159
+    command:
+      - --character-set-server=utf8mb4
+      - --collation-server=utf8mb4_unicode_ci
+
+volumes:
+  mysql-volume:
+    external:
+      name: mysql-volume

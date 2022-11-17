@@ -11,7 +11,7 @@ import {
   Req,
 } from '@nestjs/common';
 import { UserService } from './user.service';
-import { SignUpDto } from './dto/signUp.dto';
+import { SignUpDto } from './dto/signup.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
 import { NaverSignInDto } from './dto/naver-singIn.dto';
 import { Request } from 'express';

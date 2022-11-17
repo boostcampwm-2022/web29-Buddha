@@ -9,12 +9,12 @@ import Layout from '@/Layout';
 
 const server = setupServer(
   rest.post(
-    'http://localhost:3000/api/v1/user/signup',
+    'http://localhost:8080/api/v1/user/signup',
     (req: RestRequest<SignupRequestBody>, res, next) => {
-      const { type, nickname, corporate } = req.body;
-      if (type === 'owner' && corporate && nickname) {
+      const { userType, nickname, corporate } = req.body;
+      if (userType === 'owner' && corporate && nickname) {
         return res(next.status(201));
-      } else if (type === 'customer' && nickname) {
+      } else if (userType === 'customer' && nickname) {
         return res(next.status(201));
       } else {
         return res(next.status(400));

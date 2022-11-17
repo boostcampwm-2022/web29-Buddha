@@ -1,5 +1,5 @@
 export interface SignupRequestBody {
-  type: string;
+  userType: string;
   nickname: string;
   corporate?: string;
 }

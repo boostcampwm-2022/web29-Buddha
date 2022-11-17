@@ -13,6 +13,7 @@ import {
 } from './styled';
 
 function Signup() {
+  const api = process.env.REACT_APP_API_SERVER_BASE_URL;
   const [signupType, setSignupType] = useState<string>('customer');
   const [nickname, setNickname] = useState<string>('');
   const [corporate, setCorporate] = useState<string>('');
@@ -30,39 +31,37 @@ function Signup() {
     if (isValidateNickname()) {
       if (signupType === 'owner') {
         if (isValidateCorporate()) {
-          try {
-            axios
-              .post('http://localhost:3000/api/v1/user/signup', {
-                type: signupType,
-                nickname,
-                corporate,
-              })
-              .then((res) => {
-                if (res.status === 201) {
-                  navigate('/home');
-                }
-              });
-          } catch (e) {
-            console.log(e);
-          }
-        } else {
-          alert('사업자 등록 번호 입력이 잘못됐습니다.');
-        }
-      } else {
-        try {
           axios
-            .post('http://localhost:3000/api/v1/user/signup', {
-              type: signupType,
+            .post(`${api}/user/signup`, {
+              userType: signupType,
               nickname,
+              corporate,
             })
             .then((res) => {
               if (res.status === 201) {
                 navigate('/home');
               }
+            })
+            .catch((err) => {
+              console.log(err);
             });
-        } catch (e) {
-          console.log(e);
+        } else {
+          alert('사업자 등록 번호 입력이 잘못됐습니다.');
         }
+      } else {
+        axios
+          .post(`${process.env.REACT_APP_API_SERVER_BASE_URL}/user/signup`, {
+            type: signupType,
+            nickname,
+          })
+          .then((res) => {
+            if (res.status === 201) {
+              navigate('/home');
+            }
+          })
+          .catch((err) => {
+            console.log(err);
+          });
       }
     } else {
       alert('닉네임 입력이 잘못됐습니다.');

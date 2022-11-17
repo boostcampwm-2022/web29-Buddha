@@ -5,6 +5,7 @@ WORKDIR /app
 COPY ./packages/server ./packages/server
 COPY package*.json ./
 
+
 RUN npm install
 
 COPY . .
@@ -12,4 +13,4 @@ COPY . .
 RUN npm run build -w server
 
 EXPOSE 8080
-CMD ["npm", "run", "start:prod", "-w", "server"]
+CMD ["npm", "run", "start:dev", "-w", "server"]

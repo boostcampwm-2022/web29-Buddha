@@ -4,10 +4,11 @@ services:
   node:
     container_name: 'node-nest'
     build: .
+    env_file:
+      - ./packages/server/.dev.env
+      - ./packages/server/.prod.env
     ports:
       - 8080:8080
-    environment:
-      MYSQL_HOST: mysql
     depends_on:
       - mysql
 
@@ -26,3 +27,5 @@ services:
 
 volumes:
   mysql-volume:
+    external:
+      name: mysql-volume

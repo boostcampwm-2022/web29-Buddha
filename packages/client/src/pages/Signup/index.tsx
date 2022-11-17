@@ -32,11 +32,15 @@ function Signup() {
       if (signupType === 'owner') {
         if (isValidateCorporate()) {
           axios
-            .post(`${api}/user/signup`, {
-              userType: signupType,
-              nickname,
-              corporate,
-            })
+            .post(
+              `${api}/user/signup`,
+              {
+                userType: 1,
+                nickname,
+                corporate,
+              },
+              { withCredentials: true }
+            )
             .then((res) => {
               if (res.status === 201) {
                 navigate('/home');
@@ -50,10 +54,16 @@ function Signup() {
         }
       } else {
         axios
-          .post(`${process.env.REACT_APP_API_SERVER_BASE_URL}/user/signup`, {
-            type: signupType,
-            nickname,
-          })
+          .post(
+            `${process.env.REACT_APP_API_SERVER_BASE_URL}/user/signup`,
+            {
+              userType: 0,
+              nickname,
+            },
+            {
+              withCredentials: true,
+            }
+          )
           .then((res) => {
             if (res.status === 201) {
               navigate('/home');

@@ -28,7 +28,9 @@ function Signin() {
     if (!code || !state) return;
 
     axios
-      .get(`${api}/user/naver-oauth?code=${code}&state=${state}`)
+      .get(`${api}/user/naver-oauth?code=${code}&state=${state}`, {
+        withCredentials: true,
+      })
       .then((res) => {
         navigate('/home');
       })

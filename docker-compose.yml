@@ -9,6 +9,8 @@ services:
       - ./packages/server/.prod.env
     ports:
       - 8080:8080
+    environment:
+      MYSQL_HOST: mysql
     depends_on:
       - mysql
 
@@ -27,5 +29,5 @@ services:
 
 volumes:
   mysql-volume:
-    external:
-      name: mysql-volume
+    external: true
+    name: mysql-volume

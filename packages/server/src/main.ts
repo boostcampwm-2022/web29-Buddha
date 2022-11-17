@@ -4,14 +4,17 @@ import session from 'express-session';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
-  app.enableCors();
+  app.enableCors({
+    origin: 'http://localhost:3000',
+    credentials: true,
+  });
   app.use(
     session({
       secret: 'buddah!@#$',
       resave: false,
       saveUninitialized: false,
       cookie: {
-        maxAge: 5000,
+        maxAge: 1000 * 60 * 3,
         secure: false,
         httpOnly: true,
       },

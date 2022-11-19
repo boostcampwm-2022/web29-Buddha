@@ -32,7 +32,7 @@ function Signin() {
    */
   const chkUser = useCallback(
     async ({ code, state }: chkUser) => {
-    const state = searchParams.get('state');
+      window.history.replaceState(null, '', '/');
 
       try {
         await axios.get(`${api}/user/naver-oauth?code=${code}&state=${state}`, {

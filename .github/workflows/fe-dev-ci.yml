@@ -2,9 +2,8 @@ name: Frontend dev ci
 
 on:
   push:
-    branches: [feat/be/front-ci]
-  # pull_request:
-  #   branches: [dev]
+    branches: [dev]
+    paths: './packages/client'
 
 jobs:
   ci:
@@ -12,13 +11,6 @@ jobs:
     defaults:
       run:
         working-directory: './packages/client'
-
-    # job
-    strategy:
-      # matrix 아래에는 matrix.xxx와 같은 방법으로 참조 가능한 변수를 선언
-      # job은 각각의 변수들을 가지고 combinations를 만들어 실행시킨다.
-      matrix:
-        node-version: [18.x]
 
     steps:
       - name: checkout to the branch
@@ -36,8 +28,6 @@ jobs:
         env:
           FE_ENV: ${{ secrets.FE_ENV }}
         run: echo "$FE_ENV" > .env
-      - name: Check
-        run: ls -a && cat .env
         
       - name: Test
         run: npm run test

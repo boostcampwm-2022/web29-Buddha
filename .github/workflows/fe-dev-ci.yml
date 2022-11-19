@@ -34,10 +34,10 @@ jobs:
       
       - name: Inject Environment Variables
         env:
-          FE_ENV: ${{ secrets.REACT_APP_DOMAIN }}
+          FE_ENV: ${{ secrets.FE_ENV }}
         run: echo $FE_ENV > .env
       - name: Check
-        run: ls && cat .env
+        run: ls -a && cat .env
         
       - name: Test
         run: npm run test

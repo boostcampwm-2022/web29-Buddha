@@ -31,6 +31,12 @@ jobs:
 
       - name: Install dependencies
         run: npm install
+      
+      - name: Inject Environment Variables
+        env:
+          FE_ENV: ${{ secrets.REACT_APP_DOMAIN }}
+        run: |
+        echo $FE_ENV > .env
 
       - name: Test
         run: npm run test

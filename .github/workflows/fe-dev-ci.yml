@@ -36,6 +36,8 @@ jobs:
         env:
           FE_ENV: ${{ secrets.REACT_APP_DOMAIN }}
         run: echo $FE_ENV > .env
-
+      - name: Check
+        run: ls && cat .env
+        
       - name: Test
         run: npm run test

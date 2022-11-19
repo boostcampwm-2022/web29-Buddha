@@ -1,6 +1,8 @@
-import axios, { AxiosError } from 'axios';
-import { useCallback, useEffect } from 'react';
+import { useCallback } from 'react';
 import { useNavigate, useSearchParams } from 'react-router-dom';
+import axios, { AxiosError } from 'axios';
+
+import { chkUser } from 'types/Signin';
 import { Container, Logo, NaverOAuth } from './styled';
 
 function Signin() {
@@ -10,6 +12,11 @@ function Signin() {
   const [searchParams] = useSearchParams();
   const navigate = useNavigate();
 
+  /**
+   * 네이버 OAuth 로그인 버튼 클릭 시, 실행되는 함수
+   *
+   * 네이버 로그인을 위한 링크로 이동
+   */
   const handleClickOAuth = useCallback(() => {
     if (!naverOAuthURL) return;
 
@@ -17,28 +24,43 @@ function Signin() {
   }, [naverOAuthURL]);
 
   /**
-   * 메인 페이지 접속 시, 쿼리스트링 여부 판단
+   * 네이버 OAuth 리다이렉트 받은 이후 가입 여부 확인
    *
-   * 쿼리 스트링 존재하면 로그인 진행중
+   * 서버 응답에 따라 페이지 라우팅
+   *
+   * @params { code, state }: OAuth 리다이렉트 응답 받은 쿼리
    */
-  useEffect(() => {
-    const code = searchParams.get('code');
-    const state = searchParams.get('state');
+  const chkUser = useCallback(
+    async ({ code, state }: chkUser) => {
+      window.history.replaceState(null, '', '/');
 
-    if (!code || !state) return;
-
-    axios
-      .get(`${api}/user/naver-oauth?code=${code}&state=${state}`, {
-        withCredentials: true,
-      })
-      .then((res) => {
+      try {
+        await axios.get(`${api}/user/naver-oauth?code=${code}&state=${state}`, {
+          withCredentials: true,
+        });
         navigate('/home');
-      })
-      .catch((err: AxiosError) => {
-        if (err.response && err.response.status === 303) navigate('/signup');
+      } catch (err) {
+        const axiosError = err instanceof AxiosError;
+
+        if (axiosError && err.response?.status === 303) navigate('/signup');
         else navigate('/');
-      });
-  }, [searchParams, navigate, api]);
+      }
+    },
+    [api, navigate]
+  );
+
+  /**
+   * 메인 페이지 접속 시, 쿼리 존재 여부 판단
+   *
+   * 네이버 OAuth 리다이렉트를 받아 쿼리 존재하면 가입여부 확인 진행
+   */
+  const code = searchParams.get('code');
+  const state = searchParams.get('state');
+
+  if (code && state) {
+    chkUser({ code, state });
+    return <p>...loading</p>;
+  }
 
   return (
     <Container>

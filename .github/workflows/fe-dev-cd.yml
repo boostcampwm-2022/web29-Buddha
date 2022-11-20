@@ -2,7 +2,7 @@ name: Frontend dev cd
 
 on:
   push:
-    branches: ['feat/be/front-cd']
+    branches: ['dev']
     paths:
       - 'packages/client/**'
       - '.github/workflows/fe-dev-cd.yml'

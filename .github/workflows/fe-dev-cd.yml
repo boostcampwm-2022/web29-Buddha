@@ -3,7 +3,7 @@ name: Frontend dev cd
 on:
   push:
     branches: ['feat/be/front-cd']
-    paths: 'packages/client'
+    paths: 'packages/client/**'
 
 jobs:
   cd:

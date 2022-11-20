@@ -1,14 +1,21 @@
 import { render, screen } from '@testing-library/react';
-import Signin from './index';
+import { MemoryRouter } from 'react-router-dom';
+import Router from '@/Router';
 import Layout from '@/Layout';
+
+const setup = () => {
+  render(
+    <Layout>
+      <MemoryRouter initialEntries={['/']}>
+        <Router />
+      </MemoryRouter>
+    </Layout>
+  );
+};
 
 describe('Signin', () => {
   it('Has Elements', () => {
-    render(
-      <Layout>
-        <Signin />
-      </Layout>
-    );
+    setup();
 
     screen.getByAltText('로고');
     screen.getByAltText('네이버 로그인');

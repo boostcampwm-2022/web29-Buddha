@@ -41,5 +41,6 @@ jobs:
           username: ${{ secrets.REMOTE_SSH_USERNAME }}
           password: ${{ secrets.REMOTE_SSH_PASSWORD }}
           port: ${{ secrets.REMOTE_SSH_PORT }}
-          source: 'build/*'
+          source: 'packages/client/build/*'
           target: '~/client/build'
+          strip_components: 3

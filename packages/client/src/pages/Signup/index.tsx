@@ -30,13 +30,13 @@ function Signup() {
   };
 
   const handleSubmit = async () => {
-    if(!userType){
-      if(isValidateCustomerForm()){
-        fetchSignup({userType, nickname})
+    if (!userType) {
+      if (isValidateCustomerForm()) {
+        fetchSignup({ userType, nickname });
       }
-    }else{
-      if(isValidateOwnerForm()){
-        fetchSignup({userType, nickname, corporate})
+    } else {
+      if (isValidateOwnerForm()) {
+        fetchSignup({ userType, nickname, corporate });
       }
     }
   };
@@ -63,27 +63,26 @@ function Signup() {
   };
 
   const isValidateCustomerForm = () => {
-    if(isValidateNickname()) return true;
+    if (isValidateNickname()) return true;
     return false;
-  }
+  };
 
   const isValidateOwnerForm = () => {
-    if(isValidateNickname()){
-      if(isValidateCorporate()) return true;
+    if (isValidateNickname()) {
+      if (isValidateCorporate()) return true;
     }
     return false;
-  }
-
+  };
 
   const isValidateNickname = () => {
-    if(nickname.length > 2) return true;
+    if (nickname.length > 2) return true;
     alert('닉네임 입력이 잘못됐습니다');
     return false;
   };
 
   const isValidateCorporate = () => {
-    if(corporate.length >= 10) return true;
-    alert('사업자 등록 번호 입력이 잘못됐습니다')
+    if (corporate.length >= 10) return true;
+    alert('사업자 등록 번호 입력이 잘못됐습니다');
     return false;
   };
 

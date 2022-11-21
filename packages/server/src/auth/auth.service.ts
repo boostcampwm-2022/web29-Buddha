@@ -43,9 +43,9 @@ export class AuthService {
       user = User.createManager({ ...userInfoFromSession, ...signUpDto });
     }
 
-    await this.userService.create(user);
+    const userObjInserted = await this.userService.create(user);
 
-    const tokens = this._setJwt(user.id, userType);
+    const tokens = this._setJwt(userObjInserted.id, userObjInserted.role);
     return tokens;
   }
 

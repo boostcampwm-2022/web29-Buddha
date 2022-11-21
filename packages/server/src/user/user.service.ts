@@ -15,6 +15,7 @@ export class UserService {
   }
 
   async create(user: User) {
-    await this.userRepository.save(user);
+    const userObjInserted = await this.userRepository.save(user);
+    return userObjInserted;
   }
 }

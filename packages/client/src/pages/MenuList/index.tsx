@@ -1,6 +1,7 @@
 import axios from 'axios';
 import { useState, useEffect } from 'react';
 import { CafeMenu } from 'types/MenuList';
+import MenuItem from 'components/MenuItem';
 
 function MenuList() {
   const api = process.env.REACT_APP_API_SERVER_BASE_URL;
@@ -8,7 +9,9 @@ function MenuList() {
 
   const fetchMenuList = async () => {
     try {
-      const res = await axios.get(`${api}/cafe/1/menus`, { withCredentials: true });
+      const res = await axios.get(`${api}/cafe/1/menus`, {
+        withCredentials: true,
+      });
       setMenuList(res.data);
     } catch (err) {
       console.log(err);
@@ -19,17 +22,21 @@ function MenuList() {
     fetchMenuList();
   }, []);
 
-  return (<div>
-    <ul>
-        {menuList?.menus.map(menu => (
-            <li key={menu.id}>
-                <img src={menu.thumbnail} alt='메뉴 이미지'/>
-                <p>{menu.name}</p>
-                <p>{menu.price}</p>
-            </li>
+  return (
+    <div>
+      <ul>
+        {menuList?.menus.map((menu) => (
+          <MenuItem
+            key={menu.id}
+            id={menu.id}
+            name={menu.name}
+            thumbnail={menu.thumbnail}
+            price={menu.price}
+          />
         ))}
-    </ul>
-  </div>);
+      </ul>
+    </div>
+  );
 }
 
 export default MenuList;

@@ -1,7 +1,7 @@
 name: Frontend dev ci
 
 on:
-  push:
+  pull_request:
     branches: [dev]
     paths: './packages/client'
 
@@ -23,11 +23,11 @@ jobs:
 
       - name: Install dependencies
         run: npm install
-      
+
       - name: Inject Environment Variables
         env:
           FE_ENV: ${{ secrets.FE_ENV }}
         run: echo "$FE_ENV" > .env
-        
+
       - name: Test
         run: npm run test

@@ -2,6 +2,7 @@ import axios from 'axios';
 import { useState, useEffect } from 'react';
 import { CafeMenu } from 'types/MenuList';
 import MenuItem from 'components/MenuItem';
+import Footer from '@/components/Footer';
 
 function MenuList() {
   const api = process.env.REACT_APP_API_SERVER_BASE_URL;
@@ -35,6 +36,7 @@ function MenuList() {
           />
         ))}
       </ul>
+      <Footer/>
     </div>
   );
 }

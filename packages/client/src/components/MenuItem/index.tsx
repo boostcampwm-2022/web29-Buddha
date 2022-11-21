@@ -10,7 +10,7 @@ function MenuItem(props: Menu) {
   };
 
   return (
-    <MenuWrapper key={props.id} onClick={handleClickMenuItem}>
+    <MenuWrapper key={props.id} onClick={handleClickMenuItem} data-testid={'menu-item'}>
       <MenuImg src={props.thumbnail} alt="메뉴 이미지" />
       <MenuInfoWrapper>
         <p>{props.name}</p>

@@ -1,4 +1,4 @@
-import { USER_TYPE } from '../enum/userType.enum';
+import { USER_TYPE } from '../../user/enum/userType.enum';
 
 export class SignUpDto {
   readonly userType: USER_TYPE;

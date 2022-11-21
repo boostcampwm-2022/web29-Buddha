@@ -4,6 +4,7 @@ import { CafeMenu } from 'types/MenuList';
 import MenuItem from 'components/MenuItem';
 import Footer from '@/components/Footer';
 import { MenuListPageWrapper, MenuListWrapper } from './styled';
+import SnackBar from '@/components/SnackBar';
 
 function MenuList() {
   const api = process.env.REACT_APP_API_SERVER_BASE_URL;
@@ -37,6 +38,7 @@ function MenuList() {
           />
         ))}
       </MenuListWrapper>
+      <SnackBar />
       <Footer />
     </MenuListPageWrapper>
   );

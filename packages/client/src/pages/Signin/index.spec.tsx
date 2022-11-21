@@ -1,9 +1,11 @@
 import { fireEvent, render, screen, waitFor } from '@testing-library/react';
+import { MemoryRouter } from 'react-router-dom';
+
+import Router from '@/Router';
 import Layout from '@/Layout';
 import { server } from '@/mocks/server';
-import { MemoryRouter } from 'react-router-dom';
-import Router from '@/Router';
 import { PLACEHOLDER } from '@/constants';
+
 
 beforeAll(() => server.listen());
 beforeEach(() => server.resetHandlers());

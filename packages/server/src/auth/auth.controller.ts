@@ -28,28 +28,14 @@ export class AuthController {
     @Req() req: Request,
     @Query() naverSignInDto: NaverSignInDto
   ) {
-    return await this.userService.naverSignIn(req, naverSignInDto);
+    return await this.authService.naverSignIn(req, naverSignInDto);
   }
 
   // 회원가입
   @Post('/signup')
   @HttpCode(201)
   async signUp(@Req() req: Request, @Body() signUpDto: SignUpDto) {
-    return await this.userService.signUp(req, signUpDto);
-  }
-
-  // 로그아웃
-  @Post('/signout')
-  signOut() {
-    const jwt = 'jwt';
-    return this.userService.signOut(jwt);
-  }
-
-  // 회원 탈퇴
-  @Delete()
-  remove() {
-    const jwt = 'jwt';
-    return this.userService.remove(jwt);
+    return await this.authService.signUp(req, signUpDto);
   }
 
   // 유저 권한 확인

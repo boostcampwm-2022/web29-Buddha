@@ -7,14 +7,16 @@ import { MemoryRouter } from 'react-router-dom';
 import Router from '@/Router';
 import Layout from '@/Layout';
 
+const api = process.env.REACT_APP_API_SERVER_BASE_URL;
+
 const server = setupServer(
   rest.post(
-    'http://localhost:8080/api/v1/user/signup',
+    `${api}/user/signup`,
     (req: RestRequest<SignupRequestBody>, res, next) => {
       const { userType, nickname, corporate } = req.body;
-      if (userType === 'owner' && corporate && nickname) {
+      if (userType === 1 && corporate && nickname) {
         return res(next.status(201));
-      } else if (userType === 'customer' && nickname) {
+      } else if (userType === 0 && nickname) {
         return res(next.status(201));
       } else {
         return res(next.status(400));

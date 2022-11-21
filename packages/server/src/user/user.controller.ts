@@ -8,6 +8,6 @@ export class UserController {
   // 회원정보(닉네임) 수정
   @Patch()
   update(@Body() updateUserDto: UpdateUserDto) {
-    return this.userService.update(updateUserDto);
+    return;
   }
 }

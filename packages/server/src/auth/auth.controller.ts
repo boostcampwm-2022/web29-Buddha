@@ -3,7 +3,6 @@ import {
   Get,
   Post,
   Body,
-  Delete,
   HttpCode,
   Query,
   Req,
@@ -11,17 +10,12 @@ import {
 } from '@nestjs/common';
 import { SignUpDto } from '../auth/dto/signup.dto';
 import { NaverSignInDto } from '../auth/dto/naver-singIn.dto';
-
 import { Request, Response } from 'express';
 import { AuthService } from './auth.service';
-import { UserService } from 'src/user/user.service';
 
 @Controller()
 export class AuthController {
-  constructor(
-    private readonly authService: AuthService,
-    private readonly userService: UserService
-  ) {}
+  constructor(private readonly authService: AuthService) {}
 
   // 네이버 로그인
   @Get('/naver-oauth')

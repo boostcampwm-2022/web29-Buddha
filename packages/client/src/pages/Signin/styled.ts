@@ -15,7 +15,6 @@ export const Container = styled.div`
 
 export const Logo = styled.img`
   width: 60%;
-  border-radius: ${(props) => props.theme.border.radius};
 `;
 
 export const NaverOAuth = styled.img`

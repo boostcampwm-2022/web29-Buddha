@@ -7,6 +7,7 @@ export class MenuDetailResDto {
   @Exclude() readonly _name: string;
   @Exclude() readonly _description: string;
   @Exclude() readonly _price: number;
+  @Exclude() readonly _thumbnail: string;
   @Exclude() readonly _options;
 
   constructor(menu) {
@@ -30,13 +31,18 @@ export class MenuDetailResDto {
   }
 
   @Expose()
-  get thumbnail(): string {
+  get description(): string {
     return this._description;
   }
 
   @Expose()
   get price(): number {
     return this._price;
+  }
+
+  @Expose()
+  get thumbnail(): string {
+    return this._thumbnail;
   }
 
   @Expose()

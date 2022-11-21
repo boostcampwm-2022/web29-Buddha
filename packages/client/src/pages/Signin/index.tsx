@@ -1,5 +1,5 @@
 import axios, { AxiosError } from 'axios';
-import { useCallback, useEffect } from 'react';
+import { useCallback } from 'react';
 import { useNavigate, useSearchParams } from 'react-router-dom';
 import { Container, Logo, NaverOAuth } from './styled';
 
@@ -21,12 +21,15 @@ function Signin() {
    *
    * 쿼리 스트링 존재하면 로그인 진행중
    */
-  useEffect(() => {
-    const code = searchParams.get('code');
-    const state = searchParams.get('state');
+  // useEffect(() => {
 
-    if (!code || !state) return;
+  //   if (!code || !state) return;
 
+  // }, [searchParams, navigate, api]);
+  const code = searchParams.get('code');
+  const state = searchParams.get('state');
+
+  if (code && state) {
     axios
       .get(`${api}/user/naver-oauth?code=${code}&state=${state}`, {
         withCredentials: true,
@@ -38,7 +41,8 @@ function Signin() {
         if (err.response && err.response.status === 303) navigate('/signup');
         else navigate('/');
       });
-  }, [searchParams, navigate, api]);
+    return <p>loading...</p>;
+  }
 
   return (
     <Container>

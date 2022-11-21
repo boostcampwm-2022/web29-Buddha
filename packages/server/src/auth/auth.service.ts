@@ -45,11 +45,7 @@ export class AuthService {
   }
 
   async _getTokens(code: string, state: string) {
-    const redirectURI = encodeURI(
-      // 'http://localhost:8080/api/v1/user/naver-oauth'
-      process.env.CLIENT_URI
-      // 'http://localhost:3000'
-    );
+    const redirectURI = encodeURI(process.env.CLIENT_URI);
 
     const clientId = process.env.CLIENT_ID;
     const clientSecret = process.env.CLIENT_SECRET;

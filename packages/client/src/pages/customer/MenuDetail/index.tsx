@@ -6,33 +6,16 @@ import TypeSelector from 'components/TypeSelector';
 import SizeSelector from 'components/SizeSelector';
 
 import { BackArrow, Container, Img, MenuInfoContainer } from './styled';
-import { MenuInfo, Size, Type } from 'types/MenuDetail';
+import { MenuInfo, Options, Size, Type } from 'types/MenuDetail';
+import OptionSelector from '@/components/OptionSelector';
 
 function MenuDetail() {
   const api = process.env.REACT_APP_API_SERVER_BASE_URL;
   const [menu, setMenu] = useState<MenuInfo | null | undefined>(null);
   const [type, setType] = useState<Type>('hot');
   const [size, setSize] = useState<Size>('tall');
+  const [options, setOptions] = useState<Options>({});
   const { menuId } = useParams();
-
-  /**
-   * 초기 메뉴 상세 정보 조회
-   */
-  useEffect(() => {
-    if (!api || !menuId) return;
-
-    const getMenuInfo = async () => {
-      try {
-        const res = await axios.get(`${api}/cafe/menu/${menuId}`);
-        setMenu(res.data);
-      } catch (err) {
-        alert('메뉴 상세 조회 실패 다시 시도해주세요.');
-        setMenu(undefined);
-      }
-    };
-
-    getMenuInfo();
-  }, [api, menuId]);
 
   /**
    * 음료 타입(핫, 아이스) 선택에 따라 음료 타입 변경
@@ -58,6 +41,48 @@ function MenuDetail() {
       return;
     setSize(newSize);
   };
+
+  /**
+   * 주문하기 버튼 클릭에 따른 장바구니 추가
+   */
+  const handleClickOrder = (event: React.MouseEvent<HTMLButtonElement>) => {};
+
+  /**
+   * 카테고리별 옵션 선택에 따라 옵션 변경
+   */
+  const handleClickOption = (event: React.MouseEvent<HTMLInputElement>) => {
+    const category = event.currentTarget.name;
+    const currOption = event.currentTarget.value;
+
+    if (Object.keys(options).includes(category)) {
+      const prevOption = options[category];
+
+      if (prevOption === currOption) {
+        event.currentTarget.checked = false;
+        return setOptions({ ...options, [category]: undefined });
+      }
+    }
+    return setOptions({ ...options, [category]: currOption });
+  };
+
+  /**
+   * 초기 메뉴 상세 정보 조회
+   */
+  useEffect(() => {
+    if (!api || !menuId) return;
+
+    const getMenuInfo = async () => {
+      try {
+        const res = await axios.get(`${api}/cafe/menu/${menuId}`);
+        setMenu(res.data);
+      } catch (err) {
+        alert('메뉴 상세 조회 실패 다시 시도해주세요.');
+        setMenu(undefined);
+      }
+    };
+
+    getMenuInfo();
+  }, [api, menuId]);
 
   /**
    * 메뉴 정보 렌더링 (Memorize)
@@ -89,6 +114,15 @@ function MenuDetail() {
           {MenuInfo}
           <TypeSelector type={type} onClick={handleClickType} />
           <SizeSelector size={size} onClick={handleClickSize} />
+          {menu.options.length > 0 && (
+            <OptionSelector
+              onClick={handleClickOption}
+              options={menu.options}
+            />
+          )}
+          <button type="button" onClick={handleClickOrder}>
+            주문하기
+          </button>
         </>
       )}
     </Container>

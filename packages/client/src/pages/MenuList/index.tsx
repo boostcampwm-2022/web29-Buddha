@@ -3,6 +3,7 @@ import { useState, useEffect } from 'react';
 import { CafeMenu } from 'types/MenuList';
 import MenuItem from 'components/MenuItem';
 import Footer from '@/components/Footer';
+import { MenuListPageWrapper, MenuListWrapper } from './styled';
 
 function MenuList() {
   const api = process.env.REACT_APP_API_SERVER_BASE_URL;
@@ -24,8 +25,8 @@ function MenuList() {
   }, []);
 
   return (
-    <div>
-      <ul>
+    <MenuListPageWrapper>
+      <MenuListWrapper>
         {menuList?.menus.map((menu) => (
           <MenuItem
             key={menu.id}
@@ -35,9 +36,9 @@ function MenuList() {
             price={menu.price}
           />
         ))}
-      </ul>
-      <Footer/>
-    </div>
+      </MenuListWrapper>
+      <Footer />
+    </MenuListPageWrapper>
   );
 }
 

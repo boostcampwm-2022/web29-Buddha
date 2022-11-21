@@ -1,5 +1,6 @@
 import { useNavigate } from 'react-router-dom';
 import { Menu } from '@/types/MenuList';
+import { MenuImg, MenuWrapper, MenuInfoWrapper } from './styled';
 
 function MenuItem(props: Menu) {
   const navigate = useNavigate();
@@ -9,11 +10,13 @@ function MenuItem(props: Menu) {
   };
 
   return (
-    <li key={props.id} onClick={handleClickMenuItem}>
-      <img src={props.thumbnail} alt="메뉴 이미지" />
-      <p>{props.name}</p>
-      <p>{props.price}</p>
-    </li>
+    <MenuWrapper key={props.id} onClick={handleClickMenuItem}>
+      <MenuImg src={props.thumbnail} alt="메뉴 이미지" />
+      <MenuInfoWrapper>
+        <p>{props.name}</p>
+        <p>{props.price}</p>
+      </MenuInfoWrapper>
+    </MenuWrapper>
   );
 }
 

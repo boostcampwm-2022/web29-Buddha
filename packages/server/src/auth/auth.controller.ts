@@ -7,11 +7,12 @@ import {
   HttpCode,
   Query,
   Req,
+  Res,
 } from '@nestjs/common';
 import { SignUpDto } from '../auth/dto/signup.dto';
 import { NaverSignInDto } from '../auth/dto/naver-singIn.dto';
 
-import { Request } from 'express';
+import { Request, Response } from 'express';
 import { AuthService } from './auth.service';
 import { UserService } from 'src/user/user.service';
 
@@ -26,9 +27,17 @@ export class AuthController {
   @Get('/naver-oauth')
   async naverSignIn(
     @Req() req: Request,
-    @Query() naverSignInDto: NaverSignInDto
+    @Query() naverSignInDto: NaverSignInDto,
+    @Res() res: Response
   ) {
-    return await this.authService.naverSignIn(req, naverSignInDto);
+    const { accessToken } = await this.authService.naverSignIn(
+      req,
+      naverSignInDto
+    );
+    res.cookie('accessToken', accessToken, {
+      httpOnly: true,
+    });
+    return;
   }
 
   // 회원가입

@@ -1,18 +1,17 @@
-import { HttpService } from '@nestjs/axios';
 import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import { Request } from 'express';
 import { USER_TYPE } from 'src/user/enum/userType.enum';
 import { JwtPayload } from './interfaces/jwtPayload';
-import jwt from 'jsonwebtoken';
 import { NaverSignInDto } from './dto/naver-singIn.dto';
 import { User } from 'src/user/entities/user.entity';
 import { UserService } from 'src/user/user.service';
 import { SignUpDto } from './dto/signup.dto';
 import { JwtService } from '@nestjs/jwt';
+import { NaverOAuthService } from './naverOAuth.service';
 @Injectable()
 export class AuthService {
   constructor(
-    private readonly httpService: HttpService,
+    private readonly naverOAuthService: NaverOAuthService,
     private readonly userService: UserService,
     private readonly jwtService: JwtService
   ) {}
@@ -51,8 +50,11 @@ export class AuthService {
   }
 
   private async _getUserInfoFromNaver(code: string, state: string) {
-    const { access_token } = await this._getTokens(code, state);
-    return await this._getUserInfo(access_token);
+    const { access_token } = await this.naverOAuthService.getTokens(
+      code,
+      state
+    );
+    return await this.naverOAuthService.getUserInfo(access_token);
   }
 
   private _setSession(req: Request, email: string, name: string) {
@@ -78,45 +80,4 @@ export class AuthService {
     const accessToken = this.jwtService.sign(payload);
     return { accessToken };
   }
-
-  private async _getTokens(code: string, state: string) {
-    const redirectURI = encodeURI(process.env.CLIENT_URI);
-
-    const clientId = process.env.CLIENT_ID;
-    const clientSecret = process.env.CLIENT_SECRET;
-
-    const api_url =
-      'https://nid.naver.com/oauth2.0/token?grant_type=authorization_code&client_id=' +
-      clientId +
-      '&client_secret=' +
-      clientSecret +
-      '&redirect_uri=' +
-      redirectURI +
-      '&code=' +
-      code +
-      '&state=' +
-      state;
-    const apiRes = await this.httpService.axiosRef.get(api_url, {
-      headers: {
-        'X-Naver-Client-Id': clientId,
-        'X-Naver-Client-Secret': clientSecret,
-      },
-    });
-    // 유효성 검사
-
-    return apiRes.data;
-  }
-
-  private async _getUserInfo(access_token: string) {
-    const api_url = 'https://openapi.naver.com/v1/nid/me';
-    const apiRes = await this.httpService.axiosRef.get(api_url, {
-      headers: {
-        Authorization: 'Bearer ' + access_token,
-      },
-    });
-    return apiRes.data.response;
-  }
 }
-
-// https://nid.naver.com/oauth2.0/authorize?response_type=code&client_id=YIMdxKjzC0ZIN_laeHBQ&redirect_uri=http%3A%2F%2Flocalhost%3A8080%2Fapi%2Fv1%2Fuser%2Fnaver-oauth&state=1234
-// https://nid.naver.com/oauth2.0/authorize?response_type=code&client_id=YIMdxKjzC0ZIN_laeHBQ&redirect_uri=http%3A%2F%2Flocalhost%3A3000&state=1234

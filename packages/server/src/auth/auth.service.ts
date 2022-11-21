@@ -8,11 +8,13 @@ import { NaverSignInDto } from './dto/naver-singIn.dto';
 import { User } from 'src/user/entities/user.entity';
 import { UserService } from 'src/user/user.service';
 import { SignUpDto } from './dto/signup.dto';
+import { JwtService } from '@nestjs/jwt';
 @Injectable()
 export class AuthService {
   constructor(
     private readonly httpService: HttpService,
-    private readonly userService: UserService
+    private readonly userService: UserService,
+    private readonly jwtService: JwtService
   ) {}
 
   async naverSignIn(req: Request, naverSignInDto: NaverSignInDto) {
@@ -73,15 +75,8 @@ export class AuthService {
 
   private _setJwt(id: number, userType: USER_TYPE) {
     const payload: JwtPayload = { id, userType };
-    const accessToken = jwt.sign(payload, 'temp_jwt_secret', {
-      expiresIn: '1h',
-      issuer: 'buddah.com',
-    });
-    const refreshToken = jwt.sign({ id, userType }, 'temp_jwt_secret', {
-      expiresIn: '7d',
-      issuer: 'buddah.com',
-    });
-    return { accessToken, refreshToken };
+    const accessToken = this.jwtService.sign(payload);
+    return { accessToken };
   }
 
   private async _getTokens(code: string, state: string) {

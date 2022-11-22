@@ -22,6 +22,6 @@ export class OrderMenu {
   @ManyToOne(() => Order, (order) => order.orderMenus)
   order: Order;
 
-  @OneToOne(() => Menu)
+  @ManyToOne(() => Menu, (menu) => menu.orderMenus)
   menu: Menu;
 }

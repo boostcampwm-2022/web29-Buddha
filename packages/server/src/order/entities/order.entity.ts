@@ -22,6 +22,8 @@ export class Order {
   @ManyToOne(() => User, (user) => user.orders)
   user: User;
 
-  @OneToMany(() => OrderMenu, (orderMenu) => orderMenu.order)
+  @OneToMany(() => OrderMenu, (orderMenu) => orderMenu.order, {
+    cascade: ['insert'],
+  })
   orderMenus: OrderMenu[];
 }

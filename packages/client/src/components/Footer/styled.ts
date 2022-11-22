@@ -18,12 +18,27 @@ export const NavWrapper = styled.nav`
   align-items: center;
   width: 100%;
   height: 100%;
+`;
 
-  p{
+export const NavItem = styled.div`
+  text-align: center;
+
+  p {
     color: ${(props) => props.theme.colors.tertiary};
+    font-size: ${(props) => props.theme.font.size.xs};
   }
 
-  p.selected{
-    color: ${(props) => props.theme.colors.primary};
+  path {
+    fill: ${(props) => props.theme.colors.tertiary};
   }
-`
+
+  &.selected {
+    p {
+      color: ${(props) => props.theme.colors.primary};
+    }
+
+    path {
+      fill: ${(props) => props.theme.colors.primary};
+    }
+  }
+`;

@@ -5,6 +5,7 @@ import MenuItem from 'components/MenuItem';
 import Footer from '@/components/Footer';
 import { MenuListPageWrapper, MenuListWrapper } from './styled';
 import SnackBar from '@/components/SnackBar';
+import Header from '@/components/Header';
 
 function MenuList() {
   const api = process.env.REACT_APP_API_SERVER_BASE_URL;
@@ -27,6 +28,7 @@ function MenuList() {
 
   return (
     <MenuListPageWrapper>
+      <Header title={'Order'} />
       <MenuListWrapper>
         {menuList?.menus.map((menu) => (
           <MenuItem

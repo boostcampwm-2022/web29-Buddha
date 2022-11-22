@@ -1,3 +1,4 @@
+import { Cafe } from 'src/cafe/entities/cafe.entity';
 import { User } from 'src/user/entities/user.entity';
 import {
   Column,
@@ -11,6 +12,9 @@ import { OrderMenu } from './orderMenu.entity';
 export class Order {
   @PrimaryGeneratedColumn()
   id: number;
+
+  @ManyToOne(() => Cafe, (cafe) => cafe.orders)
+  cafe: Cafe;
 
   @Column()
   status: string;

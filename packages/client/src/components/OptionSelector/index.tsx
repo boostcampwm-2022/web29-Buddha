@@ -9,6 +9,7 @@ import {
 } from './styled';
 
 import { Category, Option } from 'types/MenuDetail';
+import { getPriceComma } from '@/utils';
 
 interface OnClickInputProps {
   onClick: (event: React.MouseEvent<HTMLInputElement>) => void;
@@ -35,7 +36,7 @@ function OptionItem({ option, onClick }: OptionItemProps) {
     <OptionItemContainer>
       <p>{option.name}</p>
       <div>
-        <p>{option.price} 원</p>
+        <p>{getPriceComma(option.price)} 원</p>
         <label>
           <input
             type="radio"

@@ -6,6 +6,7 @@ export const FooterWrapper = styled.footer`
   bottom: 0;
   width: 100%;
   height: 3rem;
+  background-color: white;
   box-shadow: 0px 0px 4px rgba(204, 204, 204, 0.5),
     0px 0px 4px rgba(0, 0, 0, 0.25);
 `;

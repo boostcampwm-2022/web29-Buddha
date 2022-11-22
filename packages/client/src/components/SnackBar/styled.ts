@@ -12,5 +12,6 @@ export const SnackBarWrapper = styled.div`
   padding: 0 1rem 0 1rem;
   background-color: ${(props) => props.theme.colors.secondary};
   color: white;
+  font-size: ${(props) => props.theme.font.size.sm};
   font-weight: ${(props) => props.theme.font.weight.bold500};
 `;

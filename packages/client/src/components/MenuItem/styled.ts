@@ -17,5 +17,6 @@ export const MenuInfoWrapper = styled.div`
   display: flex;
   flex-direction: column;
   justify-content: center;
-  gap: 0.3rem;
+  gap: 0.5rem;
+  font-size: ${(props) => props.theme.font.size.sm}
 `

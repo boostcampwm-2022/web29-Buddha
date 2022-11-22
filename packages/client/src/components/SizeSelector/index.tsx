@@ -2,6 +2,7 @@ import React, { useMemo } from 'react';
 import { Container, ItemContainer, SizeText, VolumeText } from './styled';
 import { SIZE_VOLUME } from '@/constants';
 import { Size } from 'types/MenuDetail';
+import { getFirstUpper } from '@/utils';
 
 interface Props {
   size: Size;
@@ -14,7 +15,10 @@ interface ItemProps extends Props {
 
 // 음료 사이즈 선택 아이템 컴포넌트
 function Item({ size, isSelected, onClick }: ItemProps) {
-  const sizeText = useMemo(() => <SizeText>{size}</SizeText>, [size]);
+  const sizeText = useMemo(
+    () => <SizeText>{getFirstUpper(size)}</SizeText>,
+    [size]
+  );
   const volumeText = useMemo(
     () => <VolumeText>{SIZE_VOLUME[size]}ml</VolumeText>,
     [size]

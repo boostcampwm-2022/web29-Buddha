@@ -13,11 +13,11 @@ import {
   HttpCode,
 } from '@nestjs/common';
 import { OrderService } from './order.service';
-import { UpdateOrderDto } from './dto/update-order.dto';
 import { JwtGuard } from 'src/auth/guard/jwt.guard';
 import { Request } from 'express';
 import { JwtPayload } from 'src/auth/interfaces/jwtPayload';
 import { CreateOrderDto } from './dto/create-order.dto';
+import { OrdersResDto } from './dto/ordersRes.dto';
 
 @Controller()
 export class OrderController {
@@ -25,10 +25,12 @@ export class OrderController {
 
   @UseGuards(JwtGuard)
   @Get()
-  getOrders(@Req() req: Request) {
+  @UseInterceptors(ClassSerializerInterceptor)
+  async getOrders(@Req() req: Request): Promise<OrdersResDto> {
     const user = req.user as JwtPayload;
     const { id } = user;
-    return this.orderService.getOrders(id);
+    const orders = await this.orderService.getOrders(id);
+    return new OrdersResDto(orders);
   }
 
   @Get(':id')

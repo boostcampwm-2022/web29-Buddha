@@ -15,6 +15,23 @@ export class OrderService {
   constructor(
     @InjectRepository(Order) private orderRepository: Repository<Order>
   ) {}
+
+  async getOrders(userId) {
+    const user = new User();
+    user.id = userId;
+    const orders = await this.orderRepository.find({
+      relations: {
+        cafe: true,
+        orderMenus: { menu: true },
+      },
+      where: {
+        user: user,
+      },
+    });
+
+    console.log(orders[0].orderMenus);
+
+    return orders;
   }
 
   async create(userId, createOrderDto: CreateOrderDto) {

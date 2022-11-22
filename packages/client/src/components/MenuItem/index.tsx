@@ -1,7 +1,6 @@
 import { useNavigate } from 'react-router-dom';
 import { Menu } from '@/types/MenuList';
 import { MenuImg, MenuWrapper, MenuInfoWrapper } from './styled';
-import { formatNumber } from 'utils/util';
 
 function MenuItem(props: Menu) {
   const navigate = useNavigate();
@@ -19,7 +18,7 @@ function MenuItem(props: Menu) {
       <MenuImg src={props.thumbnail} alt="메뉴 이미지" />
       <MenuInfoWrapper>
         <p>{props.name}</p>
-        <p>{formatNumber(props.price)}원</p>
+        <p>{props.price}원</p>
       </MenuInfoWrapper>
     </MenuWrapper>
   );

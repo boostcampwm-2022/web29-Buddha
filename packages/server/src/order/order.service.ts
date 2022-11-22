@@ -8,6 +8,7 @@ import { CreateOrderDto } from './dto/create-order.dto';
 import { UpdateOrderDto } from './dto/update-order.dto';
 import { Order } from './entities/order.entity';
 import { OrderMenu } from './entities/orderMenu.entity';
+import { ORDER_STATUS } from './enum/orderStatus.enum';
 
 @Injectable()
 export class OrderService {
@@ -27,7 +28,7 @@ export class OrderService {
 
     const order = new Order();
     order.cafe = cafe;
-    order.status = 'waiting';
+    order.status = ORDER_STATUS.REQUESTED;
     order.user = user;
 
     const orderMenus = menus.map((menu) => {

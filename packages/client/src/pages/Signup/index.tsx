@@ -126,7 +126,9 @@ function Signup() {
       ) : (
         <></>
       )}
-      <Button onClick={handleSubmit}>회원가입</Button>
+      <Button onClick={handleSubmit} className={'wd-80'}>
+        회원가입
+      </Button>
     </PageWrapper>
   );
 }

@@ -24,7 +24,8 @@
       "hooks/*": ["src/hooks/*"],
       "pages/*": ["src/pages/*"],
       "types/*": ["src/types/*"],
-      "utils/*": ["src/utils/*"]
+      "utils/*": ["src/utils/*"],
+      "icons/*": ["src/assets/icons/*"]
     }
   },
   "include": ["src"]

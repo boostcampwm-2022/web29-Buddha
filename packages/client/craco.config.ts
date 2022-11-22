@@ -11,6 +11,7 @@ module.exports = {
       'pages': path.resolve(__dirname, 'src/pages/'),
       'types': path.resolve(__dirname, 'src/types/'),
       'utils': path.resolve(__dirname, 'src/utils/'),
+      'icons': path.resolve(__dirname, 'src/assets/icons/'),
     },
   },
   // jest alias 추가
@@ -24,6 +25,7 @@ module.exports = {
         '^pages/(.*)$': '<rootDir>/src/pages/$1',
         '^types/(.*)$': '<rootDir>/src/types/$1',
         '^utils/(.*)$': '<rootDir>/src/utils/$1',
+        '^icons/(.*)$': '<rootDir>/src/assets/icons/$1',
         '^axios$': require.resolve('axios'),
       },
     },

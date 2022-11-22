@@ -15,6 +15,9 @@ export class Menu {
   @Column()
   price: number;
 
+  @Column()
+  category: string;
+
   @Column({ type: 'varchar', length: '2000' })
   thumbnail: string;
 

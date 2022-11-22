@@ -40,8 +40,6 @@ export class CafeService {
         },
       },
     });
-    console.log(menus);
-    console.log(menus.menuOptions);
 
     return new MenuDetailResDto(menus);
   }

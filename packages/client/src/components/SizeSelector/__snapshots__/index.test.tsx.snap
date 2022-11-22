@@ -18,7 +18,7 @@ exports[`음료 용량 선택 컴포넌트 스냅샷 1`] = `
         <p
           class="css-ktof6v"
         >
-          tall
+          Tall
         </p>
         <p
           class="css-11bhzdh"
@@ -36,7 +36,7 @@ exports[`음료 용량 선택 컴포넌트 스냅샷 1`] = `
         <p
           class="css-ktof6v"
         >
-          grande
+          Grande
         </p>
         <p
           class="css-11bhzdh"
@@ -54,7 +54,7 @@ exports[`음료 용량 선택 컴포넌트 스냅샷 1`] = `
         <p
           class="css-ktof6v"
         >
-          venti
+          Venti
         </p>
         <p
           class="css-11bhzdh"

@@ -1,13 +1,14 @@
 import React, { useEffect, useMemo, useState } from 'react';
-import { useParams } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import axios from 'axios';
 
 import TypeSelector from 'components/TypeSelector';
 import SizeSelector from 'components/SizeSelector';
+import OptionSelector from 'components/OptionSelector';
 
 import { BackArrow, Container, Img, MenuInfoContainer } from './styled';
 import { MenuInfo, Options, Size, Type } from 'types/MenuDetail';
-import OptionSelector from '@/components/OptionSelector';
+import { getPriceComma } from 'utils/index';
 
 function MenuDetail() {
   const api = process.env.REACT_APP_API_SERVER_BASE_URL;
@@ -16,6 +17,14 @@ function MenuDetail() {
   const [size, setSize] = useState<Size>('tall');
   const [options, setOptions] = useState<Options>({});
   const { menuId } = useParams();
+  const navigate = useNavigate();
+
+  /**
+   * 상단의 뒤로가기 버튼 클릭 시, 메뉴 목록 페이지로 이동
+   */
+  const handleClickBack = () => {
+    navigate(-1);
+  };
 
   /**
    * 음료 타입(핫, 아이스) 선택에 따라 음료 타입 변경
@@ -92,11 +101,14 @@ function MenuDetail() {
 
     return (
       <>
-        <Img src="https://www.istarbucks.co.kr/upload/store/skuimg/2022/10/[9200000004312]_20221005145029134.jpg" />
+        <Img
+          src="https://www.istarbucks.co.kr/upload/store/skuimg/2022/10/[9200000004312]_20221005145029134.jpg"
+          alt="음료"
+        />
         <MenuInfoContainer>
           <h2>{menu.name}</h2>
           <p className="description">{menu.thumbnail}</p>
-          <p className="price">{menu.price}원</p>
+          <p className="price">{getPriceComma(menu.price)}원</p>
         </MenuInfoContainer>
       </>
     );
@@ -110,7 +122,7 @@ function MenuDetail() {
         <p>데이터 조회 오류</p>
       ) : (
         <>
-          <BackArrow>{'<'}</BackArrow>
+          <BackArrow onClick={handleClickBack}>{'<'}</BackArrow>
           {MenuInfo}
           <TypeSelector type={type} onClick={handleClickType} />
           <SizeSelector size={size} onClick={handleClickSize} />

@@ -1,6 +1,10 @@
 import { useState, useEffect } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
 import { FooterWrapper, NavWrapper } from './styled';
+import NavigateItem from './NavigateItem';
+import { ReactComponent as Home } from 'icons/home.svg';
+import { ReactComponent as Order } from 'icons/order.svg';
+import { ReactComponent as Mypage } from 'icons/mypage.svg';
 
 function Footer() {
   const navigate = useNavigate();
@@ -32,24 +36,29 @@ function Footer() {
   return (
     <FooterWrapper>
       <NavWrapper>
-        <p
-          className={currentPath === 'home' ? 'selected' : ''}
+        <NavigateItem
           onClick={handleClickHome}
+          className={currentPath === 'home' ? 'selected' : ''}
         >
-          Home
-        </p>
-        <p
-          className={currentPath === 'order' ? 'selected' : ''}
+          <Home />
+          <p>Home</p>
+        </NavigateItem>
+
+        <NavigateItem
           onClick={handleClickOrder}
+          className={currentPath === 'order' ? 'selected' : ''}
         >
-          Order
-        </p>
-        <p
-          className={currentPath === 'mypage' ? 'selected' : ''}
+          <Order />
+          <p>Order</p>
+        </NavigateItem>
+
+        <NavigateItem
           onClick={handleClickMY}
+          className={currentPath === 'mypage' ? 'selected' : ''}
         >
-          MY
-        </p>
+          <Mypage />
+          <p>MY</p>
+        </NavigateItem>
       </NavWrapper>
     </FooterWrapper>
   );

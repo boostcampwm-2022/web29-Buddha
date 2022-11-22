@@ -5,5 +5,5 @@ export const MenuListPageWrapper = styled.div`
 `;
 
 export const MenuListWrapper = styled.ul`
-  margin: 0 2rem 0 2rem;
+  margin: 0 2rem 6.5rem 2rem;
 `

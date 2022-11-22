@@ -9,9 +9,9 @@ import {
   InputWrapper,
   InputTitle,
   Input,
-  CustomButton,
 } from './styled';
 import { SignupRequestBody } from 'types/Signup';
+import Button from 'components/Button';
 
 function Signup() {
   const api = process.env.REACT_APP_API_SERVER_BASE_URL;
@@ -126,7 +126,7 @@ function Signup() {
       ) : (
         <></>
       )}
-      <CustomButton onClick={handleSubmit}>회원가입</CustomButton>
+      <Button onClick={handleSubmit}>회원가입</Button>
     </PageWrapper>
   );
 }

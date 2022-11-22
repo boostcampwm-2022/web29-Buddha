@@ -1,3 +1,5 @@
+import CartFooter from '@/components/CartFooter';
+
 function Cart() {
   return (
     <div>
@@ -6,9 +8,8 @@ function Cart() {
         <p>주문할 매장을 선택해주세요</p>
       </div>
       <p>담은 상품 0개</p>
-      <div>
-
-      </div>
+      <div></div>
+      <CartFooter />
     </div>
   );
 }

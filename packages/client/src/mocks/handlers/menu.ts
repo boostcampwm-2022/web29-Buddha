@@ -46,6 +46,13 @@ const jsonMenuDetail = {
 export const menuHandlers = [
   // 메뉴 상세 정보 조회
   rest.get(`${api}/cafe/menu/:menuId`, (req, res, ctx) => {
-    return res(ctx.json(jsonMenuDetail));
+    const { menuId } = req.params;
+
+    switch (menuId) {
+      case '1':
+        return res(ctx.json(jsonMenuDetail));
+      default:
+        return res(ctx.status(400));
+    }
   }),
 ];

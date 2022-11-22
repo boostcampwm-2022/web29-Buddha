@@ -3,40 +3,57 @@ import {
   Get,
   Post,
   Body,
-  Patch,
   Param,
-  Delete,
+  UseGuards,
+  Req,
+  UseInterceptors,
+  ClassSerializerInterceptor,
+  ValidationPipe,
+  UsePipes,
+  HttpCode,
 } from '@nestjs/common';
 import { OrderService } from './order.service';
+import { JwtGuard } from 'src/auth/guard/jwt.guard';
+import { Request } from 'express';
+import { JwtPayload } from 'src/auth/interfaces/jwtPayload';
 import { CreateOrderDto } from './dto/create-order.dto';
-import { UpdateOrderDto } from './dto/update-order.dto';
+import { OrdersResDto } from './dto/ordersRes.dto';
 
-@Controller('order')
+@Controller()
 export class OrderController {
   constructor(private readonly orderService: OrderService) {}
 
-  @Post()
-  create(@Body() createOrderDto: CreateOrderDto) {
-    return this.orderService.create(createOrderDto);
-  }
-
+  @UseGuards(JwtGuard)
   @Get()
-  findAll() {
-    return this.orderService.findAll();
+  @UseInterceptors(ClassSerializerInterceptor)
+  async getOrders(@Req() req: Request): Promise<OrdersResDto> {
+    const user = req.user as JwtPayload;
+    const { id } = user;
+    const orders = await this.orderService.getOrders(id);
+    return new OrdersResDto(orders);
   }
 
   @Get(':id')
-  findOne(@Param('id') id: string) {
+  getOrderStatus(@Param('id') id: string) {
     return this.orderService.findOne(+id);
   }
 
-  @Patch(':id')
-  update(@Param('id') id: string, @Body() updateOrderDto: UpdateOrderDto) {
-    return this.orderService.update(+id, updateOrderDto);
-  }
-
-  @Delete(':id')
-  remove(@Param('id') id: string) {
-    return this.orderService.remove(+id);
+  @Post()
+  @UseGuards(JwtGuard)
+  @UseInterceptors(ClassSerializerInterceptor)
+  @UsePipes(
+    new ValidationPipe({
+      transform: true,
+    })
+  )
+  @HttpCode(201)
+  async createOrder(
+    @Req() req: Request,
+    @Body() createOrderDto: CreateOrderDto
+  ) {
+    const user = req.user as JwtPayload;
+    const { id } = user;
+    await this.orderService.create(id, createOrderDto);
+    return;
   }
 }

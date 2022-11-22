@@ -1,3 +1,4 @@
+import { OrderMenu } from 'src/order/entities/orderMenu.entity';
 import { Column, Entity, OneToMany, PrimaryGeneratedColumn } from 'typeorm';
 import { MenuOption } from './menuOption.entity';
 
@@ -23,4 +24,7 @@ export class Menu {
 
   @OneToMany(() => MenuOption, (menuOption) => menuOption.menu)
   menuOptions: MenuOption[];
+
+  @OneToMany(() => OrderMenu, (orderMenu) => orderMenu.menu)
+  orderMenus: OrderMenu[];
 }

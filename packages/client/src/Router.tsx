@@ -1,8 +1,11 @@
 import { Route, Routes } from 'react-router-dom';
+
 import Signup from 'pages/Signup';
 import Signin from 'pages/Signin';
 import OrderList from 'pages/customer/OrderList';
 import MenuList from 'pages/MenuList';
+import MenuDetail from 'pages/customer/MenuDetail';
+
 
 function Router() {
   return (
@@ -13,7 +16,7 @@ function Router() {
       <Route path={'/home'} element={<OrderList />}></Route> {/* 고객 메인 */}
       <Route path={'/menu'} element={<MenuList />}></Route>{' '}
       {/* 고객 메뉴 목록 */}
-      <Route path={'/menu/:menuId'} element={<></>}></Route>{' '}
+      <Route path={'/menu/:menuId'} element={<MenuDetail />}></Route>{' '}
       {/* 고객 메뉴 상세 */}
       <Route path={'/cart'} element={<></>}></Route> {/* 고객 장바구니 */}
       {/* 업주 (전역 상태 관리로 고객과 함께 사용 가능) */}

@@ -1,7 +1,6 @@
 import axios, { AxiosError } from 'axios';
 import { useCallback } from 'react';
 import { useNavigate, useSearchParams } from 'react-router-dom';
-import axios, { AxiosError } from 'axios';
 
 import { chkUser } from 'types/Signin';
 import { Container, Logo, NaverOAuth } from './styled';

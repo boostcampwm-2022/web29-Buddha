@@ -7,6 +7,7 @@ import {
   OneToMany,
   PrimaryGeneratedColumn,
 } from 'typeorm';
+import { ORDER_STATUS } from '../enum/orderStatus.enum';
 import { OrderMenu } from './orderMenu.entity';
 @Entity()
 export class Order {
@@ -16,8 +17,12 @@ export class Order {
   @ManyToOne(() => Cafe, (cafe) => cafe.orders)
   cafe: Cafe;
 
-  @Column()
-  status: string;
+  @Column({
+    type: 'enum',
+    enum: ORDER_STATUS,
+    default: ORDER_STATUS.REQUESTED,
+  })
+  status: ORDER_STATUS;
 
   @ManyToOne(() => User, (user) => user.orders)
   user: User;

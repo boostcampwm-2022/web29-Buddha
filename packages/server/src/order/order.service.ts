@@ -88,7 +88,7 @@ export class OrderService {
       const menuObj = new Menu();
 
       menuObj.id = menu.id;
-      orderMenu.price = menu.price;
+      orderMenu.price = this._getTotalPrice(menu, menuAndOptionDict);
       orderMenu.size = menu.size;
       orderMenu.type = menu.type;
       orderMenu.count = menu.count;
@@ -129,7 +129,7 @@ export class OrderService {
     return menuOptionDict;
   }
 
-  async _filterPossibleOptions(menu: OrderMenuDto, menuOptionDict) {
+  private async _filterPossibleOptions(menu: OrderMenuDto, menuOptionDict) {
     const { options } = menu;
     const menuId = menu.id;
 
@@ -138,6 +138,15 @@ export class OrderService {
     );
 
     return filteredOptions;
+  }
+
+  private _getTotalPrice(menu, menuAndOptionDict) {
+    const { options, price } = menuAndOptionDict[menu.id];
+    const totalPriceOfOptions = menu.options.reduce(
+      (partialSum, optionId) => partialSum + options[optionId],
+      0
+    );
+    return price + totalPriceOfOptions;
   }
 
   findOne(id: number) {

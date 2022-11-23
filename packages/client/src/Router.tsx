@@ -5,7 +5,7 @@ import Signin from 'pages/Signin';
 import OrderList from 'pages/customer/OrderList';
 import MenuList from 'pages/MenuList';
 import MenuDetail from 'pages/customer/MenuDetail';
-
+import Cart from 'pages/customer/Cart';
 
 function Router() {
   return (
@@ -18,7 +18,7 @@ function Router() {
       {/* 고객 메뉴 목록 */}
       <Route path={'/menu/:menuId'} element={<MenuDetail />}></Route>{' '}
       {/* 고객 메뉴 상세 */}
-      <Route path={'/cart'} element={<></>}></Route> {/* 고객 장바구니 */}
+      <Route path={'/cart'} element={<Cart />}></Route> {/* 고객 장바구니 */}
       {/* 업주 (전역 상태 관리로 고객과 함께 사용 가능) */}
       <Route path={'/owner/home'} element={<></>}></Route>
       <Route path={'/owner/order'} element={<></>}></Route>

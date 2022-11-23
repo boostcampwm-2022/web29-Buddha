@@ -1,7 +1,7 @@
 import { useNavigate } from 'react-router-dom';
 import { SnackBarWrapper, CartWrapper } from './styled';
 import { ReactComponent as Cart } from 'icons/cart.svg';
-import { getCartCount } from 'utils/index';
+import { getCartCount } from 'utils/localStorage';
 
 function SnackBar() {
   const navigate = useNavigate();

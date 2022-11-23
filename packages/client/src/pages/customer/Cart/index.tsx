@@ -1,7 +1,23 @@
+import { useState } from 'react';
+import { getCart, getCartCount } from 'utils/localStorage';
 import CartFooter from '@/components/CartFooter';
 import { CartPageWrapper, CartHeader, CartContentWrapper } from './styled';
+import { CartMenu } from 'types/Cart';
+import CartItem from '@/components/CartItem';
+import { CART_KEY } from '@/constants';
 
 function Cart() {
+  const [cart, setCart] = useState<CartMenu[]>(getCart());
+  const [cartCount, setCartCount] = useState<number>(getCartCount());
+
+  const setQuantity = (idx: number, quantity: number) => {
+    let newCart = [...cart];
+    newCart[idx].quantity = quantity;
+    setCart(newCart);
+    localStorage.setItem(CART_KEY, JSON.stringify(newCart));
+    setCartCount(getCartCount());
+  };
+
   return (
     <CartPageWrapper>
       <CartHeader>
@@ -9,8 +25,12 @@ function Cart() {
         <p className={'input-cafe'}>주문할 매장을 선택해주세요</p>
       </CartHeader>
       <CartContentWrapper>
-        <p className={'title'}>담은 상품 0개</p>
-        <div></div>
+        <p className={'title'}>담은 상품 {cartCount}개</p>
+        <ul>
+          {cart.map((menu, idx) => (
+            <CartItem key={idx} menu={menu} setQuantity={setQuantity} />
+          ))}
+        </ul>
       </CartContentWrapper>
       <CartFooter />
     </CartPageWrapper>

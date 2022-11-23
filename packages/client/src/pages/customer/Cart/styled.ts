@@ -24,9 +24,10 @@ export const CartHeader = styled.div`
 
 export const CartContentWrapper = styled.div`
   width: 100%;
-  padding: 1rem 1.5rem 5rem 1.5rem;
+  padding: 1rem 0rem 5rem 0rem;
 
   .title {
+    padding: 0 1rem 0 1rem;
     font-size: ${(props) => props.theme.font.size.sm};
     font-weight: ${(props) => props.theme.font.weight.bold700};
   }

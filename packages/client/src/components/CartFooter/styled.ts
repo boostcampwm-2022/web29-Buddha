@@ -10,9 +10,10 @@ export const CartFooterWrapper = styled.div`
   bottom: 0;
   width: 100%;
   padding: 1rem 2rem 1rem 2rem;
+  background-color: white;
   box-shadow: 0px 0px 4px rgba(204, 204, 204, 0.5),
     0px 0px 4px rgba(0, 0, 0, 0.25);
-`
+`;
 
 export const CartFooterInfoWrapper = styled.div`
   display: flex;
@@ -23,11 +24,11 @@ export const CartFooterInfoWrapper = styled.div`
   padding: 0 0.2rem 0 0.2rem;
   font-weight: ${(props) => props.theme.font.weight.bold700};
 
-  .cart-number{
+  .cart-number {
     font-size: ${(props) => props.theme.font.size.xs};
   }
 
-  .cart-price{
+  .cart-price {
     font-size: ${(props) => props.theme.font.size.lg};
   }
-`
+`;

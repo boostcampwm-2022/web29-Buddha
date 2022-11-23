@@ -32,7 +32,7 @@ export class OrderMenu {
   type: MENU_TYPE;
 
   @Column()
-  number: number;
+  count: number;
 
   // total price
   @Column()

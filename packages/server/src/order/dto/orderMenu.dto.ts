@@ -16,5 +16,5 @@ export class OrderMenuDto {
   @IsEnum(MENU_TYPE)
   type: MENU_TYPE;
   @IsNumber()
-  quantity: number;
+  count: number;
 }

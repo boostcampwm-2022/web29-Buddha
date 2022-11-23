@@ -51,12 +51,16 @@ export class OrderService {
     const orderMenus = menus.map((menu) => {
       const orderMenu = new OrderMenu();
       const menuObj = new Menu();
-      menuObj.id = menu.id;
 
-      orderMenu.options = menu.options.join(',');
+      menuObj.id = menu.id;
       orderMenu.price = menu.price;
-      orderMenu.order = order;
+      orderMenu.options = menu.options.join(',');
+      orderMenu.size = menu.size;
+      orderMenu.type = menu.type;
+      orderMenu.count = menu.count;
+
       orderMenu.menu = menuObj;
+      orderMenu.order = order;
 
       return orderMenu;
     });

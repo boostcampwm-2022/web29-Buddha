@@ -29,8 +29,6 @@ export class OrderService {
       },
     });
 
-    console.log(orders[0].orderMenus);
-
     return orders;
   }
 
@@ -54,13 +52,20 @@ export class OrderService {
 
       menuObj.id = menu.id;
       orderMenu.price = menu.price;
-      orderMenu.options = menu.options.join(',');
       orderMenu.size = menu.size;
       orderMenu.type = menu.type;
       orderMenu.count = menu.count;
 
       orderMenu.menu = menuObj;
       orderMenu.order = order;
+
+      /* 일단 key value를 모두 인덱스로 했다. */
+      const processedOptions = {};
+      menu.options.map((option) => {
+        processedOptions[option] = option;
+      });
+      orderMenu.options = JSON.stringify(processedOptions);
+      /**/
 
       return orderMenu;
     });

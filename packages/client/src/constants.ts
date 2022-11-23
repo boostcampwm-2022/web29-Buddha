@@ -8,3 +8,5 @@ export const SIZE_VOLUME = {
   grande: 473,
   venti: 591,
 };
+
+export const CART_KEY = 'buddhaCart';

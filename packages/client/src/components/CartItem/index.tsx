@@ -8,24 +8,30 @@ import {
   MenuOptionWrapper,
   OptionPriceWrapper,
   QuantityWrapper,
+  DeleteButton
 } from './styled';
 import { getMenuIdx } from 'utils/localStorage';
 
 interface CartItemProps {
   menu: CartMenu;
   setQuantity: Function;
+  deleteMenu: Function;
 }
 
-function CartItem({ menu, setQuantity }: CartItemProps) {
+function CartItem({ menu, setQuantity, deleteMenu }: CartItemProps) {
   const handleClickQuantity = useCallback((quantity: number) => {
     setQuantity(getMenuIdx(menu), quantity);
   }, []);
+
+  const handleClickDelete = () => {
+    deleteMenu(getMenuIdx(menu));
+  };
 
   return (
     <CartItemWrapper>
       <MenuImg src={menu.thumbnail} alt="메뉴" />
       <MenuInfoWrapper>
-        <p>{menu.name}</p>
+        <p className={'menu-name'}>{menu.name}</p>
         <OptionPriceWrapper>
           <MenuOptionWrapper>
             <p>
@@ -46,6 +52,7 @@ function CartItem({ menu, setQuantity }: CartItemProps) {
           <p>{menu.price * menu.quantity}원</p>
         </QuantityWrapper>
       </MenuInfoWrapper>
+      <DeleteButton onClick={handleClickDelete}/>
     </CartItemWrapper>
   );
 }

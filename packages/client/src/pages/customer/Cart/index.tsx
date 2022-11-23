@@ -13,6 +13,15 @@ function Cart() {
   const setQuantity = (idx: number, quantity: number) => {
     let newCart = [...cart];
     newCart[idx].quantity = quantity;
+    setNewCart(newCart);
+  };
+
+  const deleteMenu = (idx: number) => {
+    let newCart = cart.filter((menu, index) => index !== idx);
+    setNewCart(newCart);
+  };
+
+  const setNewCart = (newCart: CartMenu[]) => {
     setCart(newCart);
     localStorage.setItem(CART_KEY, JSON.stringify(newCart));
     setCartCount(getCartCount());
@@ -28,7 +37,12 @@ function Cart() {
         <p className={'title'}>담은 상품 {cartCount}개</p>
         <ul>
           {cart.map((menu, idx) => (
-            <CartItem key={idx} menu={menu} setQuantity={setQuantity} />
+            <CartItem
+              key={idx}
+              menu={menu}
+              setQuantity={setQuantity}
+              deleteMenu={deleteMenu}
+            />
           ))}
         </ul>
       </CartContentWrapper>

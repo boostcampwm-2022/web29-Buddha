@@ -1,10 +1,12 @@
 import styled from '@emotion/styled';
+import { ReactComponent as DeleteButtonSVG } from 'icons/x_icon.svg';
 
 export const CartItemWrapper = styled.li`
   display: flex;
   flex-direction: row;
   gap: 0.5rem;
   align-items: center;
+  position: relative;
   width: 100%;
   padding: 1rem 1rem 1rem 1rem;
   border-bottom: 1px solid ${(props) => props.theme.colors.grey200};
@@ -23,6 +25,10 @@ export const MenuInfoWrapper = styled.div`
 
   p {
     font-size: ${(props) => props.theme.font.size.sm};
+  }
+
+  p.menu-name{
+    margin-right: 0.8rem;
   }
 `;
 
@@ -52,3 +58,11 @@ export const QuantityWrapper = styled.div`
     font-weight: ${(props) => props.theme.font.weight.bold700};
   }
 `;
+
+export const DeleteButton = styled(DeleteButtonSVG)`
+  position: absolute;
+  top: 0.4rem;
+  right: 0.4rem;
+  width: 1rem;
+  height: 1rem;
+`

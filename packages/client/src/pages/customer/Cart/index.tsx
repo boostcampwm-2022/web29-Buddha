@@ -5,6 +5,7 @@ import { CartPageWrapper, CartHeader, CartContentWrapper } from './styled';
 import { CartMenu } from 'types/Cart';
 import CartItem from '@/components/CartItem';
 import { CART_KEY } from '@/constants';
+import EmptyCart from '@/components/EmptyCart';
 
 function Cart() {
   const [cart, setCart] = useState<CartMenu[]>(getCart());
@@ -35,16 +36,20 @@ function Cart() {
       </CartHeader>
       <CartContentWrapper>
         <p className={'title'}>담은 상품 {cartCount}개</p>
-        <ul>
-          {cart.map((menu, idx) => (
-            <CartItem
-              key={idx}
-              menu={menu}
-              setQuantity={setQuantity}
-              deleteMenu={deleteMenu}
-            />
-          ))}
-        </ul>
+        {cartCount > 0 ? (
+          <ul>
+            {cart.map((menu, idx) => (
+              <CartItem
+                key={idx}
+                menu={menu}
+                setQuantity={setQuantity}
+                deleteMenu={deleteMenu}
+              />
+            ))}
+          </ul>
+        ) : (
+          <EmptyCart />
+        )}
       </CartContentWrapper>
       <CartFooter />
     </CartPageWrapper>

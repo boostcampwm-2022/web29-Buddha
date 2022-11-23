@@ -2,7 +2,7 @@ import styled from '@emotion/styled';
 
 export const CustomButton = styled.button`
   width: 100%;
-  padding: 0.3rem 0 0.3rem 0;
+  padding: 0.3rem 1rem 0.3rem 1rem;
   background-color: ${(props) => props.theme.colors.primary};
   color: white;
   font-size: ${(props) => props.theme.font.size.xs};

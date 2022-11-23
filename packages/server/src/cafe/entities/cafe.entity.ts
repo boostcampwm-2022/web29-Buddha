@@ -1,3 +1,4 @@
+import { Order } from 'src/order/entities/order.entity';
 import {
   Column,
   Entity,
@@ -29,4 +30,7 @@ export class Cafe {
 
   @OneToMany(() => CafeMenu, (cafeMenus) => cafeMenus.cafe)
   cafeMenus: CafeMenu[];
+
+  @OneToMany(() => Order, (orders) => orders.cafe)
+  orders: Order[];
 }

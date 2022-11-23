@@ -31,7 +31,7 @@ export class CafeService {
   }
 
   async findOneMenuDetail(menuId: number): Promise<MenuDetailResDto> {
-    const menus = await this.menuRepository.findOne({
+    const menu = await this.menuRepository.findOne({
       where: {
         id: menuId,
       },
@@ -42,6 +42,7 @@ export class CafeService {
       },
     });
 
-    return new MenuDetailResDto(menus);
+    if (menu === null) throw new BadRequestException('menuId not exist');
+    return new MenuDetailResDto(menu);
   }
 }

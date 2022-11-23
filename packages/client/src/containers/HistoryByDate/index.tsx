@@ -12,7 +12,7 @@ interface Props {
 
 function HistoryByDate({ date, history }: Props) {
   const historyItems = useMemo(
-    () => history.map((h) => <HistoryItem history={h} />),
+    () => history.map((h) => <HistoryItem history={h} key={h.id} />),
     [history]
   );
 

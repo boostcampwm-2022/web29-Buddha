@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { getCart, getCartCount } from 'utils/localStorage';
+import { getCart, getCartCount, getCartPrice } from 'utils/localStorage';
 import CartFooter from '@/components/CartFooter';
 import {
   CartPageWrapper,
@@ -17,6 +17,7 @@ import { useNavigate } from 'react-router-dom';
 function Cart() {
   const [cart, setCart] = useState<CartMenu[]>(getCart());
   const [cartCount, setCartCount] = useState<number>(getCartCount());
+  const [cartPrice, setCartPrice] = useState<number>(getCartPrice());
   const navigate = useNavigate();
 
   const setQuantity = (idx: number, quantity: number) => {
@@ -34,16 +35,17 @@ function Cart() {
     setCart(newCart);
     localStorage.setItem(CART_KEY, JSON.stringify(newCart));
     setCartCount(getCartCount());
+    setCartPrice(getCartPrice());
   };
 
   const handleClickBack = () => {
     navigate(-1);
-  }
+  };
 
   return (
     <CartPageWrapper>
       <FixedHeader>
-        <LeftArrow onClick={handleClickBack}/>
+        <LeftArrow onClick={handleClickBack} />
       </FixedHeader>
       <CartHeader>
         <p className={'title'}>장바구니</p>
@@ -66,7 +68,7 @@ function Cart() {
           <EmptyCart />
         )}
       </CartContentWrapper>
-      <CartFooter />
+      <CartFooter count={cartCount} price={cartPrice} />
     </CartPageWrapper>
   );
 }

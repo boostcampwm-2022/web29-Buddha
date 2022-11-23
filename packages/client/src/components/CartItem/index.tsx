@@ -1,4 +1,3 @@
-import { useCallback } from 'react';
 import { CartMenu } from 'types/Cart';
 import QuantitySelector from '../QuantitySelector';
 import {
@@ -8,9 +7,10 @@ import {
   MenuOptionWrapper,
   OptionPriceWrapper,
   QuantityWrapper,
-  DeleteButton
+  DeleteButton,
 } from './styled';
 import { getMenuIdx } from 'utils/localStorage';
+import { getPriceComma } from 'utils/index';
 
 interface CartItemProps {
   menu: CartMenu;
@@ -19,9 +19,9 @@ interface CartItemProps {
 }
 
 function CartItem({ menu, setQuantity, deleteMenu }: CartItemProps) {
-  const handleClickQuantity = useCallback((quantity: number) => {
+  const handleClickQuantity = (quantity: number) => {
     setQuantity(getMenuIdx(menu), quantity);
-  }, []);
+  };
 
   const handleClickDelete = () => {
     deleteMenu(getMenuIdx(menu));
@@ -41,7 +41,7 @@ function CartItem({ menu, setQuantity, deleteMenu }: CartItemProps) {
               <p key={option.id}>{option.name}</p>
             ))}
           </MenuOptionWrapper>
-          <p>{menu.price}원</p>
+          <p>{getPriceComma(menu.price)}원</p>
         </OptionPriceWrapper>
 
         <QuantityWrapper>
@@ -49,10 +49,10 @@ function CartItem({ menu, setQuantity, deleteMenu }: CartItemProps) {
             quantity={menu.quantity}
             onClick={handleClickQuantity}
           />
-          <p>{menu.price * menu.quantity}원</p>
+          <p>{getPriceComma(menu.price * menu.quantity)}원</p>
         </QuantityWrapper>
       </MenuInfoWrapper>
-      <DeleteButton onClick={handleClickDelete}/>
+      <DeleteButton onClick={handleClickDelete} />
     </CartItemWrapper>
   );
 }

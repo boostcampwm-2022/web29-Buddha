@@ -4,12 +4,12 @@ export const CartFooterWrapper = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 1rem;
+  gap: 0.6rem;
   position: fixed;
   left: 0;
   bottom: 0;
   width: 100%;
-  padding: 1rem 2rem 1rem 2rem;
+  padding: 0.8rem 2rem 1rem 2rem;
   background-color: white;
   box-shadow: 0px 0px 4px rgba(204, 204, 204, 0.5),
     0px 0px 4px rgba(0, 0, 0, 0.25);

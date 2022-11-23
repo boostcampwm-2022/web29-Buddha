@@ -22,6 +22,17 @@ export const getCartCount = () => {
   return count;
 };
 
+export const getCartPrice = () => {
+  const cart = getCart();
+  let price = 0;
+
+  cart.forEach((menu: CartMenu) => {
+    price += menu.price * menu.quantity;
+  });
+
+  return price;
+};
+
 export const getMenu = (menu: CartMenu) => {
   return getCart().find((cart: CartMenu) => {
     return isEqualJSON(menu, cart);

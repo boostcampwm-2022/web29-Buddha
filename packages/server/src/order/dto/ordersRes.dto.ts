@@ -67,9 +67,7 @@ export class OrdersOrderDto {
         id: orderMenu.menu.id,
         name: orderMenu.menu.name,
         price: orderMenu.menu.price,
-        options: Object.keys(JSON.parse(orderMenu.options)).map((key) => {
-          return { [key]: parseInt(key) };
-        }),
+        options: JSON.parse(orderMenu.options),
       };
     });
     return menus;

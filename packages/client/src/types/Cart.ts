@@ -5,10 +5,11 @@ export interface CartMenu {
   size: string;
   quantity: number;
   price: number;
+  thumbnail: string;
   options: MenuOption[];
 }
 
-interface MenuOption {
+export interface MenuOption {
   id: number;
   name: string;
   price: number;

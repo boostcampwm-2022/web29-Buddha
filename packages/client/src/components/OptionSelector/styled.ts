@@ -2,6 +2,7 @@ import styled from '@emotion/styled';
 
 export const Container = styled.section`
   margin: 5%;
+  margin-bottom: 100px;
 `;
 
 export const Title = styled.p`

@@ -1,5 +1,11 @@
 import React, { useMemo } from 'react';
-import { Container, ItemContainer, SizeText, VolumeText } from './styled';
+import {
+  Container,
+  ItemContainer,
+  SizeIcon,
+  SizeText,
+  VolumeText,
+} from './styled';
 import { SIZE_VOLUME } from '@/constants';
 import { Size } from 'types/MenuDetail';
 import { getFirstUpper } from '@/utils';
@@ -26,7 +32,7 @@ function Item({ size, isSelected, onClick }: ItemProps) {
 
   return (
     <ItemContainer title={size} isSelected={isSelected} onClick={onClick}>
-      <p>icon</p>
+      <SizeIcon size={size} />
       {sizeText}
       {volumeText}
     </ItemContainer>

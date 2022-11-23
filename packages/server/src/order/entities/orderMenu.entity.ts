@@ -1,6 +1,7 @@
 import { Menu } from 'src/cafe/entities/menu.entity';
 import { MENU_SIZE } from 'src/cafe/enum/menuSize.enum';
 import { MENU_TYPE } from 'src/cafe/enum/menuType.enum';
+import { TimestampableEntity } from 'src/common/entities/common.entity';
 import {
   Column,
   Entity,
@@ -10,7 +11,7 @@ import {
 } from 'typeorm';
 import { Order } from './order.entity';
 @Entity()
-export class OrderMenu {
+export class OrderMenu extends TimestampableEntity {
   @PrimaryGeneratedColumn()
   id: number;
 

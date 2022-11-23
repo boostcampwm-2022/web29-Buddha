@@ -1,15 +1,10 @@
+import { TimestampableEntity } from 'src/common/entities/common.entity';
 import { Order } from 'src/order/entities/order.entity';
-import {
-  Column,
-  Entity,
-  ManyToOne,
-  OneToMany,
-  PrimaryGeneratedColumn,
-} from 'typeorm';
+import { Column, Entity, OneToMany, PrimaryGeneratedColumn } from 'typeorm';
 import { CafeMenu } from './cafeMenu.entity';
 
 @Entity()
-export class Cafe {
+export class Cafe extends TimestampableEntity {
   @PrimaryGeneratedColumn()
   id: number;
 

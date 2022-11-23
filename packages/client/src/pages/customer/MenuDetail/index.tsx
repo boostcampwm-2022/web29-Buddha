@@ -129,6 +129,7 @@ function MenuDetail() {
 
     localStorage.setItem(key, JSON.stringify(currCart));
     alert('장바구니에 담겼습니다.');
+    navigate('/menu');
   };
 
   /**

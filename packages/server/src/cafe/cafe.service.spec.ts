@@ -4,7 +4,7 @@ import { Cafe } from './entities/cafe.entity';
 import { Test, TestingModule } from '@nestjs/testing';
 import { getRepositoryToken } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
-import { BadRequestException } from '@nestjs/common';
+import { BadRequestException, NotFoundException } from '@nestjs/common';
 
 const mockCafeRepository = () => ({
   findOne: jest.fn(),
@@ -48,10 +48,10 @@ describe('CafeService', () => {
   });
 
   describe('CafeService', () => {
-    describe('findAll()', () => {
-      const cafeId = 1;
-
+    describe('findAllMenuById()', () => {
       it('should be find All', async () => {
+        const cafeId = 1;
+
         const mockData = {
           id: 1,
           name: 'Cafe name 1',
@@ -86,6 +86,30 @@ describe('CafeService', () => {
 
         expect(result.id).toEqual(mockData.id);
         expect(result.menus.length).toEqual(mockData.cafeMenus.length);
+      });
+
+      it('should fail on exception', async () => {
+        const cafeId = -100000;
+
+        cafeRepository.findOne.mockRejectedValue(
+          new NotFoundException('find error')
+        );
+
+        // service.findAllMenuById(cafeID)를 expect 바깥에 사용하면
+        // new NotFoundException 에러가 바로 발동해서 테스트 도중에 런타임 에러가 잡혀 테스트를 진행할 수 없다.
+        await expect(service.findAllMenuById(cafeId)).rejects.toThrow(
+          new NotFoundException('find error')
+        );
+      });
+
+      it('검색은 성공했지만 해당 cafe가 없는 경우', async () => {
+        const cafeId = 100000;
+
+        cafeRepository.findOne.mockResolvedValue(null);
+
+        await expect(
+          async () => await service.findAllMenuById(cafeId)
+        ).rejects.toThrowError(new BadRequestException('cafeId not exist'));
       });
     });
   });

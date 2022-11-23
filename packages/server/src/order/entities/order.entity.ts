@@ -1,4 +1,5 @@
 import { Cafe } from 'src/cafe/entities/cafe.entity';
+import { TimestampableEntity } from 'src/common/entities/common.entity';
 import { User } from 'src/user/entities/user.entity';
 import {
   Column,
@@ -10,7 +11,7 @@ import {
 import { ORDER_STATUS } from '../enum/orderStatus.enum';
 import { OrderMenu } from './orderMenu.entity';
 @Entity()
-export class Order {
+export class Order extends TimestampableEntity {
   @PrimaryGeneratedColumn()
   id: number;
 

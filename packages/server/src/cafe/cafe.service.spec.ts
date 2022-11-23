@@ -40,7 +40,7 @@ describe('CafeService', () => {
 
     service = module.get<CafeService>(CafeService);
     cafeRepository = module.get<MockRepository<Cafe>>(getRepositoryToken(Cafe));
-    menuRepository = module.get<MockRepository<Cafe>>(getRepositoryToken(Cafe));
+    menuRepository = module.get<MockRepository<Cafe>>(getRepositoryToken(Menu));
   });
 
   it('should be defined', () => {
@@ -110,6 +110,61 @@ describe('CafeService', () => {
         await expect(
           async () => await service.findAllMenuById(cafeId)
         ).rejects.toThrowError(new BadRequestException('cafeId not exist'));
+      });
+    });
+    describe('findOneMenuDetail()', () => {
+      it('should be findOneMenuDetail', async () => {
+        // given
+        const mockData = {
+          id: 1,
+          name: '민트 콜드 브루',
+          description:
+            '상쾌한 민트향 시럽과 잘게 갈린 얼음이 \n어우러져 시원함이 강렬하게 느껴지는 리저브만의\n콜드 브루 음료',
+          price: 4000,
+          category: '콜드 브루',
+          thumbnail:
+            'https://www.istarbucks.co.kr/upload/store/skuimg/2022/10/[9200000004312]_20221005145029134.jpg',
+          menuOptions: [
+            {
+              id: 1,
+              option: {
+                id: 1,
+                name: '에스프레스 샷 추가',
+                price: 600,
+                category: '커피',
+              },
+            },
+            {
+              id: 2,
+              option: {
+                id: 2,
+                name: '바닐라 시럽',
+                price: 600,
+                category: '시럽',
+              },
+            },
+          ],
+        };
+        const menuId = 1;
+        menuRepository.findOne.mockResolvedValue(mockData);
+
+        // when
+        const result = await service.findOneMenuDetail(menuId);
+
+        // then
+        expect(menuRepository.findOne).toHaveBeenCalledTimes(1);
+        expect(result.id).toEqual(mockData.id);
+      });
+
+      it('검색은 성공했지만 해당 menu가 없는 경우', async () => {
+        // given
+        const menuId = 1000000;
+        menuRepository.findOne.mockResolvedValue(null);
+
+        // when, then
+        await expect(
+          async () => await service.findOneMenuDetail(menuId)
+        ).rejects.toThrowError(new BadRequestException('menuId not exist'));
       });
     });
   });

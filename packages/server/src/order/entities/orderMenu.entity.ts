@@ -1,4 +1,6 @@
 import { Menu } from 'src/cafe/entities/menu.entity';
+import { MENU_SIZE } from 'src/cafe/enum/menuSize.enum';
+import { MENU_TYPE } from 'src/cafe/enum/menuType.enum';
 import {
   Column,
   Entity,
@@ -14,6 +16,23 @@ export class OrderMenu {
 
   @Column({ type: 'varchar', length: '500' })
   options: string;
+
+  @Column({
+    type: 'enum',
+    enum: MENU_SIZE,
+    default: MENU_SIZE.TALL,
+  })
+  size: MENU_SIZE;
+
+  @Column({
+    type: 'enum',
+    enum: MENU_TYPE,
+    default: MENU_TYPE.ICED,
+  })
+  type: MENU_TYPE;
+
+  @Column()
+  number: number;
 
   // total price
   @Column()

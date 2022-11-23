@@ -1,6 +1,6 @@
 import { CafeMenu } from './entities/cafeMenu.entity';
 import { Menu } from './entities/menu.entity';
-import { Injectable } from '@nestjs/common';
+import { Injectable, BadRequestException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { Cafe } from './entities/cafe.entity';
@@ -26,6 +26,7 @@ export class CafeService {
       },
     });
 
+    if (cafe === null) throw new BadRequestException('cafeId not exist');
     return new CafeMenuResDto(cafe);
   }
 

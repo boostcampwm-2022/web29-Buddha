@@ -16,7 +16,11 @@ export class User {
   @Column()
   nickname: string;
 
-  @Column()
+  @Column({
+    type: 'enum',
+    enum: USER_TYPE,
+    default: USER_TYPE.CLIENT,
+  })
   role: USER_TYPE;
 
   @Column({ nullable: true })

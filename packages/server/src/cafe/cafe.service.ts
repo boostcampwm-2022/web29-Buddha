@@ -1,6 +1,6 @@
 import { CafeMenu } from './entities/cafeMenu.entity';
 import { Menu } from './entities/menu.entity';
-import { Injectable } from '@nestjs/common';
+import { Injectable, BadRequestException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { Cafe } from './entities/cafe.entity';
@@ -26,11 +26,12 @@ export class CafeService {
       },
     });
 
+    if (cafe === null) throw new BadRequestException('cafeId not exist');
     return new CafeMenuResDto(cafe);
   }
 
   async findOneMenuDetail(menuId: number): Promise<MenuDetailResDto> {
-    const menus = await this.menuRepository.findOne({
+    const menu = await this.menuRepository.findOne({
       where: {
         id: menuId,
       },
@@ -40,9 +41,8 @@ export class CafeService {
         },
       },
     });
-    console.log(menus);
-    console.log(menus.menuOptions);
 
-    return new MenuDetailResDto(menus);
+    if (menu === null) throw new BadRequestException('menuId not exist');
+    return new MenuDetailResDto(menu);
   }
 }

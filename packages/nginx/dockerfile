@@ -1,0 +1,10 @@
+FROM nginx
+
+# COPY ./nginx/nginx.conf /etc/nginx/nginx.conf
+# COPY ./nginx/default.conf /etc/nginx/conf.d/default.conf
+
+WORKDIR /usr/share
+RUN mkdir buddah-client
+
+# COPY ./client/build/index.html /usr/share/buddah-client
+# COPY ./client/build/static /usr/share/buddah-client/static

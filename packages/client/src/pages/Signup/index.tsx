@@ -9,72 +9,48 @@ import {
   InputWrapper,
   InputTitle,
   Input,
-  CustomButton,
 } from './styled';
+import { SignupRequestBody } from 'types/Signup';
+import Button from 'components/Button';
 
 function Signup() {
   const api = process.env.REACT_APP_API_SERVER_BASE_URL;
-  const [signupType, setSignupType] = useState<string>('customer');
+  //userType -> 고객인 경우 0, 업주인 경우 1
+  const [userType, setuserType] = useState<'CLIENT' | 'MANAGER'>('CLIENT');
   const [nickname, setNickname] = useState<string>('');
   const [corporate, setCorporate] = useState<string>('');
   const navigate = useNavigate();
 
   const handleClickCustomer = () => {
-    setSignupType('customer');
+    setuserType('CLIENT');
   };
 
   const handleClickOwner = () => {
-    setSignupType('owner');
+    setuserType('MANAGER');
   };
 
-  const handleSubmit = () => {
-    if (isValidateNickname()) {
-      if (signupType === 'owner') {
-        if (isValidateCorporate()) {
-          axios
-            .post(
-              `${api}/user/signup`,
-              {
-                userType: 1,
-                nickname,
-                corporate,
-              },
-              { withCredentials: true }
-            )
-            .then((res) => {
-              if (res.status === 201) {
-                navigate('/home');
-              }
-            })
-            .catch((err) => {
-              console.log(err);
-            });
-        } else {
-          alert('사업자 등록 번호 입력이 잘못됐습니다.');
-        }
-      } else {
-        axios
-          .post(
-            `${process.env.REACT_APP_API_SERVER_BASE_URL}/user/signup`,
-            {
-              userType: 0,
-              nickname,
-            },
-            {
-              withCredentials: true,
-            }
-          )
-          .then((res) => {
-            if (res.status === 201) {
-              navigate('/home');
-            }
-          })
-          .catch((err) => {
-            console.log(err);
-          });
+  const handleSubmit = async () => {
+    if (userType === 'CLIENT') {
+      if (isValidateCustomerForm()) {
+        fetchSignup({ userType, nickname });
       }
     } else {
-      alert('닉네임 입력이 잘못됐습니다.');
+      if (isValidateOwnerForm()) {
+        fetchSignup({ userType, nickname, corporate });
+      }
+    }
+  };
+
+  const fetchSignup = async (data: SignupRequestBody) => {
+    try {
+      const res = await axios.post(`${api}/auth/signup`, data, {
+        withCredentials: true,
+      });
+      if (res.status === 201) {
+        navigate('/home');
+      }
+    } catch (err) {
+      console.log(err);
     }
   };
 
@@ -86,25 +62,41 @@ function Signup() {
     setCorporate(e.target.value.replace(/[^0-9-]/g, ''));
   };
 
+  const isValidateCustomerForm = () => {
+    if (isValidateNickname()) return true;
+    return false;
+  };
+
+  const isValidateOwnerForm = () => {
+    if (isValidateNickname()) {
+      if (isValidateCorporate()) return true;
+    }
+    return false;
+  };
+
   const isValidateNickname = () => {
-    return nickname.length > 2;
+    if (nickname.length > 2) return true;
+    alert('닉네임 입력이 잘못됐습니다');
+    return false;
   };
 
   const isValidateCorporate = () => {
-    return corporate.length >= 10;
+    if (corporate.length >= 10) return true;
+    alert('사업자 등록 번호 입력이 잘못됐습니다');
+    return false;
   };
 
   return (
     <PageWrapper>
       <ChangeForm data-testid={'change-form'}>
         <ChangeButton
-          className={signupType === 'customer' ? 'selected' : ''}
+          className={userType === 'CLIENT' ? 'selected' : ''}
           onClick={handleClickCustomer}
         >
           고객
         </ChangeButton>
         <ChangeButton
-          className={signupType === 'owner' ? 'selected' : ''}
+          className={userType === 'MANAGER' ? 'selected' : ''}
           onClick={handleClickOwner}
         >
           업주
@@ -120,7 +112,7 @@ function Signup() {
           value={nickname}
         />
       </InputWrapper>
-      {signupType === 'owner' ? (
+      {userType === 'MANAGER' ? (
         <InputWrapper>
           <InputTitle>사업자 등록 번호</InputTitle>
           <Input
@@ -134,7 +126,9 @@ function Signup() {
       ) : (
         <></>
       )}
-      <CustomButton onClick={handleSubmit}>회원가입</CustomButton>
+      <Button onClick={handleSubmit} className={'wd-80'}>
+        회원가입
+      </Button>
     </PageWrapper>
   );
 }

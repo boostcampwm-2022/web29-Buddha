@@ -9,6 +9,8 @@ services:
       - ./packages/server/.prod.env
     ports:
       - 8080:8080
+    environment:
+      MYSQL_HOST: mysql
     depends_on:
       - mysql
 
@@ -24,8 +26,16 @@ services:
     command:
       - --character-set-server=utf8mb4
       - --collation-server=utf8mb4_unicode_ci
+  nginx:
+    container_name: 'nginx'
+    build: ./packages/nginx
+    ports:
+      - 3000:3000
+    volumes:
+      - ./packages/nginx/configs:/etc/nginx
+      - ./packages/client/build:/usr/share/buddah-client
 
 volumes:
   mysql-volume:
-    external:
-      name: mysql-volume
+    external: true
+    name: mysql-volume

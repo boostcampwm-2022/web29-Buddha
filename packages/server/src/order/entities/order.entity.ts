@@ -1,3 +1,5 @@
+import { Cafe } from 'src/cafe/entities/cafe.entity';
+import { TimestampableEntity } from 'src/common/entities/common.entity';
 import { User } from 'src/user/entities/user.entity';
 import {
   Column,
@@ -6,18 +8,28 @@ import {
   OneToMany,
   PrimaryGeneratedColumn,
 } from 'typeorm';
+import { ORDER_STATUS } from '../enum/orderStatus.enum';
 import { OrderMenu } from './orderMenu.entity';
 @Entity()
-export class Order {
+export class Order extends TimestampableEntity {
   @PrimaryGeneratedColumn()
   id: number;
 
-  @Column()
-  status: string;
+  @ManyToOne(() => Cafe, (cafe) => cafe.orders)
+  cafe: Cafe;
+
+  @Column({
+    type: 'enum',
+    enum: ORDER_STATUS,
+    default: ORDER_STATUS.REQUESTED,
+  })
+  status: ORDER_STATUS;
 
   @ManyToOne(() => User, (user) => user.orders)
   user: User;
 
-  @OneToMany(() => OrderMenu, (orderMenu) => orderMenu.order)
+  @OneToMany(() => OrderMenu, (orderMenu) => orderMenu.order, {
+    cascade: ['insert'],
+  })
   orderMenus: OrderMenu[];
 }

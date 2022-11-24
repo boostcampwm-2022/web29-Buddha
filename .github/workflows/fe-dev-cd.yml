@@ -31,6 +31,10 @@ jobs:
           FE_ENV: ${{ secrets.FE_ENV }}
         run: echo "$FE_ENV" > .env
 
+      - name: Ignore Warnings
+        env:
+          CI: false
+
       - name: Build
         run: npm run build
 

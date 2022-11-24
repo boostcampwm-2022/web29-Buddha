@@ -54,6 +54,7 @@ export class AuthService {
       code,
       state
     );
+
     return await this.naverOAuthService.getUserInfo(access_token);
   }
 

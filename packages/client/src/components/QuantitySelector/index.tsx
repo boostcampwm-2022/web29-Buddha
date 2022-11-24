@@ -31,21 +31,25 @@ function QuantitySelector({
 
   return (
     <Container>
-      <Minus
-        name="minus"
-        quantity={quantity}
-        svgWidth={svgWidth}
-        svgHeight={svgHeight}
-        onClick={handleClickQuantity}
-      />
+      <>
+        <Minus
+          name="minus"
+          quantity={quantity}
+          width={svgWidth}
+          height={svgHeight}
+          onClick={handleClickQuantity}
+        />
+      </>
       {quantity}
-      <Plus
-        name="plus"
-        quantity={quantity}
-        svgWidth={svgWidth}
-        svgHeight={svgHeight}
-        onClick={handleClickQuantity}
-      />
+      <>
+        <Plus
+          name="plus"
+          quantity={quantity}
+          width={svgWidth}
+          height={svgHeight}
+          onClick={handleClickQuantity}
+        />
+      </>
     </Container>
   );
 }

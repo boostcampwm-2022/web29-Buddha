@@ -2,7 +2,7 @@ name: Backend dev ci
 
 on:
   push:
-    branches: ['feat/be/be-dev-ci-cd']
+    branches: ['dev']
     paths:
       - 'packages/server/**'
       - '.github/workflows/be-dev-ci.yml'
@@ -32,4 +32,4 @@ jobs:
         run: echo "$BE_DEV_ENV" > .dev.env
 
       - name: Test
-        run: npm run test
+        run: npm run test:cov

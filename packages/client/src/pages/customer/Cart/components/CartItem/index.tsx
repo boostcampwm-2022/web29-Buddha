@@ -47,6 +47,8 @@ function CartItem({ menu, setQuantity, deleteMenu }: CartItemProps) {
         <QuantityWrapper>
           <QuantitySelector
             quantity={menu.quantity}
+            svgWidth={0.8}
+            svgHeight={0.8}
             onClick={handleClickQuantity}
           />
           <p>{getPriceComma(menu.price * menu.quantity)}원</p>

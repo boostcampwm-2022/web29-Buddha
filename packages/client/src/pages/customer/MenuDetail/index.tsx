@@ -220,6 +220,8 @@ function MenuDetail() {
             <p className="price">{getPriceComma(totalPrice)}원</p>
             <QuantitySelector
               quantity={quantity}
+              svgWidth={1}
+              svgHeight={1}
               onClick={handleClickQuantity}
             />
           </AmountContainer>

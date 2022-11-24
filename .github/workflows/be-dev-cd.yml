@@ -18,11 +18,6 @@ jobs:
       - name: checkout to the branch
         uses: actions/checkout@v3
 
-      - name: node set-up
-        uses: actions/setup-node@v3
-        with:
-          node-version: 18.6.0
-
       - name: Docker Buildx
         uses: docker/setup-buildx-action@v2
 
@@ -41,5 +36,5 @@ jobs:
           # context 명시를 안해주면 이전 step에서 변경되던 사항들이 적용되지 않는다.
           context: 'packages/server'
           tags: |
-            ghcr.io/Gonnnnn/buddah-server:latest
-            ghcr.io/Gonnnnn/buddah-server:${{ github.sha }}
+            ghcr.io/buddah/buddah-server:latest
+            ghcr.io/buddah/buddah-server:${{ github.sha }}

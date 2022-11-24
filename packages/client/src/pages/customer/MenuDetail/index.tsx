@@ -2,22 +2,22 @@ import React, { useCallback, useEffect, useMemo, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import axios from 'axios';
 
-import TypeSelector from '@/pages/customer/MenuDetail/components/TypeSelector';
-import SizeSelector from '@/pages/customer/MenuDetail/components/SizeSelector';
-import OptionSelector from '@/pages/customer/MenuDetail/components/OptionSelector';
-import QuantitySelector from '@/components/QuantitySelector';
+import TypeSelector from './components/TypeSelector';
+import SizeSelector from './components/SizeSelector';
+import OptionSelector from './components/OptionSelector';
+import QuantitySelector from 'components/QuantitySelector';
 import Button from 'components/Button';
 
 import {
   AmountContainer,
-  LeftArrow,
   ButtonContainer,
   Container,
   Img,
   MenuInfoContainer,
 } from './styled';
-import { MenuInfo, Option, Options, Size, Type } from 'types/MenuDetail';
+import { MenuInfo, Options, Size, Type } from 'types/MenuDetail';
 import { getPriceComma } from 'utils/index';
+import LeftArrow from '@/components/LeftArrow';
 
 function MenuDetail() {
   const api = process.env.REACT_APP_API_SERVER_BASE_URL;
@@ -30,13 +30,6 @@ function MenuDetail() {
   const [totalPrice, setTotalPrice] = useState(0);
   const { menuId } = useParams();
   const navigate = useNavigate();
-
-  /**
-   * 상단의 뒤로가기 버튼 클릭 시, 메뉴 목록 페이지로 이동
-   */
-  const handleClickBack = () => {
-    navigate(-1);
-  };
 
   /**
    * 음료 타입(핫, 아이스) 선택에 따라 음료 타입 변경
@@ -243,7 +236,13 @@ function MenuDetail() {
         <p>데이터 조회 오류</p>
       ) : (
         <>
-          <LeftArrow onClick={handleClickBack}>{'<'}</LeftArrow>
+          <LeftArrow
+            color="primary"
+            top={1}
+            left={1}
+            width={1.2}
+            height={1.2}
+          />
           {MenuInfo}
           <TypeSelector type={type} onClick={handleClickType} />
           <SizeSelector size={size} onClick={handleClickSize} />

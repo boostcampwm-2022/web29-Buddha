@@ -4,8 +4,9 @@ on:
   pull_request:
     branches: [dev]
     paths:
-      - 'packages/client/**'
-      - '.github/workflows/fe-dev-ci.yml'
+      - 'packages/client'
+      # - 'packages/client/**'
+      # - '.github/workflows/fe-dev-ci.yml'
 
 jobs:
   ci:

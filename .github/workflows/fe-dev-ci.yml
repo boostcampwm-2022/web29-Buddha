@@ -3,7 +3,9 @@ name: Frontend dev ci
 on:
   pull_request:
     branches: [dev]
-    paths: './packages/client'
+    paths:
+      - 'packages/client/**'
+      - '.github/workflows/fe-dev-ci.yml'
 
 jobs:
   ci:

@@ -2,10 +2,10 @@ import React, { useCallback, useEffect, useMemo, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import axios from 'axios';
 
-import TypeSelector from 'components/TypeSelector';
-import SizeSelector from 'components/SizeSelector';
-import OptionSelector from 'components/OptionSelector';
-import QuantitySelector from 'components/QuantitySelector';
+import TypeSelector from '@/pages/customer/MenuDetail/components/TypeSelector';
+import SizeSelector from '@/pages/customer/MenuDetail/components/SizeSelector';
+import OptionSelector from '@/pages/customer/MenuDetail/components/OptionSelector';
+import QuantitySelector from '@/components/QuantitySelector';
 import Button from 'components/Button';
 
 import {

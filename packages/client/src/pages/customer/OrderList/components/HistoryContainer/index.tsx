@@ -1,7 +1,7 @@
 import { useEffect, useMemo, useState } from 'react';
 import axios from 'axios';
 
-import HistoryByDate from 'containers/HistoryByDate';
+import HistoryByDate from '@/pages/customer/OrderList/components/HistoryByDate';
 
 import { orderListData } from '@/mocks/data/order';
 import { History } from 'types/OrderList';

@@ -2,7 +2,7 @@ import Header from 'components/Header';
 import Footer from 'components/Footer';
 
 import { Container } from './styled';
-import HistoryContainer from 'containers/HistoryContainer';
+import HistoryContainer from '@/pages/customer/OrderList/components/HistoryContainer';
 
 function OrderList() {
   return (

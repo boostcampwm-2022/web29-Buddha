@@ -1,6 +1,6 @@
 import { useMemo } from 'react';
 
-import HistoryItem from 'components/HistoryItem';
+import HistoryItem from '@/pages/customer/OrderList/components/HistoryItem';
 
 import { History } from 'types/OrderList';
 import { Container } from './styled';

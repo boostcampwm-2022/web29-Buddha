@@ -1,10 +1,10 @@
 import axios from 'axios';
 import { useState, useEffect } from 'react';
 import { CafeMenu } from 'types/MenuList';
-import MenuItem from 'components/MenuItem';
+import MenuItem from '@/pages/customer/MenuList/components/MenuItem';
 import Footer from '@/components/Footer';
 import { MenuListPageWrapper, MenuListWrapper } from './styled';
-import SnackBar from '@/components/SnackBar';
+import SnackBar from '@/pages/customer/MenuList/components/SnackBar';
 import Header from '@/components/Header';
 
 function MenuList() {

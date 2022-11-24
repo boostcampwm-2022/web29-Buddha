@@ -1,5 +1,5 @@
 import { CartMenu } from 'types/Cart';
-import QuantitySelector from '../QuantitySelector';
+import QuantitySelector from '../../../../../components/QuantitySelector';
 import {
   CartItemWrapper,
   MenuImg,

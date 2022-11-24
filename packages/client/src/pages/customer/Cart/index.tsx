@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { getCart, getCartCount, getCartPrice } from 'utils/localStorage';
-import CartFooter from '@/components/CartFooter';
+import CartFooter from '@/pages/customer/Cart/components/CartFooter';
 import {
   CartPageWrapper,
   CartHeader,
@@ -9,9 +9,9 @@ import {
   FixedHeader,
 } from './styled';
 import { CartMenu } from 'types/Cart';
-import CartItem from '@/components/CartItem';
+import CartItem from '@/pages/customer/Cart/components/CartItem';
 import { CART_KEY } from '@/constants';
-import EmptyCart from '@/components/EmptyCart';
+import EmptyCart from '@/pages/customer/Cart/components/EmptyCart';
 import { useNavigate } from 'react-router-dom';
 
 function Cart() {

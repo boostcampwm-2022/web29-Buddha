@@ -3,7 +3,7 @@ import { Route, Routes } from 'react-router-dom';
 import Signup from 'pages/Signup';
 import Signin from 'pages/Signin';
 import OrderList from 'pages/customer/OrderList';
-import MenuList from 'pages/MenuList';
+import MenuList from '@/pages/customer/MenuList';
 import MenuDetail from 'pages/customer/MenuDetail';
 import Cart from 'pages/customer/Cart';
 

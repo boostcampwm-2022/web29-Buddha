@@ -15,6 +15,7 @@ export class MenuDetailResDto {
     this._name = menu.name;
     this._description = menu.description;
     this._price = menu.price;
+    this._thumbnail = menu.thumbnail;
     this._options = menu.menuOptions.map((menuOption: MenuOption) =>
       OptionResDto.from(menuOption.option)
     );

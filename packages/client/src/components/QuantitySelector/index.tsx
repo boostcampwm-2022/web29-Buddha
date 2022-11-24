@@ -1,12 +1,22 @@
 import React from 'react';
 import { Container, Minus, Plus } from './styled';
 
-interface Props {
-  quantity: number;
+interface Listener {
   onClick: (quantity: number) => void;
 }
 
-function QuantitySelector({ quantity, onClick }: Props) {
+export interface Props {
+  quantity: number;
+  svgWidth: number;
+  svgHeight: number;
+}
+
+function QuantitySelector({
+  quantity,
+  svgWidth,
+  svgHeight,
+  onClick,
+}: Props & Listener) {
   const handleClickQuantity = (event: React.MouseEvent<SVGSVGElement>) => {
     const name = event.currentTarget.getAttribute('name');
 
@@ -23,14 +33,18 @@ function QuantitySelector({ quantity, onClick }: Props) {
     <Container>
       <Minus
         name="minus"
+        quantity={quantity}
+        svgWidth={svgWidth}
+        svgHeight={svgHeight}
         onClick={handleClickQuantity}
-        quantity={quantity.toString()}
       />
       {quantity}
       <Plus
         name="plus"
+        quantity={quantity}
+        svgWidth={svgWidth}
+        svgHeight={svgHeight}
         onClick={handleClickQuantity}
-        quantity={quantity.toString()}
       />
     </Container>
   );

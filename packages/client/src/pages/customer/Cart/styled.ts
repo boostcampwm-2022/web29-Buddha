@@ -1,5 +1,4 @@
 import styled from '@emotion/styled';
-import { ReactComponent as LeftArrowSVG } from 'icons/left_arrow.svg';
 
 export const CartPageWrapper = styled.div`
   width: 100%;
@@ -16,16 +15,6 @@ export const FixedHeader = styled.div`
   height: 2rem;
   background-color: ${(props) => props.theme.colors.secondary};
   z-index: 1;
-`;
-
-export const LeftArrow = styled(LeftArrowSVG)`
-  width: 1.2rem;
-  height: 1rem;
-  padding: 0.5rem 0 0.5rem 0.4rem;
-
-  & path {
-    fill: white;
-  }
 `;
 
 export const CartHeader = styled.div`

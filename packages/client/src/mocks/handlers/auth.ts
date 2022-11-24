@@ -10,7 +10,7 @@ export const authHandlers = [
     return res(ctx.status(200));
   }),
   // OAuth code, state 서버 전송 및 응답
-  rest.get(`${api}/user/naver-oauth`, (req, res, ctx) => {
+  rest.get(`${api}/auth/naver-oauth`, (req, res, ctx) => {
     const { name, email } = req.cookies;
 
     if (name && email) {
@@ -19,7 +19,7 @@ export const authHandlers = [
     return res(ctx.status(303));
   }),
   rest.post(
-    `${api}/user/signup`,
+    `${api}/auth/signup`,
     (req: RestRequest<SignupRequestBody>, res, next) => {
       const { userType, nickname, corporate } = req.body;
       if (userType === 1 && corporate && nickname) {

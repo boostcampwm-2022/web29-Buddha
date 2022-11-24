@@ -43,7 +43,7 @@ function Signup() {
 
   const fetchSignup = async (data: SignupRequestBody) => {
     try {
-      const res = await axios.post(`${api}/user/signup`, data, {
+      const res = await axios.post(`${api}/auth/signup`, data, {
         withCredentials: true,
       });
       if (res.status === 201) {

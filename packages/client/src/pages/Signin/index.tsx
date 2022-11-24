@@ -35,7 +35,7 @@ function Signin() {
       window.history.replaceState(null, '', '/');
 
       try {
-        await axios.get(`${api}/user/naver-oauth?code=${code}&state=${state}`, {
+        await axios.get(`${api}/auth/naver-oauth?code=${code}&state=${state}`, {
           withCredentials: true,
         });
         navigate('/home');

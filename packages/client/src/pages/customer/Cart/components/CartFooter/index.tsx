@@ -3,6 +3,7 @@ import { CartFooterWrapper, CartFooterInfoWrapper } from './styled';
 import { getPriceComma } from 'utils/index';
 import { getCart } from 'utils/localStorage';
 import { CartMenu } from '@/types/Cart';
+import axios from 'axios';
 
 interface CartFooterProps {
   count: number;
@@ -10,7 +11,10 @@ interface CartFooterProps {
 }
 
 function CartFooter({ count, price }: CartFooterProps) {
-  const handleSubmit = () => {
+  const api = process.env.REACT_APP_API_SERVER_BASE_URL;
+  const cafeId = 1;
+
+  const handleSubmit = async () => {
     if (count === 0) return;
     const menus = getCart().map((menu: CartMenu) => ({
       id: menu.id,
@@ -18,13 +22,19 @@ function CartFooter({ count, price }: CartFooterProps) {
       price: menu.price,
       size: menu.size,
       type: menu.type,
-      quantity: menu.quantity,
+      count: menu.quantity,
       options: menu.options.map((option) => option.id),
     }));
-    console.log({
-      cafeId: 1,
-      menus,
-    });
+
+    try {
+      await axios.post(
+        `${api}/order`,
+        { cafeId, menus },
+        { withCredentials: true }
+      );
+    } catch (err) {
+      console.log(err);
+    }
   };
 
   return (

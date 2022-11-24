@@ -16,21 +16,21 @@ import Button from 'components/Button';
 function Signup() {
   const api = process.env.REACT_APP_API_SERVER_BASE_URL;
   //userType -> 고객인 경우 0, 업주인 경우 1
-  const [userType, setuserType] = useState<number>(0);
+  const [userType, setuserType] = useState<'CLIENT' | 'MANAGER'>('CLIENT');
   const [nickname, setNickname] = useState<string>('');
   const [corporate, setCorporate] = useState<string>('');
   const navigate = useNavigate();
 
   const handleClickCustomer = () => {
-    setuserType(0);
+    setuserType('CLIENT');
   };
 
   const handleClickOwner = () => {
-    setuserType(1);
+    setuserType('MANAGER');
   };
 
   const handleSubmit = async () => {
-    if (!userType) {
+    if (userType === 'CLIENT') {
       if (isValidateCustomerForm()) {
         fetchSignup({ userType, nickname });
       }
@@ -90,13 +90,13 @@ function Signup() {
     <PageWrapper>
       <ChangeForm data-testid={'change-form'}>
         <ChangeButton
-          className={!userType ? 'selected' : ''}
+          className={userType === 'CLIENT' ? 'selected' : ''}
           onClick={handleClickCustomer}
         >
           고객
         </ChangeButton>
         <ChangeButton
-          className={userType ? 'selected' : ''}
+          className={userType === 'MANAGER' ? 'selected' : ''}
           onClick={handleClickOwner}
         >
           업주
@@ -112,7 +112,7 @@ function Signup() {
           value={nickname}
         />
       </InputWrapper>
-      {userType ? (
+      {userType === 'MANAGER' ? (
         <InputWrapper>
           <InputTitle>사업자 등록 번호</InputTitle>
           <Input

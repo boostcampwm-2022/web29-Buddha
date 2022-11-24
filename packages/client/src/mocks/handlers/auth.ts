@@ -22,9 +22,9 @@ export const authHandlers = [
     `${api}/auth/signup`,
     (req: RestRequest<SignupRequestBody>, res, next) => {
       const { userType, nickname, corporate } = req.body;
-      if (userType === 1 && corporate && nickname) {
+      if (userType === 'MANAGER' && corporate && nickname) {
         return res(next.status(201));
-      } else if (userType === 0 && nickname) {
+      } else if (userType === 'CLIENT' && nickname) {
         return res(next.status(201));
       } else {
         return res(next.status(400));

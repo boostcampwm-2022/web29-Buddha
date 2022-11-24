@@ -120,7 +120,7 @@ export class OrderService {
       const option = menuOptionObj.option;
       if (!menuOptionDict.hasOwnProperty(menu.id)) {
         menuOptionDict[menu.id] = {
-          price: menu.price,
+          menuPrice: menu.price,
           options: {},
         };
       }
@@ -141,12 +141,12 @@ export class OrderService {
   }
 
   private _getTotalPrice(menu, menuAndOptionDict) {
-    const { options, price } = menuAndOptionDict[menu.id];
+    const { options, menuPrice } = menuAndOptionDict[menu.id];
     const totalPriceOfOptions = menu.options.reduce(
       (partialSum, optionId) => partialSum + options[optionId],
       0
     );
-    return price + totalPriceOfOptions;
+    return menuPrice + totalPriceOfOptions;
   }
 
   findOne(id: number) {

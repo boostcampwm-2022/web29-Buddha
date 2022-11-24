@@ -30,7 +30,7 @@ jobs:
         uses: docker/login-action@v2
         with:
           registry: ghcr.io
-          username: buddah
+          username: Gonnnnn
           password: ${{secrets.BUDDAH_REGISTRY_TOKEN}}
 
       - name: Build Docker Image And Push
@@ -41,5 +41,5 @@ jobs:
           # context 명시를 안해주면 이전 step에서 변경되던 사항들이 적용되지 않는다.
           context: 'packages/server'
           tags: |
-            ghcr.io/buddah/buddah-server:latest
-            ghcr.io/buddah/buddah-server:${{ github.sha }}
+            ghcr.io/Gonnnnn/buddah-server:latest
+            ghcr.io/Gonnnnn/buddah-server:${{ github.sha }}

@@ -1,0 +1,74 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`음료 용량 선택 컴포넌트 스냅샷 1`] = `
+<DocumentFragment>
+  <main
+    class="css-22d8cp"
+  >
+    <section
+      class="css-r3ushx"
+    >
+      <div
+        class="css-3gzric"
+        title="tall"
+      >
+        <svg
+          class="css-6nfhof"
+        >
+          size.svg
+        </svg>
+        <p
+          class="css-11aljab"
+        >
+          Tall
+        </p>
+        <p
+          class="css-11bhzdh"
+        >
+          355ml
+        </p>
+      </div>
+      <div
+        class="css-cf4wdu"
+        title="grande"
+      >
+        <svg
+          class="css-kp5503"
+        >
+          size.svg
+        </svg>
+        <p
+          class="css-11aljab"
+        >
+          Grande
+        </p>
+        <p
+          class="css-11bhzdh"
+        >
+          473ml
+        </p>
+      </div>
+      <div
+        class="css-cf4wdu"
+        title="venti"
+      >
+        <svg
+          class="css-1yh7szr"
+        >
+          size.svg
+        </svg>
+        <p
+          class="css-11aljab"
+        >
+          Venti
+        </p>
+        <p
+          class="css-11bhzdh"
+        >
+          591ml
+        </p>
+      </div>
+    </section>
+  </main>
+</DocumentFragment>
+`;

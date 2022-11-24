@@ -28,10 +28,15 @@ export class AuthController {
       req,
       naverSignInDto
     );
+
+    // console.log(process.env.DOMAIN);
     res.cookie('accessToken', accessToken, {
+      // domain: process.env.DOMAIN,
+      // path: '/',
       httpOnly: true,
     });
-    return;
+
+    return res.status(200).end();
   }
 
   // 회원가입

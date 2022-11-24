@@ -6,7 +6,7 @@ export class NaverOAuthService {
   constructor(private readonly httpService: HttpService) {}
 
   async getTokens(code: string, state: string) {
-    const redirectURI = encodeURI(process.env.CLIENT_URI);
+    const redirectURI = encodeURIComponent(process.env.CLIENT_URI);
 
     const clientId = process.env.CLIENT_ID;
     const clientSecret = process.env.CLIENT_SECRET;
@@ -22,13 +22,13 @@ export class NaverOAuthService {
       code +
       '&state=' +
       state;
+
     const apiRes = await this.httpService.axiosRef.get(api_url, {
       headers: {
         'X-Naver-Client-Id': clientId,
         'X-Naver-Client-Secret': clientSecret,
       },
     });
-    // 유효성 검사
 
     return apiRes.data;
   }
@@ -40,6 +40,7 @@ export class NaverOAuthService {
         Authorization: 'Bearer ' + access_token,
       },
     });
+
     return apiRes.data.response;
   }
 }

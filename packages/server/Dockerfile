@@ -1,15 +1,22 @@
-FROM node:18.12.1
+FROM node:18 AS builder
 
 WORKDIR /app
 
-COPY ./packages/server ./packages/server
 COPY package*.json ./
 
 RUN npm install
 
 COPY . .
 
-RUN npm run build -w server
+RUN npm run build
+
+
+FROM node:18-alpine
+
+WORKDIR /app
+
+COPY --from=builder /app ./
 
 EXPOSE 8080
-CMD ["npm", "run", "start:dev", "-w", "server"]
+
+CMD ["npm", "run", "start:dev-server"]

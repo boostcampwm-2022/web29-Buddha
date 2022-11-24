@@ -108,7 +108,7 @@ describe('회원가입 페이지', () => {
     expect(inputNickname.value).toBe('normal nickname3');
 
     fireEvent.click(screen.getByText('회원가입'));
-    await waitFor(() => screen.findByText('주문 내역 페이지'));
+    await screen.findByText('주문내역');
   });
 
   it('정상 입력 후 가입 버튼을 눌렀을 때 페이지 이동 (업주용)', async () => {
@@ -125,6 +125,6 @@ describe('회원가입 페이지', () => {
     expect(inputCorporate.value).toBe('123-456-7890');
 
     fireEvent.click(screen.getByText('회원가입'));
-    await waitFor(() => screen.findByText('주문 내역 페이지'));
+    await screen.findByText('주문내역');
   });
 });

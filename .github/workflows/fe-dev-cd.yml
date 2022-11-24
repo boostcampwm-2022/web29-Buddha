@@ -2,7 +2,7 @@ name: Frontend dev cd
 
 on:
   push:
-    branches: ['dev']
+    branches: ['dev', 'hotfix/be/fe-ci-cd']
     paths:
       - 'packages/client/**'
       - '.github/workflows/fe-dev-cd.yml'
@@ -31,11 +31,9 @@ jobs:
           FE_ENV: ${{ secrets.FE_ENV }}
         run: echo "$FE_ENV" > .env
 
-      - name: Ignore Warnings
+      - name: Build
         env:
           CI: false
-
-      - name: Build
         run: npm run build
 
       - name: Deploy to Remote Server

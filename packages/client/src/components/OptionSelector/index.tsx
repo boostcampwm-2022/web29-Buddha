@@ -36,7 +36,7 @@ function OptionItem({ option, onClick }: OptionItemProps) {
     <OptionItemContainer>
       <p>{option.name}</p>
       <div>
-        <p>{getPriceComma(option.price)} 원</p>
+        <p>+ {getPriceComma(option.price)} 원</p>
         <label>
           <input
             type="radio"

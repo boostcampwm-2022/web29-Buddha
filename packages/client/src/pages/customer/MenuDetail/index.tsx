@@ -16,7 +16,7 @@ import {
   Img,
   MenuInfoContainer,
 } from './styled';
-import { MenuInfo, Options, Size, Type } from 'types/MenuDetail';
+import { MenuInfo, Option, Options, Size, Type } from 'types/MenuDetail';
 import { getPriceComma } from 'utils/index';
 
 function MenuDetail() {
@@ -26,6 +26,7 @@ function MenuDetail() {
   const [type, setType] = useState<Type>('hot');
   const [size, setSize] = useState<Size>('tall');
   const [options, setOptions] = useState<Options>({});
+  const [singlePrice, setSinglePrice] = useState(0);
   const [totalPrice, setTotalPrice] = useState(0);
   const { menuId } = useParams();
   const navigate = useNavigate();
@@ -105,7 +106,6 @@ function MenuDetail() {
           return {
             ...cart,
             quantity: cart.quantity + quantity,
-            price: cart.price + totalPrice,
           };
         }
         return { ...cart };
@@ -119,10 +119,17 @@ function MenuDetail() {
           type,
           size,
           quantity,
-          price: totalPrice,
-          options: Object.keys(options).map((k) => {
-            return menu.options.find((o) => o.id === Number(options[k]));
-          }),
+          thumbnail: menu.thumbnail,
+          price: singlePrice,
+          options: Object.keys(options).reduce((prev: any, curr) => {
+            if (!options[curr]) {
+              return [...prev];
+            }
+            return [
+              ...prev,
+              menu.options.find((o) => o.id === Number(options[curr])),
+            ];
+          }, []),
         },
       ];
     }
@@ -197,6 +204,8 @@ function MenuDetail() {
       price += optionPrice;
     });
 
+    setSinglePrice(price);
+
     price *= quantity;
 
     setTotalPrice(price);
@@ -210,10 +219,7 @@ function MenuDetail() {
 
     return (
       <>
-        <Img
-          src="https://www.istarbucks.co.kr/upload/store/skuimg/2022/10/[9200000004312]_20221005145029134.jpg"
-          alt="음료"
-        />
+        <Img src={menu.thumbnail} alt="음료" />
         <MenuInfoContainer>
           <h2>{menu.name}</h2>
           <p className="description">{menu.description}</p>
@@ -248,7 +254,9 @@ function MenuDetail() {
             />
           )}
           <ButtonContainer>
-            <Button onClick={handleClickOrder}>장바구니 담기</Button>
+            <Button className="wd-80" onClick={handleClickOrder}>
+              장바구니 담기
+            </Button>
           </ButtonContainer>
         </>
       )}

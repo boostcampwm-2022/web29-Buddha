@@ -14,6 +14,7 @@ function LeftArrow({ color, top, left, width = 1, height = 1 }: Props) {
   const navigate = useNavigate();
 
   const handleClickBack = useCallback(() => {
+    // 뒤로가기, window.history.popState()
     navigate(-1);
   }, [navigate]);
 

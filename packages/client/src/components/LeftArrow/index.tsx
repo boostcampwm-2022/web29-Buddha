@@ -3,14 +3,14 @@ import { useNavigate } from 'react-router-dom';
 import { LeftArrowSVG } from './styled';
 
 export interface Props {
-  color: string;
+  color: 'primary' | 'secondary' | 'tertiary' | 'fourth' | string;
   top: number;
   left: number;
-  width: number;
-  height: number;
+  width?: number;
+  height?: number;
 }
 
-function LeftArrow({ color, top, left, width, height }: Props) {
+function LeftArrow({ color, top, left, width = 1, height = 1 }: Props) {
   const navigate = useNavigate();
 
   const handleClickBack = useCallback(() => {

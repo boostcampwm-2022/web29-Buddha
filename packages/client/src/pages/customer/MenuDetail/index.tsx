@@ -238,13 +238,7 @@ function MenuDetail() {
         <p>데이터 조회 오류</p>
       ) : (
         <>
-          <LeftArrow
-            color="primary"
-            top={1}
-            left={1}
-            width={1.2}
-            height={1.2}
-          />
+          <LeftArrow color="primary" top={1} left={1} />
           {MenuInfo}
           <TypeSelector type={type} onClick={handleClickType} />
           <SizeSelector size={size} onClick={handleClickSize} />

@@ -6,10 +6,10 @@ import { Props } from '.';
 
 export const LeftArrowSVG = styled(SVG)<Props>`
   position: absolute;
-  top: ${({ top }) => `${top}rem`};
-  left: ${({ left }) => `${left}rem`};
-  width: ${({ width }) => `${width}rem`};
-  height: ${({ height }) => `${height}rem`};
+  top: ${({ top }) => top}rem;
+  left: ${({ left }) => left}rem;
+  width: ${({ width }) => width}rem;
+  height: ${({ height }) => height}rem;
   color: ${(props) => props.theme.colors.grey600};
 
   & path {

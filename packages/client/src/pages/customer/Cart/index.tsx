@@ -5,7 +5,6 @@ import {
   CartPageWrapper,
   CartHeader,
   CartContentWrapper,
-  LeftArrow,
   FixedHeader,
 } from './styled';
 import { CartMenu } from 'types/Cart';
@@ -13,6 +12,7 @@ import CartItem from '@/pages/customer/Cart/components/CartItem';
 import { CART_KEY } from '@/constants';
 import EmptyCart from '@/pages/customer/Cart/components/EmptyCart';
 import { useNavigate } from 'react-router-dom';
+import LeftArrow from '@/components/LeftArrow';
 
 function Cart() {
   const [cart, setCart] = useState<CartMenu[]>(getCart());
@@ -45,7 +45,7 @@ function Cart() {
   return (
     <CartPageWrapper>
       <FixedHeader>
-        <LeftArrow onClick={handleClickBack} />
+        <LeftArrow color="white" left={0.5} top={0.5} />
       </FixedHeader>
       <CartHeader>
         <p className={'title'}>장바구니</p>

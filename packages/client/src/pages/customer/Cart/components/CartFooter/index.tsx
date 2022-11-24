@@ -3,7 +3,9 @@ import { CartFooterWrapper, CartFooterInfoWrapper } from './styled';
 import { getPriceComma } from 'utils/index';
 import { getCart } from 'utils/localStorage';
 import { CartMenu } from '@/types/Cart';
+import { CART_KEY } from '@/constants';
 import axios from 'axios';
+import { useNavigate } from 'react-router-dom';
 
 interface CartFooterProps {
   count: number;
@@ -11,6 +13,7 @@ interface CartFooterProps {
 }
 
 function CartFooter({ count, price }: CartFooterProps) {
+  const navigate = useNavigate();
   const api = process.env.REACT_APP_API_SERVER_BASE_URL;
   const cafeId = 1;
 
@@ -32,6 +35,9 @@ function CartFooter({ count, price }: CartFooterProps) {
         { cafeId, menus },
         { withCredentials: true }
       );
+      window.localStorage.removeItem(CART_KEY);
+      alert('주문 완료');
+      navigate('/home');
     } catch (err) {
       console.log(err);
     }

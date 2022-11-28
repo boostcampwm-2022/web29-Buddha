@@ -18,6 +18,7 @@ import { Request } from 'express';
 import { JwtPayload } from 'src/auth/interfaces/jwtPayload';
 import { CreateOrderDto } from './dto/create-order.dto';
 import { OrdersResDto } from './dto/ordersRes.dto';
+import { ORDER_STATUS } from './enum/orderStatus.enum';
 
 @Controller()
 export class OrderController {
@@ -38,7 +39,10 @@ export class OrderController {
   async getOrderStatus(@Req() req: Request, @Param('id') orderId: string) {
     const user = req.user as JwtPayload;
     const userId = user.id;
-    const status = await this.orderService.findOne(userId, +orderId);
+    const status: ORDER_STATUS = await this.orderService.findOne(
+      userId,
+      +orderId
+    );
     return { order_status: status };
   }
 

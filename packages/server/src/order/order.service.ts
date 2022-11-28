@@ -154,7 +154,7 @@ export class OrderService {
     return menuPrice + totalPriceOfOptions;
   }
 
-  async findOne(userId: number, orderId: number) {
+  async findOne(userId: number, orderId: number): Promise<ORDER_STATUS> {
     const order = await this.orderRepository.findOne({
       where: {
         id: orderId,

@@ -7,6 +7,7 @@ import { User } from 'src/user/entities/user.entity';
 import { Repository } from 'typeorm';
 import { CreateOrderDto } from './dto/create-order.dto';
 import { OrderMenuDto } from './dto/orderMenu.dto';
+import { OrdersResDto } from './dto/ordersRes.dto';
 import { UpdateOrderDto } from './dto/update-order.dto';
 import { Order } from './entities/order.entity';
 import { OrderMenu } from './entities/orderMenu.entity';
@@ -147,6 +148,24 @@ export class OrderService {
       0
     );
     return menuPrice + totalPriceOfOptions;
+  }
+
+  async getRequestedOrders(): Promise<OrdersResDto> {
+    const cafe = new Cafe();
+    cafe.id = 1;
+
+    const orders: Order[] = await this.orderRepository.find({
+      relations: {
+        cafe: true,
+        orderMenus: { menu: true },
+      },
+      where: {
+        status: ORDER_STATUS.REQUESTED,
+        cafe: cafe,
+      },
+    });
+
+    return new OrdersResDto(orders);
   }
 
   findOne(id: number) {

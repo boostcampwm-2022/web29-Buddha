@@ -1,3 +1,4 @@
+import { OrderResDto } from './dto/orderRes.dto';
 import {
   Controller,
   Get,
@@ -22,6 +23,13 @@ import { OrdersResDto } from './dto/ordersRes.dto';
 @Controller()
 export class OrderController {
   constructor(private readonly orderService: OrderService) {}
+
+  @Get('/requested')
+  @UseGuards(JwtGuard)
+  @UseInterceptors(ClassSerializerInterceptor)
+  async getRequestedOrders(): Promise<OrdersResDto> {
+    return await this.orderService.getRequestedOrders();
+  }
 
   @UseGuards(JwtGuard)
   @Get()

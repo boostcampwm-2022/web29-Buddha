@@ -11,6 +11,7 @@ import {
   ValidationPipe,
   UsePipes,
   HttpCode,
+  ParseIntPipe,
 } from '@nestjs/common';
 import { OrderService } from './order.service';
 import { JwtGuard } from 'src/auth/guard/jwt.guard';
@@ -18,6 +19,7 @@ import { Request } from 'express';
 import { JwtPayload } from 'src/auth/interfaces/jwtPayload';
 import { CreateOrderDto } from './dto/create-order.dto';
 import { OrdersResDto } from './dto/ordersRes.dto';
+import { ORDER_STATUS } from './enum/orderStatus.enum';
 
 @Controller()
 export class OrderController {
@@ -33,9 +35,19 @@ export class OrderController {
     return new OrdersResDto(orders);
   }
 
+  @UseGuards(JwtGuard)
   @Get(':id')
-  getOrderStatus(@Param('id') id: string) {
-    return this.orderService.findOne(+id);
+  async getOrderStatus(
+    @Req() req: Request,
+    @Param('id', ParseIntPipe) orderId: number
+  ) {
+    const user = req.user as JwtPayload;
+    const userId = user.id;
+    const status: ORDER_STATUS = await this.orderService.findOne(
+      userId,
+      orderId
+    );
+    return { order_status: status };
   }
 
   @Post()

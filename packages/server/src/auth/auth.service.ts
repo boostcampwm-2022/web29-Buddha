@@ -76,8 +76,8 @@ export class AuthService {
     return { name, email };
   }
 
-  private setJwt(id: number, userType: USER_ROLE) {
-    const payload: JwtPayload = { id, userType };
+  private setJwt(id: number, userRole: USER_ROLE) {
+    const payload: JwtPayload = { id, userRole };
     const accessToken = this.jwtService.sign(payload);
     return { accessToken };
   }

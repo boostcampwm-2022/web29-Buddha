@@ -186,6 +186,24 @@ export class OrderService {
     return new OrdersResDto(orders);
   }
 
+  async getCompletedOrders(): Promise<OrdersResDto> {
+    const cafe = new Cafe();
+    cafe.id = 1;
+
+    const orders: Order[] = await this.orderRepository.find({
+      relations: {
+        cafe: true,
+        orderMenus: { menu: true },
+      },
+      where: {
+        status: ORDER_STATUS.COMPLETED,
+        cafe: cafe,
+      },
+    });
+
+    return new OrdersResDto(orders);
+  }
+
   findOne(id: number) {
     return `This action returns a #${id} order`;
   }

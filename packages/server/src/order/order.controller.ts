@@ -38,6 +38,13 @@ export class OrderController {
     return await this.orderService.getAcceptedOrders();
   }
 
+  @Get('/completed')
+  @UseGuards(JwtGuard)
+  @UseInterceptors(ClassSerializerInterceptor)
+  async getCompletedOrders(): Promise<OrdersResDto> {
+    return await this.orderService.getCompletedOrders();
+  }
+
   @UseGuards(JwtGuard)
   @Get()
   @UseInterceptors(ClassSerializerInterceptor)

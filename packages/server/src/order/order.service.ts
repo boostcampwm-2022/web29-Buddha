@@ -39,7 +39,8 @@ export class OrderService {
   async create(userId, createOrderDto: CreateOrderDto) {
     const { menus, cafeId } = createOrderDto;
 
-    // 가능한 option들이 들어왔는지를 검증해야한다.
+    // menuAndOptionDict를 만들기 위한 과정. 옵션 가격, 이름, 메뉴 가격, 이름을 모두 가져온다.
+    const menuEntityObjs: Menu[] = createOrderDto.createMenuEntityObjs();
 
     // menu별로 매핑된 option을 가져와야한다.
     // menu가격, option 가격을 가져와야한다.

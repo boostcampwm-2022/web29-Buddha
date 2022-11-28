@@ -33,9 +33,13 @@ export class OrderController {
     return new OrdersResDto(orders);
   }
 
+  @UseGuards(JwtGuard)
   @Get(':id')
-  getOrderStatus(@Param('id') id: string) {
-    return this.orderService.findOne(+id);
+  async getOrderStatus(@Req() req: Request, @Param('id') orderId: string) {
+    const user = req.user as JwtPayload;
+    const userId = user.id;
+    const status = await this.orderService.findOne(userId, +orderId);
+    return { order_status: status };
   }
 
   @Post()

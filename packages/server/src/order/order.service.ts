@@ -1,4 +1,9 @@
-import { BadRequestException, Injectable } from '@nestjs/common';
+import {
+  BadRequestException,
+  HttpStatus,
+  Injectable,
+  UnauthorizedException,
+} from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Cafe } from 'src/cafe/entities/cafe.entity';
 import { Menu } from 'src/cafe/entities/menu.entity';
@@ -149,8 +154,25 @@ export class OrderService {
     return menuPrice + totalPriceOfOptions;
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} order`;
+  async findOne(userId: number, orderId: number) {
+    const order = await this.orderRepository.findOne({
+      where: {
+        id: orderId,
+      },
+      relations: {
+        user: true,
+      },
+    });
+    if (order === null) {
+      throw new BadRequestException('해당 주문을 찾을 수 없습니다.');
+    }
+    console.log(order);
+    if (order.user.id !== userId) {
+      throw new UnauthorizedException(
+        '해당 주문의 상태 조회에 대한 접근 권한이 없습니다.'
+      );
+    }
+    return order.status;
   }
 
   update(id: number, updateOrderDto: UpdateOrderDto) {

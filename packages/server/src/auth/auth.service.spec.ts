@@ -4,7 +4,7 @@ import { JwtModule, JwtService } from '@nestjs/jwt';
 import { Test, TestingModule } from '@nestjs/testing';
 import { Request } from 'express';
 import { User } from 'src/user/entities/user.entity';
-import { USER_TYPE } from 'src/user/enum/userType.enum';
+import { USER_TYPE } from 'src/user/enum/userRole.enum';
 import { UserService } from 'src/user/user.service';
 import { AuthService } from './auth.service';
 import { NaverSignInDto } from './dto/naver-singIn.dto';

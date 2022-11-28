@@ -31,6 +31,13 @@ export class OrderController {
     return await this.orderService.getRequestedOrders();
   }
 
+  @Get('/accepted')
+  @UseGuards(JwtGuard)
+  @UseInterceptors(ClassSerializerInterceptor)
+  async getAcceptedOrders(): Promise<OrdersResDto> {
+    return await this.orderService.getAcceptedOrders();
+  }
+
   @UseGuards(JwtGuard)
   @Get()
   @UseInterceptors(ClassSerializerInterceptor)

@@ -1,3 +1,4 @@
+import { UpdateOrderReqDto } from './dto/updateOrderReq.dto';
 import { OrderResDto } from './dto/orderRes.dto';
 import {
   Controller,
@@ -43,6 +44,15 @@ export class OrderController {
   @UseInterceptors(ClassSerializerInterceptor)
   async getCompletedOrders(): Promise<OrdersResDto> {
     return await this.orderService.getCompletedOrders();
+  }
+
+  @Post('/accepted')
+  @UseGuards(JwtGuard)
+  @UseInterceptors(ClassSerializerInterceptor)
+  async acceptOrder(@Body() updateOrderReqDto: UpdateOrderReqDto) {
+    return await this.orderService.updateOrderStatusToAccepted(
+      updateOrderReqDto
+    );
   }
 
   @UseGuards(JwtGuard)

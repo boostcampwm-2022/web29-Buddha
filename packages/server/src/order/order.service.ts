@@ -9,6 +9,7 @@ import { CreateOrderDto } from './dto/create-order.dto';
 import { OrderMenuDto } from './dto/orderMenu.dto';
 import { OrdersResDto } from './dto/ordersRes.dto';
 import { UpdateOrderDto } from './dto/update-order.dto';
+import { UpdateOrderReqDto } from './dto/updateOrderReq.dto';
 import { Order } from './entities/order.entity';
 import { OrderMenu } from './entities/orderMenu.entity';
 import { ORDER_STATUS } from './enum/orderStatus.enum';
@@ -202,6 +203,25 @@ export class OrderService {
     });
 
     return new OrdersResDto(orders);
+  }
+
+  async updateOrderStatusToAccepted(
+    updateOrderReqDto: UpdateOrderReqDto
+  ): Promise<void> {
+    const order = await this.orderRepository.findOne({
+      where: {
+        id: updateOrderReqDto.id,
+      },
+    });
+
+    if (order.status !== ORDER_STATUS.REQUESTED) {
+      throw new BadRequestException(
+        '요청 상태가 아닌 주문을 수락할 수 없습니다.'
+      );
+    }
+
+    order.status = updateOrderReqDto.newStatus;
+    this.orderRepository.save(order);
   }
 
   findOne(id: number) {

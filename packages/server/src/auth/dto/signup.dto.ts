@@ -1,7 +1,7 @@
-import { USER_TYPE } from '../../user/enum/userType.enum';
+import { USER_ROLE } from '../../user/enum/userRole.enum';
 
 export class SignUpDto {
-  readonly userType: USER_TYPE;
+  readonly userType: USER_ROLE;
   readonly nickname: string;
   readonly corporate: string;
 }

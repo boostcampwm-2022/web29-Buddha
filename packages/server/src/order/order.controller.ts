@@ -11,6 +11,7 @@ import {
   ValidationPipe,
   UsePipes,
   HttpCode,
+  ParseIntPipe,
 } from '@nestjs/common';
 import { OrderService } from './order.service';
 import { JwtGuard } from 'src/auth/guard/jwt.guard';
@@ -36,12 +37,15 @@ export class OrderController {
 
   @UseGuards(JwtGuard)
   @Get(':id')
-  async getOrderStatus(@Req() req: Request, @Param('id') orderId: string) {
+  async getOrderStatus(
+    @Req() req: Request,
+    @Param('id', ParseIntPipe) orderId: number
+  ) {
     const user = req.user as JwtPayload;
     const userId = user.id;
     const status: ORDER_STATUS = await this.orderService.findOne(
       userId,
-      +orderId
+      orderId
     );
     return { order_status: status };
   }

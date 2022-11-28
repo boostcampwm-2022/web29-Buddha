@@ -7,11 +7,14 @@ import {
   Query,
   Req,
   Res,
+  UseGuards,
 } from '@nestjs/common';
 import { SignUpDto } from '../auth/dto/signup.dto';
 import { NaverSignInDto } from '../auth/dto/naver-singIn.dto';
 import { Request, Response } from 'express';
 import { AuthService } from './auth.service';
+import { JwtGuard } from './guard/jwt.guard';
+import { JwtPayload } from './interfaces/jwtPayload';
 
 @Controller()
 export class AuthController {
@@ -48,8 +51,9 @@ export class AuthController {
 
   // 유저 권한 확인
   @Get()
-  async checkUser() {
-    const jwt = 'jwt';
-    return jwt;
+  @UseGuards(JwtGuard)
+  async checkUserType(@Req() req: Request) {
+    const { userType } = req.user as JwtPayload;
+    return { userType };
   }
 }

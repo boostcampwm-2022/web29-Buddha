@@ -1,6 +1,6 @@
 import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import { Request } from 'express';
-import { USER_TYPE } from 'src/user/enum/userType.enum';
+import { USER_ROLE } from 'src/user/enum/userRole.enum';
 import { JwtPayload } from './interfaces/jwtPayload';
 import { NaverSignInDto } from './dto/naver-singIn.dto';
 import { User } from 'src/user/entities/user.entity';
@@ -23,7 +23,7 @@ export class AuthService {
     const user: User | null = await this.userService.findOneByEmail(email);
 
     if (user) {
-      const userType: USER_TYPE = user.role;
+      const userType: USER_ROLE = user.role;
       const tokens = this.setJwt(user.id, userType);
       return tokens;
     } else {
@@ -37,7 +37,7 @@ export class AuthService {
     const { userType } = signUpDto;
 
     let user;
-    if (userType == USER_TYPE.CLIENT) {
+    if (userType == USER_ROLE.CLIENT) {
       user = User.createClient({ ...userInfoFromSession, ...signUpDto });
     } else {
       user = User.createManager({ ...userInfoFromSession, ...signUpDto });
@@ -76,7 +76,7 @@ export class AuthService {
     return { name, email };
   }
 
-  private setJwt(id: number, userType: USER_TYPE) {
+  private setJwt(id: number, userType: USER_ROLE) {
     const payload: JwtPayload = { id, userType };
     const accessToken = this.jwtService.sign(payload);
     return { accessToken };

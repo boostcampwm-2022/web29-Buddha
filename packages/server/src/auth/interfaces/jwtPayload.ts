@@ -1,6 +1,6 @@
-import { USER_TYPE } from 'src/user/enum/userType.enum';
+import { USER_ROLE } from 'src/user/enum/userRole.enum';
 
 export interface JwtPayload {
   id: number;
-  userType: USER_TYPE;
+  userType: USER_ROLE;
 }

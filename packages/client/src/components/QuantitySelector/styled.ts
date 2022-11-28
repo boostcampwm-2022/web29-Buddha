@@ -2,7 +2,12 @@ import styled from '@emotion/styled';
 
 import { ReactComponent as MinusSVG } from 'icons/minus.svg';
 import { ReactComponent as PlusSVG } from 'icons/plus.svg';
-import { Props } from '.';
+
+interface Props {
+  quantity: number;
+  width: number;
+  height: number;
+}
 
 export const Container = styled.div`
   display: flex;
@@ -12,8 +17,8 @@ export const Container = styled.div`
 `;
 
 export const Minus = styled(MinusSVG)<Props>`
-  width: ${({ svgWidth }) => svgWidth}rem;
-  height: ${({ svgHeight }) => svgHeight}rem;
+  width: ${({ width }) => width}rem;
+  height: ${({ height }) => height}rem;
 
   & > path {
     fill: ${({ quantity, theme }) =>
@@ -22,8 +27,8 @@ export const Minus = styled(MinusSVG)<Props>`
 `;
 
 export const Plus = styled(PlusSVG)<Props>`
-  width: ${({ svgWidth }) => svgWidth}rem;
-  height: ${({ svgHeight }) => svgHeight}rem;
+  width: ${({ width }) => width}rem;
+  height: ${({ height }) => height}rem;
 
   & path {
     fill: ${({ quantity, theme }) =>

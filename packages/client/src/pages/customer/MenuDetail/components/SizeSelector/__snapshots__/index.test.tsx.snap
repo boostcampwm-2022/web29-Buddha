@@ -9,14 +9,16 @@ exports[`음료 용량 선택 컴포넌트 스냅샷 1`] = `
       class="css-r3ushx"
     >
       <div
-        class="css-ev3gks"
+        class="css-3gzric"
         title="tall"
       >
-        <p>
-          icon
-        </p>
+        <svg
+          class="css-6nfhof"
+        >
+          size.svg
+        </svg>
         <p
-          class="css-ktof6v"
+          class="css-11aljab"
         >
           Tall
         </p>
@@ -27,14 +29,16 @@ exports[`음료 용량 선택 컴포넌트 스냅샷 1`] = `
         </p>
       </div>
       <div
-        class="css-1c2d3af"
+        class="css-cf4wdu"
         title="grande"
       >
-        <p>
-          icon
-        </p>
+        <svg
+          class="css-kp5503"
+        >
+          size.svg
+        </svg>
         <p
-          class="css-ktof6v"
+          class="css-11aljab"
         >
           Grande
         </p>
@@ -45,14 +49,16 @@ exports[`음료 용량 선택 컴포넌트 스냅샷 1`] = `
         </p>
       </div>
       <div
-        class="css-1c2d3af"
+        class="css-cf4wdu"
         title="venti"
       >
-        <p>
-          icon
-        </p>
+        <svg
+          class="css-1yh7szr"
+        >
+          size.svg
+        </svg>
         <p
-          class="css-ktof6v"
+          class="css-11aljab"
         >
           Venti
         </p>

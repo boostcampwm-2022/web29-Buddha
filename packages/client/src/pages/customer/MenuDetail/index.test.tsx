@@ -31,7 +31,7 @@ describe('메뉴 상세 조회 페이지', () => {
     await screen.findByText(/HOT/);
     await screen.findByText(/Tall/);
     await screen.findByText(/퍼스널 옵션/);
-    await screen.findByText(/주문하기/);
+    await screen.findByText(/장바구니 담기/);
   });
 
   it('조회 실패', async () => {

@@ -6,7 +6,6 @@ import Layout from '@/Layout';
 import { server } from '@/mocks/server';
 import { PLACEHOLDER } from '@/constants';
 
-
 beforeAll(() => server.listen());
 beforeEach(() => server.resetHandlers());
 afterAll(() => server.close());
@@ -87,7 +86,7 @@ describe('로그인 페이지', () => {
     });
 
     await waitFor(() => {
-      screen.getByText(/주문 내역/i);
+      screen.getByText(/주문내역/i);
     });
   });
 

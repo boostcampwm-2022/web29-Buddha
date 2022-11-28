@@ -1,9 +1,10 @@
+import { TimestampableEntity } from 'src/common/entities/common.entity';
 import { Order } from 'src/order/entities/order.entity';
 import { Column, Entity, OneToMany, PrimaryGeneratedColumn } from 'typeorm';
 import { USER_TYPE } from '../enum/userType.enum';
 
 @Entity()
-export class User {
+export class User extends TimestampableEntity {
   @PrimaryGeneratedColumn()
   id: number;
 
@@ -16,7 +17,11 @@ export class User {
   @Column()
   nickname: string;
 
-  @Column()
+  @Column({
+    type: 'enum',
+    enum: USER_TYPE,
+    default: USER_TYPE.CLIENT,
+  })
   role: USER_TYPE;
 
   @Column({ nullable: true })

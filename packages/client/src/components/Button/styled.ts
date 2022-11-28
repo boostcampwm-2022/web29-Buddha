@@ -10,15 +10,15 @@ export const CustomButton = styled.button`
   border: none;
   border-radius: 50px;
 
-  &.wd-80{
+  &.wd-80 {
     width: 80%;
   }
 
-  &.wd-fit{
+  &.wd-fit {
     width: fit-content;
   }
 
-  &.disabled{
+  &.disabled {
     background-color: ${(props) => props.theme.colors.grey200};
   }
 `;

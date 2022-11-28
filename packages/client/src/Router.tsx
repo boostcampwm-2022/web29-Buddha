@@ -3,16 +3,17 @@ import { Route, Routes } from 'react-router-dom';
 import Signup from 'pages/Signup';
 import Signin from 'pages/Signin';
 import OrderList from 'pages/customer/OrderList';
-import MenuList from '@/pages/customer/MenuList';
+import MenuList from 'pages/customer/MenuList';
 import MenuDetail from 'pages/customer/MenuDetail';
 import Cart from 'pages/customer/Cart';
+import MyPage from 'pages/MyPage';
 
 function Router() {
   return (
     <Routes>
       <Route path={'/'} element={<Signin />}></Route> {/* 로그인 */}
       <Route path={'/signup'} element={<Signup />}></Route> {/* 회원가입 */}
-      <Route path={'/mypage'} element={<></>}></Route> {/* 마이페이지 */}
+      <Route path={'/mypage'} element={<MyPage />}></Route> {/* 마이페이지 */}
       <Route path={'/home'} element={<OrderList />}></Route> {/* 고객 메인 */}
       <Route path={'/menu'} element={<MenuList />}></Route>{' '}
       {/* 고객 메뉴 목록 */}

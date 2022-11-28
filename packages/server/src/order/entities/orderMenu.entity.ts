@@ -1,4 +1,7 @@
 import { Menu } from 'src/cafe/entities/menu.entity';
+import { MENU_SIZE } from 'src/cafe/enum/menuSize.enum';
+import { MENU_TYPE } from 'src/cafe/enum/menuType.enum';
+import { TimestampableEntity } from 'src/common/entities/common.entity';
 import {
   Column,
   Entity,
@@ -8,12 +11,29 @@ import {
 } from 'typeorm';
 import { Order } from './order.entity';
 @Entity()
-export class OrderMenu {
+export class OrderMenu extends TimestampableEntity {
   @PrimaryGeneratedColumn()
   id: number;
 
   @Column({ type: 'varchar', length: '500' })
   options: string;
+
+  @Column({
+    type: 'enum',
+    enum: MENU_SIZE,
+    default: MENU_SIZE.TALL,
+  })
+  size: MENU_SIZE;
+
+  @Column({
+    type: 'enum',
+    enum: MENU_TYPE,
+    default: MENU_TYPE.ICED,
+  })
+  type: MENU_TYPE;
+
+  @Column()
+  count: number;
 
   // total price
   @Column()
@@ -22,6 +42,6 @@ export class OrderMenu {
   @ManyToOne(() => Order, (order) => order.orderMenus)
   order: Order;
 
-  @OneToOne(() => Menu)
+  @ManyToOne(() => Menu, (menu) => menu.orderMenus)
   menu: Menu;
 }

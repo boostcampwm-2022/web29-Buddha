@@ -4,12 +4,12 @@ import { MenuDto } from './MenuRes.dto';
 
 export class CafeMenuResDto {
   @Exclude() private readonly _id: number;
-  @Exclude() readonly _cafe_name: string;
+  @Exclude() readonly _name: string;
   @Exclude() readonly _menus: MenuDto[];
 
   constructor(cafe: Cafe) {
     this._id = cafe.id;
-    this._cafe_name = cafe.name;
+    this._name = cafe.name;
     this._menus = cafe.cafeMenus.map((cafeMenu) => MenuDto.from(cafeMenu.menu));
   }
 
@@ -19,8 +19,8 @@ export class CafeMenuResDto {
   }
 
   @Expose()
-  get cafe_name(): string {
-    return this._cafe_name;
+  get name(): string {
+    return this._name;
   }
 
   @Expose()

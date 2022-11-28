@@ -113,7 +113,7 @@ export class OrderService {
     return;
   }
 
-  private _getMenuPriceAndItsOptions(menuOptionObjs: MenuOption[]) {
+  private async getMenuOptionEntityObjs(menuEntityObjs): Promise<MenuOption[]> {
     const menuOptionDict = {};
     menuOptionObjs.map((menuOptionObj) => {
       const menu = menuOptionObj.menu;
@@ -129,7 +129,7 @@ export class OrderService {
     return menuOptionDict;
   }
 
-  private async _filterPossibleOptions(menu: OrderMenuDto, menuOptionDict) {
+  private filterPossibleOptions(menu: OrderMenuDto, menuOptionDict) {
     const { options } = menu;
     const menuId = menu.id;
 
@@ -140,7 +140,7 @@ export class OrderService {
     return filteredOptions;
   }
 
-  private _getTotalPrice(menu, menuAndOptionDict) {
+  private getTotalPrice(menu, menuAndOptionDict) {
     const { options, menuPrice } = menuAndOptionDict[menu.id];
     const totalPriceOfOptions = menu.options.reduce(
       (partialSum, optionId) => partialSum + options[optionId],

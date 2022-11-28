@@ -64,6 +64,15 @@ export class OrderController {
     );
   }
 
+  @Post('/completed')
+  @UseGuards(JwtGuard)
+  @UseInterceptors(ClassSerializerInterceptor)
+  async completeOrder(@Body() updateOrderReqDto: UpdateOrderReqDto) {
+    return await this.orderService.updateOrderStatusToCompleted(
+      updateOrderReqDto
+    );
+  }
+
   @UseGuards(JwtGuard)
   @Get()
   @UseInterceptors(ClassSerializerInterceptor)

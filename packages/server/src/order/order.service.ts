@@ -224,6 +224,25 @@ export class OrderService {
     this.orderRepository.save(order);
   }
 
+  async updateOrderStatusToRejected(
+    updateOrderReqDto: UpdateOrderReqDto
+  ): Promise<void> {
+    const order = await this.orderRepository.findOne({
+      where: {
+        id: updateOrderReqDto.id,
+      },
+    });
+
+    if (order.status !== ORDER_STATUS.REQUESTED) {
+      throw new BadRequestException(
+        '요청 상태가 아닌 주문을 거절할 수 없습니다.'
+      );
+    }
+
+    order.status = updateOrderReqDto.newStatus;
+    this.orderRepository.save(order);
+  }
+
   findOne(id: number) {
     return `This action returns a #${id} order`;
   }

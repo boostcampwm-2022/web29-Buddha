@@ -55,6 +55,15 @@ export class OrderController {
     );
   }
 
+  @Post('/rejected')
+  @UseGuards(JwtGuard)
+  @UseInterceptors(ClassSerializerInterceptor)
+  async rejectOrder(@Body() updateOrderReqDto: UpdateOrderReqDto) {
+    return await this.orderService.updateOrderStatusToRejected(
+      updateOrderReqDto
+    );
+  }
+
   @UseGuards(JwtGuard)
   @Get()
   @UseInterceptors(ClassSerializerInterceptor)

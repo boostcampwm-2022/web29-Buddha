@@ -3,6 +3,7 @@ export interface Menu {
   name: string;
   thumbnail: string;
   price: number;
+  category: string;
 }
 
 export interface CafeMenu {

@@ -13,7 +13,7 @@ function Home() {
 
   return (
     <Container>
-      <Header title="주문내역" />
+      <Header title={userRole === 'CLIENT' ? '주문내역' : '주문 요청 내역'} />
       {userRole === 'CLIENT' ? <OrderList /> : <RequestList />}
       <Footer />
     </Container>

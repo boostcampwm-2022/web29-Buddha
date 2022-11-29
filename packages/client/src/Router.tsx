@@ -7,6 +7,7 @@ import MenuDetail from 'pages/customer/MenuDetail';
 import Cart from 'pages/customer/Cart';
 import MyPage from 'pages/MyPage';
 import Home from './pages/Home';
+import AcceptList from './pages/manager/AcceptList';
 
 function Router() {
   return (
@@ -20,6 +21,7 @@ function Router() {
       <Route path={'/menu/:menuId'} element={<MenuDetail />}></Route>{' '}
       {/* 고객 메뉴 상세 */}
       <Route path={'/cart'} element={<Cart />}></Route> {/* 고객 장바구니 */}
+      <Route path={'/manager/accept'} element={<AcceptList />}></Route>
       <Route path={'*'} element={<></>}></Route> {/* 에러 (404) */}
     </Routes>
   );

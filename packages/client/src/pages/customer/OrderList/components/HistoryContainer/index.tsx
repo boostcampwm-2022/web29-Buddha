@@ -1,9 +1,8 @@
 import { useEffect, useMemo, useState } from 'react';
 import axios from 'axios';
 
-import HistoryByDate from '@/pages/customer/OrderList/components/HistoryByDate';
+import HistoryByDate from 'components/HistoryByDate';
 
-import { orderListData } from '@/mocks/data/order';
 import { History } from 'types/OrderList';
 import { Container } from './styled';
 
@@ -18,14 +17,13 @@ function HistoryContainer() {
     const getHistory = async () => {
       try {
         const res = await axios.get(`${api}/order`, { withCredentials: true });
-        setHistory(res.data);
+        setHistory(res.data.orders);
       } catch (err) {
         alert('데이터 조회에 문제가 발생했습니다.');
       }
     };
 
-    setHistory([...orderListData]);
-    // getHistoryList();
+    getHistory();
   }, [api]);
 
   /**
@@ -35,7 +33,7 @@ function HistoryContainer() {
     if (!history) return {};
 
     return history.reduce((prev: { [key: string]: History[] }, curr) => {
-      const date = curr.date;
+      const { date } = curr;
 
       if (!prev[date]) return { ...prev, [date]: [{ ...curr }] };
       else return { ...prev, [date]: [...prev[date], { ...curr }] };
@@ -43,18 +41,13 @@ function HistoryContainer() {
   }, [history]);
 
   /**
-   * 주문 내역의 날짜들 리스트
-   */
-  const dates = useMemo(() => Object.keys(historyByDate), [historyByDate]);
-
-  /**
    * 날짜별 내역 컨터이너들 생성
    */
   const HistoryByDateContainers = useMemo(() => {
-    return dates.map((date) => (
+    return Object.keys(historyByDate).map((date) => (
       <HistoryByDate date={date} history={historyByDate[date]} key={date} />
     ));
-  }, [dates, historyByDate]);
+  }, [historyByDate]);
 
   return <Container>{HistoryByDateContainers}</Container>;
 }

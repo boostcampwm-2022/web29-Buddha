@@ -78,7 +78,7 @@ describe('AuthService', () => {
         name: 'gon',
         email: 'gon@naver.com',
         nickname: 'nickname',
-        userType: USER_ROLE.CLIENT,
+        userRole: USER_ROLE.CLIENT,
       });
       const userId = 1;
       user.id = userId;
@@ -104,7 +104,7 @@ describe('AuthService', () => {
       name: 'gon',
       email: 'gon@naver.com',
       nickname: 'nickname',
-      userType: USER_ROLE.MANAGER,
+      userRole: USER_ROLE.MANAGER,
       corporate: '12345678910',
     });
     const userId = 2;

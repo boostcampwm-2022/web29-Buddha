@@ -1,16 +1,17 @@
-import { getPriceComma } from '@/utils';
 import { useMemo } from 'react';
-import { HistoryMenu } from 'types/OrderList';
+
+import { OrderDetailMenu } from '@/types';
+import { getPriceComma } from '@/utils';
 import { Container, DivisionLine, ItemContainer, PriceText } from './styled';
 
 interface Props {
   date: string;
-  menus: HistoryMenu[];
+  menus: OrderDetailMenu[];
 }
 
 interface ItemProps {
   date: string;
-  menu: any;
+  menu: OrderDetailMenu;
 }
 
 function OrderDetailItem({ date, menu }: ItemProps) {

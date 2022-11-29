@@ -2,7 +2,7 @@ import axios, { AxiosError } from 'axios';
 import { useCallback } from 'react';
 import { useNavigate, useSearchParams } from 'react-router-dom';
 
-import { chkUser } from 'types/Signin';
+import { ChkUser } from '@/types';
 import { Container, Logo, NaverOAuth } from './styled';
 
 function Signin() {
@@ -31,7 +31,7 @@ function Signin() {
    * @params { code, state }: OAuth 리다이렉트 응답 받은 쿼리
    */
   const chkUser = useCallback(
-    async ({ code, state }: chkUser) => {
+    async ({ code, state }: ChkUser) => {
       window.history.replaceState(null, '', '/');
 
       try {

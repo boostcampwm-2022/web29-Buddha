@@ -15,7 +15,7 @@ import {
   Img,
   MenuInfoContainer,
 } from './styled';
-import { MenuInfo, Options, Size, Type } from 'types/MenuDetail';
+import { MenuInfo, Options, Size, Temperature } from '@/types';
 import { getPriceComma } from 'utils/index';
 import LeftArrow from '@/components/LeftArrow';
 
@@ -23,7 +23,7 @@ function MenuDetail() {
   const api = process.env.REACT_APP_API_SERVER_BASE_URL;
   const [menu, setMenu] = useState<MenuInfo | null | undefined>(null);
   const [quantity, setQuantity] = useState(1);
-  const [type, setType] = useState<Type>('hot');
+  const [type, setType] = useState<Temperature>('hot');
   const [size, setSize] = useState<Size>('tall');
   const [options, setOptions] = useState<Options>({});
   const [singlePrice, setSinglePrice] = useState(0);

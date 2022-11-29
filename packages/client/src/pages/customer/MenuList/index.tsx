@@ -1,6 +1,6 @@
 import axios from 'axios';
 import { useState, useEffect } from 'react';
-import { CafeMenu } from 'types/MenuList';
+import { CafeMenu } from '@/types';
 import MenuItem from '@/pages/customer/MenuList/components/MenuItem';
 import Footer from '@/components/Footer';
 import { MenuListPageWrapper, MenuListWrapper } from './styled';

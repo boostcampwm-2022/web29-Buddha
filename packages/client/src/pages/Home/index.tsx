@@ -5,8 +5,8 @@ import Header from 'components/Header';
 import OrderDateList from 'components/OrderDateList';
 
 import { userRoleState } from 'utils/store';
+import useFetch from 'hooks/useFetch';
 import { Container } from './styled';
-import useFetch from '@/hooks/useFetch';
 
 function Home() {
   const userRole = useRecoilValue(userRoleState);

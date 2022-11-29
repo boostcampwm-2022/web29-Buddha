@@ -1,7 +1,9 @@
 import { useMemo, useState } from 'react';
 
+import OrderDetailList from 'components/OrderDetailList';
+
 import { getPriceComma } from '@/utils';
-import OrderDetailList from '../OrderDetailList';
+import { Order } from '@/types';
 import {
   Container,
   DownArrow,
@@ -14,12 +16,12 @@ import {
 
 interface Props {
   date: string;
-  orders: any[];
+  orders: Order[];
 }
 
 interface ItemProps {
   date: string;
-  order: any;
+  order: Order;
 }
 
 function OrderItem({ date, order }: ItemProps) {
@@ -28,7 +30,7 @@ function OrderItem({ date, order }: ItemProps) {
   const handleClickOpen = () => setIsOpen(!isOpen);
 
   const totalPrice = useMemo(
-    () => order.menus.reduce((prev: any, curr: any) => prev + curr.price, 0),
+    () => order.menus.reduce((prev, curr) => prev + curr.price, 0),
     [order]
   );
 

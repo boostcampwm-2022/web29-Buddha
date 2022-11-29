@@ -1,8 +1,8 @@
-import OrderDateList from '@/components/OrderDateList';
-import useFetch from '@/hooks/useFetch';
+import OrderDateList from 'components/OrderDateList';
 import Footer from 'components/Footer';
 import Header from 'components/Header';
 
+import useFetch from 'hooks/useFetch';
 import { Container } from './styled';
 
 function AcceptList() {

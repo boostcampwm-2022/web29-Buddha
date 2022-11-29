@@ -2,14 +2,15 @@ import { useMemo } from 'react';
 import useListByDate from '@/hooks/useListByDate';
 import OrderList from '../OrderList';
 import { Container, ItemContainer } from './styled';
+import { Order } from '@/types';
 
 interface Props {
-  list: any;
+  list: Order[];
 }
 
 interface ItemProps {
   date: string;
-  orders: any[];
+  orders: Order[];
 }
 
 function OrderDateItem({ date, orders }: ItemProps) {

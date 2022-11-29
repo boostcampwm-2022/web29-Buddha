@@ -13,7 +13,9 @@ import { User } from 'src/user/entities/user.entity';
 import { Repository } from 'typeorm';
 import { CreateOrderDto } from './dto/create-order.dto';
 import { OrderMenuDto } from './dto/orderMenu.dto';
+import { OrdersResDto } from './dto/ordersRes.dto';
 import { UpdateOrderDto } from './dto/update-order.dto';
+import { UpdateOrderReqDto } from './dto/updateOrderReq.dto';
 import { Order } from './entities/order.entity';
 import { OrderMenu } from './entities/orderMenu.entity';
 import { ORDER_STATUS } from './enum/orderStatus.enum';
@@ -182,6 +184,117 @@ export class OrderService {
       0
     );
     return menuPrice + totalPriceOfOptions;
+  }
+
+  async getRequestedOrders(): Promise<OrdersResDto> {
+    const cafe = new Cafe();
+    cafe.id = 1;
+
+    const orders: Order[] = await this.orderRepository.find({
+      relations: {
+        cafe: true,
+        orderMenus: { menu: true },
+      },
+      where: {
+        status: ORDER_STATUS.REQUESTED,
+        cafe: cafe,
+      },
+    });
+
+    return new OrdersResDto(orders);
+  }
+
+  async getAcceptedOrders(): Promise<OrdersResDto> {
+    const cafe = new Cafe();
+    cafe.id = 1;
+
+    const orders: Order[] = await this.orderRepository.find({
+      relations: {
+        cafe: true,
+        orderMenus: { menu: true },
+      },
+      where: {
+        status: ORDER_STATUS.ACCEPTED,
+        cafe: cafe,
+      },
+    });
+
+    return new OrdersResDto(orders);
+  }
+
+  async getCompletedOrders(): Promise<OrdersResDto> {
+    const cafe = new Cafe();
+    cafe.id = 1;
+
+    const orders: Order[] = await this.orderRepository.find({
+      relations: {
+        cafe: true,
+        orderMenus: { menu: true },
+      },
+      where: {
+        status: ORDER_STATUS.COMPLETED,
+        cafe: cafe,
+      },
+    });
+
+    return new OrdersResDto(orders);
+  }
+
+  async updateOrderStatusToAccepted(
+    updateOrderReqDto: UpdateOrderReqDto
+  ): Promise<void> {
+    const order = await this.orderRepository.findOne({
+      where: {
+        id: updateOrderReqDto.id,
+      },
+    });
+
+    if (order.status !== ORDER_STATUS.REQUESTED) {
+      throw new BadRequestException(
+        '요청 상태가 아닌 주문을 수락할 수 없습니다.'
+      );
+    }
+
+    order.status = updateOrderReqDto.newStatus;
+    this.orderRepository.save(order);
+  }
+
+  async updateOrderStatusToRejected(
+    updateOrderReqDto: UpdateOrderReqDto
+  ): Promise<void> {
+    const order = await this.orderRepository.findOne({
+      where: {
+        id: updateOrderReqDto.id,
+      },
+    });
+
+    if (order.status !== ORDER_STATUS.REQUESTED) {
+      throw new BadRequestException(
+        '요청 상태가 아닌 주문을 거절할 수 없습니다.'
+      );
+    }
+
+    order.status = updateOrderReqDto.newStatus;
+    this.orderRepository.save(order);
+  }
+
+  async updateOrderStatusToCompleted(
+    updateOrderReqDto: UpdateOrderReqDto
+  ): Promise<void> {
+    const order = await this.orderRepository.findOne({
+      where: {
+        id: updateOrderReqDto.id,
+      },
+    });
+
+    if (order.status !== ORDER_STATUS.ACCEPTED) {
+      throw new BadRequestException(
+        '수락 상태가 아닌 주문을 완료할 수 없습니다.'
+      );
+    }
+
+    order.status = updateOrderReqDto.newStatus;
+    this.orderRepository.save(order);
   }
 
   async findOne(userId: number, orderId: number): Promise<ORDER_STATUS> {

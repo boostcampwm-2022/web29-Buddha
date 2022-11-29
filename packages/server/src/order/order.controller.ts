@@ -1,3 +1,5 @@
+import { UpdateOrderReqDto } from './dto/updateOrderReq.dto';
+import { OrderResDto } from './dto/orderRes.dto';
 import {
   Controller,
   Get,
@@ -24,6 +26,54 @@ import { ORDER_STATUS } from './enum/orderStatus.enum';
 @Controller()
 export class OrderController {
   constructor(private readonly orderService: OrderService) {}
+
+  @Get('/requested')
+  @UseGuards(JwtGuard)
+  @UseInterceptors(ClassSerializerInterceptor)
+  async getRequestedOrders(): Promise<OrdersResDto> {
+    return await this.orderService.getRequestedOrders();
+  }
+
+  @Get('/accepted')
+  @UseGuards(JwtGuard)
+  @UseInterceptors(ClassSerializerInterceptor)
+  async getAcceptedOrders(): Promise<OrdersResDto> {
+    return await this.orderService.getAcceptedOrders();
+  }
+
+  @Get('/completed')
+  @UseGuards(JwtGuard)
+  @UseInterceptors(ClassSerializerInterceptor)
+  async getCompletedOrders(): Promise<OrdersResDto> {
+    return await this.orderService.getCompletedOrders();
+  }
+
+  @Post('/accepted')
+  @UseGuards(JwtGuard)
+  @UseInterceptors(ClassSerializerInterceptor)
+  async acceptOrder(@Body() updateOrderReqDto: UpdateOrderReqDto) {
+    return await this.orderService.updateOrderStatusToAccepted(
+      updateOrderReqDto
+    );
+  }
+
+  @Post('/rejected')
+  @UseGuards(JwtGuard)
+  @UseInterceptors(ClassSerializerInterceptor)
+  async rejectOrder(@Body() updateOrderReqDto: UpdateOrderReqDto) {
+    return await this.orderService.updateOrderStatusToRejected(
+      updateOrderReqDto
+    );
+  }
+
+  @Post('/completed')
+  @UseGuards(JwtGuard)
+  @UseInterceptors(ClassSerializerInterceptor)
+  async completeOrder(@Body() updateOrderReqDto: UpdateOrderReqDto) {
+    return await this.orderService.updateOrderStatusToCompleted(
+      updateOrderReqDto
+    );
+  }
 
   @UseGuards(JwtGuard)
   @Get()

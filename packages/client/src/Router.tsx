@@ -7,6 +7,7 @@ import MenuList from 'pages/customer/MenuList';
 import MenuDetail from 'pages/customer/MenuDetail';
 import Cart from 'pages/customer/Cart';
 import MyPage from 'pages/MyPage';
+import OrderStatus from './pages/customer/OrderStatus';
 
 function Router() {
   return (
@@ -15,6 +16,7 @@ function Router() {
       <Route path={'/signup'} element={<Signup />}></Route> {/* 회원가입 */}
       <Route path={'/mypage'} element={<MyPage />}></Route> {/* 마이페이지 */}
       <Route path={'/home'} element={<OrderList />}></Route> {/* 고객 메인 */}
+      <Route path={'/order/:orderId'} element={<OrderStatus />}></Route> {/* 주문 현황 */}
       <Route path={'/menu'} element={<MenuList />}></Route>{' '}
       {/* 고객 메뉴 목록 */}
       <Route path={'/menu/:menuId'} element={<MenuDetail />}></Route>{' '}

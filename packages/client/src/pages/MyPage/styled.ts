@@ -20,21 +20,21 @@ export const ContentWrapper = styled.div`
   flex: 0.8;
   width: 100%;
   padding: 0 0 3rem 0;
-`
+`;
 
 export const CenterWrapper = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
   gap: 0.8rem;
-`
+`;
 
 export const ButtonWrapper = styled.div`
   display: flex;
   flex-direction: row;
   gap: 0.3rem;
 
-  p{
+  p {
     color: ${(props) => props.theme.colors.grey600};
     font-weight: 600;
   }

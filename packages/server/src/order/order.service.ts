@@ -1,13 +1,21 @@
-import { BadRequestException, Injectable } from '@nestjs/common';
+import {
+  BadRequestException,
+  HttpStatus,
+  Injectable,
+  UnauthorizedException,
+} from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Cafe } from 'src/cafe/entities/cafe.entity';
 import { Menu } from 'src/cafe/entities/menu.entity';
 import { MenuOption } from 'src/cafe/entities/menuOption.entity';
+import { Option } from 'src/cafe/entities/option.entity';
 import { User } from 'src/user/entities/user.entity';
 import { Repository } from 'typeorm';
 import { CreateOrderDto } from './dto/create-order.dto';
 import { OrderMenuDto } from './dto/orderMenu.dto';
+import { OrdersResDto } from './dto/ordersRes.dto';
 import { UpdateOrderDto } from './dto/update-order.dto';
+import { UpdateOrderReqDto } from './dto/updateOrderReq.dto';
 import { Order } from './entities/order.entity';
 import { OrderMenu } from './entities/orderMenu.entity';
 import { ORDER_STATUS } from './enum/orderStatus.enum';
@@ -39,39 +47,48 @@ export class OrderService {
   async create(userId, createOrderDto: CreateOrderDto) {
     const { menus, cafeId } = createOrderDto;
 
-    // 가능한 option들이 들어왔는지를 검증해야한다.
+    // menuAndOptionDict를 만들기 위한 과정. 옵션 가격, 이름, 메뉴 가격, 이름을 모두 가져온다.
+    const menuEntityObjs: Menu[] = createOrderDto.createMenuEntityObjs();
 
-    // menu별로 매핑된 option을 가져와야한다.
-    // menu가격, option 가격을 가져와야한다.
+    const menuOptionEntityObjs: MenuOption[] =
+      await this.getMenuOptionEntityObjs(menuEntityObjs);
 
-    const menuObjs = menus.map((menu) => {
-      const menuObj = new Menu();
-      menuObj.id = menu.id;
-      return menuObj;
-    });
-    const menuAndOptionObjs = await this.menuOptionRepository.find({
-      where: { menu: menuObjs },
-      relations: {
-        option: true,
-        menu: true,
-      },
-    });
+    const menuAndOptionDict = this.getMenuOptionDict(menuOptionEntityObjs);
+    // menuAndOptionDict를 만들기 위한 과정. 옵션 가격, 이름, 메뉴 가격, 이름을 모두 가져온다.
 
-    const menuAndOptionDict =
-      this._getMenuPriceAndItsOptions(menuAndOptionObjs);
+    // 모든 메뉴가 유효한 메뉴였는지 확인하는 과정
+    if (menuEntityObjs.length !== menuOptionEntityObjs.length) {
+      throw new BadRequestException(
+        '주문한 메뉴 중에 존재하지 않은 메뉴가 있습니다.'
+      );
+    }
+    // 모든 메뉴가 유효한 메뉴였는지 확인하는 과정
 
+    // 각 메뉴마다 옵션이 모두 유효한 옵션들인지 확인하는 과정
     for (const menu of menus) {
-      const filteredOptions = this._filterPossibleOptions(
+      const filteredOptions = this.filterPossibleOptions(
         menu,
         menuAndOptionDict
       );
-      if (menu.options.length !== (await filteredOptions).length) {
+      if (menu.options.length !== filteredOptions.length) {
         throw new BadRequestException(
           '해당 메뉴에서 선택할 수 없는 옵션이 포함되어 있습니다.'
         );
       }
     }
+    // 각 메뉴마다 옵션이 모두 유효한 옵션들인지 확인하는 과정
 
+    // 가격 비교
+    for (const menu of menus) {
+      const totalPrice = this.getTotalPrice(menu, menuAndOptionDict);
+
+      if (menu.price !== totalPrice) {
+        throw new BadRequestException('요청된 계산 총액이 정확하지 않습니다.');
+      }
+    }
+    // 가격 비교
+
+    // 주문 저장을 위한 과정
     const cafe = new Cafe();
     cafe.id = cafeId;
 
@@ -88,7 +105,7 @@ export class OrderService {
       const menuObj = new Menu();
 
       menuObj.id = menu.id;
-      orderMenu.price = this._getTotalPrice(menu, menuAndOptionDict);
+      orderMenu.price = this.getTotalPrice(menu, menuAndOptionDict);
       orderMenu.size = menu.size;
       orderMenu.type = menu.type;
       orderMenu.count = menu.count;
@@ -98,8 +115,8 @@ export class OrderService {
 
       /* 일단 key value를 모두 인덱스로 했다. */
       const processedOptions = {};
-      menu.options.map((option) => {
-        processedOptions[option] = option;
+      menu.options.map((optionId) => {
+        processedOptions[optionId] = menu.options[optionId];
       });
       orderMenu.options = JSON.stringify(processedOptions);
       /**/
@@ -109,48 +126,196 @@ export class OrderService {
 
     order.orderMenus = orderMenus;
 
+    // 주문 저장을 위한 과정
+
     await this.orderRepository.save(order);
     return;
   }
 
-  private _getMenuPriceAndItsOptions(menuOptionObjs: MenuOption[]) {
+  private async getMenuOptionEntityObjs(menuEntityObjs): Promise<MenuOption[]> {
+    const menuOptionEntityObjs = await this.menuOptionRepository.find({
+      where: { menu: menuEntityObjs },
+      relations: {
+        option: true,
+        menu: true,
+      },
+    });
+    return menuOptionEntityObjs;
+  }
+
+  private getMenuOptionDict(menuOptionEntityObjs: MenuOption[]) {
     const menuOptionDict = {};
-    menuOptionObjs.map((menuOptionObj) => {
-      const menu = menuOptionObj.menu;
-      const option = menuOptionObj.option;
-      if (!menuOptionDict.hasOwnProperty(menu.id)) {
+    menuOptionEntityObjs.map((menuOptionEntityObj: MenuOption) => {
+      const menu: Menu = menuOptionEntityObj.menu;
+      const option: Option = menuOptionEntityObj.option;
+
+      if (!Object.prototype.hasOwnProperty.call(menuOptionDict, menu.id)) {
         menuOptionDict[menu.id] = {
           menuPrice: menu.price,
           options: {},
         };
       }
-      menuOptionDict[menu.id].options[option.id] = option.price;
+      menuOptionDict[menu.id].options[option.id] = {
+        optionPrice: option.price,
+        optionName: option.name,
+      };
     });
     return menuOptionDict;
   }
 
-  private async _filterPossibleOptions(menu: OrderMenuDto, menuOptionDict) {
+  private filterPossibleOptions(menu: OrderMenuDto, menuOptionDict) {
     const { options } = menu;
     const menuId = menu.id;
 
-    const filteredOptions = options.filter((option) =>
-      menuOptionDict[menuId].options.hasOwnProperty(option)
+    const filteredOptions = options.filter((option: number) =>
+      Object.prototype.hasOwnProperty.call(
+        menuOptionDict[menuId].options,
+        option
+      )
     );
 
     return filteredOptions;
   }
 
-  private _getTotalPrice(menu, menuAndOptionDict) {
+  private getTotalPrice(menu, menuAndOptionDict) {
     const { options, menuPrice } = menuAndOptionDict[menu.id];
     const totalPriceOfOptions = menu.options.reduce(
-      (partialSum, optionId) => partialSum + options[optionId],
+      (partialSum, optionId) => partialSum + options[optionId].optionPrice,
       0
     );
     return menuPrice + totalPriceOfOptions;
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} order`;
+  async getRequestedOrders(): Promise<OrdersResDto> {
+    const cafe = new Cafe();
+    cafe.id = 1;
+
+    const orders: Order[] = await this.orderRepository.find({
+      relations: {
+        cafe: true,
+        orderMenus: { menu: true },
+      },
+      where: {
+        status: ORDER_STATUS.REQUESTED,
+        cafe: cafe,
+      },
+    });
+
+    return new OrdersResDto(orders);
+  }
+
+  async getAcceptedOrders(): Promise<OrdersResDto> {
+    const cafe = new Cafe();
+    cafe.id = 1;
+
+    const orders: Order[] = await this.orderRepository.find({
+      relations: {
+        cafe: true,
+        orderMenus: { menu: true },
+      },
+      where: {
+        status: ORDER_STATUS.ACCEPTED,
+        cafe: cafe,
+      },
+    });
+
+    return new OrdersResDto(orders);
+  }
+
+  async getCompletedOrders(): Promise<OrdersResDto> {
+    const cafe = new Cafe();
+    cafe.id = 1;
+
+    const orders: Order[] = await this.orderRepository.find({
+      relations: {
+        cafe: true,
+        orderMenus: { menu: true },
+      },
+      where: {
+        status: ORDER_STATUS.COMPLETED,
+        cafe: cafe,
+      },
+    });
+
+    return new OrdersResDto(orders);
+  }
+
+  async updateOrderStatusToAccepted(
+    updateOrderReqDto: UpdateOrderReqDto
+  ): Promise<void> {
+    const order = await this.orderRepository.findOne({
+      where: {
+        id: updateOrderReqDto.id,
+      },
+    });
+
+    if (order.status !== ORDER_STATUS.REQUESTED) {
+      throw new BadRequestException(
+        '요청 상태가 아닌 주문을 수락할 수 없습니다.'
+      );
+    }
+
+    order.status = updateOrderReqDto.newStatus;
+    this.orderRepository.save(order);
+  }
+
+  async updateOrderStatusToRejected(
+    updateOrderReqDto: UpdateOrderReqDto
+  ): Promise<void> {
+    const order = await this.orderRepository.findOne({
+      where: {
+        id: updateOrderReqDto.id,
+      },
+    });
+
+    if (order.status !== ORDER_STATUS.REQUESTED) {
+      throw new BadRequestException(
+        '요청 상태가 아닌 주문을 거절할 수 없습니다.'
+      );
+    }
+
+    order.status = updateOrderReqDto.newStatus;
+    this.orderRepository.save(order);
+  }
+
+  async updateOrderStatusToCompleted(
+    updateOrderReqDto: UpdateOrderReqDto
+  ): Promise<void> {
+    const order = await this.orderRepository.findOne({
+      where: {
+        id: updateOrderReqDto.id,
+      },
+    });
+
+    if (order.status !== ORDER_STATUS.ACCEPTED) {
+      throw new BadRequestException(
+        '수락 상태가 아닌 주문을 완료할 수 없습니다.'
+      );
+    }
+
+    order.status = updateOrderReqDto.newStatus;
+    this.orderRepository.save(order);
+  }
+
+  async findOne(userId: number, orderId: number): Promise<ORDER_STATUS> {
+    const order = await this.orderRepository.findOne({
+      where: {
+        id: orderId,
+      },
+      relations: {
+        user: true,
+      },
+    });
+    if (order === null) {
+      throw new BadRequestException('해당 주문을 찾을 수 없습니다.');
+    }
+    console.log(order);
+    if (order.user.id !== userId) {
+      throw new UnauthorizedException(
+        '해당 주문의 상태 조회에 대한 접근 권한이 없습니다.'
+      );
+    }
+    return order.status;
   }
 
   update(id: number, updateOrderDto: UpdateOrderDto) {

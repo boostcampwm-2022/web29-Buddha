@@ -5,6 +5,7 @@ import {
   IsNumber,
   ValidateNested,
 } from 'class-validator';
+import { Menu } from 'src/cafe/entities/menu.entity';
 import { OrderMenuDto } from './orderMenu.dto';
 export class CreateOrderDto {
   @IsArray()
@@ -15,4 +16,12 @@ export class CreateOrderDto {
 
   @IsNumber()
   cafeId: number;
+
+  createMenuEntityObjs(): Menu[] {
+    return this.menus.map((menu) => {
+      const menuObj = new Menu();
+      menuObj.id = menu.id;
+      return menuObj;
+    });
+  }
 }

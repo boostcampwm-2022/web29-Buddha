@@ -27,3 +27,8 @@ export const Receipt = styled(ReceiptSVG)`
 export const DownArrow = styled(DownArrowSVG)`
   margin-left: 10px;
 `;
+
+export const PriceText = styled.p`
+  margin: 0 0 0 0.7rem;
+  white-space: nowrap;
+`;

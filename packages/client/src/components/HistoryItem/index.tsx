@@ -1,19 +1,25 @@
 import { History } from '@/types/OrderList';
 import { getPriceComma } from '@/utils';
 import { useMemo, useState } from 'react';
+import HistoryDetail from '../HistoryDetail';
 import {
   Container,
   DownArrow,
   Overview,
+  PriceText,
   Receipt,
   RowContainer,
 } from './styled';
 
 interface Props {
   history: History;
+  date: string;
 }
 
-function HistoryItem({ history }: Props) {
+/**
+ * 날짜별 내역 목록 아이템
+ */
+function HistoryItem({ date, history }: Props) {
   const [isOpen, setIsOpen] = useState(false);
 
   /**
@@ -44,11 +50,13 @@ function HistoryItem({ history }: Props) {
           </p>
         </RowContainer>
         <RowContainer>
-          <p>{getPriceComma(totalPrice)} 원</p>
+          <PriceText>{`${getPriceComma(totalPrice)} 원`}</PriceText>
           <DownArrow onClick={handleClickOpen} />
         </RowContainer>
       </Overview>
-      {isOpen && <p>세부정보</p>}
+      {isOpen && (
+        <HistoryDetail date={date} menus={history.menus} type={'customer'} />
+      )}
     </Container>
   );
 }

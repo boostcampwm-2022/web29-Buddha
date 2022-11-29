@@ -1,31 +1,46 @@
 import Header from 'components/Header';
 import Footer from 'components/Footer';
-import { ButtonWrapper, MyPageWrapper } from './styled';
-import { ReactComponent as EditNickname } from 'icons/edit_nickname.svg';
-import { ReactComponent as Logout } from 'icons/logout.svg';
-import { ReactComponent as Signout } from 'icons/signout.svg';
+import {
+  ButtonWrapper,
+  MyPageWrapper,
+  ContentWrapper,
+  MyPageTitleWrapper,
+  EditNickname,
+  Signout,
+  Withdrawal,
+  CenterWrapper,
+} from './styled';
 import Button from '@/components/Button';
 
 function MyPage() {
   return (
     <MyPageWrapper>
       <Header title={'MY'} />
-      <p>닉네임 님</p>
-      <p>환영합니다!</p>
-      <ButtonWrapper>
-        <EditNickname/>
-        <p>닉네임 수정</p>
-      </ButtonWrapper>
-      <ButtonWrapper>
-        <Logout/>
-        <p>로그아웃</p>
-      </ButtonWrapper>
-      <ButtonWrapper>
-        <Signout/>
-        <p>회원 탈퇴</p>
-      </ButtonWrapper>
-      <Button className={'wd-80'}>주문하러 가기</Button>
-      <Footer />
+      <ContentWrapper>
+        <MyPageTitleWrapper>
+          <span>
+            <p className={'nickname'}>닉네임</p>
+            <p>님</p>
+          </span>
+          <p>환영합니다!</p>
+        </MyPageTitleWrapper>
+        <CenterWrapper>
+          <ButtonWrapper>
+            <EditNickname />
+            <p>닉네임 수정</p>
+          </ButtonWrapper>
+          <ButtonWrapper>
+            <Signout />
+            <p>로그아웃</p>
+          </ButtonWrapper>
+          <ButtonWrapper>
+            <Withdrawal />
+            <p>회원 탈퇴</p>
+          </ButtonWrapper>
+        </CenterWrapper>
+        <Button className={'wd-80'}>주문하러 가기</Button>
+        <Footer />
+      </ContentWrapper>
     </MyPageWrapper>
   );
 }

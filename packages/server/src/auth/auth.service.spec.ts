@@ -1,3 +1,4 @@
+import { SignUpDto } from './dto/signup.dto';
 import { HttpException, HttpStatus } from '@nestjs/common';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { JwtModule, JwtService } from '@nestjs/jwt';
@@ -121,5 +122,105 @@ describe('AuthService', () => {
     expect(token).toHaveProperty('accessToken');
     expect(payload['id']).toBe(userId);
     expect(payload['userRole']).toBe(USER_ROLE.MANAGER);
+  });
+  describe('signUp()', () => {
+    beforeEach(() => {
+      jest.clearAllMocks();
+    });
+
+    it('고객 - 회원 가입 성공', async () => {
+      // given
+      const SignUpDto: SignUpDto = {
+        userRole: USER_ROLE.CLIENT,
+        nickname: 'park',
+        corporate: '12345678910',
+      };
+      const { name, email } = { name: '박진우', email: 'parkpark@naver.com' };
+      const req = { session: {} } as Request;
+      req.session.name = name;
+      req.session.email = email;
+
+      const user = User.createClient({
+        name,
+        email,
+        nickname: SignUpDto.nickname,
+        userRole: USER_ROLE.CLIENT,
+      });
+      const userId = 1;
+      user.id = userId;
+      mockUserService.create.mockResolvedValue(user);
+
+      // //when
+      const token = await authService.signUp(req, SignUpDto);
+      const payload = jwtService.decode(token.accessToken);
+      // then
+      expect(token).toHaveProperty('accessToken');
+      expect(payload['id']).toBe(userId);
+      expect(payload['userRole']).toBe(USER_ROLE.CLIENT);
+    });
+
+    it('고객 - 회원 가입 실패 : 네이버 로그인 세션 만료', async () => {
+      // given
+      const req = { session: {} } as Request;
+      const SignUpDto: SignUpDto = {
+        userRole: USER_ROLE.CLIENT,
+        nickname: 'park',
+        corporate: '12345678910',
+      };
+
+      // when
+      // then
+      await expect(authService.signUp(req, SignUpDto)).rejects.toThrow(
+        new HttpException('세션이 만료되었습니다.', HttpStatus.UNAUTHORIZED)
+      );
+    });
+
+    it('업주 - 회원 가입 성공', async () => {
+      // given
+      const SignUpDto: SignUpDto = {
+        userRole: USER_ROLE.MANAGER,
+        nickname: 'park',
+        corporate: '12345678910',
+      };
+      const { name, email } = { name: '박진우', email: 'parkpark@naver.com' };
+      const req = { session: {} } as Request;
+      req.session.name = name;
+      req.session.email = email;
+
+      const user = User.createClient({
+        name,
+        email,
+        nickname: SignUpDto.nickname,
+        userRole: USER_ROLE.MANAGER,
+      });
+      const userId = 1;
+      user.id = userId;
+      mockUserService.create.mockResolvedValue(user);
+
+      // //when
+      const token = await authService.signUp(req, SignUpDto);
+      const payload = jwtService.decode(token.accessToken);
+
+      // then
+      expect(token).toHaveProperty('accessToken');
+      expect(payload['id']).toBe(userId);
+      expect(payload['userRole']).toBe(USER_ROLE.MANAGER);
+    });
+
+    it('업주 - 회원 가입 실패 : 네이버 로그인 세션 만료', async () => {
+      // given
+      const req = { session: {} } as Request;
+      const SignUpDto: SignUpDto = {
+        userRole: USER_ROLE.MANAGER,
+        nickname: 'park',
+        corporate: '12345678910',
+      };
+
+      // when
+      // then
+      await expect(authService.signUp(req, SignUpDto)).rejects.toThrow(
+        new HttpException('세션이 만료되었습니다.', HttpStatus.UNAUTHORIZED)
+      );
+    });
   });
 });

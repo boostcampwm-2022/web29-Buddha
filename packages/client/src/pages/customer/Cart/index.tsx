@@ -11,14 +11,12 @@ import { CartMenu } from '@/types';
 import CartItem from '@/pages/customer/Cart/components/CartItem';
 import { CART_KEY } from '@/constants';
 import EmptyCart from '@/pages/customer/Cart/components/EmptyCart';
-import { useNavigate } from 'react-router-dom';
 import LeftArrow from '@/components/LeftArrow';
 
 function Cart() {
   const [cart, setCart] = useState<CartMenu[]>(getCart());
   const [cartCount, setCartCount] = useState<number>(getCartCount());
   const [cartPrice, setCartPrice] = useState<number>(getCartPrice());
-  const navigate = useNavigate();
 
   const setQuantity = (idx: number, quantity: number) => {
     let newCart = [...cart];
@@ -36,10 +34,6 @@ function Cart() {
     localStorage.setItem(CART_KEY, JSON.stringify(newCart));
     setCartCount(getCartCount());
     setCartPrice(getCartPrice());
-  };
-
-  const handleClickBack = () => {
-    navigate(-1);
   };
 
   return (

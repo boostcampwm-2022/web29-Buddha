@@ -1,11 +1,14 @@
 import { useMemo } from 'react';
-import useListByDate from '@/hooks/useListByDate';
-import OrderList from '../OrderList';
+
+import OrderList from 'components/OrderList';
+
+import { Order, OrderStatus } from '@/types';
 import { Container, ItemContainer } from './styled';
-import { Order } from '@/types';
+import useOrderGroup from 'hooks/useOrderDates';
 
 interface Props {
   list: Order[];
+  status?: OrderStatus[];
 }
 
 interface ItemProps {
@@ -22,14 +25,14 @@ function OrderDateItem({ date, orders }: ItemProps) {
   );
 }
 
-function OrderDateList({ list }: Props) {
-  const { listByDate } = useListByDate({ list });
+function OrderDateList({ list, status }: Props) {
+  const { orderGroup } = useOrderGroup({ list, status });
 
   const items = useMemo(() => {
-    return Object.keys(listByDate).map((date) => (
-      <OrderDateItem date={date} orders={listByDate[date]} key={date} />
+    return Object.keys(orderGroup).map((date) => (
+      <OrderDateItem date={date} orders={orderGroup[date]} key={date} />
     ));
-  }, [listByDate]);
+  }, [orderGroup]);
 
   return <Container>{items}</Container>;
 }

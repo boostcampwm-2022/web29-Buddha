@@ -1,12 +1,13 @@
 import { useMemo } from 'react';
 
-import { OrderDetailMenu } from '@/types';
+import { DetailStatus, OrderDetailMenu, OrderStatus } from '@/types';
 import { getPriceComma } from '@/utils';
 import { Container, DivisionLine, ItemContainer, PriceText } from './styled';
 
 interface Props {
   date: string;
   menus: OrderDetailMenu[];
+  detailStatus?: DetailStatus;
 }
 
 interface ItemProps {
@@ -23,7 +24,7 @@ function OrderDetailItem({ date, menu }: ItemProps) {
   );
 }
 
-function OrderDetailList({ date, menus }: Props) {
+function OrderDetailList({ date, menus, detailStatus }: Props) {
   const totalPrice = useMemo(() => {
     return menus.reduce((prev, curr) => prev + curr.price, 0);
   }, [menus]);

@@ -13,6 +13,8 @@ import {
   Receipt,
   RowContainer,
 } from './styled';
+import { useRecoilValue } from 'recoil';
+import { userRoleState } from '@/utils/store';
 
 interface Props {
   date: string;
@@ -25,6 +27,7 @@ interface ItemProps {
 }
 
 function OrderItem({ date, order }: ItemProps) {
+  const userRole = useRecoilValue(userRoleState);
   const [isOpen, setIsOpen] = useState(false);
 
   const handleClickOpen = () => setIsOpen(!isOpen);

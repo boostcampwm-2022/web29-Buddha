@@ -19,7 +19,15 @@ function Home() {
   return (
     <Container>
       <Header title={userRole === 'CLIENT' ? '주문내역' : '주문 요청 내역'} />
-      {list.orders && <OrderDateList list={list.orders} />}
+      {userRole === 'CLIENT' && (
+        <OrderDateList list={list.orders} status={['REQUESTED', 'ACCEPTED']} />
+      )}
+      {list.orders && (
+        <OrderDateList
+          list={list.orders}
+          status={userRole === 'CLIENT' ? undefined : ['REQUESTED']}
+        />
+      )}
       <Footer />
     </Container>
   );

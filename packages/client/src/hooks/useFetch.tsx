@@ -15,14 +15,18 @@ function useFetch({ url, method, data }: Params) {
     if (!api || !method || !url) return;
 
     const fetch = async () => {
-      const res = await axios({
-        method,
-        url: `${api}${url}`,
-        data: method !== 'get' && data,
-        withCredentials: true,
-      });
+      try {
+        const res = await axios({
+          method,
+          url: `${api}${url}`,
+          data: method !== 'get' && data,
+          withCredentials: true,
+        });
 
-      setJsonData(res.data);
+        setJsonData(res.data);
+      } catch (err) {
+        alert('오류가 발생했습니다.\n다시 시도해주세요.');
+      }
     };
     fetch();
   }, [api, url, method, data]);

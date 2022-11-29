@@ -6,10 +6,23 @@ import { Container, DivisionLine, ItemContainer, PriceText } from './styled';
 interface Props {
   date: string;
   menus: HistoryMenu[];
-  type: 'customer' | 'managerRequest' | 'managerAccepted';
 }
 
-function HistoryDetail({ date, menus, type }: Props) {
+interface ItemProps {
+  date: string;
+  menu: any;
+}
+
+function OrderDetailItem({ date, menu }: ItemProps) {
+  return (
+    <ItemContainer key={`${date}-${menu.id}`}>
+      <p>{menu.name}</p>
+      <PriceText>{`${getPriceComma(menu.price)} 원`}</PriceText>
+    </ItemContainer>
+  );
+}
+
+function OrderDetailList({ date, menus }: Props) {
   const totalPrice = useMemo(() => {
     return menus.reduce((prev, curr) => prev + curr.price, 0);
   }, [menus]);
@@ -17,11 +30,8 @@ function HistoryDetail({ date, menus, type }: Props) {
   /**
    * 메뉴 종류별로
    */
-  const items = menus.map((m) => (
-    <ItemContainer key={`${date}-${m.id}`}>
-      <p>{m.name}</p>
-      <PriceText>{`${getPriceComma(m.price)} 원`}</PriceText>
-    </ItemContainer>
+  const items = menus.map((menu) => (
+    <OrderDetailItem date={date} menu={menu} key={menu.id} />
   ));
 
   return (
@@ -36,4 +46,4 @@ function HistoryDetail({ date, menus, type }: Props) {
   );
 }
 
-export default HistoryDetail;
+export default OrderDetailList;

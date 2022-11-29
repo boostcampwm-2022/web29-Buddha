@@ -4,7 +4,7 @@ import { JwtModule, JwtService } from '@nestjs/jwt';
 import { Test, TestingModule } from '@nestjs/testing';
 import { Request } from 'express';
 import { User } from 'src/user/entities/user.entity';
-import { USER_TYPE } from 'src/user/enum/userRole.enum';
+import { USER_ROLE } from 'src/user/enum/userRole.enum';
 import { UserService } from 'src/user/user.service';
 import { AuthService } from './auth.service';
 import { NaverSignInDto } from './dto/naver-singIn.dto';
@@ -79,7 +79,7 @@ describe('AuthService', () => {
         name: 'gon',
         email: 'gon@naver.com',
         nickname: 'nickname',
-        userType: USER_TYPE.CLIENT,
+        userType: USER_ROLE.CLIENT,
       });
       const userId = 1;
       user.id = userId;
@@ -93,7 +93,7 @@ describe('AuthService', () => {
       // then
       expect(token).toHaveProperty('accessToken');
       expect(payload['id']).toBe(userId);
-      expect(payload['userType']).toBe(USER_TYPE.CLIENT);
+      expect(payload['userRole']).toBe(USER_ROLE.CLIENT);
     });
   });
 });

@@ -6,7 +6,7 @@ import HistoryByDate from 'components/HistoryByDate';
 import { History } from 'types/OrderList';
 import { Container } from './styled';
 
-function HistoryContainer() {
+function OrderList() {
   const api = process.env.REACT_APP_API_SERVER_BASE_URL;
   const [history, setHistory] = useState<History[] | null>(null);
 
@@ -52,4 +52,4 @@ function HistoryContainer() {
   return <Container>{HistoryByDateContainers}</Container>;
 }
 
-export default HistoryContainer;
+export default OrderList;

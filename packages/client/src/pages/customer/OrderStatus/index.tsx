@@ -33,9 +33,7 @@ function OrderStatus() {
   };
 
   useEffect(() => {
-    //setStatus('ACCEPTED');
-    //setStatus('COMPLETED');
-    //fetchOrderStatus();
+    fetchOrderStatus();
   }, []);
 
   return (

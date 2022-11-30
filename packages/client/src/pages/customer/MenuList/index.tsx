@@ -11,14 +11,7 @@ import {
 } from './styled';
 import SnackBar from '@/pages/customer/MenuList/components/SnackBar';
 import Header from '@/components/Header';
-
-interface Menu {
-  id: number;
-  name: string;
-  thumbnail: string;
-  price: number;
-  category: string;
-}
+import { Menu } from 'types/index';
 
 function MenuList() {
   const api = process.env.REACT_APP_API_SERVER_BASE_URL;
@@ -51,7 +44,7 @@ function MenuList() {
   return (
     <MenuListPageWrapper>
       <Header title={'Order'} />
-      <CategoryBarWrapper>
+      <CategoryBarWrapper data-testid={'category-bar'}>
         {categoryList.map((category, idx) => (
           <CategoryItem key={idx} onClick={() => setCategory(category)}>
             {category}
@@ -60,7 +53,10 @@ function MenuList() {
       </CategoryBarWrapper>
       <MenuListWrapper>
         {menuList?.menus
-          .filter((menu) => menu.category === category)
+          .filter((menu) => {
+            if (category === '전체') return true;
+            return menu.category === category;
+          })
           .map((menu) => (
             <MenuItem
               key={menu.id}

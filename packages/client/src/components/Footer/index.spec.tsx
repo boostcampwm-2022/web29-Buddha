@@ -21,7 +21,7 @@ describe('Footer', () => {
 
     fireEvent.click(screen.getByText('Order'));
     await waitFor(() => {
-      screen.getByText('Order');
+      screen.getByTestId('menu-list-page');
     });
   });
 
@@ -30,7 +30,7 @@ describe('Footer', () => {
 
     fireEvent.click(screen.getByText('MY'));
     await waitFor(() => {
-      screen.getByText('MY');
+      screen.getByTestId('my-page');
     });
   });
 });

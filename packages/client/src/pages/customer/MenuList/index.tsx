@@ -42,7 +42,7 @@ function MenuList() {
   }, []);
 
   return (
-    <MenuListPageWrapper>
+    <MenuListPageWrapper data-testid={'menu-list-page'}>
       <Header title={'Order'} />
       <CategoryBarWrapper data-testid={'category-bar'}>
         {categoryList.map((category, idx) => (

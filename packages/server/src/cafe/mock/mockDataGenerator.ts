@@ -1,3 +1,4 @@
+import { MENU_SIZE } from '../enum/menuSize.enum';
 import { MENU_TYPE } from '../enum/menuType.enum';
 import { mockMenus } from './menu.entity.mock';
 import { mockMenuOptionRelation } from './menuOptionRelation.mock';
@@ -5,6 +6,49 @@ import { mockOptions } from './option.entity.mock';
 /**
  * @Menu
  */
+
+export const getMockOrderData = (conditions) => {
+  const { correctMenu, correctMenuType, correctOptions, correctPrice, count } =
+    conditions;
+
+  const correctMenuId = getCorrectMenuId();
+  let menuId;
+  if (correctMenu) {
+    menuId = correctMenuId;
+  } else {
+    menuId = getWrongMenuId();
+  }
+
+  let menuType;
+  if (correctMenuType) {
+    menuType = getCorrectMenuType(correctMenuId);
+  } else {
+    menuType = getWorngMenuType(correctMenuId);
+  }
+
+  const correctOptionList = getCorrectOptions(correctMenuId);
+  let options;
+  if (correctOptions) {
+    options = correctOptionList;
+  } else {
+    options = getWrongOptions();
+  }
+
+  let price = getCorrectTotalPrice(correctMenuId, correctOptionList);
+  if (!correctPrice) {
+    price = -1;
+  }
+
+  return {
+    menuId,
+    menuType,
+    options,
+    price,
+    menuSize: MENU_SIZE.TALL,
+    count,
+  };
+};
+
 export const getCorrectMenuId = () => {
   const menuIds = Object.keys(mockMenus);
   const randIdx = Math.floor(Math.random() * menuIds.length);

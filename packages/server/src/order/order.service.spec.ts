@@ -13,7 +13,6 @@ import {
   getCorrectOptions,
   getCorrectTotalPrice,
   getMockMenuOptions,
-  getMockOrderData,
 } from 'src/cafe/mock/mockDataGenerator';
 import { MENU_SIZE } from 'src/cafe/enum/menuSize.enum';
 import { ORDER_STATUS } from './enum/orderStatus.enum';

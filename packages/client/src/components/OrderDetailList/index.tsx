@@ -1,18 +1,57 @@
-import { useMemo } from 'react';
+import React, { useMemo } from 'react';
+import { useRecoilValue } from 'recoil';
+import axios from 'axios';
 
-import { DetailStatus, OrderDetailMenu, OrderStatus } from '@/types';
+import { OrderDetailMenu, OrderStatus } from '@/types';
 import { getPriceComma } from '@/utils';
-import { Container, DivisionLine, ItemContainer, PriceText } from './styled';
+import {
+  ButtonContainer,
+  Container,
+  DivisionLine,
+  ItemContainer,
+  PriceText,
+} from './styled';
+import { userRoleState } from '@/utils/store';
+import Button from '../Button';
 
 interface Props {
   date: string;
   menus: OrderDetailMenu[];
-  detailStatus?: DetailStatus;
+  status?: OrderStatus;
+  onClick?: (event: React.MouseEvent<HTMLButtonElement>) => void;
 }
 
 interface ItemProps {
   date: string;
   menu: OrderDetailMenu;
+}
+
+interface ButtonGroupProps {
+  status?: OrderStatus;
+  onClick?: (event: React.MouseEvent<HTMLButtonElement>) => void;
+}
+
+function ButtonGroup({ status, onClick }: ButtonGroupProps) {
+  return (
+    <ButtonContainer>
+      {status === 'REQUESTED' ? (
+        <>
+          <Button className="wd-fit" onClick={onClick}>
+            수락
+          </Button>
+          <Button className="wd-fit" onClick={onClick}>
+            거절
+          </Button>
+        </>
+      ) : status === 'ACCEPTED' ? (
+        <Button className="wd-fit" onClick={onClick}>
+          제조 완료
+        </Button>
+      ) : (
+        <></>
+      )}
+    </ButtonContainer>
+  );
 }
 
 function OrderDetailItem({ date, menu }: ItemProps) {
@@ -24,7 +63,9 @@ function OrderDetailItem({ date, menu }: ItemProps) {
   );
 }
 
-function OrderDetailList({ date, menus, detailStatus }: Props) {
+function OrderDetailList({ date, menus, status, onClick }: Props) {
+  const userRole = useRecoilValue(userRoleState);
+
   const totalPrice = useMemo(() => {
     return menus.reduce((prev, curr) => prev + curr.price, 0);
   }, [menus]);
@@ -44,6 +85,9 @@ function OrderDetailList({ date, menus, detailStatus }: Props) {
         <p>총 액</p>
         <PriceText>{`${getPriceComma(totalPrice)} 원`}</PriceText>
       </ItemContainer>
+      {userRole === 'MANAGER' && (
+        <ButtonGroup status={status} onClick={onClick} />
+      )}
     </Container>
   );
 }

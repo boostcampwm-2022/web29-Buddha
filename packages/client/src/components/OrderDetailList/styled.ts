@@ -30,3 +30,9 @@ export const PriceText = styled.p`
   margin: 0 0 0 0.7rem;
   white-space: nowrap;
 `;
+
+export const ButtonContainer = styled.div`
+  display: flex;
+  justify-content: flex-end;
+  gap: 1rem;
+`;

@@ -57,7 +57,7 @@ export class OrderService {
     // menuAndOptionDict를 만들기 위한 과정. 옵션 가격, 이름, 메뉴 가격, 이름을 모두 가져온다.
 
     // 모든 메뉴가 유효한 메뉴였는지 확인하는 과정
-    if (menuEntityObjs.length !== menuOptionEntityObjs.length) {
+    if (menuEntityObjs.length !== Object.keys(menuAndOptionDict).length) {
       throw new BadRequestException(
         '주문한 메뉴 중에 존재하지 않은 메뉴가 있습니다.'
       );
@@ -105,10 +105,11 @@ export class OrderService {
       const menuObj = new Menu();
 
       menuObj.id = menu.id;
-      orderMenu.price = this.getTotalPrice(menu, menuAndOptionDict);
+      orderMenu.count = menu.count;
+      orderMenu.price =
+        this.getTotalPrice(menu, menuAndOptionDict) * menu.count;
       orderMenu.size = menu.size;
       orderMenu.type = menu.type;
-      orderMenu.count = menu.count;
 
       orderMenu.menu = menuObj;
       orderMenu.order = order;
@@ -116,7 +117,8 @@ export class OrderService {
       /* 일단 key value를 모두 인덱스로 했다. */
       const processedOptions = {};
       menu.options.map((optionId) => {
-        processedOptions[optionId] = menu.options[optionId];
+        processedOptions[optionId] =
+          menuAndOptionDict[menu.id].options[optionId].optionName;
       });
       orderMenu.options = JSON.stringify(processedOptions);
       /**/
@@ -309,7 +311,6 @@ export class OrderService {
     if (order === null) {
       throw new BadRequestException('해당 주문을 찾을 수 없습니다.');
     }
-    console.log(order);
     if (order.user.id !== userId) {
       throw new UnauthorizedException(
         '해당 주문의 상태 조회에 대한 접근 권한이 없습니다.'

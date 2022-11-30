@@ -1,24 +1,12 @@
-import { render, screen, fireEvent, waitFor } from '@testing-library/react';
+import { screen, fireEvent } from '@testing-library/react';
 import { PLACEHOLDER } from '@/constants';
 import { server } from '@/mocks/server';
-import { MemoryRouter } from 'react-router-dom';
-import Router from '@/Router';
-import Layout from '@/Layout';
+import { setup } from 'utils/testSetup';
 
 // jest 테스트 수명주기에 따라 server 상태 정의
 beforeAll(() => server.listen());
 afterEach(() => server.resetHandlers());
 afterAll(() => server.close());
-
-const setup = ({ url }: { url: string }) => {
-  render(
-    <Layout>
-      <MemoryRouter initialEntries={[url]}>
-        <Router />
-      </MemoryRouter>
-    </Layout>
-  );
-};
 
 const getInputNickname = () => {
   screen.getByText('닉네임');

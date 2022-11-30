@@ -1,25 +1,10 @@
-import { render, screen, fireEvent, waitFor } from '@testing-library/react';
+import { screen, fireEvent } from '@testing-library/react';
 import { server } from '@/mocks/server';
-import { MemoryRouter } from 'react-router-dom';
-import { RecoilRoot } from 'recoil';
-import Router from '@/Router';
-import Layout from '@/Layout';
+import { setup } from 'utils/testSetup';
 
 beforeAll(() => server.listen());
 afterEach(() => server.resetHandlers());
 afterAll(() => server.close());
-
-const setup = ({ url }: { url: string }) => {
-  render(
-    <RecoilRoot>
-      <Layout>
-        <MemoryRouter initialEntries={[url]}>
-          <Router />
-        </MemoryRouter>
-      </Layout>
-    </RecoilRoot>
-  );
-};
 
 describe('MenuList', () => {
   it('컴포넌트 검사', async () => {

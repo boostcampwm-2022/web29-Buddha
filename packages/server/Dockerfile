@@ -7,4 +7,5 @@ COPY package*.json ./
 RUN npm install
 
 EXPOSE 8080
-CMD ["npm", "run", "start:dev"]
+
+CMD cp /app/dist/.dev.env /app;npm run start:dev-remote

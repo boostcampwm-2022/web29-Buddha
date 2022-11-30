@@ -1,8 +1,5 @@
 #!/bin/sh
 
-# 환경변수 밖으로 빼주기
-mv .dev.env ..
-
 # 이미지 pull
 docker pull $1/$2:latest
 
@@ -17,6 +14,6 @@ if [[ $(docker ps -a --filter="name=node-test" --filter "status=exited" | grep -
     docker rm node-test
 fi
 
-docker run -p 8080:8080 -v ~/server:/app/dist -v -d --name node-test $1/$2:latest
+docker run -p 8080:8080 -v ~/server/dist:/app/dist -v -d --name node-test $1/$2:latest
 
 exit 0

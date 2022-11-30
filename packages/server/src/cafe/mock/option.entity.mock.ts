@@ -1,4 +1,4 @@
-export const options = {
+export const mockOptions = {
   1: {
     id: 1,
     name: '옵션1',
@@ -15,6 +15,6 @@ export const options = {
     id: 3,
     name: '옵션3',
     price: 0,
-    category: '옵션 카테고리 3',
+    category: '옵션 카테고리 2',
   },
 };

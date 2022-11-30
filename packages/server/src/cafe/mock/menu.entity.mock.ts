@@ -1,6 +1,6 @@
 import { MENU_TYPE } from 'src/cafe/enum/menuType.enum';
 
-export const menus = {
+export const mockMenus = {
   1: {
     id: 1,
     name: '커피1',

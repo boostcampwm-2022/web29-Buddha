@@ -1,3 +1,4 @@
+import { DateTimeUtil } from './../../utils/dateTime.util';
 import { Exclude, Expose } from 'class-transformer';
 import { Cafe } from 'src/cafe/entities/cafe.entity';
 import { Menu } from 'src/cafe/entities/menu.entity';
@@ -51,8 +52,8 @@ export class OrdersOrderDto {
   }
 
   @Expose()
-  get date(): Date {
-    return this._date;
+  get date(): string {
+    return DateTimeUtil.toString(this._date);
   }
 
   @Expose()

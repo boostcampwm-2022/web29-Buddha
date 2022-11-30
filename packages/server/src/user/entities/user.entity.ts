@@ -30,22 +30,22 @@ export class User extends TimestampableEntity {
   @OneToMany(() => Order, (order) => order.user)
   orders: Order[];
 
-  static createClient({ name, email, nickname, userType }) {
+  static createClient({ name, email, nickname, userRole }) {
     const user = new User();
     user.name = name;
     user.email = email;
     user.nickname = nickname;
-    user.role = userType;
+    user.role = userRole;
     user.corporate = null;
     return user;
   }
 
-  static createManager({ name, email, nickname, userType, corporate }) {
+  static createManager({ name, email, nickname, userRole, corporate }) {
     const user = new User();
     user.name = name;
     user.email = email;
     user.nickname = nickname;
-    user.role = userType;
+    user.role = userRole;
     user.corporate = corporate;
     return user;
   }

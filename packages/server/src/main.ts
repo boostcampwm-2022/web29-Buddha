@@ -3,6 +3,13 @@ import { AppModule } from './app.module';
 import session from 'express-session';
 import cookieParser from 'cookie-parser';
 
+declare module 'express-session' {
+  interface SessionData {
+    name: string;
+    email: string;
+  }
+}
+
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
   app.enableCors({

@@ -57,7 +57,12 @@ export class OrderService {
     // menuAndOptionDict를 만들기 위한 과정. 옵션 가격, 이름, 메뉴 가격, 이름을 모두 가져온다.
 
     // 모든 메뉴가 유효한 메뉴였는지 확인하는 과정
-    if (menuEntityObjs.length !== Object.keys(menuAndOptionDict).length) {
+    // if (menuEntityObjs.length !== Object.keys(menuAndOptionDict).length) {
+    if (
+      menuEntityObjs.every((menuEntityObj) => {
+        Object.keys(menuAndOptionDict).includes(menuEntityObj.id.toString());
+      })
+    ) {
       throw new BadRequestException(
         '주문한 메뉴 중에 존재하지 않은 메뉴가 있습니다.'
       );
@@ -126,12 +131,16 @@ export class OrderService {
       return orderMenu;
     });
 
+    console.log('service - orderMenus');
+    console.log(orderMenus);
     order.orderMenus = orderMenus;
+
+    console.log('service - order');
+    console.log(order);
 
     // 주문 저장을 위한 과정
 
-    await this.orderRepository.save(order);
-    return;
+    return await this.orderRepository.save(order);
   }
 
   private async getMenuOptionEntityObjs(menuEntityObjs): Promise<MenuOption[]> {

@@ -13,8 +13,7 @@ import {
   Receipt,
   RowContainer,
 } from './styled';
-import { useRecoilValue } from 'recoil';
-import { userRoleState } from '@/utils/store';
+import axios from 'axios';
 
 interface Props {
   date: string;
@@ -27,10 +26,32 @@ interface ItemProps {
 }
 
 function OrderItem({ date, order }: ItemProps) {
-  const userRole = useRecoilValue(userRoleState);
+  const api = process.env.REACT_APP_API_SERVER_BASE_URL;
   const [isOpen, setIsOpen] = useState(false);
 
   const handleClickOpen = () => setIsOpen(!isOpen);
+
+  const handleClickOrder = (event: React.MouseEvent<HTMLButtonElement>) => {
+    const text = event.currentTarget.innerHTML;
+
+    const postOrder = async () => {
+      let action;
+      if (text === '수락') action = 'accepted';
+      else if (text === '거절') action = 'rejected';
+      else if (text === '제조 완료') action = 'completed';
+
+      try {
+        await axios.post(
+          `${api}/order/${action}`,
+          { id: order.id, newStatus: action?.toUpperCase() },
+          { withCredentials: true }
+        );
+      } catch (err) {
+        alert('주문에 문제가 발생했습니다.');
+      }
+    };
+    postOrder();
+  };
 
   const totalPrice = useMemo(
     () => order.menus.reduce((prev, curr) => prev + curr.price, 0),
@@ -52,7 +73,14 @@ function OrderItem({ date, order }: ItemProps) {
           <DownArrow onClick={handleClickOpen} />
         </RowContainer>
       </Overview>
-      {isOpen && <OrderDetailList date={date} menus={order.menus} />}
+      {isOpen && (
+        <OrderDetailList
+          date={date}
+          menus={order.menus}
+          status={order.status}
+          onClick={handleClickOrder}
+        />
+      )}
     </ItemContainer>
   );
 }

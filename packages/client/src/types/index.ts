@@ -4,7 +4,6 @@ export type UserRole = 'CLIENT' | 'MANAGER';
 export type Temperature = 'hot' | 'iced';
 export type Size = 'tall' | 'grande' | 'venti';
 export type OrderStatus = 'REQUESTED' | 'ACCEPTED' | 'REJECTED' | 'COMPLETED';
-export type DetailStatus = 'REQUESTED' | 'ACCEPTED';
 export type AnyObject = { [key: string]: any };
 
 // Signin.ts

@@ -231,7 +231,7 @@ function MenuDetail() {
   }, [menu, quantity, handleClickQuantity, totalPrice]);
 
   return (
-    <Container>
+    <Container data-testid={'menu-detail-page'}>
       {menu === null ? (
         <p>Loading...</p>
       ) : menu === undefined ? (

@@ -17,25 +17,32 @@ describe('MenuList', () => {
     screen.getByTestId('snack-bar');
   });
 
+  it('카테고리 클릭시 카테고리 전환', async () => {
+    setup({ url: '/menu' });
+
+    fireEvent.click(await screen.findByText('콜드 브루'));
+    await waitFor(async () => {
+      const menuItems = await screen.findAllByTestId('menu-item');
+      expect(menuItems).toHaveLength(2);
+    });
+  });
+
   it('메뉴 선택시 메뉴 상세 화면으로 전환', async () => {
     setup({ url: '/menu' });
 
     const menuItems = await screen.findAllByTestId('menu-item');
     fireEvent.click(menuItems[0]);
     await waitFor(() => {
-      screen.getByAltText('음료');
+      screen.getByTestId('menu-detail-page');
     });
   });
 
   it('장바구니 클릭시 장바구니 화면으로 전환', async () => {
     setup({ url: '/menu' });
-  });
 
-  it('Footer Home 클릭 시 주문내역 화면으로 전환', async () => {
-    setup({ url: '/menu' });
-  });
-
-  it('Footer MY 클릭 시 마이페이지 화면으로 전환', async () => {
-    setup({ url: '/menu' });
+    fireEvent.click(screen.getByTestId('cart-button'));
+    await waitFor(() => {
+      screen.getByText('장바구니');
+    })
   });
 });

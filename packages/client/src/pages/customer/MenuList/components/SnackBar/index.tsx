@@ -13,7 +13,7 @@ function SnackBar() {
   return (
     <SnackBarWrapper data-testid={'snack-bar'}>
       <p>주문할 매장을 선택해주세요</p>
-      <CartWrapper onClick={handleClickCart}>
+      <CartWrapper onClick={handleClickCart} data-testid={'cart-button'}>
         <p>{`장바구니 ${getCartCount()}개`}</p>
         <Cart />
       </CartWrapper>

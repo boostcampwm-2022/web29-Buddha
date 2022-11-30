@@ -49,18 +49,17 @@ export class OrderService {
 
     // menuAndOptionDict를 만들기 위한 과정. 옵션 가격, 이름, 메뉴 가격, 이름을 모두 가져온다.
     const menuEntityObjs: Menu[] = createOrderDto.createMenuEntityObjs();
-
     const menuOptionEntityObjs: MenuOption[] =
       await this.getMenuOptionEntityObjs(menuEntityObjs);
 
-    const menuAndOptionDict = this.getMenuOptionDict(menuOptionEntityObjs);
+    const validMenuAndOptionInfo =
+      this.getValidMenuAndOptionInfo(menuOptionEntityObjs);
     // menuAndOptionDict를 만들기 위한 과정. 옵션 가격, 이름, 메뉴 가격, 이름을 모두 가져온다.
 
     // 모든 메뉴가 유효한 메뉴였는지 확인하는 과정
-    // if (menuEntityObjs.length !== Object.keys(menuAndOptionDict).length) {
     if (
-      menuEntityObjs.every((menuEntityObj) => {
-        Object.keys(menuAndOptionDict).includes(menuEntityObj.id.toString());
+      menus.every((menu) => {
+        Object.keys(validMenuAndOptionInfo).includes(menu.id.toString());
       })
     ) {
       throw new BadRequestException(
@@ -73,7 +72,7 @@ export class OrderService {
     for (const menu of menus) {
       const filteredOptions = this.filterPossibleOptions(
         menu,
-        menuAndOptionDict
+        validMenuAndOptionInfo
       );
       if (menu.options.length !== filteredOptions.length) {
         throw new BadRequestException(
@@ -85,7 +84,7 @@ export class OrderService {
 
     // 가격 비교
     for (const menu of menus) {
-      const totalPrice = this.getTotalPrice(menu, menuAndOptionDict);
+      const totalPrice = this.getTotalPrice(menu, validMenuAndOptionInfo);
 
       if (menu.price !== totalPrice) {
         throw new BadRequestException('요청된 계산 총액이 정확하지 않습니다.');
@@ -110,35 +109,25 @@ export class OrderService {
       const menuObj = new Menu();
 
       menuObj.id = menu.id;
-      orderMenu.count = menu.count;
-      orderMenu.price =
-        this.getTotalPrice(menu, menuAndOptionDict) * menu.count;
-      orderMenu.size = menu.size;
-      orderMenu.type = menu.type;
-
-      orderMenu.menu = menuObj;
-      orderMenu.order = order;
-
-      /* 일단 key value를 모두 인덱스로 했다. */
       const processedOptions = {};
       menu.options.map((optionId) => {
         processedOptions[optionId] =
-          menuAndOptionDict[menu.id].options[optionId].optionName;
+          validMenuAndOptionInfo[menu.id].options[optionId].optionName;
       });
+
+      orderMenu.count = menu.count;
+      orderMenu.price =
+        this.getTotalPrice(menu, validMenuAndOptionInfo) * menu.count;
+      orderMenu.size = menu.size;
+      orderMenu.type = menu.type;
+      orderMenu.menu = menuObj;
+      orderMenu.order = order;
       orderMenu.options = JSON.stringify(processedOptions);
-      /**/
 
       return orderMenu;
     });
 
-    console.log('service - orderMenus');
-    console.log(orderMenus);
     order.orderMenus = orderMenus;
-
-    console.log('service - order');
-    console.log(order);
-
-    // 주문 저장을 위한 과정
 
     return await this.orderRepository.save(order);
   }
@@ -154,7 +143,7 @@ export class OrderService {
     return menuOptionEntityObjs;
   }
 
-  private getMenuOptionDict(menuOptionEntityObjs: MenuOption[]) {
+  private getValidMenuAndOptionInfo(menuOptionEntityObjs: MenuOption[]) {
     const menuOptionDict = {};
     menuOptionEntityObjs.map((menuOptionEntityObj: MenuOption) => {
       const menu: Menu = menuOptionEntityObj.menu;

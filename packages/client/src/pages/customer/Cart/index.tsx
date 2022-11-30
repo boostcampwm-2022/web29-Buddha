@@ -7,7 +7,7 @@ import {
   CartContentWrapper,
   FixedHeader,
 } from './styled';
-import { CartMenu } from 'types/Cart';
+import { CartMenu } from '@/types';
 import CartItem from '@/pages/customer/Cart/components/CartItem';
 import { CART_KEY } from '@/constants';
 import EmptyCart from '@/pages/customer/Cart/components/EmptyCart';

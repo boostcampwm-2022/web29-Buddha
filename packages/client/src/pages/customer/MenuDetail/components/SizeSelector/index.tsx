@@ -7,7 +7,7 @@ import {
   VolumeText,
 } from './styled';
 import { SIZE_VOLUME } from '@/constants';
-import { Size } from 'types/MenuDetail';
+import { Size } from '@/types';
 import { getFirstUpper } from '@/utils';
 
 interface Props {

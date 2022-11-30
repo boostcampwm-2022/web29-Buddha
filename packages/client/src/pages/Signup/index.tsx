@@ -10,7 +10,7 @@ import {
   InputTitle,
   Input,
 } from './styled';
-import { SignupRequestBody } from 'types/Signup';
+import { SignupRequestBody } from '@/types';
 import Button from 'components/Button';
 
 function Signup() {

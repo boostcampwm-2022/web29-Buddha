@@ -1,9 +1,9 @@
 import { fireEvent, render, screen, waitFor } from '@testing-library/react';
 import TypeSelector from '.';
 import Layout from '@/Layout';
-import { Type } from '@/types/MenuDetail';
+import { Temperature } from '@/types';
 
-const setup = ({ type }: { type: Type }) => {
+const setup = ({ type }: { type: Temperature }) => {
   const handleClickType = jest.fn();
   const { asFragment } = render(
     <Layout>

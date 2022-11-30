@@ -2,7 +2,7 @@ name: Backend dev cd
 
 on:
   push:
-    branches: ['dev', 'feat/be/fe-be-ci-cd-refactor']
+    branches: ['dev']
     paths:
       - 'packages/server/**'
       - '.github/workflows/be-dev-ci.yml'

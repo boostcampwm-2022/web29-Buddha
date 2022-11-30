@@ -36,6 +36,7 @@
     "cross-env": "^7.0.3",
     "docker-compose": "^0.23.17",
     "express-session": "^1.17.3",
+    "moment": "^2.29.4",
     "mysql2": "^2.3.3",
     "passport": "^0.6.0",
     "passport-jwt": "^4.0.0",

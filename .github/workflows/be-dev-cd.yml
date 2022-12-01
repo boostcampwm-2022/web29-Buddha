@@ -5,7 +5,7 @@ on:
     branches: ['dev']
     paths:
       - 'packages/server/**'
-      - '.github/workflows/be-dev-ci.yml'
+      - '.github/workflows/be-dev-cd.yml'
 
 jobs:
   Push-Docker-Image:

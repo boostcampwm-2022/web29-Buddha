@@ -15,7 +15,7 @@ export interface ChkUser {
 // signup.ts
 // 확인 필요
 export interface SignupRequestBody {
-  userType: UserRole;
+  userRole: UserRole;
   nickname: string;
   corporate?: string;
 }

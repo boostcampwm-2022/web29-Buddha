@@ -21,10 +21,10 @@ export const authHandlers = [
   rest.post(
     `${api}/auth/signup`,
     (req: RestRequest<SignupRequestBody>, res, next) => {
-      const { userType, nickname, corporate } = req.body;
-      if (userType === 'MANAGER' && corporate && nickname) {
+      const { userRole, nickname, corporate } = req.body;
+      if (userRole === 'MANAGER' && corporate && nickname) {
         return res(next.status(201));
-      } else if (userType === 'CLIENT' && nickname) {
+      } else if (userRole === 'CLIENT' && nickname) {
         return res(next.status(201));
       } else {
         return res(next.status(400));

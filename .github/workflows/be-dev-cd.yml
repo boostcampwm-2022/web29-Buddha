@@ -32,7 +32,7 @@ jobs:
         with:
           push: true
           # context 명시를 안해주면 이전 step에서 변경되던 사항들이 적용되지 않는다.
-          context: './'
+          context: 'packages/server'
           tags: |
             ${{secrets.DOCKER_REGISTRY_USERNAME}}/${{secrets.DOCKER_REPOSITORY}}:latest
             ${{secrets.DOCKER_REGISTRY_USERNAME}}/${{secrets.DOCKER_REPOSITORY}}:${{ github.sha }}

@@ -16,4 +16,4 @@ fi
 
 docker run -p 8080:8080 -v ~/server/dist:/app/dist -v -d --name node-nest $1/$2:latest
 
-exit 0
+echo 'deploy success'

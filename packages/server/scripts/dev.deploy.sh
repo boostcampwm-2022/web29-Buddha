@@ -14,6 +14,6 @@ if [[ $(docker ps -a --filter="name=node-nest" --filter "status=exited" | grep -
     docker rm node-nest
 fi
 
-docker run -p 8080:8080 -v ~/server/dist:/app/dist -v -d --name node-nest $1/$2:latest
+docker run -p 8080:8080 -v ~/server/dist:/app/dist -d --name node-nest $1/$2:latest
 
 echo 'deploy success'

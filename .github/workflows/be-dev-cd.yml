@@ -70,6 +70,7 @@ jobs:
           port: ${{ secrets.REMOTE_SSH_PORT }}
           source: 'packages/server/dist/*'
           target: '~/server/dist'
+          strip_components: 3
 
   Deploy:
     needs: ['Push-Docker-Image', 'Build-And-Transfer']
@@ -84,4 +85,4 @@ jobs:
           username: ${{ secrets.REMOTE_SSH_USERNAME }}
           password: ${{ secrets.REMOTE_SSH_PASSWORD }}
           port: ${{ secrets.REMOTE_SSH_PORT }}
-          script: . ~/server/dist/deploy.sh ${{secrets.DOCKER_REGISTRY_USERNAME}} ${{secrets.DOCKER_REPOSITORY}}
+          script: . ~/server/dist/dev.deploy.sh ${{secrets.DOCKER_REGISTRY_USERNAME}} ${{secrets.DOCKER_REPOSITORY}}

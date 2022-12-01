@@ -45,8 +45,20 @@ export class AuthController {
   // 회원가입
   @Post('/signup')
   @HttpCode(201)
-  async signUp(@Req() req: Request, @Body() signUpDto: SignUpDto) {
-    return await this.authService.signUp(req, signUpDto);
+  async signUp(
+    @Req() req: Request,
+    @Res() res: Response,
+    @Body() signUpDto: SignUpDto
+  ) {
+    const { accessToken } = await this.authService.signUp(req, signUpDto);
+
+    res.cookie('accessToken', accessToken, {
+      // domain: process.env.DOMAIN,
+      // path: '/',
+      httpOnly: true,
+    });
+
+    return res.end();
   }
 
   // 유저 권한 확인

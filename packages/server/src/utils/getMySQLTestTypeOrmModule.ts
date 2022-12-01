@@ -11,10 +11,9 @@ export function getMySQLTestTypeOrmModule() {
     port: parseInt(process.env.MYSQL_PORT),
     username: process.env.MYSQL_USERNAME,
     password: process.env.MYSQL_PASSWORD,
-    database: process.env.MYSQL_DATABASE,
+    database: process.env.TEST_DATABASE,
     entities: [entityPath],
     synchronize: true,
-    logging: true,
     dropSchema: true,
   });
 }

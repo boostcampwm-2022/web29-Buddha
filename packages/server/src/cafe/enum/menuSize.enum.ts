@@ -3,3 +3,9 @@ export enum MENU_SIZE {
   GRANDE = 'grande',
   VENTI = 'venti',
 }
+
+export enum SIZE_PRICE {
+  'tall' = 0,
+  'grande' = 500,
+  'venti' = 1000,
+}

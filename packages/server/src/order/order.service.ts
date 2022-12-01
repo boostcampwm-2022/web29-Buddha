@@ -9,6 +9,7 @@ import { Cafe } from 'src/cafe/entities/cafe.entity';
 import { Menu } from 'src/cafe/entities/menu.entity';
 import { MenuOption } from 'src/cafe/entities/menuOption.entity';
 import { Option } from 'src/cafe/entities/option.entity';
+import { MENU_SIZE, SIZE_PRICE } from 'src/cafe/enum/menuSize.enum';
 import { User } from 'src/user/entities/user.entity';
 import { Repository } from 'typeorm';
 import { CreateOrderDto } from './dto/create-order.dto';
@@ -183,7 +184,9 @@ export class OrderService {
       (partialSum, optionId) => partialSum + options[optionId].optionPrice,
       0
     );
-    return menuPrice + totalPriceOfOptions;
+    const sizePrice = parseInt(SIZE_PRICE[menu.size]);
+    const totalPrice = menuPrice + totalPriceOfOptions + sizePrice;
+    return totalPrice;
   }
 
   async getRequestedOrders(): Promise<OrdersResDto> {

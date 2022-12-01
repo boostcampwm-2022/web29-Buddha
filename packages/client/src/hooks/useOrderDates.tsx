@@ -1,10 +1,10 @@
 import { useEffect, useState } from 'react';
 
-import { AnyObject, Order, OrderStatus } from '@/types';
+import { AnyObject, Order, OrderStatusCode } from '@/types';
 
 interface Params {
   list: Order[];
-  status?: OrderStatus[];
+  status?: OrderStatusCode[];
 }
 
 function useOrderGroup({ list, status }: Params) {

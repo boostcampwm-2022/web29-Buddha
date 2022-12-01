@@ -2,7 +2,7 @@ import React, { useMemo } from 'react';
 import { useRecoilValue } from 'recoil';
 import axios from 'axios';
 
-import { OrderDetailMenu, OrderStatus } from '@/types';
+import { OrderDetailMenu, OrderStatusCode } from '@/types';
 import { getPriceComma } from '@/utils';
 import {
   ButtonContainer,
@@ -17,7 +17,7 @@ import Button from '../Button';
 interface Props {
   date: string;
   menus: OrderDetailMenu[];
-  status?: OrderStatus;
+  status?: OrderStatusCode;
   onClick?: (event: React.MouseEvent<HTMLButtonElement>) => void;
 }
 
@@ -27,7 +27,7 @@ interface ItemProps {
 }
 
 interface ButtonGroupProps {
-  status?: OrderStatus;
+  status?: OrderStatusCode;
   onClick?: (event: React.MouseEvent<HTMLButtonElement>) => void;
 }
 

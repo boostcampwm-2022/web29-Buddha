@@ -3,7 +3,7 @@ export type APIMethod = 'GET' | 'get' | 'POST' | 'post';
 export type UserRole = 'CLIENT' | 'MANAGER';
 export type Temperature = 'hot' | 'iced';
 export type Size = 'tall' | 'grande' | 'venti';
-export type OrderStatus = 'REQUESTED' | 'ACCEPTED' | 'REJECTED' | 'COMPLETED';
+export type OrderStatusCode = 'REQUESTED' | 'ACCEPTED' | 'REJECTED' | 'COMPLETED';
 export type AnyObject = { [key: string]: any };
 
 // Signin.ts
@@ -15,7 +15,7 @@ export interface ChkUser {
 // signup.ts
 // 확인 필요
 export interface SignupRequestBody {
-  userType: UserRole;
+  userRole: UserRole;
   nickname: string;
   corporate?: string;
 }
@@ -94,5 +94,5 @@ export interface Order {
   cafeId: number;
   date: string;
   menus: OrderDetailMenu[];
-  status: OrderStatus;
+  status: OrderStatusCode;
 }

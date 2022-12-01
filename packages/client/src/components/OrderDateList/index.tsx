@@ -2,13 +2,13 @@ import { useMemo } from 'react';
 
 import OrderList from 'components/OrderList';
 
-import { Order, OrderStatus } from '@/types';
+import { Order, OrderStatusCode } from '@/types';
 import { Container, ItemContainer } from './styled';
 import useOrderGroup from 'hooks/useOrderDates';
 
 interface Props {
   list: Order[];
-  status?: OrderStatus[];
+  status?: OrderStatusCode[];
 }
 
 interface ItemProps {

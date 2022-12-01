@@ -13,13 +13,12 @@ import {
 } from './styled';
 import Footer from '@/components/Footer';
 import { PROGRESS_CLASS, PROGRESS_IMAGE } from '@/constants';
+import { OrderStatusCode } from '@/types';
 
 function OrderStatus() {
   const api = process.env.REACT_APP_API_SERVER_BASE_URL;
   const { orderId } = useParams();
-  const [status, setStatus] = useState<'REQUESTED' | 'ACCEPTED' | 'COMPLETED'>(
-    'REQUESTED'
-  );
+  const [status, setStatus] = useState<OrderStatusCode>('REQUESTED');
 
   const fetchOrderStatus = async () => {
     try {

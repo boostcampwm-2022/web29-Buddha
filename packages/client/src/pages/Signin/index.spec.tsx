@@ -1,26 +1,12 @@
-import { fireEvent, render, screen, waitFor } from '@testing-library/react';
-import { MemoryRouter } from 'react-router-dom';
+import { fireEvent, screen, waitFor } from '@testing-library/react';
 
-import Router from '@/Router';
-import Layout from '@/Layout';
 import { server } from '@/mocks/server';
 import { PLACEHOLDER } from '@/constants';
+import { setup } from 'utils/testSetup';
 
 beforeAll(() => server.listen());
 beforeEach(() => server.resetHandlers());
 afterAll(() => server.close());
-
-const setup = ({ url }: { url: string }) => {
-  const { asFragment } = render(
-    <Layout>
-      <MemoryRouter initialEntries={[url]}>
-        <Router />
-      </MemoryRouter>
-    </Layout>
-  );
-
-  return { asFragment };
-};
 
 describe('로그인 페이지', () => {
   it('로고, 버튼 요소 존재 여부', () => {

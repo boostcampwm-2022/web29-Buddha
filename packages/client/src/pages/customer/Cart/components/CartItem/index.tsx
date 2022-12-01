@@ -1,4 +1,4 @@
-import { CartMenu } from 'types/Cart';
+import { CartMenu } from '@/types';
 import QuantitySelector from '../../../../../components/QuantitySelector';
 import {
   CartItemWrapper,

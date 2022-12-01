@@ -1,5 +1,5 @@
 import { CART_KEY } from '@/constants';
-import { CartMenu } from 'types/Cart';
+import { CartMenu } from '@/types';
 
 /**
  * 장바구니 배열 return

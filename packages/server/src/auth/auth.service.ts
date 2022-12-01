@@ -1,6 +1,6 @@
 import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import { Request } from 'express';
-import { USER_TYPE } from 'src/user/enum/userType.enum';
+import { USER_ROLE } from 'src/user/enum/userRole.enum';
 import { JwtPayload } from './interfaces/jwtPayload';
 import { NaverSignInDto } from './dto/naver-singIn.dto';
 import { User } from 'src/user/entities/user.entity';
@@ -18,26 +18,26 @@ export class AuthService {
 
   async naverSignIn(req: Request, naverSignInDto: NaverSignInDto) {
     const { code, state } = naverSignInDto;
-    const { email, name } = await this._getUserInfoFromNaver(code, state);
+    const { email, name } = await this.getUserInfoFromNaver(code, state);
 
     const user: User | null = await this.userService.findOneByEmail(email);
 
     if (user) {
-      const userType: USER_TYPE = user.role;
-      const tokens = this._setJwt(user.id, userType);
+      const userType: USER_ROLE = user.role;
+      const tokens = this.setJwt(user.id, userType);
       return tokens;
     } else {
-      this._setSession(req, email, name);
+      this.setSession(req, email, name);
       throw new HttpException('no user data found', HttpStatus.SEE_OTHER);
     }
   }
 
   async signUp(req: Request, signUpDto: SignUpDto) {
-    const userInfoFromSession = this._getUserInfoFromSession(req);
-    const { userType } = signUpDto;
+    const userInfoFromSession = this.getUserInfoFromSession(req);
+    const { userRole } = signUpDto;
 
     let user;
-    if (userType == USER_TYPE.CLIENT) {
+    if (userRole == USER_ROLE.CLIENT) {
       user = User.createClient({ ...userInfoFromSession, ...signUpDto });
     } else {
       user = User.createManager({ ...userInfoFromSession, ...signUpDto });
@@ -45,11 +45,11 @@ export class AuthService {
 
     const userObjInserted = await this.userService.create(user);
 
-    const tokens = this._setJwt(userObjInserted.id, userObjInserted.role);
+    const tokens = this.setJwt(userObjInserted.id, userObjInserted.role);
     return tokens;
   }
 
-  private async _getUserInfoFromNaver(code: string, state: string) {
+  private async getUserInfoFromNaver(code: string, state: string) {
     const { access_token } = await this.naverOAuthService.getTokens(
       code,
       state
@@ -58,13 +58,13 @@ export class AuthService {
     return await this.naverOAuthService.getUserInfo(access_token);
   }
 
-  private _setSession(req: Request, email: string, name: string) {
+  private setSession(req: Request, email: string, name: string) {
     const session: any = req.session;
     session.name = name;
     session.email = email;
   }
 
-  private _getUserInfoFromSession(req: Request) {
+  private getUserInfoFromSession(req: Request) {
     const session: any = req.session;
     const { name, email } = session;
     if (name === undefined || email === undefined) {
@@ -76,8 +76,8 @@ export class AuthService {
     return { name, email };
   }
 
-  private _setJwt(id: number, userType: USER_TYPE) {
-    const payload: JwtPayload = { id, userType };
+  private setJwt(id: number, userRole: USER_ROLE) {
+    const payload: JwtPayload = { id, userRole };
     const accessToken = this.jwtService.sign(payload);
     return { accessToken };
   }

@@ -29,6 +29,7 @@ import { RouterModule } from '@nestjs/core';
           entities: ['dist/**/*.entity{.ts,.js}'],
           synchronize: configService.get('NODE_ENV') === 'development',
           logging: true,
+          timezone: 'Asia/Seoul',
         };
       },
       inject: [ConfigService],

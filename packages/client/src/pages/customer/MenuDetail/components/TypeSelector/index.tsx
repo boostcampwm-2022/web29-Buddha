@@ -1,9 +1,9 @@
 import { Container } from './styled';
-import { Type } from 'types/MenuDetail';
+import { Temperature } from '@/types';
 import { memo } from 'react';
 
 interface Props {
-  type: Type;
+  type: Temperature;
   onClick: (event: React.MouseEvent<HTMLSpanElement>) => void;
 }
 

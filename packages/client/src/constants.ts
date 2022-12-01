@@ -10,3 +10,17 @@ export const SIZE_VOLUME = {
 };
 
 export const CART_KEY = 'buddhaCart';
+
+export const PROGRESS_CLASS = {
+  REQUESTED: 'wd-10',
+  ACCEPTED: 'wd-50',
+  REJECTED: 'wd-50',
+  COMPLETED: 'wd-100',
+};
+
+export const PROGRESS_IMAGE = {
+  REQUESTED: 'https://kr.object.ncloudstorage.com/buddha-dev/requested.gif',
+  ACCEPTED: 'https://kr.object.ncloudstorage.com/buddha-dev/making.gif',
+  REJECTED: '',
+  COMPLETED: 'https://kr.object.ncloudstorage.com/buddha-dev/completed.gif',
+};

@@ -2,11 +2,10 @@ name: Frontend dev ci
 
 on:
   pull_request:
-    branches: [dev]
+    branches: ['dev']
     paths:
-      - 'packages/client'
-      # - 'packages/client/**'
-      # - '.github/workflows/fe-dev-ci.yml'
+      - 'packages/client/**'
+      - '.github/workflows/fe-dev-ci.yml'
 
 jobs:
   ci:
@@ -34,3 +33,5 @@ jobs:
 
       - name: Test
         run: npm run test
+        env:
+          CI: false

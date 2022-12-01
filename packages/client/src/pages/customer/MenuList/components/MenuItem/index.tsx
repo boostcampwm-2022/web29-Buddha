@@ -1,5 +1,5 @@
 import { useNavigate } from 'react-router-dom';
-import { Menu } from '@/types/MenuList';
+import { Menu } from '@/types';
 import { MenuImg, MenuWrapper, MenuInfoWrapper } from './styled';
 
 function MenuItem(props: Menu) {

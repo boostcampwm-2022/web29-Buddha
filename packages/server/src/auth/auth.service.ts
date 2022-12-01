@@ -34,10 +34,10 @@ export class AuthService {
 
   async signUp(req: Request, signUpDto: SignUpDto) {
     const userInfoFromSession = this.getUserInfoFromSession(req);
-    const { userType } = signUpDto;
+    const { userRole } = signUpDto;
 
     let user;
-    if (userType == USER_ROLE.CLIENT) {
+    if (userRole == USER_ROLE.CLIENT) {
       user = User.createClient({ ...userInfoFromSession, ...signUpDto });
     } else {
       user = User.createManager({ ...userInfoFromSession, ...signUpDto });

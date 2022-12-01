@@ -1,5 +1,5 @@
 import Layout from '@/Layout';
-import { Size } from '@/types/MenuDetail';
+import { Size } from '@/types';
 import { fireEvent, render, screen } from '@testing-library/react';
 import SizeSelector from '.';
 

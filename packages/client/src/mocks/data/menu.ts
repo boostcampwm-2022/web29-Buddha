@@ -50,18 +50,21 @@ export const menuListData = {
       thumbnail:
         'https://www.istarbucks.co.kr/upload/store/skuimg/2022/10/[9200000004312]_20221005145029134.jpg',
       price: 1000,
+      category: '아메리카노',
     },
     {
       id: 2,
       name: 'Menu name 2',
       thumbnail: 'Menu Thumbnail',
       price: 1000,
+      category: '콜드 브루',
     },
     {
       id: 3,
       name: 'Menu name 3',
       thumbnail: 'Menu Thumbnail',
       price: 1000,
+      category: '콜드 브루',
     },
   ],
 };

@@ -1,5 +1,5 @@
 import { rest, RestRequest } from 'msw';
-import { SignupRequestBody } from '@/types/Signup';
+import { SignupRequestBody } from '@/types';
 
 const naverOAuthURL = process.env.REACT_APP_NAVER_OAUTH_URL!.split('?')[0];
 const api = process.env.REACT_APP_API_SERVER_BASE_URL;

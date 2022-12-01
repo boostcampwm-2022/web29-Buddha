@@ -10,12 +10,11 @@ import {
   InputTitle,
   Input,
 } from './styled';
-import { SignupRequestBody } from 'types/Signup';
+import { SignupRequestBody } from '@/types';
 import Button from 'components/Button';
 
 function Signup() {
   const api = process.env.REACT_APP_API_SERVER_BASE_URL;
-  //userType -> 고객인 경우 0, 업주인 경우 1
   const [userType, setuserType] = useState<'CLIENT' | 'MANAGER'>('CLIENT');
   const [nickname, setNickname] = useState<string>('');
   const [corporate, setCorporate] = useState<string>('');

@@ -1,18 +1,18 @@
-name: Frontend dev ci
+name: Backend dev ci
 
 on:
   pull_request:
-    branches: ['dev', 'feat/be/fe-be-ci-cd-refactor']
+    branches: ['dev']
     paths:
-      - 'packages/client/**'
-      - '.github/workflows/fe-dev-ci.yml'
+      - 'packages/server/**'
+      - '.github/workflows/be-dev-ci.yml'
 
 jobs:
   ci:
     runs-on: ubuntu-latest
     defaults:
       run:
-        working-directory: './packages/client'
+        working-directory: './packages/server'
 
     steps:
       - name: checkout to the branch
@@ -28,10 +28,10 @@ jobs:
 
       - name: Inject Environment Variables
         env:
-          FE_ENV: ${{ secrets.FE_ENV }}
-        run: echo "$FE_ENV" > .env
+          BE_DEV_ENV: ${{ secrets.BE_DEV_ENV }}
+        run: echo "$BE_DEV_ENV" > .dev.env
 
       - name: Test
-        run: npm run test
+        run: npm run test:cov
         env:
           CI: false

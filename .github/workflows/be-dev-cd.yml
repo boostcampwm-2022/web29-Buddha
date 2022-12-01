@@ -11,8 +11,8 @@ jobs:
   Push-Docker-Image:
     runs-on: ubuntu-latest
     defaults:
-    run:
-      working-directory: './packages/server'
+      run:
+        working-directory: './packages/server'
 
     steps:
       - name: checkout to the branch

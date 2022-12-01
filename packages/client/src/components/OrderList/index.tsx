@@ -14,6 +14,7 @@ import {
   RowContainer,
 } from './styled';
 import axios from 'axios';
+import { useNavigate } from 'react-router-dom';
 
 interface Props {
   date: string;
@@ -28,6 +29,7 @@ interface ItemProps {
 function OrderItem({ date, order }: ItemProps) {
   const api = process.env.REACT_APP_API_SERVER_BASE_URL;
   const [isOpen, setIsOpen] = useState(false);
+  const navigate = useNavigate();
 
   const handleClickOpen = () => setIsOpen(!isOpen);
 
@@ -61,7 +63,7 @@ function OrderItem({ date, order }: ItemProps) {
   return (
     <ItemContainer>
       <Overview>
-        <RowContainer>
+        <RowContainer onClick={() => navigate(`/order/${order.id}`)}>
           <Receipt />
           <p>
             {order.menus[0].name}

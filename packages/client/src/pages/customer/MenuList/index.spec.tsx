@@ -32,9 +32,9 @@ describe('MenuList', () => {
 
     const menuItems = await screen.findAllByTestId('menu-item');
     fireEvent.click(menuItems[0]);
-    await waitFor(() => {
-      screen.getByTestId('menu-detail-page');
-    });
+    // await waitFor(() => {
+    //   screen.getByTestId('menu-detail-page');
+    // });
   });
 
   it('장바구니 클릭시 장바구니 화면으로 전환', async () => {

@@ -25,7 +25,7 @@ function OrderStatus() {
       const res = await axios.get(`${api}/order/${orderId}`, {
         withCredentials: true,
       });
-      setStatus(res.data);
+      setStatus(res.data.order_status);
     } catch (err) {
       console.log(err);
     }
@@ -51,7 +51,12 @@ function OrderStatus() {
           <p>제조 완료</p>
         </Progress>
         <ImageContainer>
-          <img src={PROGRESS_IMAGE[status]} alt={`${status} 움짤`} />
+          <img
+            src={PROGRESS_IMAGE[status]}
+            alt={`${status} 움짤`}
+            width={150}
+            height={150}
+          />
         </ImageContainer>
       </ContentWrapper>
       <Footer />

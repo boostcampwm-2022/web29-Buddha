@@ -14,7 +14,7 @@ import Button from '@/components/Button';
 
 function MyPage() {
   return (
-    <MyPageWrapper>
+    <MyPageWrapper data-testid={'my-page'}>
       <Header title={'MY'} />
       <ContentWrapper>
         <MyPageTitleWrapper>

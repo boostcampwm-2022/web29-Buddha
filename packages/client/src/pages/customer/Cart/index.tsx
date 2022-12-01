@@ -45,7 +45,7 @@ function Cart() {
         <p className={'title'}>장바구니</p>
         <p className={'input-cafe'}>주문할 매장을 선택해주세요</p>
       </CartHeader>
-      <CartContentWrapper>
+      <CartContentWrapper data-testid={'cart-content'}>
         <p className={'title'}>담은 상품 {cartCount}개</p>
         {cartCount > 0 ? (
           <ul>

@@ -54,7 +54,7 @@ jobs:
         run: npm run build
 
       - name: move deploy file to dist
-        run: mv dev.deploy.sh dist
+        run: mv ./scripts/dev.deploy.sh dist
 
       - name: Inject Environment Variables
         run: echo "$BE_DEV_ENV" > ./dist/.dev.env

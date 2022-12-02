@@ -1,5 +1,5 @@
 import { routeTable } from './../config/route';
-import { Module } from '@nestjs/common';
+import { MiddlewareConsumer, Module, NestModule } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { UserModule } from './user/user.module';
 import { OrderModule } from './order/order.module';
@@ -8,6 +8,7 @@ import { AuthModule } from './auth/auth.module';
 
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { RouterModule } from '@nestjs/core';
+import { LoggerMiddleware } from './middleware/logger.http';
 
 @Module({
   imports: [
@@ -28,7 +29,6 @@ import { RouterModule } from '@nestjs/core';
           database: configService.get('MYSQL_DATABASE'),
           entities: ['dist/**/*.entity{.ts,.js}'],
           synchronize: configService.get('NODE_ENV') === 'development',
-          logging: true,
           timezone: 'Asia/Seoul',
         };
       },
@@ -43,4 +43,8 @@ import { RouterModule } from '@nestjs/core';
   controllers: [],
   providers: [],
 })
-export class AppModule {}
+export class AppModule implements NestModule {
+  configure(consumer: MiddlewareConsumer) {
+    consumer.apply(LoggerMiddleware).forRoutes('*');
+  }
+}

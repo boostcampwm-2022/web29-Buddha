@@ -2,6 +2,7 @@ import { NestFactory } from '@nestjs/core';
 import { AppModule } from './app.module';
 import session from 'express-session';
 import cookieParser from 'cookie-parser';
+import { HttpExceptionFilter } from './middleware/exception.filter';
 
 declare module 'express-session' {
   interface SessionData {
@@ -12,6 +13,8 @@ declare module 'express-session' {
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
+
+  app.useGlobalFilters(new HttpExceptionFilter());
   app.enableCors({
     origin: process.env.CLIENT_URI,
     credentials: true,

@@ -7,18 +7,16 @@ import {
   CartContentWrapper,
   FixedHeader,
 } from './styled';
-import { CartMenu } from 'types/Cart';
+import { CartMenu } from '@/types';
 import CartItem from '@/pages/customer/Cart/components/CartItem';
 import { CART_KEY } from '@/constants';
 import EmptyCart from '@/pages/customer/Cart/components/EmptyCart';
-import { useNavigate } from 'react-router-dom';
 import LeftArrow from '@/components/LeftArrow';
 
 function Cart() {
   const [cart, setCart] = useState<CartMenu[]>(getCart());
   const [cartCount, setCartCount] = useState<number>(getCartCount());
   const [cartPrice, setCartPrice] = useState<number>(getCartPrice());
-  const navigate = useNavigate();
 
   const setQuantity = (idx: number, quantity: number) => {
     let newCart = [...cart];
@@ -38,10 +36,6 @@ function Cart() {
     setCartPrice(getCartPrice());
   };
 
-  const handleClickBack = () => {
-    navigate(-1);
-  };
-
   return (
     <CartPageWrapper>
       <FixedHeader>
@@ -51,7 +45,7 @@ function Cart() {
         <p className={'title'}>장바구니</p>
         <p className={'input-cafe'}>주문할 매장을 선택해주세요</p>
       </CartHeader>
-      <CartContentWrapper>
+      <CartContentWrapper data-testid={'cart-content'}>
         <p className={'title'}>담은 상품 {cartCount}개</p>
         {cartCount > 0 ? (
           <ul>

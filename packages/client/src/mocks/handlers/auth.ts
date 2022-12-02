@@ -1,5 +1,5 @@
 import { rest, RestRequest } from 'msw';
-import { SignupRequestBody } from '@/types/Signup';
+import { SignupRequestBody } from '@/types';
 
 const naverOAuthURL = process.env.REACT_APP_NAVER_OAUTH_URL!.split('?')[0];
 const api = process.env.REACT_APP_API_SERVER_BASE_URL;
@@ -21,10 +21,10 @@ export const authHandlers = [
   rest.post(
     `${api}/auth/signup`,
     (req: RestRequest<SignupRequestBody>, res, next) => {
-      const { userType, nickname, corporate } = req.body;
-      if (userType === 'MANAGER' && corporate && nickname) {
+      const { userRole, nickname, corporate } = req.body;
+      if (userRole === 'MANAGER' && corporate && nickname) {
         return res(next.status(201));
-      } else if (userType === 'CLIENT' && nickname) {
+      } else if (userRole === 'CLIENT' && nickname) {
         return res(next.status(201));
       } else {
         return res(next.status(400));

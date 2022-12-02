@@ -2,7 +2,7 @@ import Button from 'components/Button';
 import { CartFooterWrapper, CartFooterInfoWrapper } from './styled';
 import { getPriceComma } from 'utils/index';
 import { getCart } from 'utils/localStorage';
-import { CartMenu } from '@/types/Cart';
+import { CartMenu } from '@/types';
 import { CART_KEY } from '@/constants';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';

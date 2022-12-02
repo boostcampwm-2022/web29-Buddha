@@ -8,7 +8,7 @@ import {
   Title,
 } from './styled';
 
-import { Category, Option } from 'types/MenuDetail';
+import { Category, Option } from '@/types';
 import { getPriceComma } from '@/utils';
 
 interface OnClickInputProps {

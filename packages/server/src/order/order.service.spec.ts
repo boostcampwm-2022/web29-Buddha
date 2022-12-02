@@ -73,13 +73,15 @@ describe('OrderService Unit Test', () => {
 
       const correctMenuId = getCorrectMenuId();
       const correctOptions = getCorrectOptions(correctMenuId);
+      const menuSize = MENU_SIZE.GRANDE;
+
       const correctPriceWithValidMenuAndOptionOnly = getCorrectTotalPrice(
         correctMenuId,
-        correctOptions
+        correctOptions,
+        menuSize
       );
       const mockMenuOptions = getMockMenuOptions([correctMenuId]);
       const correctMenuType = getCorrectMenuType(correctMenuId);
-      const menuSize = MENU_SIZE.GRANDE;
       const menuCount = 1;
 
       const userId = 1;
@@ -132,23 +134,25 @@ describe('OrderService Unit Test', () => {
       // MENU 1
       const correctMenuId1 = getCorrectMenuId();
       const correctOptions1 = getCorrectOptions(correctMenuId1);
+      const menuSize1 = MENU_SIZE.GRANDE;
       const correctPriceWithValidMenuAndOptionOnly1 = getCorrectTotalPrice(
         correctMenuId1,
-        correctOptions1
+        correctOptions1,
+        menuSize1
       );
       const correctMenuType1 = getCorrectMenuType(correctMenuId1);
-      const menuSize1 = MENU_SIZE.GRANDE;
       const menuCount1 = 1;
 
       // MENU 2
       const correctMenuId2 = getCorrectMenuId();
       const correctOptions2 = getCorrectOptions(correctMenuId2);
+      const menuSize2 = MENU_SIZE.TALL;
       const correctPriceWithValidMenuAndOptionOnly2 = getCorrectTotalPrice(
         correctMenuId2,
-        correctOptions2
+        correctOptions2,
+        menuSize2
       );
       const correctMenuType2 = getCorrectMenuType(correctMenuId2);
-      const menuSize2 = MENU_SIZE.TALL;
       const menuCount2 = 3;
 
       // MOCK MENU OPTIONS

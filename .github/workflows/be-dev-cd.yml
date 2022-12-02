@@ -5,14 +5,14 @@ on:
     branches: ['dev']
     paths:
       - 'packages/server/**'
-      - '.github/workflows/be-dev-ci.yml'
+      - '.github/workflows/be-dev-cd.yml'
 
 jobs:
   Push-Docker-Image:
     runs-on: ubuntu-latest
     defaults:
-    run:
-      working-directory: './packages/server'
+      run:
+        working-directory: './packages/server'
 
     steps:
       - name: checkout to the branch
@@ -32,7 +32,7 @@ jobs:
         with:
           push: true
           # context 명시를 안해주면 이전 step에서 변경되던 사항들이 적용되지 않는다.
-          context: './'
+          context: 'packages/server'
           tags: |
             ${{secrets.DOCKER_REGISTRY_USERNAME}}/${{secrets.DOCKER_REPOSITORY}}:latest
             ${{secrets.DOCKER_REGISTRY_USERNAME}}/${{secrets.DOCKER_REPOSITORY}}:${{ github.sha }}
@@ -54,7 +54,7 @@ jobs:
         run: npm run build
 
       - name: move deploy file to dist
-        run: mv dev.deploy.sh dist
+        run: mv ./scripts/dev.deploy.sh dist
 
       - name: Inject Environment Variables
         run: echo "$BE_DEV_ENV" > ./dist/.dev.env
@@ -70,6 +70,7 @@ jobs:
           port: ${{ secrets.REMOTE_SSH_PORT }}
           source: 'packages/server/dist/*'
           target: '~/server/dist'
+          strip_components: 3
 
   Deploy:
     needs: ['Push-Docker-Image', 'Build-And-Transfer']
@@ -84,4 +85,4 @@ jobs:
           username: ${{ secrets.REMOTE_SSH_USERNAME }}
           password: ${{ secrets.REMOTE_SSH_PASSWORD }}
           port: ${{ secrets.REMOTE_SSH_PORT }}
-          script: . ~/server/dist/deploy.sh ${{secrets.DOCKER_REGISTRY_USERNAME}} ${{secrets.DOCKER_REPOSITORY}}
+          script: . ~/server/dist/dev.deploy.sh ${{secrets.DOCKER_REGISTRY_USERNAME}} ${{secrets.DOCKER_REPOSITORY}}

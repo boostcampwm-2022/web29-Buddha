@@ -1,6 +1,6 @@
 import styled from '@emotion/styled';
 
-import { Size } from 'types/MenuDetail';
+import { Size } from '@/types';
 import { ReactComponent as SizeSVG } from 'icons/size.svg';
 
 export const Container = styled.section`

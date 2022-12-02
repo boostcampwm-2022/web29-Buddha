@@ -10,33 +10,32 @@ import {
   InputTitle,
   Input,
 } from './styled';
-import { SignupRequestBody } from 'types/Signup';
+import { SignupRequestBody } from '@/types';
 import Button from 'components/Button';
 
 function Signup() {
   const api = process.env.REACT_APP_API_SERVER_BASE_URL;
-  //userType -> 고객인 경우 0, 업주인 경우 1
-  const [userType, setuserType] = useState<'CLIENT' | 'MANAGER'>('CLIENT');
+  const [userRole, setUserRole] = useState<'CLIENT' | 'MANAGER'>('CLIENT');
   const [nickname, setNickname] = useState<string>('');
   const [corporate, setCorporate] = useState<string>('');
   const navigate = useNavigate();
 
   const handleClickCustomer = () => {
-    setuserType('CLIENT');
+    setUserRole('CLIENT');
   };
 
   const handleClickOwner = () => {
-    setuserType('MANAGER');
+    setUserRole('MANAGER');
   };
 
   const handleSubmit = async () => {
-    if (userType === 'CLIENT') {
+    if (userRole === 'CLIENT') {
       if (isValidateCustomerForm()) {
-        fetchSignup({ userType, nickname });
+        fetchSignup({ userRole: userRole, nickname });
       }
     } else {
       if (isValidateOwnerForm()) {
-        fetchSignup({ userType, nickname, corporate });
+        fetchSignup({ userRole: userRole, nickname, corporate });
       }
     }
   };
@@ -90,13 +89,13 @@ function Signup() {
     <PageWrapper>
       <ChangeForm data-testid={'change-form'}>
         <ChangeButton
-          className={userType === 'CLIENT' ? 'selected' : ''}
+          className={userRole === 'CLIENT' ? 'selected' : ''}
           onClick={handleClickCustomer}
         >
           고객
         </ChangeButton>
         <ChangeButton
-          className={userType === 'MANAGER' ? 'selected' : ''}
+          className={userRole === 'MANAGER' ? 'selected' : ''}
           onClick={handleClickOwner}
         >
           업주
@@ -112,7 +111,7 @@ function Signup() {
           value={nickname}
         />
       </InputWrapper>
-      {userType === 'MANAGER' ? (
+      {userRole === 'MANAGER' ? (
         <InputWrapper>
           <InputTitle>사업자 등록 번호</InputTitle>
           <Input

@@ -1,4 +1,4 @@
-import { CafeService } from '../../../../cafe/cafe.service';
+import { CafeService } from '../../../cafe.service';
 import { CafeModule } from 'src/cafe/cafe.module';
 import { Cafe } from 'src/cafe/entities/cafe.entity';
 import { Repository } from 'typeorm';
@@ -57,10 +57,10 @@ describe('Cafe Service', () => {
     await cafeRepository.save(cafe);
 
     // when
-    const users = await sut.findAllMenuById(cafe.id);
+    const menus = await sut.findAllMenuById(cafe.id);
 
     // then
-    expect(users.id).toBe(cafe.id);
-    expect(users.name).toBe(cafe.name);
+    expect(menus.id).toBe(menus.id);
+    expect(menus.name).toBe(menus.name);
   });
 });

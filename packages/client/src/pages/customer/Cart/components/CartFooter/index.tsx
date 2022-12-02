@@ -25,7 +25,7 @@ function CartFooter({ count, price }: CartFooterProps) {
       price: menu.price,
       size: menu.size,
       type: menu.type,
-      count: menu.quantity,
+      count: menu.count,
       options: menu.options.map((option) => option.id),
     }));
 

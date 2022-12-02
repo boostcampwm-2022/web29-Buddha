@@ -1,12 +1,12 @@
 import { CartMenu } from '@/types';
-import QuantitySelector from '../../../../../components/QuantitySelector';
+import CountSelector from 'components/CountSelector';
 import {
   CartItemWrapper,
   MenuImg,
   MenuInfoWrapper,
   MenuOptionWrapper,
   OptionPriceWrapper,
-  QuantityWrapper,
+  CountWrapper,
   DeleteButton,
 } from './styled';
 import { getMenuIdx } from 'utils/localStorage';
@@ -14,13 +14,13 @@ import { getPriceComma } from 'utils/index';
 
 interface CartItemProps {
   menu: CartMenu;
-  setQuantity: Function;
+  setCount: Function;
   deleteMenu: Function;
 }
 
-function CartItem({ menu, setQuantity, deleteMenu }: CartItemProps) {
-  const handleClickQuantity = (quantity: number) => {
-    setQuantity(getMenuIdx(menu), quantity);
+function CartItem({ menu, setCount, deleteMenu }: CartItemProps) {
+  const handleClickCount = (count: number) => {
+    setCount(getMenuIdx(menu), count);
   };
 
   const handleClickDelete = () => {
@@ -44,15 +44,15 @@ function CartItem({ menu, setQuantity, deleteMenu }: CartItemProps) {
           <p>{getPriceComma(menu.price)}원</p>
         </OptionPriceWrapper>
 
-        <QuantityWrapper>
-          <QuantitySelector
-            quantity={menu.quantity}
+        <CountWrapper>
+          <CountSelector
+            count={menu.count}
             svgWidth={0.8}
             svgHeight={0.8}
-            onClick={handleClickQuantity}
+            onClick={handleClickCount}
           />
-          <p>{getPriceComma(menu.price * menu.quantity)}원</p>
-        </QuantityWrapper>
+          <p>{getPriceComma(menu.price * menu.count)}원</p>
+        </CountWrapper>
       </MenuInfoWrapper>
       <DeleteButton onClick={handleClickDelete} />
     </CartItemWrapper>

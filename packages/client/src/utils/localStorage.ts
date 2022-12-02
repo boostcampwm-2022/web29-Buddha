@@ -16,7 +16,7 @@ export const getCartCount = () => {
   let count = 0;
 
   cart.forEach((menu: CartMenu) => {
-    count += menu.quantity;
+    count += menu.count;
   });
 
   return count;
@@ -27,7 +27,7 @@ export const getCartPrice = () => {
   let price = 0;
 
   cart.forEach((menu: CartMenu) => {
-    price += menu.price * menu.quantity;
+    price += menu.price * menu.count;
   });
 
   return price;

@@ -27,7 +27,7 @@ export const MenuInfoWrapper = styled.div`
     font-size: ${(props) => props.theme.font.size.sm};
   }
 
-  p.menu-name{
+  p.menu-name {
     margin-right: 0.8rem;
   }
 `;
@@ -49,7 +49,7 @@ export const MenuOptionWrapper = styled.div`
   flex-direction: column;
 `;
 
-export const QuantityWrapper = styled.div`
+export const CountWrapper = styled.div`
   display: flex;
   flex-direction: row;
   justify-content: space-between;
@@ -65,4 +65,4 @@ export const DeleteButton = styled(DeleteButtonSVG)`
   right: 0.4rem;
   width: 1rem;
   height: 1rem;
-`
+`;

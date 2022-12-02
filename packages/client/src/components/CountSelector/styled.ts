@@ -4,7 +4,7 @@ import { ReactComponent as MinusSVG } from 'icons/minus.svg';
 import { ReactComponent as PlusSVG } from 'icons/plus.svg';
 
 interface Props {
-  quantity: number;
+  count: number;
   width: number;
   height: number;
 }
@@ -21,8 +21,8 @@ export const Minus = styled(MinusSVG)<Props>`
   height: ${({ height }) => height}rem;
 
   & > path {
-    fill: ${({ quantity, theme }) =>
-      quantity === 1 ? theme.colors.grey200 : theme.colors.grey800};
+    fill: ${({ count, theme }) =>
+      count === 1 ? theme.colors.grey200 : theme.colors.grey800};
   }
 `;
 
@@ -31,7 +31,7 @@ export const Plus = styled(PlusSVG)<Props>`
   height: ${({ height }) => height}rem;
 
   & path {
-    fill: ${({ quantity, theme }) =>
-      quantity === 20 ? theme.colors.grey200 : theme.colors.grey800};
+    fill: ${({ count, theme }) =>
+      count === 20 ? theme.colors.grey200 : theme.colors.grey800};
   }
 `;

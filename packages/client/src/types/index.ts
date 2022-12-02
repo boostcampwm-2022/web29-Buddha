@@ -26,7 +26,7 @@ export interface CartMenu {
   name: string;
   type: string;
   size: string;
-  quantity: number;
+  count: number;
   price: number;
   thumbnail: string;
   options: MenuOption[];

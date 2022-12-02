@@ -5,7 +5,7 @@ import axios from 'axios';
 import TypeSelector from './components/TypeSelector';
 import SizeSelector from './components/SizeSelector';
 import OptionSelector from './components/OptionSelector';
-import QuantitySelector from 'components/QuantitySelector';
+import CountSelector from 'components/CountSelector';
 import Button from 'components/Button';
 
 import {
@@ -22,7 +22,7 @@ import LeftArrow from '@/components/LeftArrow';
 function MenuDetail() {
   const api = process.env.REACT_APP_API_SERVER_BASE_URL;
   const [menu, setMenu] = useState<MenuInfo | null | undefined>(null);
-  const [quantity, setQuantity] = useState(1);
+  const [count, setCount] = useState(1);
   const [type, setType] = useState<Temperature>('hot');
   const [size, setSize] = useState<Size>('tall');
   const [options, setOptions] = useState<Options>({});
@@ -98,7 +98,7 @@ function MenuDetail() {
         ) {
           return {
             ...cart,
-            quantity: cart.quantity + quantity,
+            count: cart.count + count,
           };
         }
         return { ...cart };
@@ -111,7 +111,7 @@ function MenuDetail() {
           name: menu.name,
           type,
           size,
-          quantity,
+          count,
           thumbnail: menu.thumbnail,
           price: singlePrice,
           options: Object.keys(options).reduce((prev: any, curr) => {
@@ -153,8 +153,8 @@ function MenuDetail() {
   /**
    * 수량 선택에 따라 수량 변경
    */
-  const handleClickQuantity = useCallback((newQuantity: number) => {
-    setQuantity(newQuantity);
+  const handleClickCount = useCallback((newCount: number) => {
+    setCount(newCount);
   }, []);
 
   /**
@@ -199,10 +199,10 @@ function MenuDetail() {
 
     setSinglePrice(price);
 
-    price *= quantity;
+    price *= count;
 
     setTotalPrice(price);
-  }, [menu, size, options, quantity]);
+  }, [menu, size, options, count]);
 
   /**
    * 메뉴 정보 렌더링 (Memorize)
@@ -218,17 +218,17 @@ function MenuDetail() {
           <p className="description">{menu.description}</p>
           <AmountContainer>
             <p className="price">{getPriceComma(totalPrice)}원</p>
-            <QuantitySelector
-              quantity={quantity}
+            <CountSelector
+              count={count}
               svgWidth={1}
               svgHeight={1}
-              onClick={handleClickQuantity}
+              onClick={handleClickCount}
             />
           </AmountContainer>
         </MenuInfoContainer>
       </>
     );
-  }, [menu, quantity, handleClickQuantity, totalPrice]);
+  }, [menu, count, handleClickCount, totalPrice]);
 
   return (
     <Container data-testid={'menu-detail-page'}>

@@ -26,11 +26,13 @@ export class OrderService {
   constructor(
     @InjectRepository(Order) private orderRepository: Repository<Order>,
     @InjectRepository(MenuOption)
-    private menuOptionRepository: Repository<MenuOption>
+    private menuOptionRepository: Repository<MenuOption>,
+    @InjectRepository(OrderMenu)
+    private orderMenuRepository: Repository<OrderMenu>
   ) {}
 
   async getOrders(userId): Promise<OrdersResDto> {
-    const user = User.byName(userId);
+    const user = User.byId(userId);
 
     const orders = await this.orderRepository.find({
       relations: {

@@ -36,6 +36,8 @@ jobs:
           tags: |
             ${{secrets.DOCKER_REGISTRY_USERNAME}}/${{secrets.DOCKER_REPOSITORY}}:latest
             ${{secrets.DOCKER_REGISTRY_USERNAME}}/${{secrets.DOCKER_REPOSITORY}}:${{ github.sha }}
+          cache-from: type=registry,ref=${{secrets.DOCKER_REGISTRY_USERNAME}}/${{secrets.DOCKER_REPOSITORY}}:buildcache
+          cache-to: type=registry,ref=${{secrets.DOCKER_REGISTRY_USERNAME}}/${{secrets.DOCKER_REPOSITORY}}:buildcache,mode=max
 
   Build-And-Transfer:
     runs-on: ubuntu-latest

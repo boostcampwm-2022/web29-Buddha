@@ -1,4 +1,5 @@
-FROM node:18.12.1
+# BUILD
+FROM node:18.12.1 AS build
 
 WORKDIR /app
 
@@ -6,6 +7,17 @@ COPY package*.json ./
 
 RUN npm install
 
-EXPOSE 8080
+COPY . .
 
-CMD cp /app/dist/.dev.env /app;npm run start:dev-remote
+RUN npm run build
+
+# RUN
+FROM node:alpine
+
+WORKDIR /app
+
+COPY --from=build /app/dist /app/dist
+COPY --from=build /app/node_modules /app/node_modules
+COPY --from=build /app/package.json /app/package.json
+
+CMD ["npm", "run", "start:dev-remote"]

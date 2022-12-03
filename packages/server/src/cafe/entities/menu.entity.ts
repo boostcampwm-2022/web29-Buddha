@@ -35,4 +35,10 @@ export class Menu extends TimestampableEntity {
 
   @OneToMany(() => OrderMenu, (orderMenu) => orderMenu.menu)
   orderMenus: OrderMenu[];
+
+  static byId({ id }): Menu {
+    const menu = new Menu();
+    menu.id = id;
+    return menu;
+  }
 }

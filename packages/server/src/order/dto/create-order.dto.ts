@@ -24,4 +24,13 @@ export class CreateOrderDto {
       return menuObj;
     });
   }
+
+  static of({ menus, cafeId }): CreateOrderDto {
+    const createOrderDto = new CreateOrderDto();
+    createOrderDto.cafeId = cafeId;
+    createOrderDto.menus = menus.map((menu) => {
+      return OrderMenuDto.of(menu);
+    });
+    return createOrderDto;
+  }
 }

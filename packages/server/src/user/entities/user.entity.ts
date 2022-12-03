@@ -50,7 +50,7 @@ export class User extends TimestampableEntity {
     return user;
   }
 
-  static byName(userId) {
+  static byId(userId) {
     const user = new User();
     user.id = userId;
     return user;

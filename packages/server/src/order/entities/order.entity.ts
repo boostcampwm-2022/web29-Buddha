@@ -32,4 +32,12 @@ export class Order extends TimestampableEntity {
     cascade: ['insert'],
   })
   orderMenus: OrderMenu[];
+
+  static of({ cafe, status }): Order {
+    const order = new Order();
+    order.cafe = cafe;
+    order.status = status;
+
+    return order;
+  }
 }

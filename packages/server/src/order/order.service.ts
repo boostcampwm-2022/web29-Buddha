@@ -29,9 +29,9 @@ export class OrderService {
     private menuOptionRepository: Repository<MenuOption>
   ) {}
 
-  async getOrders(userId) {
-    const user = new User();
-    user.id = userId;
+  async getOrders(userId): Promise<OrdersResDto> {
+    const user = User.byName(userId);
+
     const orders = await this.orderRepository.find({
       relations: {
         cafe: true,
@@ -42,7 +42,7 @@ export class OrderService {
       },
     });
 
-    return orders;
+    return new OrdersResDto(orders);
   }
 
   async create(userId, createOrderDto: CreateOrderDto) {

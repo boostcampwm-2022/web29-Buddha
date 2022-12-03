@@ -1,5 +1,3 @@
-import { OrderService } from './../../../src/order/order.service';
-import { OrderModule } from './../../../src/order/order.module';
 import { Test, TestingModule } from '@nestjs/testing';
 import { INestApplication } from '@nestjs/common';
 import request from 'supertest';
@@ -53,5 +51,47 @@ describe('OrderApiController (e2e)', () => {
 
     expect(res.status).toBe(200);
     expect(data.orders).toHaveLength(0);
+  });
+
+  it('/order (POST)', async () => {
+    // given
+    const mockData = {
+      menus: [
+        {
+          id: 6,
+          name: '아메리카노',
+          price: 5000,
+          options: [],
+          size: 'tall',
+          type: 'hot',
+          count: 2,
+        },
+        {
+          id: 7,
+          name: '카페라떼',
+          price: 6700,
+          options: [1, 2],
+          size: 'grande',
+          type: 'iced',
+          count: 3,
+        },
+      ],
+      cafeId: 1,
+    };
+
+    // when
+    const res = await request(app.getHttpServer())
+      .post(`/api/v1/order`)
+      .set('Content-Type', 'application/json')
+      .set('Cookie', [
+        `accessToken=${process.env.TEST_CLIENT_TOKEN}`,
+        'httpOnly',
+      ])
+      .send(mockData);
+
+    // then
+    const data = res.body;
+
+    expect(res.status).toBe(201);
   });
 });

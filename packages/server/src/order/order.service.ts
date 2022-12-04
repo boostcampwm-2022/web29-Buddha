@@ -1,3 +1,4 @@
+import { CreateOrderDto } from 'src/order/dto/create-order.dto';
 import {
   BadRequestException,
   HttpStatus,
@@ -12,7 +13,6 @@ import { Option } from 'src/cafe/entities/option.entity';
 import { MENU_SIZE, SIZE_PRICE } from 'src/cafe/enum/menuSize.enum';
 import { User } from 'src/user/entities/user.entity';
 import { Repository } from 'typeorm';
-import { CreateOrderDto } from './dto/create-order.dto';
 import { OrderMenuDto } from './dto/orderMenu.dto';
 import { OrdersResDto } from './dto/ordersRes.dto';
 import { UpdateOrderDto } from './dto/update-order.dto';
@@ -51,13 +51,9 @@ export class OrderService {
     const { menus, cafeId } = createOrderDto;
 
     // menuAndOptionDict를 만들기 위한 과정. 옵션 가격, 이름, 메뉴 가격, 이름을 모두 가져온다.
-    const menuEntityObjs: Menu[] = createOrderDto.createMenuEntityObjs();
-    const menuOptionEntityObjs: MenuOption[] =
-      await this.getMenuOptionEntityObjs(menuEntityObjs);
-
-    const validMenuAndOptionInfo =
-      this.getValidMenuAndOptionInfo(menuOptionEntityObjs);
-    // menuAndOptionDict를 만들기 위한 과정. 옵션 가격, 이름, 메뉴 가격, 이름을 모두 가져온다.
+    const validMenuAndOptionInfo = await this.getValidMenuAndOptionInfo(
+      createOrderDto
+    );
 
     // 모든 메뉴가 유효한 메뉴였는지 확인하는 과정
     if (Order.isValidMenu(validMenuAndOptionInfo, menus)) {
@@ -65,7 +61,6 @@ export class OrderService {
         '주문한 메뉴 중에 존재하지 않은 메뉴가 있습니다.'
       );
     }
-    // 모든 메뉴가 유효한 메뉴였는지 확인하는 과정
 
     // 각 메뉴마다 옵션이 모두 유효한 옵션들인지 확인하는 과정
     for (const menu of menus) {
@@ -131,34 +126,50 @@ export class OrderService {
     return await this.orderRepository.save(order);
   }
 
-  private async getMenuOptionEntityObjs(menuEntityObjs): Promise<MenuOption[]> {
-    const menuOptionEntityObjs = await this.menuOptionRepository.find({
-      where: { menu: menuEntityObjs },
+  private async getMenuOptionEntity(menu): Promise<MenuOption[]> {
+    const menuOptionEntitys = await this.menuOptionRepository.find({
+      where: { menu: menu },
       relations: {
         option: true,
         menu: true,
       },
     });
-    return menuOptionEntityObjs;
+    return menuOptionEntitys;
   }
 
-  private getValidMenuAndOptionInfo(menuOptionEntityObjs: MenuOption[]) {
+  // 주문 요청 받은 모든 메뉴 정보와 해당 메뉴의 옵션들을 get
+  private async getValidMenuAndOptionInfo(createOrderDto: CreateOrderDto) {
+    // 주문 요청으로 들어온 body를 토대로 Menu Entity 만들기
+    const menuEntitys: Menu[] = createOrderDto.menus.map((menu) =>
+      Menu.byId({ id: menu.id })
+    );
+
+    // Menu Entity를 토대로 Menu Option Entity 만들기
+    const menuOptionEntityObjs: MenuOption[] = await this.getMenuOptionEntity(
+      menuEntitys
+    );
+    // Menu별로 유효한 옵션을 가진 Dict 생성
     const menuOptionDict = {};
-    menuOptionEntityObjs.map((menuOptionEntityObj: MenuOption) => {
+
+    menuOptionEntityObjs.forEach((menuOptionEntityObj: MenuOption) => {
       const menu: Menu = menuOptionEntityObj.menu;
       const option: Option = menuOptionEntityObj.option;
 
+      // 메뉴 dict에 menu아이디 없으면 menu 가격과 options 추가
       if (!Object.prototype.hasOwnProperty.call(menuOptionDict, menu.id)) {
         menuOptionDict[menu.id] = {
           menuPrice: menu.price,
           options: {},
         };
       }
+
+      // menu 별로 options 배열에 option 넣어주기
       menuOptionDict[menu.id].options[option.id] = {
         optionPrice: option.price,
         optionName: option.name,
       };
     });
+
     return menuOptionDict;
   }
 
@@ -172,7 +183,6 @@ export class OrderService {
         option
       )
     );
-
     return filteredOptions;
   }
 

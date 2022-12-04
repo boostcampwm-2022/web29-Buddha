@@ -3,7 +3,7 @@
   "rootDir": ".",
   "moduleDirectories": ["<rootDir>/../", "node_modules", "mock"],
   "testEnvironment": "node",
-  "testRegex": [".e2e.spec.ts$", ".int.spec.ts$"],
+  "testRegex": [".int.spec.ts$"],
   "transform": {
     "^.+\\.(t|j)s$": "ts-jest"
   },

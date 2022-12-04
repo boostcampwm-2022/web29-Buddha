@@ -1,3 +1,4 @@
+import { BadRequestException } from '@nestjs/common';
 import { ORDER_STATUS } from './../../../src/order/enum/orderStatus.enum';
 import { OrderMenu } from './../../../src/order/entities/orderMenu.entity';
 import { OrderService } from './../../../src/order/order.service';
@@ -100,6 +101,45 @@ describe('Order Service', () => {
       // then
       expect(repoSpy).toBeCalled();
       expect(res.orders).toHaveLength(1);
+    });
+  });
+  describe('create() - 주문 하기', () => {
+    it('주문 하기 성공', async () => {
+      // given
+      const userId = 1;
+      const cafeId = 1;
+      const order = JSON.parse(mockOrder.toString());
+      const repoSpy = jest.spyOn(orderRepository, 'save');
+
+      // when
+      const res = await sut.create(
+        userId,
+        CreateOrderDto.of({ menus: order.menus, cafeId: cafeId })
+      );
+
+      // then
+      expect(repoSpy).toBeCalled();
+      expect(res.orderMenus).toHaveLength(order.menus.length);
+    });
+
+    it('주문 하기 실패 - 가격 검증', async () => {
+      // given
+      const userId = 1;
+      const cafeId = 1;
+      const order = JSON.parse(mockOrder.toString());
+      order.menus[0].price = -10000;
+
+      // when
+      // then
+      await expect(
+        async () =>
+          await sut.create(
+            userId,
+            CreateOrderDto.of({ menus: order.menus, cafeId: cafeId })
+          )
+      ).rejects.toThrowError(
+        new BadRequestException('요청된 계산 총액이 정확하지 않습니다.')
+      );
     });
   });
 });

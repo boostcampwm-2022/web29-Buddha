@@ -40,4 +40,10 @@ export class Order extends TimestampableEntity {
 
     return order;
   }
+
+  static isValidMenu(validMenuAndOptionInfo, menus): boolean {
+    return menus.every((menu) => {
+      Object.keys(validMenuAndOptionInfo).includes(menu.id.toString());
+    });
+  }
 }

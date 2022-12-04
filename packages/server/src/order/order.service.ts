@@ -60,11 +60,7 @@ export class OrderService {
     // menuAndOptionDict를 만들기 위한 과정. 옵션 가격, 이름, 메뉴 가격, 이름을 모두 가져온다.
 
     // 모든 메뉴가 유효한 메뉴였는지 확인하는 과정
-    if (
-      menus.every((menu) => {
-        Object.keys(validMenuAndOptionInfo).includes(menu.id.toString());
-      })
-    ) {
+    if (Order.isValidMenu(validMenuAndOptionInfo, menus)) {
       throw new BadRequestException(
         '주문한 메뉴 중에 존재하지 않은 메뉴가 있습니다.'
       );

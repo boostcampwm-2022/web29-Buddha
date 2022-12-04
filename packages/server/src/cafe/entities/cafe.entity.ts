@@ -39,4 +39,10 @@ export class Cafe extends TimestampableEntity {
     cafe.address = address;
     return cafe;
   }
+
+  static byId(id): Cafe {
+    const cafe = new Cafe();
+    cafe.id = id;
+    return cafe;
+  }
 }

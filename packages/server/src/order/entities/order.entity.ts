@@ -1,4 +1,5 @@
 import { Cafe } from 'src/cafe/entities/cafe.entity';
+import { Menu } from 'src/cafe/entities/menu.entity';
 import { SIZE_PRICE } from 'src/cafe/enum/menuSize.enum';
 import { TimestampableEntity } from 'src/common/entities/common.entity';
 import { User } from 'src/user/entities/user.entity';
@@ -34,10 +35,38 @@ export class Order extends TimestampableEntity {
   })
   orderMenus: OrderMenu[];
 
-  static of({ cafe, status }): Order {
+  static of({ cafeId, userId, status, menus, validMenuAndOptionInfo }) {
+    const cafe = Cafe.byId(cafeId);
+    const user = User.byId(userId);
+
     const order = new Order();
     order.cafe = cafe;
-    order.status = status;
+    order.status = ORDER_STATUS.REQUESTED;
+    order.user = user;
+
+    const orderMenus = menus.map((menu) => {
+      const orderMenu = new OrderMenu();
+      const menuObj = new Menu();
+      menuObj.id = menu.id;
+
+      const processedOptions = {};
+      menu.options.forEach((optionId) => {
+        processedOptions[optionId] =
+          validMenuAndOptionInfo[menu.id].options[optionId].optionName;
+      });
+
+      orderMenu.count = menu.count;
+      orderMenu.price =
+        Order.getTotalPrice(menu, validMenuAndOptionInfo) * menu.count;
+      orderMenu.size = menu.size;
+      orderMenu.type = menu.type;
+      orderMenu.menu = menuObj;
+      orderMenu.order = order;
+      orderMenu.options = JSON.stringify(processedOptions);
+      return orderMenu;
+    });
+
+    order.orderMenus = orderMenus;
 
     return order;
   }

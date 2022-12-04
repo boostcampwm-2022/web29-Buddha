@@ -75,41 +75,13 @@ export class OrderService {
     }
 
     // 주문 저장을 위한 과정
-    const cafe = new Cafe();
-    cafe.id = cafeId;
-
-    const user = new User();
-    user.id = userId;
-
-    const order = new Order();
-    order.cafe = cafe;
-    order.status = ORDER_STATUS.REQUESTED;
-    order.user = user;
-
-    const orderMenus = menus.map((menu) => {
-      const orderMenu = new OrderMenu();
-      const menuObj = new Menu();
-
-      menuObj.id = menu.id;
-      const processedOptions = {};
-      menu.options.map((optionId) => {
-        processedOptions[optionId] =
-          validMenuAndOptionInfo[menu.id].options[optionId].optionName;
-      });
-
-      orderMenu.count = menu.count;
-      orderMenu.price =
-        Order.getTotalPrice(menu, validMenuAndOptionInfo) * menu.count;
-      orderMenu.size = menu.size;
-      orderMenu.type = menu.type;
-      orderMenu.menu = menuObj;
-      orderMenu.order = order;
-      orderMenu.options = JSON.stringify(processedOptions);
-
-      return orderMenu;
+    const order = Order.of({
+      cafeId,
+      userId,
+      status: ORDER_STATUS.REQUESTED,
+      menus,
+      validMenuAndOptionInfo,
     });
-
-    order.orderMenus = orderMenus;
 
     return await this.orderRepository.save(order);
   }

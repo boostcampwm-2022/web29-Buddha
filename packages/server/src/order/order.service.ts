@@ -1,6 +1,5 @@
 import {
   BadRequestException,
-  HttpStatus,
   Injectable,
   UnauthorizedException,
 } from '@nestjs/common';
@@ -9,7 +8,8 @@ import { Cafe } from 'src/cafe/entities/cafe.entity';
 import { Menu } from 'src/cafe/entities/menu.entity';
 import { MenuOption } from 'src/cafe/entities/menuOption.entity';
 import { Option } from 'src/cafe/entities/option.entity';
-import { MENU_SIZE, SIZE_PRICE } from 'src/cafe/enum/menuSize.enum';
+import { SIZE_PRICE } from 'src/cafe/enum/menuSize.enum';
+import { RedisCacheService } from 'src/redisCache/redisCache.service';
 import { User } from 'src/user/entities/user.entity';
 import { Repository } from 'typeorm';
 import { CreateOrderDto } from './dto/create-order.dto';
@@ -26,7 +26,8 @@ export class OrderService {
   constructor(
     @InjectRepository(Order) private orderRepository: Repository<Order>,
     @InjectRepository(MenuOption)
-    private menuOptionRepository: Repository<MenuOption>
+    private menuOptionRepository: Repository<MenuOption>,
+    private redisCacheService: RedisCacheService
   ) {}
 
   async getOrders(userId) {
@@ -300,7 +301,17 @@ export class OrderService {
     this.orderRepository.save(order);
   }
 
-  async findOne(userId: number, orderId: number): Promise<ORDER_STATUS> {
+  async getOrderStatus(
+    cafeId,
+    userId: number,
+    orderId: number
+  ): Promise<ORDER_STATUS> {
+    const status = await this.redisCacheService.getCachedOrder(
+      cafeId,
+      orderId.toString()
+    );
+    if (status) return status;
+
     const order = await this.orderRepository.findOne({
       where: {
         id: orderId,
@@ -309,6 +320,7 @@ export class OrderService {
         user: true,
       },
     });
+
     if (order === null) {
       throw new BadRequestException('해당 주문을 찾을 수 없습니다.');
     }
@@ -317,6 +329,12 @@ export class OrderService {
         '해당 주문의 상태 조회에 대한 접근 권한이 없습니다.'
       );
     }
+
+    await this.redisCacheService.insertCachedOrder(
+      cafeId,
+      orderId.toString(),
+      order.status
+    );
     return order.status;
   }
 

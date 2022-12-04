@@ -14,6 +14,7 @@ import {
   UsePipes,
   HttpCode,
   ParseIntPipe,
+  Query,
 } from '@nestjs/common';
 import { OrderService } from './order.service';
 import { JwtGuard } from 'src/auth/guard/jwt.guard';
@@ -22,10 +23,41 @@ import { JwtPayload } from 'src/auth/interfaces/jwtPayload';
 import { CreateOrderDto } from './dto/create-order.dto';
 import { OrdersResDto } from './dto/ordersRes.dto';
 import { ORDER_STATUS } from './enum/orderStatus.enum';
+import { RedisCacheService } from 'src/redisCache/redisCache.service';
 
 @Controller()
 export class OrderController {
-  constructor(private readonly orderService: OrderService) {}
+  constructor(
+    private readonly orderService: OrderService,
+    private readonly redisCacheService: RedisCacheService
+  ) {}
+  @Get('test-insert')
+  async testInsert() {
+    // @Query('orderId') orderId: number // @Query('cafeId') cafeId: number,
+    for (let i = 1; i < 101; i++) {
+      for (
+        let orderId = 400 * (i - 1) + 1;
+        orderId < 400 * (i - 1) + 11;
+        orderId++
+      ) {
+        const result = await this.redisCacheService.insertCachedOrder(
+          i,
+          orderId.toString(),
+          'REQUESTED'
+        );
+      }
+    }
+    return;
+  }
+
+  @Get('test-get')
+  async testGet(
+    @Query('cafeId') cafeId: number,
+    @Query('orderId') orderId: number
+  ) {
+    const result = await this.redisCacheService.getCachedOrder(cafeId, orderId);
+    return result;
+  }
 
   @Get('/requested')
   @UseGuards(JwtGuard)
@@ -91,10 +123,11 @@ export class OrderController {
     @Req() req: Request,
     @Param('id', ParseIntPipe) orderId: number
   ) {
+    const cafeId = 1;
     const user = req.user as JwtPayload;
-    const userId = user.id;
-    const status: ORDER_STATUS = await this.orderService.findOne(
-      userId,
+    const status: ORDER_STATUS = await this.orderService.getOrderStatus(
+      cafeId.toString(),
+      user.id,
       orderId
     );
     return { order_status: status };

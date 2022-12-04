@@ -70,14 +70,9 @@ export class OrderService {
     }
 
     // 가격 비교
-    for (const menu of menus) {
-      const totalPrice = this.getTotalPrice(menu, validMenuAndOptionInfo);
-
-      if (menu.price !== totalPrice) {
-        throw new BadRequestException('요청된 계산 총액이 정확하지 않습니다.');
-      }
+    if (!Order.isValidOrderTotalPrice(menus, validMenuAndOptionInfo)) {
+      throw new BadRequestException('요청된 계산 총액이 정확하지 않습니다.');
     }
-    // 가격 비교
 
     // 주문 저장을 위한 과정
     const cafe = new Cafe();
@@ -104,7 +99,7 @@ export class OrderService {
 
       orderMenu.count = menu.count;
       orderMenu.price =
-        this.getTotalPrice(menu, validMenuAndOptionInfo) * menu.count;
+        Order.getTotalPrice(menu, validMenuAndOptionInfo) * menu.count;
       orderMenu.size = menu.size;
       orderMenu.type = menu.type;
       orderMenu.menu = menuObj;
@@ -164,17 +159,6 @@ export class OrderService {
     });
 
     return menuOptionDict;
-  }
-
-  private getTotalPrice(menu, menuAndOptionDict) {
-    const { options, menuPrice } = menuAndOptionDict[menu.id];
-    const totalPriceOfOptions = menu.options.reduce(
-      (partialSum, optionId) => partialSum + options[optionId].optionPrice,
-      0
-    );
-    const sizePrice = parseInt(SIZE_PRICE[menu.size]);
-    const totalPrice = menuPrice + totalPriceOfOptions + sizePrice;
-    return totalPrice;
   }
 
   async getRequestedOrders(): Promise<OrdersResDto> {

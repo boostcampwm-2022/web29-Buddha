@@ -1,4 +1,5 @@
 import { Cafe } from 'src/cafe/entities/cafe.entity';
+import { SIZE_PRICE } from 'src/cafe/enum/menuSize.enum';
 import { TimestampableEntity } from 'src/common/entities/common.entity';
 import { User } from 'src/user/entities/user.entity';
 import {
@@ -64,5 +65,27 @@ export class Order extends TimestampableEntity {
     }
 
     return true;
+  }
+
+  static isValidOrderTotalPrice(menus, menuAndOptionDict) {
+    for (const menu of menus) {
+      const totalPrice = Order.getTotalPrice(menu, menuAndOptionDict);
+
+      if (menu.price !== totalPrice) {
+        return false;
+      }
+    }
+    return true;
+  }
+
+  static getTotalPrice(menu, menuAndOptionDict): number {
+    const { options, menuPrice } = menuAndOptionDict[menu.id];
+    const totalPriceOfOptions = menu.options.reduce(
+      (partialSum, optionId) => partialSum + options[optionId].optionPrice,
+      0
+    );
+    const sizePrice = parseInt(SIZE_PRICE[menu.size]);
+    const totalPrice = menuPrice + totalPriceOfOptions + sizePrice;
+    return totalPrice;
   }
 }

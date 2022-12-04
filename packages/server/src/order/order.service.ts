@@ -63,18 +63,11 @@ export class OrderService {
     }
 
     // 각 메뉴마다 옵션이 모두 유효한 옵션들인지 확인하는 과정
-    for (const menu of menus) {
-      const filteredOptions = this.filterPossibleOptions(
-        menu,
-        validMenuAndOptionInfo
+    if (!Order.isValidOptionForMenu(menus, validMenuAndOptionInfo)) {
+      throw new BadRequestException(
+        '해당 메뉴에서 선택할 수 없는 옵션이 포함되어 있습니다.'
       );
-      if (menu.options.length !== filteredOptions.length) {
-        throw new BadRequestException(
-          '해당 메뉴에서 선택할 수 없는 옵션이 포함되어 있습니다.'
-        );
-      }
     }
-    // 각 메뉴마다 옵션이 모두 유효한 옵션들인지 확인하는 과정
 
     // 가격 비교
     for (const menu of menus) {
@@ -171,19 +164,6 @@ export class OrderService {
     });
 
     return menuOptionDict;
-  }
-
-  private filterPossibleOptions(menu: OrderMenuDto, menuOptionDict) {
-    const { options } = menu;
-    const menuId = menu.id;
-
-    const filteredOptions = options.filter((option: number) =>
-      Object.prototype.hasOwnProperty.call(
-        menuOptionDict[menuId].options,
-        option
-      )
-    );
-    return filteredOptions;
   }
 
   private getTotalPrice(menu, menuAndOptionDict) {

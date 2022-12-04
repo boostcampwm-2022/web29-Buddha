@@ -46,4 +46,23 @@ export class Order extends TimestampableEntity {
       Object.keys(validMenuAndOptionInfo).includes(menu.id.toString());
     });
   }
+
+  static isValidOptionForMenu(menus, menuOptionDict): boolean {
+    for (const menu of menus) {
+      const { options } = menu;
+
+      const filteredOptions = options.filter((option: number) =>
+        Object.prototype.hasOwnProperty.call(
+          menuOptionDict[menu.id].options,
+          option
+        )
+      );
+
+      if (menu.options.length !== filteredOptions.length) {
+        return false;
+      }
+    }
+
+    return true;
+  }
 }

@@ -132,7 +132,7 @@ describe('Order Entity Unit Test', () => {
     // then
     expect(orderMenu.price).toBe(totalPrice);
   });
-  it('of() static func', async () => {
+  it('of() - Order Entity 인스턴스 생성 함수', async () => {
     const userId = 1;
     const cafeId = 1;
     const order = JSON.parse(mockOrder.toString());

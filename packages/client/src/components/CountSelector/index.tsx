@@ -7,14 +7,14 @@ interface Listener {
 
 export interface Props {
   count: number;
-  svgWidth: number;
-  svgHeight: number;
+  svgWidth?: number;
+  svgHeight?: number;
 }
 
 function CountSelector({
   count,
-  svgWidth,
-  svgHeight,
+  svgWidth = 1,
+  svgHeight = 1,
   onClick,
 }: Props & Listener) {
   const handleClickCount = (event: React.MouseEvent<SVGSVGElement>) => {
@@ -34,6 +34,7 @@ function CountSelector({
       <>
         <Minus
           name="minus"
+          data-testid="minus"
           count={count}
           width={svgWidth}
           height={svgHeight}
@@ -44,6 +45,7 @@ function CountSelector({
       <>
         <Plus
           name="plus"
+          data-testid="plus"
           count={count}
           width={svgWidth}
           height={svgHeight}

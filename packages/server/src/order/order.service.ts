@@ -49,10 +49,14 @@ export class OrderService {
   async create(userId, createOrderDto: CreateOrderDto) {
     const { menus, cafeId } = createOrderDto;
 
-    // menuAndOptionDict를 만들기 위한 과정. 옵션 가격, 이름, 메뉴 가격, 이름을 모두 가져온다.
-    const validMenuAndOptionInfo = await this.getValidMenuAndOptionInfo(
+    // Menu Entity를 토대로 Menu Option Entity 만들기
+    const menuOptionEntityObjs: MenuOption[] = await this.getMenuOptionEntity(
       createOrderDto
     );
+
+    // menuAndOptionDict를 만들기 위한 과정. 옵션 가격, 이름, 메뉴 가격, 이름을 모두 가져온다.
+    const validMenuAndOptionInfo =
+      Order.getValidMenuAndOptionInfo(menuOptionEntityObjs);
 
     // 모든 메뉴가 유효한 메뉴였는지 확인하는 과정
     if (!Order.isValidMenu(validMenuAndOptionInfo, menus)) {
@@ -83,13 +87,19 @@ export class OrderService {
     });
 
     const res = await this.orderRepository.save(order);
-    console.log(res);
     return res;
   }
 
-  private async getMenuOptionEntity(menu): Promise<MenuOption[]> {
+  private async getMenuOptionEntity(
+    createOrderDto: CreateOrderDto
+  ): Promise<MenuOption[]> {
+    // 주문 요청으로 들어온 body를 토대로 Menu Entity 만들기
+    const menuEntitys: Menu[] = createOrderDto.menus.map((menu) =>
+      Menu.byId({ id: menu.id })
+    );
+
     const menuOptionEntitys = await this.menuOptionRepository.find({
-      where: { menu: menu },
+      where: { menu: menuEntitys },
       relations: {
         option: true,
         menu: true,
@@ -104,40 +114,7 @@ export class OrderService {
   }
 
   // 주문 요청 받은 모든 메뉴 정보와 해당 메뉴의 옵션들을 get
-  private async getValidMenuAndOptionInfo(createOrderDto: CreateOrderDto) {
-    // 주문 요청으로 들어온 body를 토대로 Menu Entity 만들기
-    const menuEntitys: Menu[] = createOrderDto.menus.map((menu) =>
-      Menu.byId({ id: menu.id })
-    );
-
-    // Menu Entity를 토대로 Menu Option Entity 만들기
-    const menuOptionEntityObjs: MenuOption[] = await this.getMenuOptionEntity(
-      menuEntitys
-    );
-    // Menu별로 유효한 옵션을 가진 Dict 생성
-    const menuOptionDict = {};
-
-    menuOptionEntityObjs.forEach((menuOptionEntityObj: MenuOption) => {
-      const menu: Menu = menuOptionEntityObj.menu;
-      const option: Option = menuOptionEntityObj.option;
-
-      // 메뉴 dict에 menu아이디 없으면 menu 가격과 options 추가
-      if (!Object.prototype.hasOwnProperty.call(menuOptionDict, menu.id)) {
-        menuOptionDict[menu.id] = {
-          menuPrice: menu.price,
-          options: {},
-        };
-      }
-
-      // menu 별로 options 배열에 option 넣어주기
-      menuOptionDict[menu.id].options[option.id] = {
-        optionPrice: option.price,
-        optionName: option.name,
-      };
-    });
-
-    return menuOptionDict;
-  }
+  private async getValidMenuAndOptionInfo(menuOptionEntityObjs: MenuOption[]) {}
 
   async getRequestedOrders(): Promise<OrdersResDto> {
     const cafe = new Cafe();

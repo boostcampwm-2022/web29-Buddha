@@ -1,5 +1,7 @@
+import { Option } from './../../../../client/src/types/index';
 import { Cafe } from 'src/cafe/entities/cafe.entity';
 import { Menu } from 'src/cafe/entities/menu.entity';
+import { MenuOption } from 'src/cafe/entities/menuOption.entity';
 import { SIZE_PRICE } from 'src/cafe/enum/menuSize.enum';
 import { TimestampableEntity } from 'src/common/entities/common.entity';
 import { User } from 'src/user/entities/user.entity';
@@ -117,5 +119,31 @@ export class Order extends TimestampableEntity {
     const sizePrice = parseInt(SIZE_PRICE[menu.size]);
     const totalPrice = menuPrice + totalPriceOfOptions + sizePrice;
     return totalPrice;
+  }
+
+  static getValidMenuAndOptionInfo(menuOptionEntityObjs: MenuOption[]) {
+    // Menu별로 유효한 옵션을 가진 Dict 생성
+    const menuOptionDict = {};
+
+    menuOptionEntityObjs.forEach((menuOptionEntityObj: MenuOption) => {
+      const menu: Menu = menuOptionEntityObj.menu;
+      const option: Option = menuOptionEntityObj.option;
+
+      // 메뉴 dict에 menu아이디 없으면 menu 가격과 options 추가
+      if (!Object.prototype.hasOwnProperty.call(menuOptionDict, menu.id)) {
+        menuOptionDict[menu.id] = {
+          menuPrice: menu.price,
+          options: {},
+        };
+      }
+
+      // menu 별로 options 배열에 option 넣어주기
+      menuOptionDict[menu.id].options[option.id] = {
+        optionPrice: option.price,
+        optionName: option.name,
+      };
+    });
+
+    return menuOptionDict;
   }
 }

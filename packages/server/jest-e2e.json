@@ -1,11 +1,11 @@
 {
   "moduleFileExtensions": ["js", "json", "ts"],
   "rootDir": ".",
-  "moduleDirectories": ["<rootDir>/../", "node_modules", "mock"],
+  "moduleDirectories": ["<rootDir>/", "node_modules", "mock"],
   "testEnvironment": "node",
   "testRegex": [".int.spec.ts$"],
   "transform": {
     "^.+\\.(t|j)s$": "ts-jest"
   },
-  "setupFiles": ["<rootDir>/../src/setEnvVar.ts"]
+  "setupFiles": ["<rootDir>/src/setEnvVar.ts"]
 }

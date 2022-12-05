@@ -1,0 +1,164 @@
+{
+  "6": {
+    "menuPrice": 5000,
+    "options": {
+      "1": {
+        "optionPrice": 600,
+        "optionName": "에스프레스 샷 추가"
+      },
+      "2": {
+        "optionPrice": 600,
+        "optionName": "바닐라 시럽"
+      },
+      "3": {
+        "optionPrice": 600,
+        "optionName": "헤이즐넛 시럽"
+      },
+      "4": {
+        "optionPrice": 600,
+        "optionName": "카라멜 시럽"
+      },
+      "5": {
+        "optionPrice": 0,
+        "optionName": "물 적게"
+      },
+      "6": {
+        "optionPrice": 0,
+        "optionName": "물 많이"
+      },
+      "7": {
+        "optionPrice": 0,
+        "optionName": "얼음 없이"
+      },
+      "8": {
+        "optionPrice": 0,
+        "optionName": "얼음 적게"
+      },
+      "9": {
+        "optionPrice": 0,
+        "optionName": "얼음 많이"
+      },
+      "10": {
+        "optionPrice": 0,
+        "optionName": "일반 휘핑"
+      },
+      "11": {
+        "optionPrice": 0,
+        "optionName": "에스프레소 휘핑"
+      },
+      "12": {
+        "optionPrice": 0,
+        "optionName": "휘핑 적게"
+      },
+      "13": {
+        "optionPrice": 0,
+        "optionName": "휘핑 많이"
+      },
+      "14": {
+        "optionPrice": 0,
+        "optionName": "카라멜 드리즐 적게"
+      },
+      "15": {
+        "optionPrice": 0,
+        "optionName": "카라멜 드리즐 많이"
+      },
+      "16": {
+        "optionPrice": 0,
+        "optionName": "초콜릿 드리즐 적게"
+      },
+      "17": {
+        "optionPrice": 0,
+        "optionName": "초콜릿 드리즐 많게"
+      },
+      "18": {
+        "optionPrice": 0,
+        "optionName": "돔 리드로 변경"
+      },
+      "19": {
+        "optionPrice": 0,
+        "optionName": "우유 공간 남겨주세요"
+      }
+    }
+  },
+  "7": {
+    "menuPrice": 5000,
+    "options": {
+      "1": {
+        "optionPrice": 600,
+        "optionName": "에스프레스 샷 추가"
+      },
+      "2": {
+        "optionPrice": 600,
+        "optionName": "바닐라 시럽"
+      },
+      "3": {
+        "optionPrice": 600,
+        "optionName": "헤이즐넛 시럽"
+      },
+      "4": {
+        "optionPrice": 600,
+        "optionName": "카라멜 시럽"
+      },
+      "5": {
+        "optionPrice": 0,
+        "optionName": "물 적게"
+      },
+      "6": {
+        "optionPrice": 0,
+        "optionName": "물 많이"
+      },
+      "7": {
+        "optionPrice": 0,
+        "optionName": "얼음 없이"
+      },
+      "8": {
+        "optionPrice": 0,
+        "optionName": "얼음 적게"
+      },
+      "9": {
+        "optionPrice": 0,
+        "optionName": "얼음 많이"
+      },
+      "10": {
+        "optionPrice": 0,
+        "optionName": "일반 휘핑"
+      },
+      "11": {
+        "optionPrice": 0,
+        "optionName": "에스프레소 휘핑"
+      },
+      "12": {
+        "optionPrice": 0,
+        "optionName": "휘핑 적게"
+      },
+      "13": {
+        "optionPrice": 0,
+        "optionName": "휘핑 많이"
+      },
+      "14": {
+        "optionPrice": 0,
+        "optionName": "카라멜 드리즐 적게"
+      },
+      "15": {
+        "optionPrice": 0,
+        "optionName": "카라멜 드리즐 많이"
+      },
+      "16": {
+        "optionPrice": 0,
+        "optionName": "초콜릿 드리즐 적게"
+      },
+      "17": {
+        "optionPrice": 0,
+        "optionName": "초콜릿 드리즐 많게"
+      },
+      "18": {
+        "optionPrice": 0,
+        "optionName": "돔 리드로 변경"
+      },
+      "19": {
+        "optionPrice": 0,
+        "optionName": "우유 공간 남겨주세요"
+      }
+    }
+  }
+}

@@ -12,6 +12,7 @@ import {
 } from 'typeorm';
 import { ORDER_STATUS } from '../enum/orderStatus.enum';
 import { OrderMenu } from './orderMenu.entity';
+
 @Entity()
 export class Order extends TimestampableEntity {
   @PrimaryGeneratedColumn()
@@ -72,9 +73,9 @@ export class Order extends TimestampableEntity {
   }
 
   static isValidMenu(validMenuAndOptionInfo, menus): boolean {
-    return menus.every((menu) => {
-      Object.keys(validMenuAndOptionInfo).includes(menu.id.toString());
-    });
+    return menus.every((menu) =>
+      Object.keys(validMenuAndOptionInfo).includes(menu.id.toString())
+    );
   }
 
   static isValidOptionForMenu(menus, menuOptionDict): boolean {

@@ -10,7 +10,6 @@ import { Cafe } from 'src/cafe/entities/cafe.entity';
 import { Menu } from 'src/cafe/entities/menu.entity';
 import { MenuOption } from 'src/cafe/entities/menuOption.entity';
 import { Option } from 'src/cafe/entities/option.entity';
-import { MENU_SIZE, SIZE_PRICE } from 'src/cafe/enum/menuSize.enum';
 import { User } from 'src/user/entities/user.entity';
 import { Repository } from 'typeorm';
 import { OrderMenuDto } from './dto/orderMenu.dto';
@@ -56,7 +55,7 @@ export class OrderService {
     );
 
     // 모든 메뉴가 유효한 메뉴였는지 확인하는 과정
-    if (Order.isValidMenu(validMenuAndOptionInfo, menus)) {
+    if (!Order.isValidMenu(validMenuAndOptionInfo, menus)) {
       throw new BadRequestException(
         '주문한 메뉴 중에 존재하지 않은 메뉴가 있습니다.'
       );
@@ -83,7 +82,9 @@ export class OrderService {
       validMenuAndOptionInfo,
     });
 
-    return await this.orderRepository.save(order);
+    const res = await this.orderRepository.save(order);
+    console.log(res);
+    return res;
   }
 
   private async getMenuOptionEntity(menu): Promise<MenuOption[]> {
@@ -94,6 +95,11 @@ export class OrderService {
         menu: true,
       },
     });
+
+    if (menuOptionEntitys === null)
+      throw new BadRequestException(
+        '주문한 메뉴 중에 유효하지 않은 메뉴가 있습니다.'
+      );
     return menuOptionEntitys;
   }
 

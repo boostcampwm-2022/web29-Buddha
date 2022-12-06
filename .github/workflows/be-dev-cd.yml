@@ -2,10 +2,10 @@ name: Backend dev cd
 
 on:
   push:
-    branches: ['dev', 'feat/be/redis-cache']
-    paths:
-      - 'packages/server/**'
-      - '.github/workflows/be-dev-cd.yml'
+    branches: ['feat/be/be-dev-cd-refactor']
+    # paths:
+    # - 'packages/server/**'
+    # - '.github/workflows/be-dev-cd.yml'
 
 jobs:
   Push-Docker-Image:

@@ -3,9 +3,9 @@ name: Backend dev cd
 on:
   push:
     branches: ['feat/be/be-dev-cd-refactor']
-    # paths:
-    # - 'packages/server/**'
-    # - '.github/workflows/be-dev-cd.yml'
+    paths:
+      - 'packages/server/**'
+      - '.github/workflows/be-dev-cd.yml'
 
 jobs:
   Push-Docker-Image:
@@ -33,58 +33,53 @@ jobs:
           push: true
           # context 명시를 안해주면 이전 step에서 변경되던 사항들이 적용되지 않는다.
           context: 'packages/server'
+          file: 'Dockerfile.dev'
           tags: |
-            ${{secrets.DOCKER_REGISTRY_USERNAME}}/${{secrets.DOCKER_REPOSITORY}}:latest
-            ${{secrets.DOCKER_REGISTRY_USERNAME}}/${{secrets.DOCKER_REPOSITORY}}:${{ github.sha }}
-          cache-from: type=registry,ref=${{secrets.DOCKER_REGISTRY_USERNAME}}/${{secrets.DOCKER_REPOSITORY}}:buildcache
-          cache-to: type=registry,ref=${{secrets.DOCKER_REGISTRY_USERNAME}}/${{secrets.DOCKER_REPOSITORY}}:buildcache,mode=max
+            ${{secrets.DOCKER_REGISTRY_USERNAME}}/${{secrets.DOCKER_DEV_REGISTRY}}:latest
+            ${{secrets.DOCKER_REGISTRY_USERNAME}}/${{secrets.DOCKER_DEV_REGISTRY}}:${{ github.sha }}
+          cache-from: type=registry,ref=${{secrets.DOCKER_REGISTRY_USERNAME}}/${{secrets.DOCKER_DEV_REGISTRY}}:buildcache
+          cache-to: type=registry,ref=${{secrets.DOCKER_REGISTRY_USERNAME}}/${{secrets.DOCKER_DEV_REGISTRY}}:buildcache,mode=max
 
-  # Build-And-Transfer:
-  #   runs-on: ubuntu-latest
-  #   defaults:
-  #     run:
-  #       working-directory: './packages/server'
+  Transfer:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: './packages/server'
 
-  #   steps:
-  #     - name: checkout to the branch
-  #       uses: actions/checkout@v3
+    steps:
+      - name: checkout to the branch
+        uses: actions/checkout@v3
 
-  #     - name: install dependencies
-  #       run: npm install
+      - name: move deploy file to src
+        run: mv ./scripts/dev.deploy.sh src
 
-  #     - name: build
-  #       run: npm run build
+      - name: Inject Environment Variables
+        run: echo "$BE_DEV_ENV" > ./src/.dev.env
+        env:
+          BE_DEV_ENV: ${{ secrets.BE_DEV_ENV }}
 
-  #     - name: move deploy file to dist
-  #       run: mv ./scripts/dev.deploy.sh dist
+      - name: Deploy to Remote Server
+        uses: appleboy/scp-action@master
+        with:
+          host: ${{ secrets.REMOTE_SSH_HOST }}
+          username: ${{ secrets.REMOTE_SSH_USERNAME }}
+          password: ${{ secrets.REMOTE_SSH_PASSWORD }}
+          port: ${{ secrets.REMOTE_SSH_PORT }}
+          source: 'packages/server/src/*'
+          target: '~/server/src'
+          strip_components: 3
 
-  #     - name: Inject Environment Variables
-  #       run: echo "$BE_DEV_ENV" > ./dist/.dev.env
-  #       env:
-  #         BE_DEV_ENV: ${{ secrets.BE_DEV_ENV }}
+  Deploy:
+    needs: ['Push-Docker-Image', 'Build-And-Transfer']
 
-  #     - name: Deploy to Remote Server
-  #       uses: appleboy/scp-action@master
-  #       with:
-  #         host: ${{ secrets.REMOTE_SSH_HOST }}
-  #         username: ${{ secrets.REMOTE_SSH_USERNAME }}
-  #         password: ${{ secrets.REMOTE_SSH_PASSWORD }}
-  #         port: ${{ secrets.REMOTE_SSH_PORT }}
-  #         source: 'packages/server/dist/*'
-  #         target: '~/server/dist'
-  #         strip_components: 3
+    runs-on: ubuntu-latest
 
-  # Deploy:
-  #   needs: ['Push-Docker-Image', 'Build-And-Transfer']
-
-  #   runs-on: ubuntu-latest
-
-  #   steps:
-  #     - name: Deploy To Server
-  #       uses: appleboy/ssh-action@master
-  #       with:
-  #         host: ${{ secrets.REMOTE_SSH_HOST }}
-  #         username: ${{ secrets.REMOTE_SSH_USERNAME }}
-  #         password: ${{ secrets.REMOTE_SSH_PASSWORD }}
-  #         port: ${{ secrets.REMOTE_SSH_PORT }}
-  #         script: . ~/server/dist/dev.deploy.sh ${{secrets.DOCKER_REGISTRY_USERNAME}} ${{secrets.DOCKER_REPOSITORY}}
+    steps:
+      - name: Deploy To Server
+        uses: appleboy/ssh-action@master
+        with:
+          host: ${{ secrets.REMOTE_SSH_HOST }}
+          username: ${{ secrets.REMOTE_SSH_USERNAME }}
+          password: ${{ secrets.REMOTE_SSH_PASSWORD }}
+          port: ${{ secrets.REMOTE_SSH_PORT }}
+          script: mv ~/server/src/.dev.env ~/server && . ~/server/src/dev.deploy.sh ${{secrets.DOCKER_REGISTRY_USERNAME}} ${{secrets.DOCKER_DEV_REGISTRY}}

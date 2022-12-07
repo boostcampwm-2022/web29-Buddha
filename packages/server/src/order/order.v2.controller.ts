@@ -8,6 +8,9 @@ import {
   HttpCode,
   ParseIntPipe,
   Query,
+  UseInterceptors,
+  ClassSerializerInterceptor,
+  Param,
 } from '@nestjs/common';
 import { OrderService } from './order.service';
 import { JwtGuard } from 'src/auth/guard/jwt.guard';
@@ -15,6 +18,8 @@ import { Request } from 'express';
 import { JwtPayload } from 'src/auth/interfaces/jwtPayload';
 import { CreateOrderDto } from './dto/create-order.dto';
 import { ORDER_STATUS } from './enum/orderStatus.enum';
+import { OrdersResDto } from './dto/ordersRes.dto';
+import { RequestedOrderDto } from './dto/requested-order.dto';
 
 @Controller()
 export class OrderController {
@@ -49,5 +54,18 @@ export class OrderController {
       cafeId
     );
     return { order_status: status };
+  }
+  //   - getRequestedOrder → `GET /api/v2/order/requested`
+  //     - 응답: requestedOrders: array<Order>
+  // - getAcceptedOrder → `GET /api/v1/order/accepted`
+  //     - 응답: acceptedOrders: array<Order>
+
+  @Get('/requested')
+  @UseGuards(JwtGuard)
+  @UseInterceptors(ClassSerializerInterceptor)
+  async getRequestedOrders(
+    @Body() requestedOrderDto: RequestedOrderDto
+  ): Promise<OrdersResDto> {
+    return await this.orderService.getRequestedOrdersV2(requestedOrderDto);
   }
 }

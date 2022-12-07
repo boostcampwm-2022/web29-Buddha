@@ -1,3 +1,4 @@
+import { RequestedOrderDto } from './dto/requested-order.dto';
 import { RedisCacheService } from 'src/redisCache/redisCache.service';
 import { CreateOrderDto } from 'src/order/dto/create-order.dto';
 import {
@@ -12,7 +13,7 @@ import { Menu } from 'src/cafe/entities/menu.entity';
 import { MenuOption } from 'src/cafe/entities/menuOption.entity';
 import { Option } from 'src/cafe/entities/option.entity';
 import { User } from 'src/user/entities/user.entity';
-import { DataSource, Repository } from 'typeorm';
+import { DataSource, In, Repository } from 'typeorm';
 import { OrderMenuDto } from './dto/orderMenu.dto';
 import { OrdersResDto } from './dto/ordersRes.dto';
 import { UpdateOrderDto } from './dto/update-order.dto';
@@ -363,4 +364,23 @@ export class OrderService {
 
     return order.status;
   }
+
+  async getRequestedOrdersV2(
+    requestedOrderDto: RequestedOrderDto
+  ): Promise<OrdersResDto> {
+    const orders: Order[] = await this.orderRepository.find({
+      relations: {
+        cafe: true,
+        orderMenus: { menu: true },
+      },
+      where: {
+        status: ORDER_STATUS.REQUESTED,
+        cafe: Cafe.byId(requestedOrderDto.cafeId),
+        id: In(requestedOrderDto.newOrders),
+      },
+    });
+
+    return new OrdersResDto(orders);
+  }
+
 }

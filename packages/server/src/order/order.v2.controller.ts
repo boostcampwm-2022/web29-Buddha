@@ -57,6 +57,36 @@ export class OrderController {
     return;
   }
 
+  @Post('/rejected')
+  @UseGuards(JwtGuard)
+  @UseInterceptors(ClassSerializerInterceptor)
+  async rejectOrder(@Body() updateOrderReqDto: UpdateOrderReqDto) {
+    // const user = req.user as JwtPayload;
+    // const { id } = user;
+    // cafeId를 유저의 카페로 가져와야한다.
+    const cafeId = 1;
+    await this.orderService.updateOrderStatusToRejectedV2(
+      cafeId.toString(),
+      updateOrderReqDto
+    );
+    return;
+  }
+
+  @Post('/completed')
+  @UseGuards(JwtGuard)
+  @UseInterceptors(ClassSerializerInterceptor)
+  async completeOrder(@Body() updateOrderReqDto: UpdateOrderReqDto) {
+    // const user = req.user as JwtPayload;
+    // const { id } = user;
+    // cafeId를 유저의 카페로 가져와야한다.
+    const cafeId = 1;
+    await this.orderService.updateOrderStatusToCompletedV2(
+      cafeId.toString(),
+      updateOrderReqDto
+    );
+    return;
+  }
+
   @Post('/test')
   @HttpCode(201)
   @UseGuards(JwtGuard)

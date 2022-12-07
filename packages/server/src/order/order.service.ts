@@ -366,6 +366,7 @@ export class OrderService {
   }
 
   async getRequestedOrdersV2(
+    cafeId: number,
     requestedOrderDto: RequestedOrderDto
   ): Promise<OrdersResDto> {
     const orders: Order[] = await this.orderRepository.find({
@@ -375,7 +376,7 @@ export class OrderService {
       },
       where: {
         status: ORDER_STATUS.REQUESTED,
-        cafe: Cafe.byId(requestedOrderDto.cafeId),
+        cafe: Cafe.byId(cafeId),
         id: In(requestedOrderDto.newOrders),
       },
     });

@@ -56,21 +56,24 @@ export class OrderController {
     return { order_status: status };
   }
 
-  @Get('/requested')
+  @Post('/requested')
   @UseGuards(JwtGuard)
   @UseInterceptors(ClassSerializerInterceptor)
   async getRequestedOrders(
     @Body() requestedOrderDto: RequestedOrderDto
   ): Promise<OrdersResDto> {
-    return await this.orderService.getRequestedOrdersV2(requestedOrderDto);
+    const cafeId = 1;
+    return await this.orderService.getRequestedOrdersV2(
+      cafeId,
+      requestedOrderDto
+    );
   }
 
   @Get('/accepted')
   @UseGuards(JwtGuard)
   @UseInterceptors(ClassSerializerInterceptor)
-  async getAcceptedOrders(
-    @Query('cafeId', ParseIntPipe) cafeId: number
-  ): Promise<OrdersResDto> {
+  async getAcceptedOrders(): Promise<OrdersResDto> {
+    const cafeId = 1;
     return await this.orderService.getAcceptedOrdersV2(cafeId);
   }
 }

@@ -10,6 +10,7 @@ import { AuthModule } from './auth/auth.module';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { RouterModule } from '@nestjs/core';
 import { LoggerMiddleware } from './middleware/logger.http';
+import { DataSource } from 'typeorm';
 
 @Module({
   imports: [
@@ -50,6 +51,7 @@ import { LoggerMiddleware } from './middleware/logger.http';
   providers: [],
 })
 export class AppModule implements NestModule {
+  constructor(private dataSource: DataSource) {}
   configure(consumer: MiddlewareConsumer) {
     consumer.apply(LoggerMiddleware).forRoutes('*');
   }

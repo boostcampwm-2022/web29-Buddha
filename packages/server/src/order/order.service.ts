@@ -318,4 +318,49 @@ export class OrderService {
       await queryRunner.release();
     }
   }
+
+  async getOrderStatusV2(
+    userId: number,
+    orderId: number,
+    cafeId: number
+  ): Promise<ORDER_STATUS> {
+    // cache 조회
+    const cachedOrder = await this.redisCacheService.getCachedOrder(
+      cafeId,
+      orderId
+    );
+
+    if (cachedOrder) {
+      return cachedOrder;
+    }
+
+    // db 조회 -> cache 업데이트 -> return status
+    const order = await this.orderRepository.findOne({
+      where: {
+        id: orderId,
+      },
+      relations: {
+        user: true,
+      },
+    });
+
+    if (order === null) {
+      throw new BadRequestException('해당 주문을 찾을 수 없습니다.');
+    }
+
+    if (order.user.id !== userId) {
+      throw new UnauthorizedException(
+        '해당 주문의 상태 조회에 대한 접근 권한이 없습니다.'
+      );
+    }
+
+    // cache update
+    await this.redisCacheService.updateCachedOrder(
+      cafeId,
+      order.id,
+      order.status
+    );
+
+    return order.status;
+  }
 }

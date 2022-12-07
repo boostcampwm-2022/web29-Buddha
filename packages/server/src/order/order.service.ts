@@ -364,10 +364,28 @@ export class OrderService {
     return order.status;
   }
 
-  async getCachedRequestedOrders(
-    cafeId: string,
-    oldRequestedOrderPks: Set<string>
-  ) {
-    return;
+  async getCachedRequestedOrders(cafeId: string, pksFromManager: Set<string>) {
+    const cachedOrders = await this.redisCacheService.getAllCachedOrders(
+      cafeId
+    );
+
+    const newOrderPkList = [];
+    const deletedOrderPkList = [];
+    const pksInCache = new Set(Object.keys(cachedOrders));
+    pksInCache.forEach((pk) => {
+      if (
+        cachedOrders[pk] === ORDER_STATUS.REQUESTED &&
+        !pksFromManager.has(pk)
+      ) {
+        newOrderPkList.push(pk);
+      }
+    });
+    pksFromManager.forEach((pk) => {
+      if (cachedOrders[pk] !== ORDER_STATUS.REQUESTED) {
+        deletedOrderPkList.push(pk);
+      }
+    });
+
+    return { newOrderPkList, deletedOrderPkList };
   }
 }

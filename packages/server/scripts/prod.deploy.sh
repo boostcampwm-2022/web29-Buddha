@@ -21,5 +21,5 @@ docker cp .prod.env $3:/app
 docker start $3
 
 if [[ $(docker ps -a --filter="name=$3" --filter "status=running" | grep -w $3) ]]; then
-    echo 'dev-deploy success'
+    echo 'prod-deploy success'
 fi

@@ -1,4 +1,3 @@
-import { Option } from './../../../../client/src/types/index';
 import { Cafe } from 'src/cafe/entities/cafe.entity';
 import { Menu } from 'src/cafe/entities/menu.entity';
 import { MenuOption } from 'src/cafe/entities/menuOption.entity';
@@ -127,7 +126,7 @@ export class Order extends TimestampableEntity {
 
     menuOptionEntityObjs.forEach((menuOptionEntityObj: MenuOption) => {
       const menu: Menu = menuOptionEntityObj.menu;
-      const option: Option = menuOptionEntityObj.option;
+      const option = menuOptionEntityObj.option;
 
       // 메뉴 dict에 menu아이디 없으면 menu 가격과 options 추가
       if (!Object.prototype.hasOwnProperty.call(menuOptionDict, menu.id)) {

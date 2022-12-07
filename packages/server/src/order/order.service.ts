@@ -113,9 +113,6 @@ export class OrderService {
     return menuOptionEntitys;
   }
 
-  // 주문 요청 받은 모든 메뉴 정보와 해당 메뉴의 옵션들을 get
-  private async getValidMenuAndOptionInfo(menuOptionEntityObjs: MenuOption[]) {}
-
   async getRequestedOrders(): Promise<OrdersResDto> {
     const cafe = new Cafe();
     cafe.id = 1;
@@ -227,7 +224,7 @@ export class OrderService {
     this.orderRepository.save(order);
   }
 
-  async findOne(userId: number, orderId: number): Promise<ORDER_STATUS> {
+  async getOrderStatus(userId: number, orderId: number): Promise<ORDER_STATUS> {
     const order = await this.orderRepository.findOne({
       where: {
         id: orderId,

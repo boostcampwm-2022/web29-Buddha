@@ -91,7 +91,7 @@ export class OrderController {
   ) {
     const user = req.user as JwtPayload;
     const userId = user.id;
-    const status: ORDER_STATUS = await this.orderService.findOne(
+    const status: ORDER_STATUS = await this.orderService.getOrderStatus(
       userId,
       orderId
     );

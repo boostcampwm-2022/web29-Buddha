@@ -8,6 +8,8 @@ import {
   HttpCode,
   ParseIntPipe,
   Query,
+  ClassSerializerInterceptor,
+  UseInterceptors,
 } from '@nestjs/common';
 import { OrderService } from './order.service';
 import { JwtGuard } from 'src/auth/guard/jwt.guard';
@@ -16,6 +18,7 @@ import { JwtPayload } from 'src/auth/interfaces/jwtPayload';
 import { CreateOrderDto } from './dto/create-order.dto';
 import { ORDER_STATUS } from './enum/orderStatus.enum';
 import { OldRequestedOrdersDto } from './dto/oldRequestedOrdersDto';
+import { UpdateOrderReqDto } from './dto/updateOrderReq.dto';
 
 @Controller()
 export class OrderController {
@@ -37,6 +40,21 @@ export class OrderController {
         oldRequestedOrders.oldRequestedOrderPks.map((pk) => pk.toString())
       )
     );
+  }
+
+  @Post('/accepted')
+  @UseGuards(JwtGuard)
+  @UseInterceptors(ClassSerializerInterceptor)
+  async acceptOrder(@Body() updateOrderReqDto: UpdateOrderReqDto) {
+    // const user = req.user as JwtPayload;
+    // const { id } = user;
+    // cafeId를 유저의 카페로 가져와야한다.
+    const cafeId = 1;
+    await this.orderService.updateOrderStatusToAcceptedV2(
+      cafeId.toString(),
+      updateOrderReqDto
+    );
+    return;
   }
 
   @Post('/test')

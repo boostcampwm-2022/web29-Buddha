@@ -20,7 +20,7 @@ import { ORDER_STATUS } from './enum/orderStatus.enum';
 export class OrderController {
   constructor(private readonly orderService: OrderService) {}
 
-  @Post('/test')
+  @Post()
   @HttpCode(201)
   @UseGuards(JwtGuard)
   async createOrderTest(
@@ -33,7 +33,7 @@ export class OrderController {
     return;
   }
 
-  @Get('/test')
+  @Get()
   @UseGuards(JwtGuard)
   async getOrderStatusTest(
     @Req() req: Request,

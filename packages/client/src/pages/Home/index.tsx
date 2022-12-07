@@ -16,6 +16,8 @@ function Home() {
     method: 'get',
   });
 
+  console.log(list);
+
   return (
     <Container>
       <Header title={userRole === 'CLIENT' ? '주문내역' : '주문 요청 내역'} />

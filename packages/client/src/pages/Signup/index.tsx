@@ -12,30 +12,33 @@ import {
 } from './styled';
 import { SignupRequestBody } from '@/types';
 import Button from 'components/Button';
+import { userRoleState } from '@/utils/store';
+import { useSetRecoilState } from 'recoil';
 
 function Signup() {
   const api = process.env.REACT_APP_API_SERVER_BASE_URL;
-  const [userRole, setUserRole] = useState<'CLIENT' | 'MANAGER'>('CLIENT');
+  const [signupType, setSignupType] = useState<'CLIENT' | 'MANAGER'>('CLIENT');
   const [nickname, setNickname] = useState<string>('');
   const [corporate, setCorporate] = useState<string>('');
+  const setUserRole = useSetRecoilState(userRoleState);
   const navigate = useNavigate();
 
   const handleClickCustomer = () => {
-    setUserRole('CLIENT');
+    setSignupType('CLIENT');
   };
 
   const handleClickOwner = () => {
-    setUserRole('MANAGER');
+    setSignupType('MANAGER');
   };
 
   const handleSubmit = async () => {
-    if (userRole === 'CLIENT') {
+    if (signupType === 'CLIENT') {
       if (isValidateCustomerForm()) {
-        fetchSignup({ userRole: userRole, nickname });
+        fetchSignup({ userRole: signupType, nickname });
       }
     } else {
       if (isValidateOwnerForm()) {
-        fetchSignup({ userRole: userRole, nickname, corporate });
+        fetchSignup({ userRole: signupType, nickname, corporate });
       }
     }
   };
@@ -45,8 +48,16 @@ function Signup() {
       const res = await axios.post(`${api}/auth/signup`, data, {
         withCredentials: true,
       });
-      if (res.status === 201) {
-        navigate('/home');
+      if(res.status === 201){
+        try{
+          const res = await axios.get(`${api}/auth`, {
+            withCredentials: true,
+          });
+          setUserRole(res.data.role);
+          navigate('/');
+        }catch(err){
+          console.log(err);
+        }
       }
     } catch (err) {
       console.log(err);
@@ -89,13 +100,13 @@ function Signup() {
     <PageWrapper>
       <ChangeForm data-testid={'change-form'}>
         <ChangeButton
-          className={userRole === 'CLIENT' ? 'selected' : ''}
+          className={signupType === 'CLIENT' ? 'selected' : ''}
           onClick={handleClickCustomer}
         >
           고객
         </ChangeButton>
         <ChangeButton
-          className={userRole === 'MANAGER' ? 'selected' : ''}
+          className={signupType === 'MANAGER' ? 'selected' : ''}
           onClick={handleClickOwner}
         >
           업주
@@ -111,7 +122,7 @@ function Signup() {
           value={nickname}
         />
       </InputWrapper>
-      {userRole === 'MANAGER' ? (
+      {signupType === 'MANAGER' ? (
         <InputWrapper>
           <InputTitle>사업자 등록 번호</InputTitle>
           <Input

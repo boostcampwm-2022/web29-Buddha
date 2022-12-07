@@ -4,12 +4,15 @@ import { useNavigate, useSearchParams } from 'react-router-dom';
 
 import { ChkUser } from '@/types';
 import { Container, Logo, NaverOAuth } from './styled';
+import { userRoleState } from '@/utils/store';
+import { useSetRecoilState } from 'recoil';
 
 function Signin() {
   const storageUrl = process.env.REACT_APP_NCLOUD_STORAGE_BASE_URL;
   const naverOAuthURL = process.env.REACT_APP_NAVER_OAUTH_URL;
   const api = process.env.REACT_APP_API_SERVER_BASE_URL;
   const [searchParams] = useSearchParams();
+  const setUserRole = useSetRecoilState(userRoleState);
   const navigate = useNavigate();
 
   /**
@@ -35,10 +38,23 @@ function Signin() {
       window.history.replaceState(null, '', '/');
 
       try {
-        await axios.get(`${api}/auth/naver-oauth?code=${code}&state=${state}`, {
-          withCredentials: true,
-        });
-        navigate('/home');
+        const res = await axios.get(
+          `${api}/auth/naver-oauth?code=${code}&state=${state}`,
+          {
+            withCredentials: true,
+          }
+        );
+        if(res.status === 200) {
+          try{
+            const res = await axios.get(`${api}/auth`, {
+              withCredentials: true,
+            });
+            setUserRole(res.data.role);
+            navigate('/');
+          }catch(err){
+            console.log(err);
+          }
+        }
       } catch (err) {
         const axiosError = err instanceof AxiosError;
 
@@ -46,7 +62,7 @@ function Signin() {
         else navigate('/');
       }
     },
-    [api, navigate]
+    [api, navigate, setUserRole]
   );
 
   /**

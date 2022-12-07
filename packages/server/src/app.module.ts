@@ -1,4 +1,4 @@
-import { routeTable } from './../config/route';
+import { routeTable } from './config/route';
 import { Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { UserModule } from './user/user.module';

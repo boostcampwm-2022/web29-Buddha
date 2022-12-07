@@ -32,4 +32,9 @@ export class RedisCacheService {
     const result = await this.redisClient.hdel(cafeId, orderId);
     return result;
   }
+
+  async getAllCachedOrders(cafeId: string) {
+    const result = await this.redisClient.hgetall(cafeId);
+    return result;
+  }
 }

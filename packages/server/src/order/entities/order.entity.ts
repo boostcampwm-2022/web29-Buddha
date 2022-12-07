@@ -73,6 +73,13 @@ export class Order extends TimestampableEntity {
     return order;
   }
 
+  static ofToUpdateStatus({ orderId, orderStatus }) {
+    const order = new Order();
+    order.id = orderId;
+    order.status = orderStatus;
+    return order;
+  }
+
   static isValidMenu(validMenuAndOptionInfo, menus): boolean {
     return menus.every((menu) =>
       Object.keys(validMenuAndOptionInfo).includes(menu.id.toString())

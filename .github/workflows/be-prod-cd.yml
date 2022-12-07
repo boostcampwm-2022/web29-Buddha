@@ -84,4 +84,4 @@ jobs:
           username: ${{ secrets.PROD_REMOTE_SSH_USERNAME }}
           password: ${{ secrets.PROD_REMOTE_SSH_PASSWORD }}
           port: ${{ secrets.PROD_REMOTE_SSH_PORT }}
-          script: . ~/server/src/prod.deploy.sh ${{secrets.DOCKER_REGISTRY_USERNAME}} ${{secrets.DOCKER_PROD_REGISTRY}} ${{secrets.BUDDAH_CONTAINER_NAME}}
+          script: . ~/server/prod.deploy.sh ${{secrets.DOCKER_REGISTRY_USERNAME}} ${{secrets.DOCKER_PROD_REGISTRY}} ${{secrets.BUDDAH_CONTAINER_NAME}}

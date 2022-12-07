@@ -2,7 +2,7 @@ name: Backend prod cd
 
 on:
   push:
-    branches: ['feat/be/be-dev-cd-refactor']
+    branches: ['main']
     paths:
       - 'packages/server/**'
       - '.github/workflows/be-prod-cd.yml'

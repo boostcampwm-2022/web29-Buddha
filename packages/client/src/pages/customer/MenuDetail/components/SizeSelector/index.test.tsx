@@ -8,14 +8,13 @@ interface Setup {
 }
 
 const setup = ({ size }: Setup) => {
-  const handleClickSize = jest.fn();
   const { asFragment } = render(
     <Layout>
-      <SizeSelector size={size} onClick={handleClickSize} />
+      <SizeSelector size={size} />
     </Layout>
   );
 
-  return { asFragment, handleClickSize };
+  return { asFragment };
 };
 
 describe('음료 용량 선택 컴포넌트', () => {
@@ -41,14 +40,14 @@ describe('음료 용량 선택 컴포넌트', () => {
     expect(btnGrande).toHaveStyle('border-color: #567F72');
   });
 
-  it('용량 변경 함수 실행', () => {
-    const { handleClickSize } = setup({ size: 'tall' });
+  // it('용량 변경 함수 실행', () => {
+  //   const { handleClickSize } = setup({ size: 'tall' });
 
-    const btnGrande = screen.getByTitle(/grande/);
-    fireEvent.click(btnGrande);
+  //   const btnGrande = screen.getByTitle(/grande/);
+  //   fireEvent.click(btnGrande);
 
-    expect(handleClickSize).toBeCalled();
-  });
+  //   expect(handleClickSize).toBeCalled();
+  // });
 
   it('스냅샷', () => {
     const { asFragment } = setup({ size: 'tall' });

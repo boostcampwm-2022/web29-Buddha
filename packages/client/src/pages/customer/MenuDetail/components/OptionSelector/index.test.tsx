@@ -13,15 +13,14 @@ afterAll(() => server.close());
 
 const setup = async () => {
   const { options } = (await axios.get(`${api}/cafe/menu/1`)).data;
-  const handleClickOption = jest.fn();
 
   const { asFragment } = render(
     <Layout>
-      <OptionSelector onClick={handleClickOption} options={options} />
+      <OptionSelector options={options} />
     </Layout>
   );
 
-  return { asFragment, handleClickOption };
+  return { asFragment };
 };
 
 describe('옵션 선택 컴포넌트', () => {

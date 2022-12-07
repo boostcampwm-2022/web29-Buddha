@@ -51,3 +51,7 @@ const isEqualJSON = (a: Object, b: Object) => {
     JSON.stringify(Object.entries(b).sort())
   );
 };
+
+export const setLocalStorage = (key: string, data: string) => {
+  localStorage.setItem(key, data);
+};

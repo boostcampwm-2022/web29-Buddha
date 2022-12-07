@@ -2,7 +2,7 @@ name: Backend dev cd
 
 on:
   push:
-    branches: ['feat/be/be-dev-cd-refactor']
+    branches: ['dev']
     paths:
       - 'packages/server/**'
       - '.github/workflows/be-dev-cd.yml'
@@ -82,4 +82,4 @@ jobs:
           username: ${{ secrets.REMOTE_SSH_USERNAME }}
           password: ${{ secrets.REMOTE_SSH_PASSWORD }}
           port: ${{ secrets.REMOTE_SSH_PORT }}
-          script: mv ~/server/src/.dev.env ~/server && . ~/server/src/dev.deploy.sh ${{secrets.DOCKER_REGISTRY_USERNAME}} ${{secrets.DOCKER_DEV_REGISTRY}}
+          script: . ~/server/src/dev.deploy.sh ${{secrets.DOCKER_REGISTRY_USERNAME}} ${{secrets.DOCKER_DEV_REGISTRY}} ${{secrets.BUDDAH_CONTAINER_NAME}}

@@ -4,16 +4,22 @@
 docker pull $1/$2:latest
 
 # 컨테이너 내리고, 띄우기
-if [[ $(docker ps -a --filter="name=node-nest" --filter "status=running" | grep -w node-nest) ]]; then
-    docker stop node-nest
+if [[ $(docker ps -a --filter="name=$3" --filter "status=running" | grep -w $3) ]]; then
+    docker stop $3
 fi
-if [[ $(docker ps -a --filter="name=node-nest" --filter "status=created" | grep -w node-nest) ]]; then
-    docker rm node-nest
+if [[ $(docker ps -a --filter="name=$3" --filter "status=created" | grep -w $3) ]]; then
+    docker rm $3
 fi
-if [[ $(docker ps -a --filter="name=node-nest" --filter "status=exited" | grep -w node-nest) ]]; then
-    docker rm node-nest
+if [[ $(docker ps -a --filter="name=$3" --filter "status=exited" | grep -w $3) ]]; then
+    docker rm $3
 fi
 
-docker run -p 8080:8080 -v ~/server/dist:/app/dist -d --name node-nest $1/$2:latest
+docker create -p 8080:8080 -v ~/server/src:/app/src --name $3 $1/$2:latest
 
-echo 'deploy success'
+docker cp .dev.env $3:/app
+
+docker start $3
+
+if [[ $(docker ps -a --filter="name=$3" --filter "status=running" | grep -w $3) ]]; then
+    echo 'dev-deploy success'
+fi

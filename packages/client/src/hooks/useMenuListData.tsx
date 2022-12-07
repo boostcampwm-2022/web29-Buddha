@@ -1,25 +1,19 @@
-import axios from 'axios';
-import { useQuery } from '@tanstack/react-query';
 import { QUERY_KEYS } from '@/constants';
-import { CafeMenu, Menu } from '@/types';
+import { Menu } from '@/types';
+import useCustomQuery from './useCustomQuery';
 
 function useMenuListData() {
-  const api = process.env.REACT_APP_API_SERVER_BASE_URL;
-  const { isSuccess, isError, data, error } = useQuery(
-    [QUERY_KEYS.MENU_LIST_DATA],
-    async () =>
-      await axios.get<CafeMenu>(`${api}/cafe/1/menus`, {
-        withCredentials: true,
-      })
-  );
+  const data = useCustomQuery({
+    queryKey: QUERY_KEYS.MENU_LIST_DATA,
+    url: '/cafe/1/menus',
+  });
 
-  if (isSuccess) {
+  if (data) {
     return {
       menuList: data.data.menus,
       categoryList: makeCategoryList(data.data.menus),
     };
   }
-  if (isError) console.log(error);
 
   return {
     menuList: [],

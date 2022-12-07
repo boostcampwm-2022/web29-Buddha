@@ -27,4 +27,5 @@ export const PROGRESS_IMAGE = {
 
 export const QUERY_KEYS = {
   MENU_LIST_DATA: 'menu list',
+  ORDER_STATUS: 'order status',
 };

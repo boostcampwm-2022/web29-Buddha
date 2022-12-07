@@ -3,7 +3,7 @@ import { routeTable } from './../config/route';
 import { MiddlewareConsumer, Module, NestModule } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { UserModule } from './user/user.module';
-import { OrderModule } from './order/order.module';
+import { OrderModuleV1 } from './order/order.v1.module';
 import { CafeModule } from './cafe/cafe.module';
 import { AuthModule } from './auth/auth.module';
 
@@ -11,6 +11,7 @@ import { ConfigModule, ConfigService } from '@nestjs/config';
 import { RouterModule } from '@nestjs/core';
 import { LoggerMiddleware } from './middleware/logger.http';
 import { DataSource } from 'typeorm';
+import { OrderModuleV2 } from './order/order.v2.module';
 
 @Module({
   imports: [
@@ -43,7 +44,8 @@ import { DataSource } from 'typeorm';
         }),
     RouterModule.register([routeTable]),
     UserModule,
-    OrderModule,
+    OrderModuleV1,
+    OrderModuleV2,
     CafeModule,
     AuthModule,
   ],

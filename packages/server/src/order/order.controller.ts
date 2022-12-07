@@ -116,4 +116,17 @@ export class OrderController {
     await this.orderService.create(id, createOrderDto);
     return;
   }
+
+  @Post('/test')
+  @HttpCode(201)
+  @UseGuards(JwtGuard)
+  async createOrderTest(
+    @Req() req: Request,
+    @Body() createOrderDto: CreateOrderDto
+  ) {
+    const user = req.user as JwtPayload;
+    const { id } = user;
+    await this.orderService.createV2(id, createOrderDto);
+    return;
+  }
 }

@@ -1,3 +1,4 @@
+import { RedisCacheService } from 'src/redisCache/redisCache.service';
 import { CreateOrderDto } from 'src/order/dto/create-order.dto';
 import {
   BadRequestException,
@@ -11,7 +12,7 @@ import { Menu } from 'src/cafe/entities/menu.entity';
 import { MenuOption } from 'src/cafe/entities/menuOption.entity';
 import { Option } from 'src/cafe/entities/option.entity';
 import { User } from 'src/user/entities/user.entity';
-import { Repository } from 'typeorm';
+import { DataSource, Repository } from 'typeorm';
 import { OrderMenuDto } from './dto/orderMenu.dto';
 import { OrdersResDto } from './dto/ordersRes.dto';
 import { UpdateOrderDto } from './dto/update-order.dto';
@@ -27,7 +28,9 @@ export class OrderService {
     @InjectRepository(MenuOption)
     private menuOptionRepository: Repository<MenuOption>,
     @InjectRepository(OrderMenu)
-    private orderMenuRepository: Repository<OrderMenu>
+    private orderMenuRepository: Repository<OrderMenu>,
+    private dataSource: DataSource,
+    private redisCacheService: RedisCacheService
   ) {}
 
   async getOrders(userId): Promise<OrdersResDto> {
@@ -250,5 +253,69 @@ export class OrderService {
 
   remove(id: number) {
     return `This action removes a #${id} order`;
+  }
+
+  async createV2(userId, createOrderDto: CreateOrderDto) {
+    const { menus, cafeId } = createOrderDto;
+
+    // Menu Entity를 토대로 Menu Option Entity 만들기
+    const menuOptionEntityObjs: MenuOption[] = await this.getMenuOptionEntity(
+      createOrderDto
+    );
+
+    // menuAndOptionDict를 만들기 위한 과정. 옵션 가격, 이름, 메뉴 가격, 이름을 모두 가져온다.
+    const validMenuAndOptionInfo =
+      Order.getValidMenuAndOptionInfo(menuOptionEntityObjs);
+
+    // 모든 메뉴가 유효한 메뉴였는지 확인하는 과정
+    if (!Order.isValidMenu(validMenuAndOptionInfo, menus)) {
+      throw new BadRequestException(
+        '주문한 메뉴 중에 존재하지 않은 메뉴가 있습니다.'
+      );
+    }
+
+    // 각 메뉴마다 옵션이 모두 유효한 옵션들인지 확인하는 과정
+    if (!Order.isValidOptionForMenu(menus, validMenuAndOptionInfo)) {
+      throw new BadRequestException(
+        '해당 메뉴에서 선택할 수 없는 옵션이 포함되어 있습니다.'
+      );
+    }
+
+    // 가격 비교
+    if (!Order.isValidOrderTotalPrice(menus, validMenuAndOptionInfo)) {
+      throw new BadRequestException('요청된 계산 총액이 정확하지 않습니다.');
+    }
+
+    // 주문 저장을 위한 과정
+
+    const queryRunner = this.dataSource.createQueryRunner();
+
+    await queryRunner.connect();
+    await queryRunner.startTransaction();
+    try {
+      const orderEntity = Order.of({
+        cafeId,
+        userId,
+        status: ORDER_STATUS.REQUESTED,
+        menus,
+        validMenuAndOptionInfo,
+      });
+
+      const newOrder = await queryRunner.manager.save(orderEntity);
+      console.log(newOrder.id);
+      await this.redisCacheService.insertCachedOrder(
+        cafeId,
+        newOrder.id,
+        ORDER_STATUS.REQUESTED
+      );
+
+      await await queryRunner.commitTransaction();
+    } catch (err) {
+      // since we have errors lets rollback the changes we made
+      await queryRunner.rollbackTransaction();
+    } finally {
+      // you need to release a queryRunner which was manually instantiated
+      await queryRunner.release();
+    }
   }
 }

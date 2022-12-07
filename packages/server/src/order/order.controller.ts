@@ -79,10 +79,8 @@ export class OrderController {
   @Get()
   @UseInterceptors(ClassSerializerInterceptor)
   async getOrders(@Req() req: Request): Promise<OrdersResDto> {
-    const user = req.user as JwtPayload;
-    const { id } = user;
-    const orders = await this.orderService.getOrders(id);
-    return new OrdersResDto(orders);
+    const { id } = req.user as JwtPayload;
+    return await this.orderService.getOrders(id);
   }
 
   @UseGuards(JwtGuard)

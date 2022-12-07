@@ -1,0 +1,1028 @@
+[
+  {
+    "created_at": "2022-12-03T05:20:25.970Z",
+    "updated_at": "2022-12-03T05:20:25.970Z",
+    "deleted_at": null,
+    "id": 96,
+    "option": {
+      "created_at": "2022-12-03T05:20:25.653Z",
+      "updated_at": "2022-12-03T05:20:25.653Z",
+      "deleted_at": null,
+      "id": 1,
+      "name": "에스프레스 샷 추가",
+      "price": 600,
+      "category": "커피"
+    },
+    "menu": {
+      "created_at": "2022-12-03T05:20:24.939Z",
+      "updated_at": "2022-12-03T05:20:24.939Z",
+      "deleted_at": null,
+      "id": 6,
+      "name": "돌체 콜드 브루",
+      "description": "무더운 여름철, \n동남아 휴가지에서 즐기는 커피를 떠오르게 하는 \n스타벅스 음료의 베스트 x 베스트 조합인\n돌체 콜드 브루를 만나보세요!",
+      "price": 5000,
+      "category": "콜드 브루",
+      "thumbnail": "https://kr.object.ncloudstorage.com/buddha-dev/%EB%8F%8C%EC%B2%B4%20%EC%BD%9C%EB%93%9C%20%EB%B8%8C%EB%A3%A8.png",
+      "type": "hot"
+    }
+  },
+  {
+    "created_at": "2022-12-03T05:20:25.972Z",
+    "updated_at": "2022-12-03T05:20:25.972Z",
+    "deleted_at": null,
+    "id": 97,
+    "option": {
+      "created_at": "2022-12-03T05:20:25.657Z",
+      "updated_at": "2022-12-03T05:20:25.657Z",
+      "deleted_at": null,
+      "id": 2,
+      "name": "바닐라 시럽",
+      "price": 600,
+      "category": "시럽"
+    },
+    "menu": {
+      "created_at": "2022-12-03T05:20:24.939Z",
+      "updated_at": "2022-12-03T05:20:24.939Z",
+      "deleted_at": null,
+      "id": 6,
+      "name": "돌체 콜드 브루",
+      "description": "무더운 여름철, \n동남아 휴가지에서 즐기는 커피를 떠오르게 하는 \n스타벅스 음료의 베스트 x 베스트 조합인\n돌체 콜드 브루를 만나보세요!",
+      "price": 5000,
+      "category": "콜드 브루",
+      "thumbnail": "https://kr.object.ncloudstorage.com/buddha-dev/%EB%8F%8C%EC%B2%B4%20%EC%BD%9C%EB%93%9C%20%EB%B8%8C%EB%A3%A8.png",
+      "type": "hot"
+    }
+  },
+  {
+    "created_at": "2022-12-03T05:20:25.974Z",
+    "updated_at": "2022-12-03T05:20:25.974Z",
+    "deleted_at": null,
+    "id": 98,
+    "option": {
+      "created_at": "2022-12-03T05:20:25.661Z",
+      "updated_at": "2022-12-03T05:20:25.661Z",
+      "deleted_at": null,
+      "id": 3,
+      "name": "헤이즐넛 시럽",
+      "price": 600,
+      "category": "시럽"
+    },
+    "menu": {
+      "created_at": "2022-12-03T05:20:24.939Z",
+      "updated_at": "2022-12-03T05:20:24.939Z",
+      "deleted_at": null,
+      "id": 6,
+      "name": "돌체 콜드 브루",
+      "description": "무더운 여름철, \n동남아 휴가지에서 즐기는 커피를 떠오르게 하는 \n스타벅스 음료의 베스트 x 베스트 조합인\n돌체 콜드 브루를 만나보세요!",
+      "price": 5000,
+      "category": "콜드 브루",
+      "thumbnail": "https://kr.object.ncloudstorage.com/buddha-dev/%EB%8F%8C%EC%B2%B4%20%EC%BD%9C%EB%93%9C%20%EB%B8%8C%EB%A3%A8.png",
+      "type": "hot"
+    }
+  },
+  {
+    "created_at": "2022-12-03T05:20:25.976Z",
+    "updated_at": "2022-12-03T05:20:25.976Z",
+    "deleted_at": null,
+    "id": 99,
+    "option": {
+      "created_at": "2022-12-03T05:20:25.664Z",
+      "updated_at": "2022-12-03T05:20:25.664Z",
+      "deleted_at": null,
+      "id": 4,
+      "name": "카라멜 시럽",
+      "price": 600,
+      "category": "시럽"
+    },
+    "menu": {
+      "created_at": "2022-12-03T05:20:24.939Z",
+      "updated_at": "2022-12-03T05:20:24.939Z",
+      "deleted_at": null,
+      "id": 6,
+      "name": "돌체 콜드 브루",
+      "description": "무더운 여름철, \n동남아 휴가지에서 즐기는 커피를 떠오르게 하는 \n스타벅스 음료의 베스트 x 베스트 조합인\n돌체 콜드 브루를 만나보세요!",
+      "price": 5000,
+      "category": "콜드 브루",
+      "thumbnail": "https://kr.object.ncloudstorage.com/buddha-dev/%EB%8F%8C%EC%B2%B4%20%EC%BD%9C%EB%93%9C%20%EB%B8%8C%EB%A3%A8.png",
+      "type": "hot"
+    }
+  },
+  {
+    "created_at": "2022-12-03T05:20:25.978Z",
+    "updated_at": "2022-12-03T05:20:25.978Z",
+    "deleted_at": null,
+    "id": 100,
+    "option": {
+      "created_at": "2022-12-03T05:20:25.666Z",
+      "updated_at": "2022-12-03T05:20:25.666Z",
+      "deleted_at": null,
+      "id": 5,
+      "name": "물 적게",
+      "price": 0,
+      "category": "베이스"
+    },
+    "menu": {
+      "created_at": "2022-12-03T05:20:24.939Z",
+      "updated_at": "2022-12-03T05:20:24.939Z",
+      "deleted_at": null,
+      "id": 6,
+      "name": "돌체 콜드 브루",
+      "description": "무더운 여름철, \n동남아 휴가지에서 즐기는 커피를 떠오르게 하는 \n스타벅스 음료의 베스트 x 베스트 조합인\n돌체 콜드 브루를 만나보세요!",
+      "price": 5000,
+      "category": "콜드 브루",
+      "thumbnail": "https://kr.object.ncloudstorage.com/buddha-dev/%EB%8F%8C%EC%B2%B4%20%EC%BD%9C%EB%93%9C%20%EB%B8%8C%EB%A3%A8.png",
+      "type": "hot"
+    }
+  },
+  {
+    "created_at": "2022-12-03T05:20:25.979Z",
+    "updated_at": "2022-12-03T05:20:25.979Z",
+    "deleted_at": null,
+    "id": 101,
+    "option": {
+      "created_at": "2022-12-03T05:20:25.669Z",
+      "updated_at": "2022-12-03T05:20:25.669Z",
+      "deleted_at": null,
+      "id": 6,
+      "name": "물 많이",
+      "price": 0,
+      "category": "베이스"
+    },
+    "menu": {
+      "created_at": "2022-12-03T05:20:24.939Z",
+      "updated_at": "2022-12-03T05:20:24.939Z",
+      "deleted_at": null,
+      "id": 6,
+      "name": "돌체 콜드 브루",
+      "description": "무더운 여름철, \n동남아 휴가지에서 즐기는 커피를 떠오르게 하는 \n스타벅스 음료의 베스트 x 베스트 조합인\n돌체 콜드 브루를 만나보세요!",
+      "price": 5000,
+      "category": "콜드 브루",
+      "thumbnail": "https://kr.object.ncloudstorage.com/buddha-dev/%EB%8F%8C%EC%B2%B4%20%EC%BD%9C%EB%93%9C%20%EB%B8%8C%EB%A3%A8.png",
+      "type": "hot"
+    }
+  },
+  {
+    "created_at": "2022-12-03T05:20:25.981Z",
+    "updated_at": "2022-12-03T05:20:25.981Z",
+    "deleted_at": null,
+    "id": 102,
+    "option": {
+      "created_at": "2022-12-03T05:20:25.671Z",
+      "updated_at": "2022-12-03T05:20:25.671Z",
+      "deleted_at": null,
+      "id": 7,
+      "name": "얼음 없이",
+      "price": 0,
+      "category": "얼음"
+    },
+    "menu": {
+      "created_at": "2022-12-03T05:20:24.939Z",
+      "updated_at": "2022-12-03T05:20:24.939Z",
+      "deleted_at": null,
+      "id": 6,
+      "name": "돌체 콜드 브루",
+      "description": "무더운 여름철, \n동남아 휴가지에서 즐기는 커피를 떠오르게 하는 \n스타벅스 음료의 베스트 x 베스트 조합인\n돌체 콜드 브루를 만나보세요!",
+      "price": 5000,
+      "category": "콜드 브루",
+      "thumbnail": "https://kr.object.ncloudstorage.com/buddha-dev/%EB%8F%8C%EC%B2%B4%20%EC%BD%9C%EB%93%9C%20%EB%B8%8C%EB%A3%A8.png",
+      "type": "hot"
+    }
+  },
+  {
+    "created_at": "2022-12-03T05:20:25.983Z",
+    "updated_at": "2022-12-03T05:20:25.983Z",
+    "deleted_at": null,
+    "id": 103,
+    "option": {
+      "created_at": "2022-12-03T05:20:25.673Z",
+      "updated_at": "2022-12-03T05:20:25.673Z",
+      "deleted_at": null,
+      "id": 8,
+      "name": "얼음 적게",
+      "price": 0,
+      "category": "얼음"
+    },
+    "menu": {
+      "created_at": "2022-12-03T05:20:24.939Z",
+      "updated_at": "2022-12-03T05:20:24.939Z",
+      "deleted_at": null,
+      "id": 6,
+      "name": "돌체 콜드 브루",
+      "description": "무더운 여름철, \n동남아 휴가지에서 즐기는 커피를 떠오르게 하는 \n스타벅스 음료의 베스트 x 베스트 조합인\n돌체 콜드 브루를 만나보세요!",
+      "price": 5000,
+      "category": "콜드 브루",
+      "thumbnail": "https://kr.object.ncloudstorage.com/buddha-dev/%EB%8F%8C%EC%B2%B4%20%EC%BD%9C%EB%93%9C%20%EB%B8%8C%EB%A3%A8.png",
+      "type": "hot"
+    }
+  },
+  {
+    "created_at": "2022-12-03T05:20:25.984Z",
+    "updated_at": "2022-12-03T05:20:25.984Z",
+    "deleted_at": null,
+    "id": 104,
+    "option": {
+      "created_at": "2022-12-03T05:20:25.677Z",
+      "updated_at": "2022-12-03T05:20:25.677Z",
+      "deleted_at": null,
+      "id": 9,
+      "name": "얼음 많이",
+      "price": 0,
+      "category": "얼음"
+    },
+    "menu": {
+      "created_at": "2022-12-03T05:20:24.939Z",
+      "updated_at": "2022-12-03T05:20:24.939Z",
+      "deleted_at": null,
+      "id": 6,
+      "name": "돌체 콜드 브루",
+      "description": "무더운 여름철, \n동남아 휴가지에서 즐기는 커피를 떠오르게 하는 \n스타벅스 음료의 베스트 x 베스트 조합인\n돌체 콜드 브루를 만나보세요!",
+      "price": 5000,
+      "category": "콜드 브루",
+      "thumbnail": "https://kr.object.ncloudstorage.com/buddha-dev/%EB%8F%8C%EC%B2%B4%20%EC%BD%9C%EB%93%9C%20%EB%B8%8C%EB%A3%A8.png",
+      "type": "hot"
+    }
+  },
+  {
+    "created_at": "2022-12-03T05:20:25.987Z",
+    "updated_at": "2022-12-03T05:20:25.987Z",
+    "deleted_at": null,
+    "id": 105,
+    "option": {
+      "created_at": "2022-12-03T05:20:25.680Z",
+      "updated_at": "2022-12-03T05:20:25.680Z",
+      "deleted_at": null,
+      "id": 10,
+      "name": "일반 휘핑",
+      "price": 0,
+      "category": "휘핑크림"
+    },
+    "menu": {
+      "created_at": "2022-12-03T05:20:24.939Z",
+      "updated_at": "2022-12-03T05:20:24.939Z",
+      "deleted_at": null,
+      "id": 6,
+      "name": "돌체 콜드 브루",
+      "description": "무더운 여름철, \n동남아 휴가지에서 즐기는 커피를 떠오르게 하는 \n스타벅스 음료의 베스트 x 베스트 조합인\n돌체 콜드 브루를 만나보세요!",
+      "price": 5000,
+      "category": "콜드 브루",
+      "thumbnail": "https://kr.object.ncloudstorage.com/buddha-dev/%EB%8F%8C%EC%B2%B4%20%EC%BD%9C%EB%93%9C%20%EB%B8%8C%EB%A3%A8.png",
+      "type": "hot"
+    }
+  },
+  {
+    "created_at": "2022-12-03T05:20:25.988Z",
+    "updated_at": "2022-12-03T05:20:25.988Z",
+    "deleted_at": null,
+    "id": 106,
+    "option": {
+      "created_at": "2022-12-03T05:20:25.683Z",
+      "updated_at": "2022-12-03T05:20:25.683Z",
+      "deleted_at": null,
+      "id": 11,
+      "name": "에스프레소 휘핑",
+      "price": 0,
+      "category": "휘핑크림"
+    },
+    "menu": {
+      "created_at": "2022-12-03T05:20:24.939Z",
+      "updated_at": "2022-12-03T05:20:24.939Z",
+      "deleted_at": null,
+      "id": 6,
+      "name": "돌체 콜드 브루",
+      "description": "무더운 여름철, \n동남아 휴가지에서 즐기는 커피를 떠오르게 하는 \n스타벅스 음료의 베스트 x 베스트 조합인\n돌체 콜드 브루를 만나보세요!",
+      "price": 5000,
+      "category": "콜드 브루",
+      "thumbnail": "https://kr.object.ncloudstorage.com/buddha-dev/%EB%8F%8C%EC%B2%B4%20%EC%BD%9C%EB%93%9C%20%EB%B8%8C%EB%A3%A8.png",
+      "type": "hot"
+    }
+  },
+  {
+    "created_at": "2022-12-03T05:20:25.990Z",
+    "updated_at": "2022-12-03T05:20:25.990Z",
+    "deleted_at": null,
+    "id": 107,
+    "option": {
+      "created_at": "2022-12-03T05:20:25.685Z",
+      "updated_at": "2022-12-03T05:20:25.685Z",
+      "deleted_at": null,
+      "id": 12,
+      "name": "휘핑 적게",
+      "price": 0,
+      "category": "휘핑크림"
+    },
+    "menu": {
+      "created_at": "2022-12-03T05:20:24.939Z",
+      "updated_at": "2022-12-03T05:20:24.939Z",
+      "deleted_at": null,
+      "id": 6,
+      "name": "돌체 콜드 브루",
+      "description": "무더운 여름철, \n동남아 휴가지에서 즐기는 커피를 떠오르게 하는 \n스타벅스 음료의 베스트 x 베스트 조합인\n돌체 콜드 브루를 만나보세요!",
+      "price": 5000,
+      "category": "콜드 브루",
+      "thumbnail": "https://kr.object.ncloudstorage.com/buddha-dev/%EB%8F%8C%EC%B2%B4%20%EC%BD%9C%EB%93%9C%20%EB%B8%8C%EB%A3%A8.png",
+      "type": "hot"
+    }
+  },
+  {
+    "created_at": "2022-12-03T05:20:25.992Z",
+    "updated_at": "2022-12-03T05:20:25.992Z",
+    "deleted_at": null,
+    "id": 108,
+    "option": {
+      "created_at": "2022-12-03T05:20:25.688Z",
+      "updated_at": "2022-12-03T05:20:25.688Z",
+      "deleted_at": null,
+      "id": 13,
+      "name": "휘핑 많이",
+      "price": 0,
+      "category": "휘핑크림"
+    },
+    "menu": {
+      "created_at": "2022-12-03T05:20:24.939Z",
+      "updated_at": "2022-12-03T05:20:24.939Z",
+      "deleted_at": null,
+      "id": 6,
+      "name": "돌체 콜드 브루",
+      "description": "무더운 여름철, \n동남아 휴가지에서 즐기는 커피를 떠오르게 하는 \n스타벅스 음료의 베스트 x 베스트 조합인\n돌체 콜드 브루를 만나보세요!",
+      "price": 5000,
+      "category": "콜드 브루",
+      "thumbnail": "https://kr.object.ncloudstorage.com/buddha-dev/%EB%8F%8C%EC%B2%B4%20%EC%BD%9C%EB%93%9C%20%EB%B8%8C%EB%A3%A8.png",
+      "type": "hot"
+    }
+  },
+  {
+    "created_at": "2022-12-03T05:20:25.995Z",
+    "updated_at": "2022-12-03T05:20:25.995Z",
+    "deleted_at": null,
+    "id": 109,
+    "option": {
+      "created_at": "2022-12-03T05:20:25.690Z",
+      "updated_at": "2022-12-03T05:20:25.690Z",
+      "deleted_at": null,
+      "id": 14,
+      "name": "카라멜 드리즐 적게",
+      "price": 0,
+      "category": "드리즐"
+    },
+    "menu": {
+      "created_at": "2022-12-03T05:20:24.939Z",
+      "updated_at": "2022-12-03T05:20:24.939Z",
+      "deleted_at": null,
+      "id": 6,
+      "name": "돌체 콜드 브루",
+      "description": "무더운 여름철, \n동남아 휴가지에서 즐기는 커피를 떠오르게 하는 \n스타벅스 음료의 베스트 x 베스트 조합인\n돌체 콜드 브루를 만나보세요!",
+      "price": 5000,
+      "category": "콜드 브루",
+      "thumbnail": "https://kr.object.ncloudstorage.com/buddha-dev/%EB%8F%8C%EC%B2%B4%20%EC%BD%9C%EB%93%9C%20%EB%B8%8C%EB%A3%A8.png",
+      "type": "hot"
+    }
+  },
+  {
+    "created_at": "2022-12-03T05:20:25.996Z",
+    "updated_at": "2022-12-03T05:20:25.996Z",
+    "deleted_at": null,
+    "id": 110,
+    "option": {
+      "created_at": "2022-12-03T05:20:25.692Z",
+      "updated_at": "2022-12-03T05:20:25.692Z",
+      "deleted_at": null,
+      "id": 15,
+      "name": "카라멜 드리즐 많이",
+      "price": 0,
+      "category": "드리즐"
+    },
+    "menu": {
+      "created_at": "2022-12-03T05:20:24.939Z",
+      "updated_at": "2022-12-03T05:20:24.939Z",
+      "deleted_at": null,
+      "id": 6,
+      "name": "돌체 콜드 브루",
+      "description": "무더운 여름철, \n동남아 휴가지에서 즐기는 커피를 떠오르게 하는 \n스타벅스 음료의 베스트 x 베스트 조합인\n돌체 콜드 브루를 만나보세요!",
+      "price": 5000,
+      "category": "콜드 브루",
+      "thumbnail": "https://kr.object.ncloudstorage.com/buddha-dev/%EB%8F%8C%EC%B2%B4%20%EC%BD%9C%EB%93%9C%20%EB%B8%8C%EB%A3%A8.png",
+      "type": "hot"
+    }
+  },
+  {
+    "created_at": "2022-12-03T05:20:25.998Z",
+    "updated_at": "2022-12-03T05:20:25.998Z",
+    "deleted_at": null,
+    "id": 111,
+    "option": {
+      "created_at": "2022-12-03T05:20:25.694Z",
+      "updated_at": "2022-12-03T05:20:25.694Z",
+      "deleted_at": null,
+      "id": 16,
+      "name": "초콜릿 드리즐 적게",
+      "price": 0,
+      "category": "드리즐"
+    },
+    "menu": {
+      "created_at": "2022-12-03T05:20:24.939Z",
+      "updated_at": "2022-12-03T05:20:24.939Z",
+      "deleted_at": null,
+      "id": 6,
+      "name": "돌체 콜드 브루",
+      "description": "무더운 여름철, \n동남아 휴가지에서 즐기는 커피를 떠오르게 하는 \n스타벅스 음료의 베스트 x 베스트 조합인\n돌체 콜드 브루를 만나보세요!",
+      "price": 5000,
+      "category": "콜드 브루",
+      "thumbnail": "https://kr.object.ncloudstorage.com/buddha-dev/%EB%8F%8C%EC%B2%B4%20%EC%BD%9C%EB%93%9C%20%EB%B8%8C%EB%A3%A8.png",
+      "type": "hot"
+    }
+  },
+  {
+    "created_at": "2022-12-03T05:20:25.999Z",
+    "updated_at": "2022-12-03T05:20:25.999Z",
+    "deleted_at": null,
+    "id": 112,
+    "option": {
+      "created_at": "2022-12-03T05:20:25.695Z",
+      "updated_at": "2022-12-03T05:20:25.695Z",
+      "deleted_at": null,
+      "id": 17,
+      "name": "초콜릿 드리즐 많게",
+      "price": 0,
+      "category": "드리즐"
+    },
+    "menu": {
+      "created_at": "2022-12-03T05:20:24.939Z",
+      "updated_at": "2022-12-03T05:20:24.939Z",
+      "deleted_at": null,
+      "id": 6,
+      "name": "돌체 콜드 브루",
+      "description": "무더운 여름철, \n동남아 휴가지에서 즐기는 커피를 떠오르게 하는 \n스타벅스 음료의 베스트 x 베스트 조합인\n돌체 콜드 브루를 만나보세요!",
+      "price": 5000,
+      "category": "콜드 브루",
+      "thumbnail": "https://kr.object.ncloudstorage.com/buddha-dev/%EB%8F%8C%EC%B2%B4%20%EC%BD%9C%EB%93%9C%20%EB%B8%8C%EB%A3%A8.png",
+      "type": "hot"
+    }
+  },
+  {
+    "created_at": "2022-12-03T05:20:26.001Z",
+    "updated_at": "2022-12-03T05:20:26.001Z",
+    "deleted_at": null,
+    "id": 113,
+    "option": {
+      "created_at": "2022-12-03T05:20:25.697Z",
+      "updated_at": "2022-12-03T05:20:25.697Z",
+      "deleted_at": null,
+      "id": 18,
+      "name": "돔 리드로 변경",
+      "price": 0,
+      "category": "컵&리드 옵션"
+    },
+    "menu": {
+      "created_at": "2022-12-03T05:20:24.939Z",
+      "updated_at": "2022-12-03T05:20:24.939Z",
+      "deleted_at": null,
+      "id": 6,
+      "name": "돌체 콜드 브루",
+      "description": "무더운 여름철, \n동남아 휴가지에서 즐기는 커피를 떠오르게 하는 \n스타벅스 음료의 베스트 x 베스트 조합인\n돌체 콜드 브루를 만나보세요!",
+      "price": 5000,
+      "category": "콜드 브루",
+      "thumbnail": "https://kr.object.ncloudstorage.com/buddha-dev/%EB%8F%8C%EC%B2%B4%20%EC%BD%9C%EB%93%9C%20%EB%B8%8C%EB%A3%A8.png",
+      "type": "hot"
+    }
+  },
+  {
+    "created_at": "2022-12-03T05:20:26.004Z",
+    "updated_at": "2022-12-03T05:20:26.004Z",
+    "deleted_at": null,
+    "id": 114,
+    "option": {
+      "created_at": "2022-12-03T05:20:25.698Z",
+      "updated_at": "2022-12-03T05:20:25.698Z",
+      "deleted_at": null,
+      "id": 19,
+      "name": "우유 공간 남겨주세요",
+      "price": 0,
+      "category": "기타"
+    },
+    "menu": {
+      "created_at": "2022-12-03T05:20:24.939Z",
+      "updated_at": "2022-12-03T05:20:24.939Z",
+      "deleted_at": null,
+      "id": 6,
+      "name": "돌체 콜드 브루",
+      "description": "무더운 여름철, \n동남아 휴가지에서 즐기는 커피를 떠오르게 하는 \n스타벅스 음료의 베스트 x 베스트 조합인\n돌체 콜드 브루를 만나보세요!",
+      "price": 5000,
+      "category": "콜드 브루",
+      "thumbnail": "https://kr.object.ncloudstorage.com/buddha-dev/%EB%8F%8C%EC%B2%B4%20%EC%BD%9C%EB%93%9C%20%EB%B8%8C%EB%A3%A8.png",
+      "type": "hot"
+    }
+  },
+  {
+    "created_at": "2022-12-03T05:20:26.006Z",
+    "updated_at": "2022-12-03T05:20:26.006Z",
+    "deleted_at": null,
+    "id": 115,
+    "option": {
+      "created_at": "2022-12-03T05:20:25.653Z",
+      "updated_at": "2022-12-03T05:20:25.653Z",
+      "deleted_at": null,
+      "id": 1,
+      "name": "에스프레스 샷 추가",
+      "price": 600,
+      "category": "커피"
+    },
+    "menu": {
+      "created_at": "2022-12-03T05:20:24.941Z",
+      "updated_at": "2022-12-03T05:20:24.941Z",
+      "deleted_at": null,
+      "id": 7,
+      "name": "오늘의 커피",
+      "description": "신선하게 브루드(Brewed)되어 원두의 다양함이 살아있는 커피",
+      "price": 5000,
+      "category": "브루드 커피",
+      "thumbnail": "https://kr.object.ncloudstorage.com/buddha-dev/%EC%98%A4%EB%8A%98%EC%9D%98%20%EC%BB%A4%ED%94%BC.png",
+      "type": "hot"
+    }
+  },
+  {
+    "created_at": "2022-12-03T05:20:26.008Z",
+    "updated_at": "2022-12-03T05:20:26.008Z",
+    "deleted_at": null,
+    "id": 116,
+    "option": {
+      "created_at": "2022-12-03T05:20:25.657Z",
+      "updated_at": "2022-12-03T05:20:25.657Z",
+      "deleted_at": null,
+      "id": 2,
+      "name": "바닐라 시럽",
+      "price": 600,
+      "category": "시럽"
+    },
+    "menu": {
+      "created_at": "2022-12-03T05:20:24.941Z",
+      "updated_at": "2022-12-03T05:20:24.941Z",
+      "deleted_at": null,
+      "id": 7,
+      "name": "오늘의 커피",
+      "description": "신선하게 브루드(Brewed)되어 원두의 다양함이 살아있는 커피",
+      "price": 5000,
+      "category": "브루드 커피",
+      "thumbnail": "https://kr.object.ncloudstorage.com/buddha-dev/%EC%98%A4%EB%8A%98%EC%9D%98%20%EC%BB%A4%ED%94%BC.png",
+      "type": "hot"
+    }
+  },
+  {
+    "created_at": "2022-12-03T05:20:26.009Z",
+    "updated_at": "2022-12-03T05:20:26.009Z",
+    "deleted_at": null,
+    "id": 117,
+    "option": {
+      "created_at": "2022-12-03T05:20:25.661Z",
+      "updated_at": "2022-12-03T05:20:25.661Z",
+      "deleted_at": null,
+      "id": 3,
+      "name": "헤이즐넛 시럽",
+      "price": 600,
+      "category": "시럽"
+    },
+    "menu": {
+      "created_at": "2022-12-03T05:20:24.941Z",
+      "updated_at": "2022-12-03T05:20:24.941Z",
+      "deleted_at": null,
+      "id": 7,
+      "name": "오늘의 커피",
+      "description": "신선하게 브루드(Brewed)되어 원두의 다양함이 살아있는 커피",
+      "price": 5000,
+      "category": "브루드 커피",
+      "thumbnail": "https://kr.object.ncloudstorage.com/buddha-dev/%EC%98%A4%EB%8A%98%EC%9D%98%20%EC%BB%A4%ED%94%BC.png",
+      "type": "hot"
+    }
+  },
+  {
+    "created_at": "2022-12-03T05:20:26.011Z",
+    "updated_at": "2022-12-03T05:20:26.011Z",
+    "deleted_at": null,
+    "id": 118,
+    "option": {
+      "created_at": "2022-12-03T05:20:25.664Z",
+      "updated_at": "2022-12-03T05:20:25.664Z",
+      "deleted_at": null,
+      "id": 4,
+      "name": "카라멜 시럽",
+      "price": 600,
+      "category": "시럽"
+    },
+    "menu": {
+      "created_at": "2022-12-03T05:20:24.941Z",
+      "updated_at": "2022-12-03T05:20:24.941Z",
+      "deleted_at": null,
+      "id": 7,
+      "name": "오늘의 커피",
+      "description": "신선하게 브루드(Brewed)되어 원두의 다양함이 살아있는 커피",
+      "price": 5000,
+      "category": "브루드 커피",
+      "thumbnail": "https://kr.object.ncloudstorage.com/buddha-dev/%EC%98%A4%EB%8A%98%EC%9D%98%20%EC%BB%A4%ED%94%BC.png",
+      "type": "hot"
+    }
+  },
+  {
+    "created_at": "2022-12-03T05:20:26.012Z",
+    "updated_at": "2022-12-03T05:20:26.012Z",
+    "deleted_at": null,
+    "id": 119,
+    "option": {
+      "created_at": "2022-12-03T05:20:25.666Z",
+      "updated_at": "2022-12-03T05:20:25.666Z",
+      "deleted_at": null,
+      "id": 5,
+      "name": "물 적게",
+      "price": 0,
+      "category": "베이스"
+    },
+    "menu": {
+      "created_at": "2022-12-03T05:20:24.941Z",
+      "updated_at": "2022-12-03T05:20:24.941Z",
+      "deleted_at": null,
+      "id": 7,
+      "name": "오늘의 커피",
+      "description": "신선하게 브루드(Brewed)되어 원두의 다양함이 살아있는 커피",
+      "price": 5000,
+      "category": "브루드 커피",
+      "thumbnail": "https://kr.object.ncloudstorage.com/buddha-dev/%EC%98%A4%EB%8A%98%EC%9D%98%20%EC%BB%A4%ED%94%BC.png",
+      "type": "hot"
+    }
+  },
+  {
+    "created_at": "2022-12-03T05:20:26.015Z",
+    "updated_at": "2022-12-03T05:20:26.015Z",
+    "deleted_at": null,
+    "id": 120,
+    "option": {
+      "created_at": "2022-12-03T05:20:25.669Z",
+      "updated_at": "2022-12-03T05:20:25.669Z",
+      "deleted_at": null,
+      "id": 6,
+      "name": "물 많이",
+      "price": 0,
+      "category": "베이스"
+    },
+    "menu": {
+      "created_at": "2022-12-03T05:20:24.941Z",
+      "updated_at": "2022-12-03T05:20:24.941Z",
+      "deleted_at": null,
+      "id": 7,
+      "name": "오늘의 커피",
+      "description": "신선하게 브루드(Brewed)되어 원두의 다양함이 살아있는 커피",
+      "price": 5000,
+      "category": "브루드 커피",
+      "thumbnail": "https://kr.object.ncloudstorage.com/buddha-dev/%EC%98%A4%EB%8A%98%EC%9D%98%20%EC%BB%A4%ED%94%BC.png",
+      "type": "hot"
+    }
+  },
+  {
+    "created_at": "2022-12-03T05:20:26.016Z",
+    "updated_at": "2022-12-03T05:20:26.016Z",
+    "deleted_at": null,
+    "id": 121,
+    "option": {
+      "created_at": "2022-12-03T05:20:25.671Z",
+      "updated_at": "2022-12-03T05:20:25.671Z",
+      "deleted_at": null,
+      "id": 7,
+      "name": "얼음 없이",
+      "price": 0,
+      "category": "얼음"
+    },
+    "menu": {
+      "created_at": "2022-12-03T05:20:24.941Z",
+      "updated_at": "2022-12-03T05:20:24.941Z",
+      "deleted_at": null,
+      "id": 7,
+      "name": "오늘의 커피",
+      "description": "신선하게 브루드(Brewed)되어 원두의 다양함이 살아있는 커피",
+      "price": 5000,
+      "category": "브루드 커피",
+      "thumbnail": "https://kr.object.ncloudstorage.com/buddha-dev/%EC%98%A4%EB%8A%98%EC%9D%98%20%EC%BB%A4%ED%94%BC.png",
+      "type": "hot"
+    }
+  },
+  {
+    "created_at": "2022-12-03T05:20:26.018Z",
+    "updated_at": "2022-12-03T05:20:26.018Z",
+    "deleted_at": null,
+    "id": 122,
+    "option": {
+      "created_at": "2022-12-03T05:20:25.673Z",
+      "updated_at": "2022-12-03T05:20:25.673Z",
+      "deleted_at": null,
+      "id": 8,
+      "name": "얼음 적게",
+      "price": 0,
+      "category": "얼음"
+    },
+    "menu": {
+      "created_at": "2022-12-03T05:20:24.941Z",
+      "updated_at": "2022-12-03T05:20:24.941Z",
+      "deleted_at": null,
+      "id": 7,
+      "name": "오늘의 커피",
+      "description": "신선하게 브루드(Brewed)되어 원두의 다양함이 살아있는 커피",
+      "price": 5000,
+      "category": "브루드 커피",
+      "thumbnail": "https://kr.object.ncloudstorage.com/buddha-dev/%EC%98%A4%EB%8A%98%EC%9D%98%20%EC%BB%A4%ED%94%BC.png",
+      "type": "hot"
+    }
+  },
+  {
+    "created_at": "2022-12-03T05:20:26.020Z",
+    "updated_at": "2022-12-03T05:20:26.020Z",
+    "deleted_at": null,
+    "id": 123,
+    "option": {
+      "created_at": "2022-12-03T05:20:25.677Z",
+      "updated_at": "2022-12-03T05:20:25.677Z",
+      "deleted_at": null,
+      "id": 9,
+      "name": "얼음 많이",
+      "price": 0,
+      "category": "얼음"
+    },
+    "menu": {
+      "created_at": "2022-12-03T05:20:24.941Z",
+      "updated_at": "2022-12-03T05:20:24.941Z",
+      "deleted_at": null,
+      "id": 7,
+      "name": "오늘의 커피",
+      "description": "신선하게 브루드(Brewed)되어 원두의 다양함이 살아있는 커피",
+      "price": 5000,
+      "category": "브루드 커피",
+      "thumbnail": "https://kr.object.ncloudstorage.com/buddha-dev/%EC%98%A4%EB%8A%98%EC%9D%98%20%EC%BB%A4%ED%94%BC.png",
+      "type": "hot"
+    }
+  },
+  {
+    "created_at": "2022-12-03T05:20:26.021Z",
+    "updated_at": "2022-12-03T05:20:26.021Z",
+    "deleted_at": null,
+    "id": 124,
+    "option": {
+      "created_at": "2022-12-03T05:20:25.680Z",
+      "updated_at": "2022-12-03T05:20:25.680Z",
+      "deleted_at": null,
+      "id": 10,
+      "name": "일반 휘핑",
+      "price": 0,
+      "category": "휘핑크림"
+    },
+    "menu": {
+      "created_at": "2022-12-03T05:20:24.941Z",
+      "updated_at": "2022-12-03T05:20:24.941Z",
+      "deleted_at": null,
+      "id": 7,
+      "name": "오늘의 커피",
+      "description": "신선하게 브루드(Brewed)되어 원두의 다양함이 살아있는 커피",
+      "price": 5000,
+      "category": "브루드 커피",
+      "thumbnail": "https://kr.object.ncloudstorage.com/buddha-dev/%EC%98%A4%EB%8A%98%EC%9D%98%20%EC%BB%A4%ED%94%BC.png",
+      "type": "hot"
+    }
+  },
+  {
+    "created_at": "2022-12-03T05:20:26.023Z",
+    "updated_at": "2022-12-03T05:20:26.023Z",
+    "deleted_at": null,
+    "id": 125,
+    "option": {
+      "created_at": "2022-12-03T05:20:25.683Z",
+      "updated_at": "2022-12-03T05:20:25.683Z",
+      "deleted_at": null,
+      "id": 11,
+      "name": "에스프레소 휘핑",
+      "price": 0,
+      "category": "휘핑크림"
+    },
+    "menu": {
+      "created_at": "2022-12-03T05:20:24.941Z",
+      "updated_at": "2022-12-03T05:20:24.941Z",
+      "deleted_at": null,
+      "id": 7,
+      "name": "오늘의 커피",
+      "description": "신선하게 브루드(Brewed)되어 원두의 다양함이 살아있는 커피",
+      "price": 5000,
+      "category": "브루드 커피",
+      "thumbnail": "https://kr.object.ncloudstorage.com/buddha-dev/%EC%98%A4%EB%8A%98%EC%9D%98%20%EC%BB%A4%ED%94%BC.png",
+      "type": "hot"
+    }
+  },
+  {
+    "created_at": "2022-12-03T05:20:26.024Z",
+    "updated_at": "2022-12-03T05:20:26.024Z",
+    "deleted_at": null,
+    "id": 126,
+    "option": {
+      "created_at": "2022-12-03T05:20:25.685Z",
+      "updated_at": "2022-12-03T05:20:25.685Z",
+      "deleted_at": null,
+      "id": 12,
+      "name": "휘핑 적게",
+      "price": 0,
+      "category": "휘핑크림"
+    },
+    "menu": {
+      "created_at": "2022-12-03T05:20:24.941Z",
+      "updated_at": "2022-12-03T05:20:24.941Z",
+      "deleted_at": null,
+      "id": 7,
+      "name": "오늘의 커피",
+      "description": "신선하게 브루드(Brewed)되어 원두의 다양함이 살아있는 커피",
+      "price": 5000,
+      "category": "브루드 커피",
+      "thumbnail": "https://kr.object.ncloudstorage.com/buddha-dev/%EC%98%A4%EB%8A%98%EC%9D%98%20%EC%BB%A4%ED%94%BC.png",
+      "type": "hot"
+    }
+  },
+  {
+    "created_at": "2022-12-03T05:20:26.026Z",
+    "updated_at": "2022-12-03T05:20:26.026Z",
+    "deleted_at": null,
+    "id": 127,
+    "option": {
+      "created_at": "2022-12-03T05:20:25.688Z",
+      "updated_at": "2022-12-03T05:20:25.688Z",
+      "deleted_at": null,
+      "id": 13,
+      "name": "휘핑 많이",
+      "price": 0,
+      "category": "휘핑크림"
+    },
+    "menu": {
+      "created_at": "2022-12-03T05:20:24.941Z",
+      "updated_at": "2022-12-03T05:20:24.941Z",
+      "deleted_at": null,
+      "id": 7,
+      "name": "오늘의 커피",
+      "description": "신선하게 브루드(Brewed)되어 원두의 다양함이 살아있는 커피",
+      "price": 5000,
+      "category": "브루드 커피",
+      "thumbnail": "https://kr.object.ncloudstorage.com/buddha-dev/%EC%98%A4%EB%8A%98%EC%9D%98%20%EC%BB%A4%ED%94%BC.png",
+      "type": "hot"
+    }
+  },
+  {
+    "created_at": "2022-12-03T05:20:26.027Z",
+    "updated_at": "2022-12-03T05:20:26.027Z",
+    "deleted_at": null,
+    "id": 128,
+    "option": {
+      "created_at": "2022-12-03T05:20:25.690Z",
+      "updated_at": "2022-12-03T05:20:25.690Z",
+      "deleted_at": null,
+      "id": 14,
+      "name": "카라멜 드리즐 적게",
+      "price": 0,
+      "category": "드리즐"
+    },
+    "menu": {
+      "created_at": "2022-12-03T05:20:24.941Z",
+      "updated_at": "2022-12-03T05:20:24.941Z",
+      "deleted_at": null,
+      "id": 7,
+      "name": "오늘의 커피",
+      "description": "신선하게 브루드(Brewed)되어 원두의 다양함이 살아있는 커피",
+      "price": 5000,
+      "category": "브루드 커피",
+      "thumbnail": "https://kr.object.ncloudstorage.com/buddha-dev/%EC%98%A4%EB%8A%98%EC%9D%98%20%EC%BB%A4%ED%94%BC.png",
+      "type": "hot"
+    }
+  },
+  {
+    "created_at": "2022-12-03T05:20:26.029Z",
+    "updated_at": "2022-12-03T05:20:26.029Z",
+    "deleted_at": null,
+    "id": 129,
+    "option": {
+      "created_at": "2022-12-03T05:20:25.692Z",
+      "updated_at": "2022-12-03T05:20:25.692Z",
+      "deleted_at": null,
+      "id": 15,
+      "name": "카라멜 드리즐 많이",
+      "price": 0,
+      "category": "드리즐"
+    },
+    "menu": {
+      "created_at": "2022-12-03T05:20:24.941Z",
+      "updated_at": "2022-12-03T05:20:24.941Z",
+      "deleted_at": null,
+      "id": 7,
+      "name": "오늘의 커피",
+      "description": "신선하게 브루드(Brewed)되어 원두의 다양함이 살아있는 커피",
+      "price": 5000,
+      "category": "브루드 커피",
+      "thumbnail": "https://kr.object.ncloudstorage.com/buddha-dev/%EC%98%A4%EB%8A%98%EC%9D%98%20%EC%BB%A4%ED%94%BC.png",
+      "type": "hot"
+    }
+  },
+  {
+    "created_at": "2022-12-03T05:20:26.031Z",
+    "updated_at": "2022-12-03T05:20:26.031Z",
+    "deleted_at": null,
+    "id": 130,
+    "option": {
+      "created_at": "2022-12-03T05:20:25.694Z",
+      "updated_at": "2022-12-03T05:20:25.694Z",
+      "deleted_at": null,
+      "id": 16,
+      "name": "초콜릿 드리즐 적게",
+      "price": 0,
+      "category": "드리즐"
+    },
+    "menu": {
+      "created_at": "2022-12-03T05:20:24.941Z",
+      "updated_at": "2022-12-03T05:20:24.941Z",
+      "deleted_at": null,
+      "id": 7,
+      "name": "오늘의 커피",
+      "description": "신선하게 브루드(Brewed)되어 원두의 다양함이 살아있는 커피",
+      "price": 5000,
+      "category": "브루드 커피",
+      "thumbnail": "https://kr.object.ncloudstorage.com/buddha-dev/%EC%98%A4%EB%8A%98%EC%9D%98%20%EC%BB%A4%ED%94%BC.png",
+      "type": "hot"
+    }
+  },
+  {
+    "created_at": "2022-12-03T05:20:26.032Z",
+    "updated_at": "2022-12-03T05:20:26.032Z",
+    "deleted_at": null,
+    "id": 131,
+    "option": {
+      "created_at": "2022-12-03T05:20:25.695Z",
+      "updated_at": "2022-12-03T05:20:25.695Z",
+      "deleted_at": null,
+      "id": 17,
+      "name": "초콜릿 드리즐 많게",
+      "price": 0,
+      "category": "드리즐"
+    },
+    "menu": {
+      "created_at": "2022-12-03T05:20:24.941Z",
+      "updated_at": "2022-12-03T05:20:24.941Z",
+      "deleted_at": null,
+      "id": 7,
+      "name": "오늘의 커피",
+      "description": "신선하게 브루드(Brewed)되어 원두의 다양함이 살아있는 커피",
+      "price": 5000,
+      "category": "브루드 커피",
+      "thumbnail": "https://kr.object.ncloudstorage.com/buddha-dev/%EC%98%A4%EB%8A%98%EC%9D%98%20%EC%BB%A4%ED%94%BC.png",
+      "type": "hot"
+    }
+  },
+  {
+    "created_at": "2022-12-03T05:20:26.034Z",
+    "updated_at": "2022-12-03T05:20:26.034Z",
+    "deleted_at": null,
+    "id": 132,
+    "option": {
+      "created_at": "2022-12-03T05:20:25.697Z",
+      "updated_at": "2022-12-03T05:20:25.697Z",
+      "deleted_at": null,
+      "id": 18,
+      "name": "돔 리드로 변경",
+      "price": 0,
+      "category": "컵&리드 옵션"
+    },
+    "menu": {
+      "created_at": "2022-12-03T05:20:24.941Z",
+      "updated_at": "2022-12-03T05:20:24.941Z",
+      "deleted_at": null,
+      "id": 7,
+      "name": "오늘의 커피",
+      "description": "신선하게 브루드(Brewed)되어 원두의 다양함이 살아있는 커피",
+      "price": 5000,
+      "category": "브루드 커피",
+      "thumbnail": "https://kr.object.ncloudstorage.com/buddha-dev/%EC%98%A4%EB%8A%98%EC%9D%98%20%EC%BB%A4%ED%94%BC.png",
+      "type": "hot"
+    }
+  },
+  {
+    "created_at": "2022-12-03T05:20:26.036Z",
+    "updated_at": "2022-12-03T05:20:26.036Z",
+    "deleted_at": null,
+    "id": 133,
+    "option": {
+      "created_at": "2022-12-03T05:20:25.698Z",
+      "updated_at": "2022-12-03T05:20:25.698Z",
+      "deleted_at": null,
+      "id": 19,
+      "name": "우유 공간 남겨주세요",
+      "price": 0,
+      "category": "기타"
+    },
+    "menu": {
+      "created_at": "2022-12-03T05:20:24.941Z",
+      "updated_at": "2022-12-03T05:20:24.941Z",
+      "deleted_at": null,
+      "id": 7,
+      "name": "오늘의 커피",
+      "description": "신선하게 브루드(Brewed)되어 원두의 다양함이 살아있는 커피",
+      "price": 5000,
+      "category": "브루드 커피",
+      "thumbnail": "https://kr.object.ncloudstorage.com/buddha-dev/%EC%98%A4%EB%8A%98%EC%9D%98%20%EC%BB%A4%ED%94%BC.png",
+      "type": "hot"
+    }
+  }
+]

@@ -44,4 +44,18 @@ export class OrderMenu extends TimestampableEntity {
 
   @ManyToOne(() => Menu, (menu) => menu.orderMenus)
   menu: Menu;
+
+  static of({ options, size, type, count, price, order, menu }): OrderMenu {
+    const orderMenu = new OrderMenu();
+
+    orderMenu.options = options;
+    orderMenu.size = size;
+    orderMenu.type = type;
+    orderMenu.count = count;
+    orderMenu.price = price;
+    orderMenu.order = order;
+    orderMenu.menu = menu;
+
+    return orderMenu;
+  }
 }

@@ -17,11 +17,12 @@ export class CreateOrderDto {
   @IsNumber()
   cafeId: number;
 
-  createMenuEntityObjs(): Menu[] {
-    return this.menus.map((menu) => {
-      const menuObj = new Menu();
-      menuObj.id = menu.id;
-      return menuObj;
+  static of({ menus, cafeId }): CreateOrderDto {
+    const createOrderDto = new CreateOrderDto();
+    createOrderDto.cafeId = cafeId;
+    createOrderDto.menus = menus.map((menu) => {
+      return OrderMenuDto.of(menu);
     });
+    return createOrderDto;
   }
 }

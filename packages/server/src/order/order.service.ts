@@ -388,4 +388,48 @@ export class OrderService {
 
     return { newOrderPkList, deletedOrderPkList };
   }
+
+  async updateOrderStatusToAcceptedV2(
+    cafeId: string,
+    updateOrderReqDto: UpdateOrderReqDto
+  ): Promise<void> {
+    const orderId = updateOrderReqDto.id.toString();
+    const orderStatus = await this.redisCacheService.getCachedOrder(
+      cafeId,
+      orderId
+    );
+
+    if (orderStatus !== ORDER_STATUS.REQUESTED) {
+      throw new BadRequestException(
+        '요청 상태가 아닌 주문을 수락할 수 없습니다.'
+      );
+    }
+
+    const queryRunner = this.dataSource.createQueryRunner();
+
+    await queryRunner.connect();
+    await queryRunner.startTransaction();
+    try {
+      const orderEntity = Order.ofToUpdateStatus({
+        orderId: parseInt(orderId),
+        orderStatus: ORDER_STATUS.ACCEPTED,
+      });
+
+      await queryRunner.manager.save(orderEntity);
+      await this.redisCacheService.updateCachedOrder(
+        cafeId,
+        orderId,
+        ORDER_STATUS.ACCEPTED
+      );
+
+      await queryRunner.commitTransaction();
+    } catch (err) {
+      // since we have errors lets rollback the changes we made
+      await queryRunner.rollbackTransaction();
+    } finally {
+      // you need to release a queryRunner which was manually instantiated
+      await queryRunner.release();
+    }
+    return;
+  }
 }

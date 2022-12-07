@@ -24,3 +24,7 @@ export const PROGRESS_IMAGE = {
   REJECTED: '',
   COMPLETED: 'https://kr.object.ncloudstorage.com/buddha-dev/completed.gif',
 };
+
+export const QUERY_KEYS = {
+  MENU_LIST_DATA: 'menu list',
+};

@@ -434,4 +434,96 @@ export class OrderService {
     }
     return;
   }
+
+  async updateOrderStatusToRejectedV2(
+    cafeId: string,
+    updateOrderReqDto: UpdateOrderReqDto
+  ): Promise<void> {
+    const orderId = updateOrderReqDto.id.toString();
+    const targetOrderStatus = ORDER_STATUS.REJECTED;
+
+    const orderStatus = await this.redisCacheService.getCachedOrder(
+      cafeId,
+      orderId
+    );
+
+    if (orderStatus !== ORDER_STATUS.REQUESTED) {
+      throw new BadRequestException(
+        '요청 상태가 아닌 주문을 거절할 수 없습니다.'
+      );
+    }
+
+    const queryRunner = this.dataSource.createQueryRunner();
+
+    await queryRunner.connect();
+    await queryRunner.startTransaction();
+    try {
+      const orderEntity = Order.ofToUpdateStatus({
+        orderId: parseInt(orderId),
+        orderStatus: targetOrderStatus,
+      });
+
+      await queryRunner.manager.save(orderEntity);
+      await this.redisCacheService.updateCachedOrder(
+        cafeId,
+        orderId,
+        targetOrderStatus
+      );
+
+      await queryRunner.commitTransaction();
+    } catch (err) {
+      // since we have errors lets rollback the changes we made
+      await queryRunner.rollbackTransaction();
+    } finally {
+      // you need to release a queryRunner which was manually instantiated
+      await queryRunner.release();
+    }
+    return;
+  }
+
+  async updateOrderStatusToCompletedV2(
+    cafeId: string,
+    updateOrderReqDto: UpdateOrderReqDto
+  ): Promise<void> {
+    const orderId = updateOrderReqDto.id.toString();
+    const targetOrderStatus = ORDER_STATUS.COMPLETED;
+
+    const orderStatus = await this.redisCacheService.getCachedOrder(
+      cafeId,
+      orderId
+    );
+
+    if (orderStatus !== ORDER_STATUS.ACCEPTED) {
+      throw new BadRequestException(
+        '요청 상태가 아닌 주문을 거절할 수 없습니다.'
+      );
+    }
+
+    const queryRunner = this.dataSource.createQueryRunner();
+
+    await queryRunner.connect();
+    await queryRunner.startTransaction();
+    try {
+      const orderEntity = Order.ofToUpdateStatus({
+        orderId: parseInt(orderId),
+        orderStatus: targetOrderStatus,
+      });
+
+      await queryRunner.manager.save(orderEntity);
+      await this.redisCacheService.updateCachedOrder(
+        cafeId,
+        orderId,
+        targetOrderStatus
+      );
+
+      await queryRunner.commitTransaction();
+    } catch (err) {
+      // since we have errors lets rollback the changes we made
+      await queryRunner.rollbackTransaction();
+    } finally {
+      // you need to release a queryRunner which was manually instantiated
+      await queryRunner.release();
+    }
+    return;
+  }
 }

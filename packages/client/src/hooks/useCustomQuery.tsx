@@ -1,5 +1,7 @@
 import { useQuery } from '@tanstack/react-query';
 import { customFetch } from 'utils/fetch';
+import { AxiosError } from 'axios';
+import { useNavigate } from 'react-router-dom';
 
 interface CustomQueryParams {
   queryKey: string;
@@ -7,13 +9,17 @@ interface CustomQueryParams {
 }
 
 function useCustomQuery({ queryKey, url }: CustomQueryParams) {
-  const { isSuccess, isError, data, error } = useQuery(
+  const { isSuccess, data, error } = useQuery(
     [queryKey],
     async () => await customFetch({ url, method: 'GET' })
   );
+  const navigate = useNavigate();
 
-  if(isSuccess) return data;
-  if(isError) {
+  if (isSuccess) return data;
+  if (error instanceof AxiosError) {
+    if (error.response?.status === 401) {
+      navigate('/');
+    }
     console.log(error);
   }
   return;

@@ -394,6 +394,8 @@ export class OrderService {
     updateOrderReqDto: UpdateOrderReqDto
   ): Promise<void> {
     const orderId = updateOrderReqDto.id.toString();
+    const targetOrderStatus = ORDER_STATUS.ACCEPTED;
+
     const orderStatus = await this.redisCacheService.getCachedOrder(
       cafeId,
       orderId
@@ -412,14 +414,14 @@ export class OrderService {
     try {
       const orderEntity = Order.ofToUpdateStatus({
         orderId: parseInt(orderId),
-        orderStatus: ORDER_STATUS.ACCEPTED,
+        orderStatus: targetOrderStatus,
       });
 
       await queryRunner.manager.save(orderEntity);
       await this.redisCacheService.updateCachedOrder(
         cafeId,
         orderId,
-        ORDER_STATUS.ACCEPTED
+        targetOrderStatus
       );
 
       await queryRunner.commitTransaction();

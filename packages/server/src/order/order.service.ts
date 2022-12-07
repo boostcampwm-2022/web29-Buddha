@@ -363,4 +363,11 @@ export class OrderService {
 
     return order.status;
   }
+
+  async getCachedRequestedOrders(
+    cafeId: string,
+    oldRequestedOrderPks: Set<string>
+  ) {
+    return;
+  }
 }

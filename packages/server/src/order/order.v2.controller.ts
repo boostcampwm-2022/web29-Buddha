@@ -15,10 +15,30 @@ import { Request } from 'express';
 import { JwtPayload } from 'src/auth/interfaces/jwtPayload';
 import { CreateOrderDto } from './dto/create-order.dto';
 import { ORDER_STATUS } from './enum/orderStatus.enum';
+import { OldRequestedOrdersDto } from './dto/oldRequestedOrdersDto';
 
 @Controller()
 export class OrderController {
   constructor(private readonly orderService: OrderService) {}
+
+  @Get('/renewed-requested')
+  @UseGuards(JwtGuard)
+  async getRenewedRequested(
+    @Req() req: Request,
+    @Body() oldRequestedOrders: OldRequestedOrdersDto
+  ) {
+    // const user = req.user as JwtPayload;
+    // const { id } = user;
+    // cafeId를 유저의 카페로 가져와야한다.
+    const cafeId = 1;
+    await this.orderService.getCachedRequestedOrders(
+      cafeId.toString(),
+      new Set(
+        oldRequestedOrders.oldRequestedOrderPks.map((pk) => pk.toString())
+      )
+    );
+    return;
+  }
 
   @Post('/test')
   @HttpCode(201)

@@ -53,7 +53,7 @@ jobs:
         run: mkdir transfer
 
       - name: move deploy file to src
-        run: mv ./scripts/PROD.deploy.sh transfer
+        run: mv ./scripts/prod.deploy.sh transfer
 
       - name: Inject Environment Variables
         run: echo "$BE_PROD_ENV" > ./transfer/.prod.env

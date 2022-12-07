@@ -383,4 +383,18 @@ export class OrderService {
     return new OrdersResDto(orders);
   }
 
+  async getAcceptedOrdersV2(cafeId: number): Promise<OrdersResDto> {
+    const orders: Order[] = await this.orderRepository.find({
+      relations: {
+        cafe: true,
+        orderMenus: { menu: true },
+      },
+      where: {
+        status: ORDER_STATUS.ACCEPTED,
+        cafe: Cafe.byId(cafeId),
+      },
+    });
+
+    return new OrdersResDto(orders);
+  }
 }

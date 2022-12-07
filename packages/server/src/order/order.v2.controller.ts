@@ -55,10 +55,6 @@ export class OrderController {
     );
     return { order_status: status };
   }
-  //   - getRequestedOrder → `GET /api/v2/order/requested`
-  //     - 응답: requestedOrders: array<Order>
-  // - getAcceptedOrder → `GET /api/v1/order/accepted`
-  //     - 응답: acceptedOrders: array<Order>
 
   @Get('/requested')
   @UseGuards(JwtGuard)
@@ -67,5 +63,14 @@ export class OrderController {
     @Body() requestedOrderDto: RequestedOrderDto
   ): Promise<OrdersResDto> {
     return await this.orderService.getRequestedOrdersV2(requestedOrderDto);
+  }
+
+  @Get('/accepted')
+  @UseGuards(JwtGuard)
+  @UseInterceptors(ClassSerializerInterceptor)
+  async getAcceptedOrders(
+    @Query('cafeId', ParseIntPipe) cafeId: number
+  ): Promise<OrdersResDto> {
+    return await this.orderService.getAcceptedOrdersV2(cafeId);
   }
 }

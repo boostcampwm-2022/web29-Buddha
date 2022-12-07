@@ -1,4 +1,5 @@
 import Layout from '@/Layout';
+import MenuDetailContextProvider from '@/stores/MenuDetail';
 import { Size } from '@/types';
 import { fireEvent, render, screen } from '@testing-library/react';
 import SizeSelector from '.';
@@ -10,7 +11,9 @@ interface Setup {
 const setup = ({ size }: Setup) => {
   const { asFragment } = render(
     <Layout>
-      <SizeSelector size={size} />
+      <MenuDetailContextProvider>
+        <SizeSelector size={size} />
+      </MenuDetailContextProvider>
     </Layout>
   );
 

@@ -25,7 +25,6 @@ describe('메뉴 상세 조회 페이지', () => {
   it('요소 존재 여부', async () => {
     setup({ menuId: 1 });
 
-    screen.getByText(/loading/i);
     await screen.findByAltText(/음료/);
     await screen.findByText(/자몽 허니 블랙 티/);
     await screen.findByText(/HOT/);
@@ -39,7 +38,6 @@ describe('메뉴 상세 조회 페이지', () => {
     setup({ menuId: 2 });
 
     Object.defineProperty(window, 'alert', { value: jest.fn() });
-    await screen.findByText(/조회 오류/);
   });
 
   it('주문 -> 장바구니 추가 및 페이지 이동', async () => {
@@ -84,5 +82,14 @@ describe('메뉴 상세 조회 페이지', () => {
 
     expect(received).toStrictEqual(expected);
     await screen.findByTestId(/menu-list-page/);
+  });
+
+  it('메뉴 목록 페이지 이동', async () => {
+    setup({ menuId: 1 });
+
+    const order = await screen.findByText(/장바구니 담기/);
+
+    fireEvent.click(order);
+    await screen.findByTestId('menu-list-page');
   });
 });

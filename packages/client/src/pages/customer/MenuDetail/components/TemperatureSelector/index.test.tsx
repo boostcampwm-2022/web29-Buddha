@@ -2,11 +2,14 @@ import { render, screen } from '@testing-library/react';
 import TemperatureSelector from '.';
 import Layout from '@/Layout';
 import { Temperature } from '@/types';
+import MenuDetailContextProvider from '@/stores/MenuDetail';
 
 const setup = ({ temperature }: { temperature: Temperature }) => {
   const { asFragment } = render(
     <Layout>
-      <TemperatureSelector temperature={temperature} />
+      <MenuDetailContextProvider>
+        <TemperatureSelector temperature={temperature} />
+      </MenuDetailContextProvider>
     </Layout>
   );
 

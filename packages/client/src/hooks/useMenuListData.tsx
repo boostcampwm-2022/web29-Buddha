@@ -4,7 +4,7 @@ import useCustomQuery from './useCustomQuery';
 
 function useMenuListData() {
   const data = useCustomQuery({
-    queryKey: QUERY_KEYS.MENU_LIST_DATA,
+    queryKey: [QUERY_KEYS.MENU_LIST_DATA],
     url: '/cafe/1/menus',
   });
 

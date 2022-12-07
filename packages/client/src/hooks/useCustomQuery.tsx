@@ -4,13 +4,13 @@ import { AxiosError } from 'axios';
 import { useNavigate } from 'react-router-dom';
 
 interface CustomQueryParams {
-  queryKey: string;
+  queryKey: string[];
   url: string;
 }
 
 function useCustomQuery({ queryKey, url }: CustomQueryParams) {
   const { isSuccess, data, error } = useQuery(
-    [queryKey],
+    queryKey,
     async () => await customFetch({ url, method: 'GET' })
   );
   const navigate = useNavigate();

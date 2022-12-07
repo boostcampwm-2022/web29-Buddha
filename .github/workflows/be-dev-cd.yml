@@ -33,7 +33,7 @@ jobs:
           push: true
           # context 명시를 안해주면 이전 step에서 변경되던 사항들이 적용되지 않는다.
           context: 'packages/server'
-          file: 'Dockerfile.dev'
+          file: 'packages/server/Dockerfile.dev'
           tags: |
             ${{secrets.DOCKER_REGISTRY_USERNAME}}/${{secrets.DOCKER_DEV_REGISTRY}}:latest
             ${{secrets.DOCKER_REGISTRY_USERNAME}}/${{secrets.DOCKER_DEV_REGISTRY}}:${{ github.sha }}

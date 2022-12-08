@@ -5,7 +5,7 @@ import { useMutation, useQueryClient } from '@tanstack/react-query';
 import OrderDetailList from 'components/OrderDetailList';
 
 import { getPriceComma } from '@/utils';
-import { Order } from '@/types';
+import { Order, OrderStatusCode } from '@/types';
 import { QUERY_KEYS } from '@/constants';
 import { customFetch } from '@/utils/fetch';
 import {
@@ -36,14 +36,18 @@ function OrderItem({ date, order }: ItemProps) {
   const handleClickOpen = () => setIsOpen(!isOpen);
 
   const mutaion = useMutation({
-    mutationFn: ({ action }: { action: string }) =>
+    mutationFn: ({ action }: { action: OrderStatusCode }) =>
       customFetch({
-        url: `/order/${action}`,
+        url: `/order/${action.toLowerCase()}`,
         method: 'POST',
-        data: { id: order.id, newStatus: action?.toUpperCase() },
+        data: { id: order.id, newStatus: action },
       }),
-    onSuccess: (data) => {
-      return queryClient.invalidateQueries([QUERY_KEYS.ORDER_LIST]);
+    onSuccess: (data, { action }) => {
+      return queryClient.invalidateQueries(
+        action !== 'COMPLETED'
+          ? [QUERY_KEYS.ORDER_LIST]
+          : [QUERY_KEYS.ACCEPTED_LIST]
+      );
     },
   });
 
@@ -51,12 +55,13 @@ function OrderItem({ date, order }: ItemProps) {
     const text = event.currentTarget.innerHTML;
 
     const postOrder = async () => {
-      let action = '';
-      if (text === '수락') action = 'accepted';
-      else if (text === '거절') action = 'rejected';
-      else if (text === '제조 완료') action = 'completed';
+      let action: OrderStatusCode | undefined;
+      if (text === '수락') action = 'ACCEPTED';
+      else if (text === '거절') action = 'REJECTED';
+      else if (text === '제조 완료') action = 'COMPLETED';
 
       try {
+        if (!action) throw Error();
         mutaion.mutate({ action });
       } catch (err) {
         alert('주문에 문제가 발생했습니다.');

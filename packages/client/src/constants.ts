@@ -34,6 +34,7 @@ export const QUERY_KEYS = {
   ORDER_STATUS: 'order status',
   USER_ROLE: 'user role',
   ORDER_LIST: 'order list',
+  ACCEPTED_LIST: 'accepted_list',
 };
 
 export const USER_ROLE = {

@@ -37,7 +37,7 @@ export class OrderController {
     // const { id } = user;
     // cafeId를 유저의 카페로 가져와야한다.
     const cafeId = 1;
-    return await this.orderService.getCachedRequestedOrders(
+    return await this.orderService.getCachedRequestedOrdersV2(
       cafeId.toString(),
       new Set(
         oldRequestedOrders.oldRequestedOrderPks.map((pk) => pk.toString())

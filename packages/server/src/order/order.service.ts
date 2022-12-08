@@ -305,8 +305,8 @@ export class OrderService {
       const newOrder = await queryRunner.manager.save(orderEntity);
       console.log(newOrder.id);
       await this.redisCacheService.insertCachedOrder(
-        cafeId,
-        newOrder.id,
+        cafeId.toString(),
+        newOrder.id.toString(),
         ORDER_STATUS.REQUESTED
       );
 
@@ -327,8 +327,8 @@ export class OrderService {
   ): Promise<ORDER_STATUS> {
     // cache 조회
     const cachedOrder = await this.redisCacheService.getCachedOrder(
-      cafeId,
-      orderId
+      cafeId.toString(),
+      orderId.toString()
     );
 
     if (cachedOrder) {
@@ -357,8 +357,8 @@ export class OrderService {
 
     // cache update
     await this.redisCacheService.updateCachedOrder(
-      cafeId,
-      order.id,
+      cafeId.toString(),
+      order.id.toString(),
       order.status
     );
 
@@ -398,7 +398,10 @@ export class OrderService {
 
     return new OrdersResDto(orders);
   }
-  async getCachedRequestedOrders(cafeId: string, pksFromManager: Set<string>) {
+  async getCachedRequestedOrdersV2(
+    cafeId: string,
+    pksFromManager: Set<string>
+  ) {
     const cachedOrders = await this.redisCacheService.getAllCachedOrders(
       cafeId
     );

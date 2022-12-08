@@ -1,4 +1,7 @@
 import styled from '@emotion/styled';
+import { ReactComponent as HomeSVG } from 'icons/home.svg';
+import { ReactComponent as OrderSVG } from 'icons/order.svg';
+import { ReactComponent as MypageSVG } from 'icons/mypage.svg';
 
 export const FooterWrapper = styled.footer`
   position: fixed;
@@ -41,4 +44,19 @@ export const NavItem = styled.div`
       fill: ${(props) => props.theme.colors.primary};
     }
   }
+`;
+
+export const Home = styled(HomeSVG)`
+  width: 1rem;
+  height: 1rem;
+`;
+
+export const Order = styled(OrderSVG)`
+  width: 1rem;
+  height: 1rem;
+`;
+
+export const Mypage = styled(MypageSVG)`
+  width: 1rem;
+  height: 1rem;
 `;

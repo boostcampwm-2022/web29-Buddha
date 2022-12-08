@@ -1,6 +1,6 @@
 // Type
 export type APIMethod = 'GET' | 'get' | 'POST' | 'post';
-export type UserRole = 'CLIENT' | 'MANAGER';
+export type UserRole = 'CLIENT' | 'MANAGER' | 'UNAUTH';
 export type Temperature = 'hot' | 'iced';
 export type Size = 'tall' | 'grande' | 'venti';
 export type OrderStatusCode = 'REQUESTED' | 'ACCEPTED' | 'REJECTED' | 'COMPLETED';

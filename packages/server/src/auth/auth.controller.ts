@@ -65,7 +65,7 @@ export class AuthController {
   @Get()
   @UseGuards(JwtGuard)
   async checkUserType(@Req() req: Request) {
-    const { userRole } = req.user as JwtPayload;
-    return { role: userRole };
+    const user = req.user as JwtPayload;
+    return { role: user.userRole };
   }
 }

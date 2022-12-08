@@ -12,7 +12,7 @@ import {
 } from './styled';
 import { SignupRequestBody } from '@/types';
 import Button from 'components/Button';
-import { userRoleState } from '@/utils/store';
+import { userRoleState } from '@/stores';
 import { useSetRecoilState } from 'recoil';
 
 function Signup() {
@@ -48,14 +48,14 @@ function Signup() {
       const res = await axios.post(`${api}/auth/signup`, data, {
         withCredentials: true,
       });
-      if(res.status === 201){
-        try{
+      if (res.status === 201) {
+        try {
           const res = await axios.get(`${api}/auth`, {
             withCredentials: true,
           });
           setUserRole(res.data.role);
           navigate('/');
-        }catch(err){
+        } catch (err) {
           console.log(err);
         }
       }

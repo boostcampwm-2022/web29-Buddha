@@ -30,13 +30,15 @@ export const PROGRESS_IMAGE = {
 };
 
 export const QUERY_KEYS = {
-  MENU_LIST_DATA: 'menu list',
-  ORDER_STATUS: 'order status',
-  USER_ROLE: 'user role',
+  MENU_LIST_DATA: 'menu-list',
+  ORDER_STATUS: 'order-status',
+  USER_ROLE: 'user-role',
+  ORDER_LIST: 'order-list',
+  ACCEPTED_LIST: 'accepted-list',
 };
 
 export const USER_ROLE = {
   CLIENT: 'CLIENT',
   MANAGER: 'MANAGER',
   UNAUTH: 'UNAUTH',
-}
+};

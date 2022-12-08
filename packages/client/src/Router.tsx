@@ -9,7 +9,7 @@ import MyPage from 'pages/MyPage';
 import Home from './pages/Home';
 import AcceptList from './pages/manager/AcceptList';
 import OrderStatus from './pages/customer/OrderStatus';
-import { userRoleState } from '@/utils/store';
+import { userRoleState } from '@/stores';
 import { useRecoilValue } from 'recoil';
 
 function Router() {

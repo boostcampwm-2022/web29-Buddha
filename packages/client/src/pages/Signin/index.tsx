@@ -4,7 +4,7 @@ import { useNavigate, useSearchParams } from 'react-router-dom';
 
 import { ChkUser } from '@/types';
 import { Container, Logo, NaverOAuth } from './styled';
-import { userRoleState } from '@/utils/store';
+import { userRoleState } from '@/stores';
 import { useSetRecoilState } from 'recoil';
 
 function Signin() {
@@ -44,14 +44,14 @@ function Signin() {
             withCredentials: true,
           }
         );
-        if(res.status === 200) {
-          try{
+        if (res.status === 200) {
+          try {
             const res = await axios.get(`${api}/auth`, {
               withCredentials: true,
             });
             setUserRole(res.data.role);
             navigate('/');
-          }catch(err){
+          } catch (err) {
             console.log(err);
           }
         }

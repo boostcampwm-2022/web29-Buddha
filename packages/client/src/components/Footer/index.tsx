@@ -6,7 +6,7 @@ import NavigateItem from './NavigateItem';
 // import { ReactComponent as Order } from 'icons/order.svg';
 // import { ReactComponent as Mypage } from 'icons/mypage.svg';
 import { useRecoilValue } from 'recoil';
-import { userRoleState } from '@/utils/store';
+import { userRoleState } from '@/stores';
 
 function Footer() {
   const navigate = useNavigate();

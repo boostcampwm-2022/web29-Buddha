@@ -11,7 +11,7 @@ import {
   ItemContainer,
   PriceText,
 } from './styled';
-import { userRoleState } from '@/utils/store';
+import { userRoleState } from '@/stores';
 import Button from '../Button';
 
 interface Props {

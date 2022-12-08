@@ -4,7 +4,7 @@ import { AxiosError } from 'axios';
 import { useNavigate } from 'react-router-dom';
 import { useSetRecoilState } from 'recoil';
 import { AnyObject } from '@/types';
-import { userRoleState } from '@/utils/store';
+import { userRoleState } from '@/stores';
 
 interface CustomQueryParams {
   queryKey: string[];

@@ -1,6 +1,4 @@
 import { Route, Routes } from 'react-router-dom';
-import { useEffect } from 'react';
-import axios, { AxiosError } from 'axios';
 
 import Signup from 'pages/Signup';
 import Signin from 'pages/Signin';
@@ -20,24 +18,41 @@ function Router() {
   return (
     <Routes>
       {/* 비인가 사용자 */}
-      {userRole === 'UNAUTH' && <Route path={'/'} element={<Signin />}></Route>}
-      {userRole === 'UNAUTH' && <Route path={'/signup'} element={<Signup />}></Route>}
-      
+
+      {userRole === 'UNAUTH' && (
+        <>
+          <Route path={'/'} element={<Signin />} />
+          <Route path={'/signup'} element={<Signup />} />
+        </>
+      )}
+
       {/* 인가 사용자 */}
-      {userRole !== 'UNAUTH' && <Route path={'/'} element={<Home />}></Route>}
-      {userRole !== 'UNAUTH' && <Route path={'/mypage'} element={<MyPage />}></Route>}
+      {userRole !== 'UNAUTH' && (
+        <>
+          <Route path={'/'} element={<Home />} />
+          <Route path={'/mypage'} element={<MyPage />} />
+        </>
+      )}
 
       {/* 고객용 */}
-      {userRole === 'CLIENT' && <Route path={'/order/:orderId'} element={<OrderStatus />}></Route>}
-      {userRole === 'CLIENT' && <Route path={'/menu'} element={<MenuList />}></Route>}
-      {userRole === 'CLIENT' && <Route path={'/menu/:menuId'} element={<MenuDetail />}></Route>}
-      {userRole === 'CLIENT' && <Route path={'/cart'} element={<Cart />}></Route>}
+      {userRole === 'CLIENT' && (
+        <>
+          <Route path={'/order/:orderId'} element={<OrderStatus />} />
+          <Route path={'/menu'} element={<MenuList />} />
+          <Route path={'/menu/:menuId'} element={<MenuDetail />} />
+          <Route path={'/cart'} element={<Cart />} />
+        </>
+      )}
 
       {/* 업주용 */}
-      {userRole === 'MANAGER' && <Route path={'/manager/accept'} element={<AcceptList />}></Route>}
+      {userRole === 'MANAGER' && (
+        <>
+          <Route path={'/manager/accept'} element={<AcceptList />} />
+        </>
+      )}
 
       {/* 404 Error */}
-      <Route path={'*'} element={<div>접근안돼요 ㅎㅎ</div>}></Route>
+      <Route path={'*'} element={<div>404 ERROR</div>} />
     </Routes>
   );
 }

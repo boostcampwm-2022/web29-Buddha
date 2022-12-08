@@ -14,12 +14,12 @@ if [[ $(docker ps -a --filter="name=$3" --filter "status=exited" | grep -w $3) ]
     docker rm $3
 fi
 
-docker create -p 8080:8080 -v ~/server/src:/app/src --name $3 $1/$2:latest
+docker create -p 8080:8080 --name $3 $1/$2:latest
 
-docker cp .dev.env $3:/app
+docker cp .prod.env $3:/app
 
 docker start $3
 
 if [[ $(docker ps -a --filter="name=$3" --filter "status=running" | grep -w $3) ]]; then
-    echo 'dev-deploy success'
+    echo 'prod-deploy success'
 fi

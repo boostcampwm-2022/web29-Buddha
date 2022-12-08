@@ -32,7 +32,8 @@ const mockMenuOption = fs.readFileSync(
 );
 
 describe('OrderService Unit Test', () => {
-  // Repository의 함수들마다 jest.Mock이 할당된 Record에서 key를 부분적으로 가져온 타입 선언
+  // Repository의 함수들마다 jest.Mock이 할당된 Record에서 key를 부분적으로 가져온 타입 선언.
+  // 코드 변경을 위한 dummy 주석
   type MockRepository<T> = Partial<Record<keyof Repository<T>, jest.Mock>>;
 
   let orderService: OrderService;

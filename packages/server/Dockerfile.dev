@@ -1,0 +1,19 @@
+# BUILD
+FROM node:18.12.1 AS build
+
+WORKDIR /app
+
+COPY *.json ./
+
+COPY package*.json ./
+
+RUN npm install
+
+# RUN
+FROM node:alpine
+
+WORKDIR /app
+
+COPY --from=build /app /app
+
+CMD ["npm", "run", "start:dev-remote"]

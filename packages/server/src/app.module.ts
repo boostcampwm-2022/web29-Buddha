@@ -1,6 +1,6 @@
 import { getMySQLTestTypeOrmModule } from 'src/utils/getMySQLTestTypeOrmModule';
-import { routeTable } from './../config/route';
 import { MiddlewareConsumer, Module, NestModule } from '@nestjs/common';
+import { routeTable } from './config/route';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { UserModule } from './user/user.module';
 import { OrderModuleV1 } from './order/order.v1.module';

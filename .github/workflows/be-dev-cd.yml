@@ -33,11 +33,14 @@ jobs:
           push: true
           # context 명시를 안해주면 이전 step에서 변경되던 사항들이 적용되지 않는다.
           context: 'packages/server'
+          file: 'packages/server/Dockerfile.dev'
           tags: |
-            ${{secrets.DOCKER_REGISTRY_USERNAME}}/${{secrets.DOCKER_REPOSITORY}}:latest
-            ${{secrets.DOCKER_REGISTRY_USERNAME}}/${{secrets.DOCKER_REPOSITORY}}:${{ github.sha }}
+            ${{secrets.DOCKER_REGISTRY_USERNAME}}/${{secrets.DOCKER_DEV_REGISTRY}}:latest
+            ${{secrets.DOCKER_REGISTRY_USERNAME}}/${{secrets.DOCKER_DEV_REGISTRY}}:${{ github.sha }}
+          cache-from: type=registry,ref=${{secrets.DOCKER_REGISTRY_USERNAME}}/${{secrets.DOCKER_DEV_REGISTRY}}:buildcache
+          cache-to: type=registry,ref=${{secrets.DOCKER_REGISTRY_USERNAME}}/${{secrets.DOCKER_DEV_REGISTRY}}:buildcache,mode=max
 
-  Build-And-Transfer:
+  Transfer:
     runs-on: ubuntu-latest
     defaults:
       run:
@@ -47,17 +50,11 @@ jobs:
       - name: checkout to the branch
         uses: actions/checkout@v3
 
-      - name: install dependencies
-        run: npm install
-
-      - name: build
-        run: npm run build
-
-      - name: move deploy file to dist
-        run: mv ./scripts/dev.deploy.sh dist
+      - name: move deploy file to src
+        run: mv ./scripts/dev.deploy.sh src
 
       - name: Inject Environment Variables
-        run: echo "$BE_DEV_ENV" > ./dist/.dev.env
+        run: echo "$BE_DEV_ENV" > ./src/.dev.env
         env:
           BE_DEV_ENV: ${{ secrets.BE_DEV_ENV }}
 
@@ -68,12 +65,12 @@ jobs:
           username: ${{ secrets.REMOTE_SSH_USERNAME }}
           password: ${{ secrets.REMOTE_SSH_PASSWORD }}
           port: ${{ secrets.REMOTE_SSH_PORT }}
-          source: 'packages/server/dist/*'
-          target: '~/server/dist'
+          source: 'packages/server/src/*'
+          target: '~/server/src'
           strip_components: 3
 
   Deploy:
-    needs: ['Push-Docker-Image', 'Build-And-Transfer']
+    needs: ['Push-Docker-Image', 'Transfer']
 
     runs-on: ubuntu-latest
 
@@ -85,4 +82,4 @@ jobs:
           username: ${{ secrets.REMOTE_SSH_USERNAME }}
           password: ${{ secrets.REMOTE_SSH_PASSWORD }}
           port: ${{ secrets.REMOTE_SSH_PORT }}
-          script: . ~/server/dist/dev.deploy.sh ${{secrets.DOCKER_REGISTRY_USERNAME}} ${{secrets.DOCKER_REPOSITORY}}
+          script: . ~/server/src/dev.deploy.sh ${{secrets.DOCKER_REGISTRY_USERNAME}} ${{secrets.DOCKER_DEV_REGISTRY}} ${{secrets.BUDDAH_CONTAINER_NAME}}

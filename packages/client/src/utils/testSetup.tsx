@@ -7,20 +7,25 @@ import { RecoilRoot } from 'recoil';
 import UserRoleProvider from '@/UserRoleProvider';
 import { server } from '@/mocks/server';
 import { rest } from 'msw';
+import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 
 const api = process.env.REACT_APP_API_SERVER_BASE_URL;
 
 export const setup = ({ url }: { url: string }) => {
+  const queryClient = new QueryClient();
+
   const { asFragment } = render(
-    <RecoilRoot>
-      <UserRoleProvider>
-        <Layout>
-          <MemoryRouter initialEntries={[url]}>
-            <Router />
-          </MemoryRouter>
-        </Layout>
-      </UserRoleProvider>
-    </RecoilRoot>
+    <QueryClientProvider client={queryClient}>
+      <RecoilRoot>
+        <UserRoleProvider>
+          <Layout>
+            <MemoryRouter initialEntries={[url]}>
+              <Router />
+            </MemoryRouter>
+          </Layout>
+        </UserRoleProvider>
+      </RecoilRoot>
+    </QueryClientProvider>
   );
 
   return { asFragment };

@@ -32,3 +32,22 @@ export const orderListData = [
     menus: [{ id: 1, name: '아메리카노', price: 5500, options: [] }],
   },
 ];
+
+export const requestedOrderData = {
+  orders: [
+    {
+      cafeId: 1,
+      date: '2022-12-08-23:12-목요일',
+      id: 37,
+      menus: [
+        {
+          id: 57,
+          name: '화이트 초콜릿 모카',
+          options: { 1: '에스프레소 샷 추가' },
+          price: 5000,
+        },
+      ],
+      status: 'REQUESTED',
+    },
+  ],
+};

@@ -74,13 +74,4 @@ describe('메뉴 상세 조회 페이지', () => {
     expect(received).toStrictEqual(expected);
     await screen.findByTestId(/menu-list-page/);
   });
-
-  it('메뉴 목록 페이지 이동', async () => {
-    detailSetup({ menuId: 1 });
-
-    const order = await screen.findByText(/장바구니 담기/);
-
-    fireEvent.click(order);
-    await screen.findByTestId('menu-list-page');
-  });
 });

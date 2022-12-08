@@ -1,7 +1,7 @@
 import { screen, fireEvent } from '@testing-library/react';
 import { PLACEHOLDER } from '@/constants';
 import { server } from '@/mocks/server';
-import { setup } from 'utils/testSetup';
+import { setup, setupClient, setupManager } from 'utils/testSetup';
 
 // jest 테스트 수명주기에 따라 server 상태 정의
 beforeAll(() => server.listen());
@@ -89,6 +89,7 @@ describe('회원가입 페이지', () => {
   });
 
   it('정상 입력 후 가입 버튼을 눌렀을 때 페이지 이동 (고객용)', async () => {
+    setupClient();
     setup({ url: '/signup' });
 
     const { inputNickname } = getInputNickname();
@@ -100,6 +101,7 @@ describe('회원가입 페이지', () => {
   });
 
   it('정상 입력 후 가입 버튼을 눌렀을 때 페이지 이동 (업주용)', async () => {
+    setupManager();
     setup({ url: '/signup' });
 
     fireEvent.click(screen.getByText('업주'));
@@ -113,6 +115,6 @@ describe('회원가입 페이지', () => {
     expect(inputCorporate.value).toBe('123-456-7890');
 
     fireEvent.click(screen.getByText('회원가입'));
-    await screen.findByText('주문내역');
+    await screen.findByText('주문 요청 내역');
   });
 });

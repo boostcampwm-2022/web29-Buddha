@@ -1,7 +1,11 @@
+import { Size } from './types';
+
 export const PLACEHOLDER = {
   nickname: '닉네임을 입력해주세요. 알파벳, 숫자만 사용',
   corporate: '사업자 등록 번호를 입력해주세요.',
 };
+
+export const SIZES: Size[] = ['tall', 'grande', 'venti'];
 
 export const SIZE_VOLUME = {
   tall: 355,

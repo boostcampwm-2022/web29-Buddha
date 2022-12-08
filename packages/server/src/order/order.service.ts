@@ -187,7 +187,7 @@ export class OrderService {
     }
 
     order.status = updateOrderReqDto.newStatus;
-    this.orderRepository.save(order);
+    await this.orderRepository.save(order);
   }
 
   async updateOrderStatusToRejected(
@@ -206,7 +206,7 @@ export class OrderService {
     }
 
     order.status = updateOrderReqDto.newStatus;
-    this.orderRepository.save(order);
+    await this.orderRepository.save(order);
   }
 
   async updateOrderStatusToCompleted(
@@ -225,7 +225,7 @@ export class OrderService {
     }
 
     order.status = updateOrderReqDto.newStatus;
-    this.orderRepository.save(order);
+    await this.orderRepository.save(order);
   }
 
   async getOrderStatus(userId: number, orderId: number): Promise<ORDER_STATUS> {

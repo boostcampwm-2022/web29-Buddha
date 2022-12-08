@@ -1,5 +1,4 @@
 import { UpdateOrderReqDto } from './dto/updateOrderReq.dto';
-import { OrderResDto } from './dto/orderRes.dto';
 import {
   Controller,
   Get,

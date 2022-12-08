@@ -1,25 +1,30 @@
 import { AuthModule } from 'src/auth/auth.module';
 import { CafeModule } from 'src/cafe/cafe.module';
-import { OrderModule } from 'src/order/order.module';
+import { OrderModuleV1 } from 'src/order/order.v1.module';
+import { OrderModuleV2 } from 'src/order/order.v2.module';
 import { UserModule } from 'src/user/user.module';
 
 export const routeTable = {
-  path: 'api/v1',
+  path: 'api',
   children: [
     {
-      path: 'user',
+      path: 'v1/user',
       module: UserModule,
     },
     {
-      path: 'order',
-      module: OrderModule,
+      path: 'v1/order',
+      module: OrderModuleV1,
     },
     {
-      path: 'cafe',
+      path: 'v2/order',
+      module: OrderModuleV2,
+    },
+    {
+      path: 'v1/cafe',
       module: CafeModule,
     },
     {
-      path: 'auth',
+      path: 'v1/auth',
       module: AuthModule,
     },
   ],

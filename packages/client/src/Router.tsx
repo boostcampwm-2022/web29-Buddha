@@ -12,48 +12,32 @@ import Home from './pages/Home';
 import AcceptList from './pages/manager/AcceptList';
 import OrderStatus from './pages/customer/OrderStatus';
 import { userRoleState } from '@/utils/store';
-import { useRecoilState } from 'recoil';
+import { useRecoilValue } from 'recoil';
 
 function Router() {
-  const [userRole, setUserRole] = useRecoilState(userRoleState);
-  const api = process.env.REACT_APP_API_SERVER_BASE_URL;
-
-  const fetchUserRole = async () => {
-    try{
-      const res = await axios.get(`${api}/auth`, {
-        withCredentials: true,
-      });
-      setUserRole(res.data.role);
-    }catch(err){
-      const error = err as AxiosError;
-
-      if(error.response?.status === 401) {
-        setUserRole('UNAUTH');
-      }
-    }
-  }
-
-  useEffect(() => {
-    fetchUserRole();
-  }, []);
+  const userRole = useRecoilValue(userRoleState);
 
   return (
     <Routes>
+      {/* 비인가 사용자 */}
       {userRole === 'UNAUTH' && <Route path={'/'} element={<Signin />}></Route>}
+      {userRole === 'UNAUTH' && <Route path={'/signup'} element={<Signup />}></Route>}
+      
+      {/* 인가 사용자 */}
+      {userRole !== 'UNAUTH' && <Route path={'/'} element={<Home />}></Route>}
+      {userRole !== 'UNAUTH' && <Route path={'/mypage'} element={<MyPage />}></Route>}
 
-      {userRole === 'CLIENT' && <Route path={'/'} element={<Home />}></Route>}
-      {userRole === 'MANAGER' && <Route path={'/'} element={<Home />}></Route>}
+      {/* 고객용 */}
+      {userRole === 'CLIENT' && <Route path={'/order/:orderId'} element={<OrderStatus />}></Route>}
+      {userRole === 'CLIENT' && <Route path={'/menu'} element={<MenuList />}></Route>}
+      {userRole === 'CLIENT' && <Route path={'/menu/:menuId'} element={<MenuDetail />}></Route>}
+      {userRole === 'CLIENT' && <Route path={'/cart'} element={<Cart />}></Route>}
 
-      {userRole !== 'UNAUTH' && <Route path={'/home'} element={<Home />}></Route>}
+      {/* 업주용 */}
+      {userRole === 'MANAGER' && <Route path={'/manager/accept'} element={<AcceptList />}></Route>}
 
-      <Route path={'/signup'} element={<Signup />}></Route>
-      <Route path={'/mypage'} element={<MyPage />}></Route>
-      <Route path={'/order/:orderId'} element={<OrderStatus />}></Route>
-      <Route path={'/menu'} element={<MenuList />}></Route>
-      <Route path={'/menu/:menuId'} element={<MenuDetail />}></Route>
-      <Route path={'/cart'} element={<Cart />}></Route>
-      <Route path={'/manager/accept'} element={<AcceptList />}></Route>
-      <Route path={'*'} element={<></>}></Route>
+      {/* 404 Error */}
+      <Route path={'*'} element={<div>접근안돼요 ㅎㅎ</div>}></Route>
     </Routes>
   );
 }

@@ -2,20 +2,13 @@ import { screen, fireEvent } from '@testing-library/react';
 import { server } from '@/mocks/server';
 import { setup, setupClient, setupManager } from 'utils/testSetup';
 
-import { rest } from 'msw';
-const api = process.env.REACT_APP_API_SERVER_BASE_URL;
-
 beforeAll(() => server.listen());
 afterEach(() => server.resetHandlers());
 afterAll(() => server.close());
 
 describe('Footer', () => {
   it('(고객) Home 클릭 시 주문내역 화면으로 전환', async () => {
-    server.use(
-      rest.get(`${api}/auth`, (req, res, next) => {
-        return res(next.json({ role: 'CLIENT' }));
-      })
-    );
+    setupClient();
     setup({ url: '/' });
 
     fireEvent.click(await screen.findByText('Home'));

@@ -1,7 +1,7 @@
 import { ReactNode, useEffect } from 'react';
 import axios, { AxiosError } from 'axios';
 import { useSetRecoilState } from 'recoil';
-import { userRoleState } from '@/utils/store';
+import { userRoleState } from '@/stores';
 
 interface Props {
   children: ReactNode;

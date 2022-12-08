@@ -4,7 +4,7 @@ import Footer from 'components/Footer';
 import Header from 'components/Header';
 import OrderDateList from 'components/OrderDateList';
 
-import { userRoleState } from 'utils/store';
+import { userRoleState } from '@/stores';
 import useFetch from 'hooks/useFetch';
 import { Container } from './styled';
 

@@ -1,8 +1,9 @@
+import { RedisCacheService } from 'src/redisCache/redisCache.service';
 import { OrderMenu } from 'src/order/entities/orderMenu.entity';
 import { OrderService } from './order.service';
 import { Test, TestingModule } from '@nestjs/testing';
 import { getRepositoryToken } from '@nestjs/typeorm';
-import { Repository } from 'typeorm';
+import { DataSource, Repository } from 'typeorm';
 import { Order } from './entities/order.entity';
 import { MenuOption } from 'src/cafe/entities/menuOption.entity';
 import { mockMenus } from 'src/cafe/mock/menu.entity.mock';
@@ -69,6 +70,14 @@ describe('OrderService Unit Test', () => {
         {
           provide: getRepositoryToken(OrderMenu),
           useValue: mockOrderMenuRepository(),
+        },
+        {
+          provide: DataSource,
+          useValue: () => jest.fn(),
+        },
+        {
+          provide: RedisCacheService,
+          useValue: () => jest.fn(),
         },
       ],
     }).compile();

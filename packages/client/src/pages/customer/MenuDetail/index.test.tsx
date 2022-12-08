@@ -1,29 +1,20 @@
-import { fireEvent, render, screen } from '@testing-library/react';
-import { MemoryRouter } from 'react-router-dom';
+import { fireEvent, screen } from '@testing-library/react';
 
-import Layout from '@/Layout';
-import Router from '@/Router';
 import { server } from '@/mocks/server';
+import { setup, setupClient } from '@/utils/testSetup';
 
 beforeAll(() => server.listen());
 beforeEach(() => server.resetHandlers());
 afterAll(() => server.close());
 
-const setup = ({ menuId }: { menuId: number }) => {
-  const { asFragment } = render(
-    <Layout>
-      <MemoryRouter initialEntries={[`/menu/${menuId}`]}>
-        <Router />
-      </MemoryRouter>
-    </Layout>
-  );
-
-  return { asFragment };
+const detailSetup = ({ menuId }: { menuId: number }) => {
+  setupClient();
+  return setup({ url: `/menu/${menuId}` });
 };
 
 describe('메뉴 상세 조회 페이지', () => {
   it('요소 존재 여부', async () => {
-    setup({ menuId: 1 });
+    detailSetup({ menuId: 1 });
 
     await screen.findByAltText(/음료/);
     await screen.findByText(/자몽 허니 블랙 티/);
@@ -35,13 +26,13 @@ describe('메뉴 상세 조회 페이지', () => {
   });
 
   it('조회 실패', async () => {
-    setup({ menuId: 2 });
+    detailSetup({ menuId: 2 });
 
     Object.defineProperty(window, 'alert', { value: jest.fn() });
   });
 
   it('주문 -> 장바구니 추가 및 페이지 이동', async () => {
-    setup({ menuId: 1 });
+    detailSetup({ menuId: 1 });
 
     const minus = await screen.findByTestId(/minus/);
     const plus = await screen.findByTestId(/plus/);
@@ -85,7 +76,7 @@ describe('메뉴 상세 조회 페이지', () => {
   });
 
   it('메뉴 목록 페이지 이동', async () => {
-    setup({ menuId: 1 });
+    detailSetup({ menuId: 1 });
 
     const order = await screen.findByText(/장바구니 담기/);
 

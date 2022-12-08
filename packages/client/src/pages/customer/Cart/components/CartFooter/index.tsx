@@ -37,7 +37,7 @@ function CartFooter({ count, price }: CartFooterProps) {
       );
       window.localStorage.removeItem(CART_KEY);
       alert('주문 완료');
-      navigate('/home');
+      navigate('/');
     } catch (err) {
       console.log(err);
     }

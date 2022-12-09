@@ -3,7 +3,11 @@ export type APIMethod = 'GET' | 'get' | 'POST' | 'post';
 export type UserRole = 'CLIENT' | 'MANAGER' | 'UNAUTH';
 export type Temperature = 'hot' | 'iced';
 export type Size = 'tall' | 'grande' | 'venti';
-export type OrderStatusCode = 'REQUESTED' | 'ACCEPTED' | 'REJECTED' | 'COMPLETED';
+export type OrderStatusCode =
+  | 'REQUESTED'
+  | 'ACCEPTED'
+  | 'REJECTED'
+  | 'COMPLETED';
 export type AnyObject = { [key: string]: any };
 
 // Signin.ts
@@ -85,6 +89,7 @@ export interface OrderDetailMenu {
   name: string;
   options: any;
   price: number;
+  count?: number;
   thumbnail?: string;
 }
 

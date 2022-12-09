@@ -36,3 +36,9 @@ export const ButtonContainer = styled.div`
   justify-content: flex-end;
   gap: 1rem;
 `;
+
+export const OptionText = styled.p`
+  padding: 0.2rem;
+  font-size: ${(props) => props.theme.font.size.xs};
+  color: ${(props) => props.theme.colors.grey400};
+`;

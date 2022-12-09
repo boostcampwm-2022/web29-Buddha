@@ -1,8 +1,4 @@
-import axios from 'axios';
-import { CafeMenu } from '@/types';
-import React, { useState, useEffect } from 'react';
-import MenuItem from '@/pages/customer/MenuList/components/MenuItem';
-import Footer from '@/components/Footer';
+import { useState } from 'react';
 import {
   CategoryBarWrapper,
   CategoryItem,
@@ -10,54 +6,33 @@ import {
   MenuListWrapper,
 } from './styled';
 import SnackBar from '@/pages/customer/MenuList/components/SnackBar';
+import MenuItem from '@/pages/customer/MenuList/components/MenuItem';
 import Header from '@/components/Header';
-import { Menu } from 'types/index';
+import Footer from '@/components/Footer';
+import { Menu } from '@/types';
+import useMenuListData from '@/hooks/useMenuListData';
 
 function MenuList() {
-  const api = process.env.REACT_APP_API_SERVER_BASE_URL;
-  const [menuList, setMenuList] = useState<CafeMenu>();
-  const [categoryList, setCategoryList] = useState<string[]>(['전체']);
   const [category, setCategory] = useState<string>('전체');
-
-  const fetchMenuList = async () => {
-    try {
-      const res = await axios.get(`${api}/cafe/1/menus`, {
-        withCredentials: true,
-      });
-      setMenuList(res.data);
-      setCategoryList(
-        Array.from(
-          new Set(
-            ['전체'].concat(res.data.menus.map((menu: Menu) => menu.category))
-          )
-        )
-      );
-    } catch (err) {
-      console.log(err);
-    }
-  };
-
-  useEffect(() => {
-    fetchMenuList();
-  }, []);
+  const { menuList, categoryList } = useMenuListData();
 
   return (
     <MenuListPageWrapper data-testid={'menu-list-page'}>
       <Header title={'Order'} />
       <CategoryBarWrapper data-testid={'category-bar'}>
-        {categoryList.map((category, idx) => (
+        {categoryList?.map((category, idx) => (
           <CategoryItem key={idx} onClick={() => setCategory(category)}>
             {category}
           </CategoryItem>
         ))}
       </CategoryBarWrapper>
       <MenuListWrapper>
-        {menuList?.menus
-          .filter((menu) => {
+        {menuList
+          ?.filter((menu: Menu) => {
             if (category === '전체') return true;
             return menu.category === category;
           })
-          .map((menu) => (
+          .map((menu: Menu) => (
             <MenuItem
               key={menu.id}
               id={menu.id}

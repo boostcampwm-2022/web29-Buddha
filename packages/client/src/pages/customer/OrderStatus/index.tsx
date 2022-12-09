@@ -1,6 +1,4 @@
-import axios from 'axios';
 import { useParams } from 'react-router-dom';
-import { useEffect, useState } from 'react';
 import LeftArrow from '@/components/LeftArrow';
 import {
   ContentWrapper,
@@ -14,26 +12,11 @@ import {
 import Footer from '@/components/Footer';
 import { PROGRESS_CLASS, PROGRESS_IMAGE } from '@/constants';
 import { OrderStatusCode } from '@/types';
+import useOrderStatus from '@/hooks/useOrderStatus';
 
 function OrderStatus() {
-  const api = process.env.REACT_APP_API_SERVER_BASE_URL;
   const { orderId } = useParams();
-  const [status, setStatus] = useState<OrderStatusCode>('REQUESTED');
-
-  const fetchOrderStatus = async () => {
-    try {
-      const res = await axios.get(`${api}/order/${orderId}`, {
-        withCredentials: true,
-      });
-      setStatus(res.data.order_status);
-    } catch (err) {
-      console.log(err);
-    }
-  };
-
-  useEffect(() => {
-    fetchOrderStatus();
-  }, []);
+  const status: OrderStatusCode = useOrderStatus(orderId? orderId : '');
 
   return (
     <OrderStatusWrapper>

@@ -31,4 +31,7 @@ export const authHandlers = [
       }
     }
   ),
+  rest.get(`${api}/auth`, (req, res, next) => {
+    return res(next.json({ role: 'UNAUTH' }));
+  }),
 ];

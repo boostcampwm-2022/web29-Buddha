@@ -563,4 +563,99 @@ export class OrderService {
     }
     return;
   }
+
+  /**
+   * 고객 polling
+   * 점주 polling
+   * 점주 주문 수락
+   */
+
+  async getOrderStatusV3(cafeId: number, orderId: number) {
+    const cafeKey = 'cafe' + cafeId + 'Client';
+    const orderStatus = await this.redisCacheService.getCachedOrderStatusV3(
+      cafeKey,
+      orderId.toString()
+    );
+    return orderStatus;
+  }
+
+  async getNewCachedOrdersV3(cafeId: number, startingOrderId: number) {
+    const cafeKey = 'cafe' + cafeId + 'Manager';
+    const newCachedOrders = await this.redisCacheService.getNewCachedOrdersV3(
+      cafeKey,
+      startingOrderId
+    );
+    // 형식이 어떻게 나오는지 확인 후 json parse
+    return newCachedOrders.map((newCachedOrder) => JSON.parse(newCachedOrder));
+  }
+
+  async updateOrderStatusToAcceptedV3(
+    cafeId: number,
+    updateOrderReqDto: UpdateOrderReqDto
+  ): Promise<void> {
+    const managerCafeKey = 'cafe' + cafeId + 'Manager';
+    const clientCafeKey = 'cafe' + cafeId + 'Client';
+    const orderId = updateOrderReqDto.id;
+    const targetOrderStatus = ORDER_STATUS.ACCEPTED;
+
+    const orderList = await this.redisCacheService.getCachedOrderV3(
+      managerCafeKey,
+      orderId
+    );
+
+    if (!orderList) {
+      throw new BadRequestException(
+        '요청 상태가 아닌 주문을 수락할 수 없습니다.'
+      );
+    }
+
+    const order = JSON.parse(orderList[0]);
+
+    const queryRunner = this.dataSource.createQueryRunner();
+
+    await queryRunner.connect();
+    await queryRunner.startTransaction();
+    try {
+      const orderEntity = Order.ofToUpdateStatus({
+        orderId: orderId,
+        orderStatus: targetOrderStatus,
+      });
+
+      await queryRunner.manager.save(orderEntity);
+
+      // 이 친구들도 transaction으로..? 이렇게까지해야하나?
+      await this.redisCacheService.deleteCachedOrderV3(managerCafeKey, orderId);
+      await this.redisCacheService.updateOrderStatusV3(
+        clientCafeKey,
+        orderId.toString(),
+        targetOrderStatus
+      );
+
+      await queryRunner.commitTransaction();
+    } catch (err) {
+      // since we have errors lets rollback the changes we made
+      await queryRunner.rollbackTransaction();
+    } finally {
+      // you need to release a queryRunner which was manually instantiated
+      await queryRunner.release();
+    }
+    return;
+  }
+
+  async testInsert(id, status) {
+    const data = {
+      id: id,
+      status: status,
+    };
+    await this.redisCacheService.insertNewOrderV3(
+      'cafe1Manager',
+      parseInt(id),
+      JSON.stringify(data)
+    );
+    await this.redisCacheService.updateOrderStatusV3(
+      'cafe1Client',
+      id,
+      ORDER_STATUS.REQUESTED
+    );
+  }
 }

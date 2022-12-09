@@ -49,4 +49,10 @@ export class User extends TimestampableEntity {
     user.corporate = corporate;
     return user;
   }
+
+  static byId(userId) {
+    const user = new User();
+    user.id = userId;
+    return user;
+  }
 }

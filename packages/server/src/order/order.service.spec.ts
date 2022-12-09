@@ -1,7 +1,9 @@
+import { RedisCacheService } from 'src/redisCache/redisCache.service';
+import { OrderMenu } from 'src/order/entities/orderMenu.entity';
 import { OrderService } from './order.service';
 import { Test, TestingModule } from '@nestjs/testing';
 import { getRepositoryToken } from '@nestjs/typeorm';
-import { Repository } from 'typeorm';
+import { DataSource, Repository } from 'typeorm';
 import { Order } from './entities/order.entity';
 import { MenuOption } from 'src/cafe/entities/menuOption.entity';
 import { mockMenus } from 'src/cafe/mock/menu.entity.mock';
@@ -17,6 +19,17 @@ import {
 import { MENU_SIZE } from 'src/cafe/enum/menuSize.enum';
 import { ORDER_STATUS } from './enum/orderStatus.enum';
 import { mockOptions } from 'src/cafe/mock/option.entity.mock';
+import path from 'path';
+import fs from 'fs';
+import { BadRequestException } from '@nestjs/common';
+import { plainToClass, Expose, plainToInstance } from 'class-transformer';
+
+const mockOrder = fs.readFileSync(
+  path.join(process.env.PWD, '/test/mock/create-order.json')
+);
+const mockMenuOption = fs.readFileSync(
+  path.join(process.env.PWD, '/test/mock/menu-option.json')
+);
 
 describe('OrderService Unit Test', () => {
   // Repository의 함수들마다 jest.Mock이 할당된 Record에서 key를 부분적으로 가져온 타입 선언.
@@ -26,6 +39,7 @@ describe('OrderService Unit Test', () => {
   let orderService: OrderService;
   let orderRepository: MockRepository<Order>;
   let menuOptionRepository: MockRepository<MenuOption>;
+  let orderMenuRepsoitory: MockRepository<OrderMenu>;
 
   beforeEach(async () => {
     const mockOrderRepository = () => ({
@@ -33,6 +47,12 @@ describe('OrderService Unit Test', () => {
     });
 
     const mockMenuOptionRepository = () => ({
+      find: jest.fn(),
+      findOne: jest.fn(),
+    });
+
+    const mockOrderMenuRepository = () => ({
+      save: jest.fn(),
       find: jest.fn(),
       findOne: jest.fn(),
     });
@@ -48,6 +68,18 @@ describe('OrderService Unit Test', () => {
           provide: getRepositoryToken(MenuOption),
           useValue: mockMenuOptionRepository(),
         },
+        {
+          provide: getRepositoryToken(OrderMenu),
+          useValue: mockOrderMenuRepository(),
+        },
+        {
+          provide: DataSource,
+          useValue: () => jest.fn(),
+        },
+        {
+          provide: RedisCacheService,
+          useValue: () => jest.fn(),
+        },
       ],
     }).compile();
 
@@ -57,6 +89,9 @@ describe('OrderService Unit Test', () => {
     );
     menuOptionRepository = module.get<MockRepository<MenuOption>>(
       getRepositoryToken(MenuOption)
+    );
+    orderMenuRepsoitory = module.get<MockRepository<OrderMenu>>(
+      getRepositoryToken(OrderMenu)
     );
   });
 
@@ -229,6 +264,28 @@ describe('OrderService Unit Test', () => {
         correctOptions2.length
       );
       expect(JSON.parse(orderMenu2.options)).toMatchObject(correctOptionObj2);
+    });
+
+    it('[ERROR] - 주문한 메뉴 중에 유효하지 않은 메뉴가 있는 경우', async () => {
+      //given
+      const userId = 1;
+      const order = JSON.parse(mockOrder.toString());
+
+      const createOrderDto = CreateOrderDto.of({
+        menus: order.menus,
+        cafeId: order.cafeId,
+      });
+
+      menuOptionRepository.find.mockResolvedValue(null);
+      //when
+      //then
+      await expect(
+        async () => await orderService.create(userId, createOrderDto)
+      ).rejects.toThrowError(
+        new BadRequestException(
+          '주문한 메뉴 중에 유효하지 않은 메뉴가 있습니다.'
+        )
+      );
     });
   });
 });

@@ -28,4 +28,21 @@ export class Cafe extends TimestampableEntity {
 
   @OneToMany(() => Order, (orders) => orders.cafe)
   orders: Order[];
+
+  static of({ id, name, description, latitude, longitude, address }) {
+    const cafe = new Cafe();
+    cafe.id = id;
+    cafe.name = name;
+    cafe.description = description;
+    cafe.latitude = latitude;
+    cafe.longitude = longitude;
+    cafe.address = address;
+    return cafe;
+  }
+
+  static byId(id): Cafe {
+    const cafe = new Cafe();
+    cafe.id = id;
+    return cafe;
+  }
 }

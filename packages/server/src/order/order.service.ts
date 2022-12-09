@@ -1,3 +1,6 @@
+import { RequestedOrderDto } from './dto/requested-order.dto';
+import { RedisCacheService } from 'src/redisCache/redisCache.service';
+import { CreateOrderDto } from 'src/order/dto/create-order.dto';
 import {
   BadRequestException,
   HttpStatus,
@@ -9,10 +12,8 @@ import { Cafe } from 'src/cafe/entities/cafe.entity';
 import { Menu } from 'src/cafe/entities/menu.entity';
 import { MenuOption } from 'src/cafe/entities/menuOption.entity';
 import { Option } from 'src/cafe/entities/option.entity';
-import { MENU_SIZE, SIZE_PRICE } from 'src/cafe/enum/menuSize.enum';
 import { User } from 'src/user/entities/user.entity';
-import { Repository } from 'typeorm';
-import { CreateOrderDto } from './dto/create-order.dto';
+import { DataSource, In, Repository } from 'typeorm';
 import { OrderMenuDto } from './dto/orderMenu.dto';
 import { OrdersResDto } from './dto/ordersRes.dto';
 import { UpdateOrderDto } from './dto/update-order.dto';
@@ -26,12 +27,16 @@ export class OrderService {
   constructor(
     @InjectRepository(Order) private orderRepository: Repository<Order>,
     @InjectRepository(MenuOption)
-    private menuOptionRepository: Repository<MenuOption>
+    private menuOptionRepository: Repository<MenuOption>,
+    @InjectRepository(OrderMenu)
+    private orderMenuRepository: Repository<OrderMenu>,
+    private dataSource: DataSource,
+    private redisCacheService: RedisCacheService
   ) {}
 
-  async getOrders(userId) {
-    const user = new User();
-    user.id = userId;
+  async getOrders(userId): Promise<OrdersResDto> {
+    const user = User.byId(userId);
+
     const orders = await this.orderRepository.find({
       relations: {
         cafe: true,
@@ -42,151 +47,74 @@ export class OrderService {
       },
     });
 
-    return orders;
+    return new OrdersResDto(orders);
   }
 
   async create(userId, createOrderDto: CreateOrderDto) {
     const { menus, cafeId } = createOrderDto;
 
-    // menuAndOptionDict를 만들기 위한 과정. 옵션 가격, 이름, 메뉴 가격, 이름을 모두 가져온다.
-    const menuEntityObjs: Menu[] = createOrderDto.createMenuEntityObjs();
-    const menuOptionEntityObjs: MenuOption[] =
-      await this.getMenuOptionEntityObjs(menuEntityObjs);
+    // Menu Entity를 토대로 Menu Option Entity 만들기
+    const menuOptionEntityObjs: MenuOption[] = await this.getMenuOptionEntity(
+      createOrderDto
+    );
 
-    const validMenuAndOptionInfo =
-      this.getValidMenuAndOptionInfo(menuOptionEntityObjs);
     // menuAndOptionDict를 만들기 위한 과정. 옵션 가격, 이름, 메뉴 가격, 이름을 모두 가져온다.
+    const validMenuAndOptionInfo =
+      Order.getValidMenuAndOptionInfo(menuOptionEntityObjs);
 
     // 모든 메뉴가 유효한 메뉴였는지 확인하는 과정
-    if (
-      menus.every((menu) => {
-        Object.keys(validMenuAndOptionInfo).includes(menu.id.toString());
-      })
-    ) {
+    if (!Order.isValidMenu(validMenuAndOptionInfo, menus)) {
       throw new BadRequestException(
         '주문한 메뉴 중에 존재하지 않은 메뉴가 있습니다.'
       );
     }
-    // 모든 메뉴가 유효한 메뉴였는지 확인하는 과정
 
     // 각 메뉴마다 옵션이 모두 유효한 옵션들인지 확인하는 과정
-    for (const menu of menus) {
-      const filteredOptions = this.filterPossibleOptions(
-        menu,
-        validMenuAndOptionInfo
+    if (!Order.isValidOptionForMenu(menus, validMenuAndOptionInfo)) {
+      throw new BadRequestException(
+        '해당 메뉴에서 선택할 수 없는 옵션이 포함되어 있습니다.'
       );
-      if (menu.options.length !== filteredOptions.length) {
-        throw new BadRequestException(
-          '해당 메뉴에서 선택할 수 없는 옵션이 포함되어 있습니다.'
-        );
-      }
     }
-    // 각 메뉴마다 옵션이 모두 유효한 옵션들인지 확인하는 과정
 
     // 가격 비교
-    for (const menu of menus) {
-      const totalPrice = this.getTotalPrice(menu, validMenuAndOptionInfo);
-
-      if (menu.price !== totalPrice) {
-        throw new BadRequestException('요청된 계산 총액이 정확하지 않습니다.');
-      }
+    if (!Order.isValidOrderTotalPrice(menus, validMenuAndOptionInfo)) {
+      throw new BadRequestException('요청된 계산 총액이 정확하지 않습니다.');
     }
-    // 가격 비교
 
     // 주문 저장을 위한 과정
-    const cafe = new Cafe();
-    cafe.id = cafeId;
-
-    const user = new User();
-    user.id = userId;
-
-    const order = new Order();
-    order.cafe = cafe;
-    order.status = ORDER_STATUS.REQUESTED;
-    order.user = user;
-
-    const orderMenus = menus.map((menu) => {
-      const orderMenu = new OrderMenu();
-      const menuObj = new Menu();
-
-      menuObj.id = menu.id;
-      const processedOptions = {};
-      menu.options.map((optionId) => {
-        processedOptions[optionId] =
-          validMenuAndOptionInfo[menu.id].options[optionId].optionName;
-      });
-
-      orderMenu.count = menu.count;
-      orderMenu.price =
-        this.getTotalPrice(menu, validMenuAndOptionInfo) * menu.count;
-      orderMenu.size = menu.size;
-      orderMenu.type = menu.type;
-      orderMenu.menu = menuObj;
-      orderMenu.order = order;
-      orderMenu.options = JSON.stringify(processedOptions);
-
-      return orderMenu;
+    const order = Order.of({
+      cafeId,
+      userId,
+      status: ORDER_STATUS.REQUESTED,
+      menus,
+      validMenuAndOptionInfo,
     });
 
-    order.orderMenus = orderMenus;
-
-    return await this.orderRepository.save(order);
+    const res = await this.orderRepository.save(order);
+    return res;
   }
 
-  private async getMenuOptionEntityObjs(menuEntityObjs): Promise<MenuOption[]> {
-    const menuOptionEntityObjs = await this.menuOptionRepository.find({
-      where: { menu: menuEntityObjs },
+  private async getMenuOptionEntity(
+    createOrderDto: CreateOrderDto
+  ): Promise<MenuOption[]> {
+    // 주문 요청으로 들어온 body를 토대로 Menu Entity 만들기
+    const menuEntitys: Menu[] = createOrderDto.menus.map((menu) =>
+      Menu.byId({ id: menu.id })
+    );
+
+    const menuOptionEntitys = await this.menuOptionRepository.find({
+      where: { menu: menuEntitys },
       relations: {
         option: true,
         menu: true,
       },
     });
-    return menuOptionEntityObjs;
-  }
 
-  private getValidMenuAndOptionInfo(menuOptionEntityObjs: MenuOption[]) {
-    const menuOptionDict = {};
-    menuOptionEntityObjs.map((menuOptionEntityObj: MenuOption) => {
-      const menu: Menu = menuOptionEntityObj.menu;
-      const option: Option = menuOptionEntityObj.option;
-
-      if (!Object.prototype.hasOwnProperty.call(menuOptionDict, menu.id)) {
-        menuOptionDict[menu.id] = {
-          menuPrice: menu.price,
-          options: {},
-        };
-      }
-      menuOptionDict[menu.id].options[option.id] = {
-        optionPrice: option.price,
-        optionName: option.name,
-      };
-    });
-    return menuOptionDict;
-  }
-
-  private filterPossibleOptions(menu: OrderMenuDto, menuOptionDict) {
-    const { options } = menu;
-    const menuId = menu.id;
-
-    const filteredOptions = options.filter((option: number) =>
-      Object.prototype.hasOwnProperty.call(
-        menuOptionDict[menuId].options,
-        option
-      )
-    );
-
-    return filteredOptions;
-  }
-
-  private getTotalPrice(menu, menuAndOptionDict) {
-    const { options, menuPrice } = menuAndOptionDict[menu.id];
-    const totalPriceOfOptions = menu.options.reduce(
-      (partialSum, optionId) => partialSum + options[optionId].optionPrice,
-      0
-    );
-    const sizePrice = parseInt(SIZE_PRICE[menu.size]);
-    const totalPrice = menuPrice + totalPriceOfOptions + sizePrice;
-    return totalPrice;
+    if (menuOptionEntitys === null)
+      throw new BadRequestException(
+        '주문한 메뉴 중에 유효하지 않은 메뉴가 있습니다.'
+      );
+    return menuOptionEntitys;
   }
 
   async getRequestedOrders(): Promise<OrdersResDto> {
@@ -259,7 +187,7 @@ export class OrderService {
     }
 
     order.status = updateOrderReqDto.newStatus;
-    this.orderRepository.save(order);
+    await this.orderRepository.save(order);
   }
 
   async updateOrderStatusToRejected(
@@ -278,7 +206,7 @@ export class OrderService {
     }
 
     order.status = updateOrderReqDto.newStatus;
-    this.orderRepository.save(order);
+    await this.orderRepository.save(order);
   }
 
   async updateOrderStatusToCompleted(
@@ -297,10 +225,10 @@ export class OrderService {
     }
 
     order.status = updateOrderReqDto.newStatus;
-    this.orderRepository.save(order);
+    await this.orderRepository.save(order);
   }
 
-  async findOne(userId: number, orderId: number): Promise<ORDER_STATUS> {
+  async getOrderStatus(userId: number, orderId: number): Promise<ORDER_STATUS> {
     const order = await this.orderRepository.findOne({
       where: {
         id: orderId,
@@ -326,5 +254,310 @@ export class OrderService {
 
   remove(id: number) {
     return `This action removes a #${id} order`;
+  }
+
+  async createV2(userId, createOrderDto: CreateOrderDto) {
+    const { menus, cafeId } = createOrderDto;
+
+    // Menu Entity를 토대로 Menu Option Entity 만들기
+    const menuOptionEntityObjs: MenuOption[] = await this.getMenuOptionEntity(
+      createOrderDto
+    );
+
+    // menuAndOptionDict를 만들기 위한 과정. 옵션 가격, 이름, 메뉴 가격, 이름을 모두 가져온다.
+    const validMenuAndOptionInfo =
+      Order.getValidMenuAndOptionInfo(menuOptionEntityObjs);
+
+    // 모든 메뉴가 유효한 메뉴였는지 확인하는 과정
+    if (!Order.isValidMenu(validMenuAndOptionInfo, menus)) {
+      throw new BadRequestException(
+        '주문한 메뉴 중에 존재하지 않은 메뉴가 있습니다.'
+      );
+    }
+
+    // 각 메뉴마다 옵션이 모두 유효한 옵션들인지 확인하는 과정
+    if (!Order.isValidOptionForMenu(menus, validMenuAndOptionInfo)) {
+      throw new BadRequestException(
+        '해당 메뉴에서 선택할 수 없는 옵션이 포함되어 있습니다.'
+      );
+    }
+
+    // 가격 비교
+    if (!Order.isValidOrderTotalPrice(menus, validMenuAndOptionInfo)) {
+      throw new BadRequestException('요청된 계산 총액이 정확하지 않습니다.');
+    }
+
+    // 주문 저장을 위한 과정
+
+    const queryRunner = this.dataSource.createQueryRunner();
+
+    await queryRunner.connect();
+    await queryRunner.startTransaction();
+    try {
+      const orderEntity = Order.of({
+        cafeId,
+        userId,
+        status: ORDER_STATUS.REQUESTED,
+        menus,
+        validMenuAndOptionInfo,
+      });
+
+      const newOrder = await queryRunner.manager.save(orderEntity);
+      console.log(newOrder.id);
+      await this.redisCacheService.insertCachedOrder(
+        cafeId,
+        newOrder.id,
+        ORDER_STATUS.REQUESTED
+      );
+
+      await await queryRunner.commitTransaction();
+    } catch (err) {
+      // since we have errors lets rollback the changes we made
+      await queryRunner.rollbackTransaction();
+    } finally {
+      // you need to release a queryRunner which was manually instantiated
+      await queryRunner.release();
+    }
+  }
+
+  async getOrderStatusV2(
+    userId: number,
+    orderId: number,
+    cafeId: number
+  ): Promise<ORDER_STATUS> {
+    // cache 조회
+    const cachedOrder = await this.redisCacheService.getCachedOrder(
+      cafeId,
+      orderId
+    );
+
+    if (cachedOrder) {
+      return cachedOrder;
+    }
+
+    // db 조회 -> cache 업데이트 -> return status
+    const order = await this.orderRepository.findOne({
+      where: {
+        id: orderId,
+      },
+      relations: {
+        user: true,
+      },
+    });
+
+    if (order === null) {
+      throw new BadRequestException('해당 주문을 찾을 수 없습니다.');
+    }
+
+    if (order.user.id !== userId) {
+      throw new UnauthorizedException(
+        '해당 주문의 상태 조회에 대한 접근 권한이 없습니다.'
+      );
+    }
+
+    // cache update
+    await this.redisCacheService.updateCachedOrder(
+      cafeId,
+      order.id,
+      order.status
+    );
+
+    return order.status;
+  }
+
+  async getRequestedOrdersV2(
+    cafeId: number,
+    requestedOrderDto: RequestedOrderDto
+  ): Promise<OrdersResDto> {
+    const orders: Order[] = await this.orderRepository.find({
+      relations: {
+        cafe: true,
+        orderMenus: { menu: true },
+      },
+      where: {
+        status: ORDER_STATUS.REQUESTED,
+        cafe: Cafe.byId(cafeId),
+        id: In(requestedOrderDto.newOrders),
+      },
+    });
+
+    return new OrdersResDto(orders);
+  }
+
+  async getAcceptedOrdersV2(cafeId: number): Promise<OrdersResDto> {
+    const orders: Order[] = await this.orderRepository.find({
+      relations: {
+        cafe: true,
+        orderMenus: { menu: true },
+      },
+      where: {
+        status: ORDER_STATUS.ACCEPTED,
+        cafe: Cafe.byId(cafeId),
+      },
+    });
+
+    return new OrdersResDto(orders);
+  }
+  async getCachedRequestedOrders(cafeId: string, pksFromManager: Set<string>) {
+    const cachedOrders = await this.redisCacheService.getAllCachedOrders(
+      cafeId
+    );
+
+    const newOrderPkList = [];
+    const deletedOrderPkList = [];
+    const pksInCache = new Set(Object.keys(cachedOrders));
+    pksInCache.forEach((pk) => {
+      if (
+        cachedOrders[pk] === ORDER_STATUS.REQUESTED &&
+        !pksFromManager.has(pk)
+      ) {
+        newOrderPkList.push(pk);
+      }
+    });
+    pksFromManager.forEach((pk) => {
+      if (cachedOrders[pk] !== ORDER_STATUS.REQUESTED) {
+        deletedOrderPkList.push(pk);
+      }
+    });
+
+    return { newOrderPkList, deletedOrderPkList };
+  }
+
+  async updateOrderStatusToAcceptedV2(
+    cafeId: string,
+    updateOrderReqDto: UpdateOrderReqDto
+  ): Promise<void> {
+    const orderId = updateOrderReqDto.id.toString();
+    const targetOrderStatus = ORDER_STATUS.ACCEPTED;
+
+    const orderStatus = await this.redisCacheService.getCachedOrder(
+      cafeId,
+      orderId
+    );
+
+    if (orderStatus !== ORDER_STATUS.REQUESTED) {
+      throw new BadRequestException(
+        '요청 상태가 아닌 주문을 수락할 수 없습니다.'
+      );
+    }
+
+    const queryRunner = this.dataSource.createQueryRunner();
+
+    await queryRunner.connect();
+    await queryRunner.startTransaction();
+    try {
+      const orderEntity = Order.ofToUpdateStatus({
+        orderId: parseInt(orderId),
+        orderStatus: targetOrderStatus,
+      });
+
+      await queryRunner.manager.save(orderEntity);
+      await this.redisCacheService.updateCachedOrder(
+        cafeId,
+        orderId,
+        targetOrderStatus
+      );
+
+      await queryRunner.commitTransaction();
+    } catch (err) {
+      // since we have errors lets rollback the changes we made
+      await queryRunner.rollbackTransaction();
+    } finally {
+      // you need to release a queryRunner which was manually instantiated
+      await queryRunner.release();
+    }
+    return;
+  }
+
+  async updateOrderStatusToRejectedV2(
+    cafeId: string,
+    updateOrderReqDto: UpdateOrderReqDto
+  ): Promise<void> {
+    const orderId = updateOrderReqDto.id.toString();
+    const targetOrderStatus = ORDER_STATUS.REJECTED;
+
+    const orderStatus = await this.redisCacheService.getCachedOrder(
+      cafeId,
+      orderId
+    );
+
+    if (orderStatus !== ORDER_STATUS.REQUESTED) {
+      throw new BadRequestException(
+        '요청 상태가 아닌 주문을 거절할 수 없습니다.'
+      );
+    }
+
+    const queryRunner = this.dataSource.createQueryRunner();
+
+    await queryRunner.connect();
+    await queryRunner.startTransaction();
+    try {
+      const orderEntity = Order.ofToUpdateStatus({
+        orderId: parseInt(orderId),
+        orderStatus: targetOrderStatus,
+      });
+
+      await queryRunner.manager.save(orderEntity);
+      await this.redisCacheService.updateCachedOrder(
+        cafeId,
+        orderId,
+        targetOrderStatus
+      );
+
+      await queryRunner.commitTransaction();
+    } catch (err) {
+      // since we have errors lets rollback the changes we made
+      await queryRunner.rollbackTransaction();
+    } finally {
+      // you need to release a queryRunner which was manually instantiated
+      await queryRunner.release();
+    }
+    return;
+  }
+
+  async updateOrderStatusToCompletedV2(
+    cafeId: string,
+    updateOrderReqDto: UpdateOrderReqDto
+  ): Promise<void> {
+    const orderId = updateOrderReqDto.id.toString();
+    const targetOrderStatus = ORDER_STATUS.COMPLETED;
+
+    const orderStatus = await this.redisCacheService.getCachedOrder(
+      cafeId,
+      orderId
+    );
+
+    if (orderStatus !== ORDER_STATUS.ACCEPTED) {
+      throw new BadRequestException(
+        '요청 상태가 아닌 주문을 거절할 수 없습니다.'
+      );
+    }
+
+    const queryRunner = this.dataSource.createQueryRunner();
+
+    await queryRunner.connect();
+    await queryRunner.startTransaction();
+    try {
+      const orderEntity = Order.ofToUpdateStatus({
+        orderId: parseInt(orderId),
+        orderStatus: targetOrderStatus,
+      });
+
+      await queryRunner.manager.save(orderEntity);
+      await this.redisCacheService.updateCachedOrder(
+        cafeId,
+        orderId,
+        targetOrderStatus
+      );
+
+      await queryRunner.commitTransaction();
+    } catch (err) {
+      // since we have errors lets rollback the changes we made
+      await queryRunner.rollbackTransaction();
+    } finally {
+      // you need to release a queryRunner which was manually instantiated
+      await queryRunner.release();
+    }
+    return;
   }
 }

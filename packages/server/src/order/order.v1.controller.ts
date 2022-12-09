@@ -1,5 +1,4 @@
 import { UpdateOrderReqDto } from './dto/updateOrderReq.dto';
-import { OrderResDto } from './dto/orderRes.dto';
 import {
   Controller,
   Get,
@@ -79,10 +78,8 @@ export class OrderController {
   @Get()
   @UseInterceptors(ClassSerializerInterceptor)
   async getOrders(@Req() req: Request): Promise<OrdersResDto> {
-    const user = req.user as JwtPayload;
-    const { id } = user;
-    const orders = await this.orderService.getOrders(id);
-    return new OrdersResDto(orders);
+    const { id } = req.user as JwtPayload;
+    return await this.orderService.getOrders(id);
   }
 
   @UseGuards(JwtGuard)
@@ -93,7 +90,7 @@ export class OrderController {
   ) {
     const user = req.user as JwtPayload;
     const userId = user.id;
-    const status: ORDER_STATUS = await this.orderService.findOne(
+    const status: ORDER_STATUS = await this.orderService.getOrderStatus(
       userId,
       orderId
     );

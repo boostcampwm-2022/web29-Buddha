@@ -10,4 +10,7 @@ export const orderHandlers = [
   rest.get(`${api}/order/requested`, (req, res, next) => {
     return res(next.json(requestedOrderData));
   }),
+  rest.post(`${api}/order`, (req, res, next) => {
+    return res(next.status(201));
+  })
 ];

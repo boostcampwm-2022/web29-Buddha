@@ -51,3 +51,15 @@ export const requestedOrderData = {
     },
   ],
 };
+
+export const orderStatusData = {
+  REQUESTED: {
+    order_status: 'REQUESTED',
+  },
+  ACCEPTED: {
+    order_status: 'ACCEPTED',
+  },
+  COMPLETED: {
+    order_status: 'COMPLETED',
+  },
+}

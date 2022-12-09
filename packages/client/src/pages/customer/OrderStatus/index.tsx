@@ -25,8 +25,8 @@ function OrderStatus() {
         <p className={'title'}>주문 현황</p>
       </HeaderWrapper>
       <ContentWrapper>
-        <StatusBar>
-          <ProgressBar className={PROGRESS_CLASS[status]} />
+        <StatusBar data-testid={'status-bar'}>
+          <ProgressBar data-testid={status} className={PROGRESS_CLASS[status]} />
         </StatusBar>
         <Progress>
           <p>주문 요청</p>

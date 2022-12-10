@@ -92,7 +92,7 @@ export class RedisCacheService {
 
   async updateOrderStatusV3(
     cafeKey: string,
-    orderId: string,
+    orderId: number,
     orderStatus: ORDER_STATUS
   ) {
     // 점주가 클라이언트가 조회하는 자료구조에 있는 주문 상태를 업데이트

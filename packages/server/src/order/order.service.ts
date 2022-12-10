@@ -591,9 +591,6 @@ export class OrderService {
       startingOrderId
     );
 
-    // 형식이 어떻게 나오는지 확인 후 json parse
-    // return Order[]
-
     return newCachedOrders.map((newCachedOrder) => JSON.parse(newCachedOrder));
   }
 

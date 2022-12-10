@@ -175,7 +175,7 @@ export class Order extends TimestampableEntity {
     data['created_at'] = order.created_at;
     data['updated_at'] = order.updated_at;
     data['orderMenus'] = order.orderMenus.map((orderMenu: OrderMenu) =>
-      JSON.stringify(OrderMenu.toJson(orderMenu))
+      OrderMenu.toJson(orderMenu)
     );
     // 순환 참조 일어나 스택오버플로우 발생됨 order -> orderMenu -> order
     // console.log(JSON.stringify(instanceToPlain(order)));

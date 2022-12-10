@@ -16,6 +16,7 @@ import { Request } from 'express';
 import { JwtPayload } from 'src/auth/interfaces/jwtPayload';
 import { identity } from 'rxjs';
 import { UpdateOrderReqDto } from './dto/updateOrderReq.dto';
+import { OrderStatusResDto } from './dto/OrderStatusRes.dto';
 @Controller()
 export class OrderController {
   constructor(private readonly orderService: OrderService) {}
@@ -32,12 +33,14 @@ export class OrderController {
    * 점주 주문 수락
    */
 
+  // 고객 - 주문 상태 조회 Polling
+  // 응답 - orderStatus: ORDER_STATUS ENUM
   @Get()
   @UseGuards(JwtGuard)
   async getOrderStatus(
     @Query('orderId', ParseIntPipe) orderId: number,
     @Query('cafeId', ParseIntPipe) cafeId: number
-  ) {
+  ): Promise<OrderStatusResDto> {
     return await this.orderService.getOrderStatusV3(cafeId, orderId);
   }
 

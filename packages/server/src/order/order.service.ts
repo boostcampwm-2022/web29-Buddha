@@ -21,6 +21,7 @@ import { UpdateOrderReqDto } from './dto/updateOrderReq.dto';
 import { Order } from './entities/order.entity';
 import { OrderMenu } from './entities/orderMenu.entity';
 import { ORDER_STATUS } from './enum/orderStatus.enum';
+import { OrderStatusResDto } from './dto/OrderStatusRes.dto';
 
 @Injectable()
 export class OrderService {
@@ -570,13 +571,16 @@ export class OrderService {
    * 점주 주문 수락
    */
 
-  async getOrderStatusV3(cafeId: number, orderId: number) {
+  async getOrderStatusV3(
+    cafeId: number,
+    orderId: number
+  ): Promise<OrderStatusResDto> {
     const cafeKey = 'cafe' + cafeId + 'Client';
     const orderStatus = await this.redisCacheService.getCachedOrderStatusV3(
       cafeKey,
       orderId.toString()
     );
-    return orderStatus;
+    return new OrderStatusResDto(orderId, ORDER_STATUS[orderStatus]);
   }
 
   async getNewCachedOrdersV3(cafeId: number, startingOrderId: number) {

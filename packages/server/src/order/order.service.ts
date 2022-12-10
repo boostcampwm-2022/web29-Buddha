@@ -631,7 +631,7 @@ export class OrderService {
       await this.redisCacheService.deleteCachedOrderV3(managerCafeKey, orderId);
       await this.redisCacheService.updateOrderStatusV3(
         clientCafeKey,
-        orderId.toString(),
+        orderId,
         targetOrderStatus
       );
 
@@ -661,5 +661,82 @@ export class OrderService {
       id,
       ORDER_STATUS.REQUESTED
     );
+  }
+  async createOrderV3(userId, createOrderDto: CreateOrderDto) {
+    const { menus, cafeId } = createOrderDto;
+
+    // Menu Entity를 토대로 Menu Option Entity 만들기
+    const menuOptionEntityObjs: MenuOption[] = await this.getMenuOptionEntity(
+      createOrderDto
+    );
+
+    // menuAndOptionDict를 만들기 위한 과정. 옵션 가격, 이름, 메뉴 가격, 이름을 모두 가져온다.
+    const validMenuAndOptionInfo =
+      Order.getValidMenuAndOptionInfo(menuOptionEntityObjs);
+
+    // 모든 메뉴가 유효한 메뉴였는지 확인하는 과정
+    if (!Order.isValidMenu(validMenuAndOptionInfo, menus)) {
+      throw new BadRequestException(
+        '주문한 메뉴 중에 존재하지 않은 메뉴가 있습니다.'
+      );
+    }
+
+    // 각 메뉴마다 옵션이 모두 유효한 옵션들인지 확인하는 과정
+    if (!Order.isValidOptionForMenu(menus, validMenuAndOptionInfo)) {
+      throw new BadRequestException(
+        '해당 메뉴에서 선택할 수 없는 옵션이 포함되어 있습니다.'
+      );
+    }
+
+    // 가격 비교
+    if (!Order.isValidOrderTotalPrice(menus, validMenuAndOptionInfo)) {
+      throw new BadRequestException('요청된 계산 총액이 정확하지 않습니다.');
+    }
+
+    // 주문 저장을 위한 트랜젝션
+    const queryRunner = this.dataSource.createQueryRunner();
+
+    await queryRunner.connect();
+    await queryRunner.startTransaction();
+    try {
+      const orderEntity = Order.of({
+        cafeId,
+        userId,
+        status: ORDER_STATUS.REQUESTED,
+        menus,
+        validMenuAndOptionInfo,
+      });
+
+      // db 저장
+      const newOrder = await queryRunner.manager.save(orderEntity);
+
+      // redis 저장 : 고객 -> hset, 점주 -> sorted set
+      const managerCafeKey = 'cafe' + cafeId + 'Manager';
+      const clientCafeKey = 'cafe' + cafeId + 'Client';
+      const orderId = newOrder.id;
+
+      // 업주 카페 주문 내역들
+      await this.redisCacheService.insertNewOrderV3(
+        managerCafeKey,
+        orderId,
+        Order.toJson(newOrder)
+      );
+      // 고객 상태
+      await this.redisCacheService.updateOrderStatusV3(
+        clientCafeKey,
+        orderId,
+        ORDER_STATUS.REQUESTED
+      );
+
+      await await queryRunner.commitTransaction();
+    } catch (err) {
+      // since we have errors lets rollback the changes we made
+      await queryRunner.rollbackTransaction();
+      console.log(err);
+    } finally {
+      // you need to release a queryRunner which was manually instantiated
+      await queryRunner.release();
+    }
+    return;
   }
 }

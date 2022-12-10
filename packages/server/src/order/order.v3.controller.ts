@@ -3,6 +3,7 @@ import {
   ClassSerializerInterceptor,
   Controller,
   Get,
+  HttpCode,
   ParseIntPipe,
   Post,
   Query,
@@ -17,6 +18,7 @@ import { JwtPayload } from 'src/auth/interfaces/jwtPayload';
 import { identity } from 'rxjs';
 import { UpdateOrderReqDto } from './dto/updateOrderReq.dto';
 import { OrderStatusResDto } from './dto/OrderStatusRes.dto';
+import { CreateOrderDto } from './dto/create-order.dto';
 @Controller()
 export class OrderController {
   constructor(private readonly orderService: OrderService) {}
@@ -44,6 +46,9 @@ export class OrderController {
     return await this.orderService.getOrderStatusV3(cafeId, orderId);
   }
 
+  // 점주 - '요청 상태' 주문 내역 조회 Polling
+  // cursor 뒤에 있는 모든 order 내역 반환
+  // 응답 - Order[]
   @Get('/requested')
   @UseGuards(JwtGuard)
   async getRenewedRequested(
@@ -70,5 +75,17 @@ export class OrderController {
       updateOrderReqDto
     );
     return;
+  }
+
+  @Post('')
+  @HttpCode(201)
+  @UseGuards(JwtGuard)
+  async createOrder(
+    @Req() req: Request,
+    @Body() createOrderDto: CreateOrderDto
+  ) {
+    const user = req.user as JwtPayload;
+    const { id } = user;
+    return await this.orderService.createOrderV3(id, createOrderDto);
   }
 }

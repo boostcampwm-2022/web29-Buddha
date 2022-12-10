@@ -786,10 +786,9 @@ export class OrderService {
       await this.redisCacheService.deleteCachedOrderV3(managerCafeKey, orderId);
 
       // 고객 상태
-      await this.redisCacheService.updateOrderStatusV3(
+      await this.redisCacheService.deleteOrderStatusV3(
         clientCafeKey,
-        orderId,
-        ORDER_STATUS.REJECTED
+        orderId.toString()
       );
 
       await queryRunner.commitTransaction();

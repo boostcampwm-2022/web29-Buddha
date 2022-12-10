@@ -1,3 +1,4 @@
+import { instanceToPlain } from 'class-transformer';
 import { RequestedOrderDto } from './dto/requested-order.dto';
 import { RedisCacheService } from 'src/redisCache/redisCache.service';
 import { CreateOrderDto } from 'src/order/dto/create-order.dto';
@@ -589,7 +590,10 @@ export class OrderService {
       cafeKey,
       startingOrderId
     );
+
     // 형식이 어떻게 나오는지 확인 후 json parse
+    // return Order[]
+
     return newCachedOrders.map((newCachedOrder) => JSON.parse(newCachedOrder));
   }
 
@@ -735,6 +739,64 @@ export class OrderService {
       console.log(err);
     } finally {
       // you need to release a queryRunner which was manually instantiated
+      await queryRunner.release();
+    }
+    return;
+  }
+
+  async updateOrderStatusToRejectedV3(
+    cafeId: number,
+    updateOrderReqDto: UpdateOrderReqDto
+  ): Promise<void> {
+    const orderId = updateOrderReqDto.id;
+    const targetOrderStatus = ORDER_STATUS.REJECTED;
+    const managerCafeKey = 'cafe' + cafeId + 'Manager';
+    const clientCafeKey = 'cafe' + cafeId + 'Client';
+
+    const orderStatus = await this.redisCacheService.getCachedOrderStatusV3(
+      clientCafeKey,
+      orderId.toString()
+    );
+
+    if (orderStatus !== ORDER_STATUS.REQUESTED) {
+      throw new BadRequestException(
+        '요청 상태가 아닌 주문을 거절할 수 없습니다.'
+      );
+    }
+
+    const queryRunner = this.dataSource.createQueryRunner();
+
+    await queryRunner.connect();
+    await queryRunner.startTransaction();
+    try {
+      const orderEntity = Order.ofToUpdateStatus({
+        orderId: orderId,
+        orderStatus: targetOrderStatus,
+      });
+
+      // db update
+      await queryRunner.manager.save(orderEntity);
+
+      // redis update
+      // 1. 카페 주문 내역에서 삭제
+      // 2. 고객 주문 상태 변경
+      // redis update : 고객 -> hset, 점주(카페) -> sorted set
+
+      // 카페 주문 내역에서 삭제
+      await this.redisCacheService.deleteCachedOrderV3(managerCafeKey, orderId);
+
+      // 고객 상태
+      await this.redisCacheService.updateOrderStatusV3(
+        clientCafeKey,
+        orderId,
+        ORDER_STATUS.REJECTED
+      );
+
+      await queryRunner.commitTransaction();
+    } catch (err) {
+      await queryRunner.rollbackTransaction();
+      console.log(err);
+    } finally {
       await queryRunner.release();
     }
     return;

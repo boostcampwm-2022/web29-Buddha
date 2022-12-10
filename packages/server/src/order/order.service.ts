@@ -581,7 +581,37 @@ export class OrderService {
       cafeKey,
       orderId.toString()
     );
-    return new OrderStatusResDto(orderId, ORDER_STATUS[orderStatus]);
+    if (orderStatus) {
+      return new OrderStatusResDto(orderId, ORDER_STATUS[orderStatus]);
+    }
+
+    // db 조회 -> cache 업데이트 -> return status
+    const order = await this.orderRepository.findOne({
+      where: {
+        id: orderId,
+      },
+      relations: {
+        user: true,
+      },
+    });
+
+    if (order === null) {
+      throw new BadRequestException('해당 주문을 찾을 수 없습니다.');
+    }
+
+    // cache update
+    if (
+      order.status === ORDER_STATUS.REQUESTED ||
+      order.status === ORDER_STATUS.ACCEPTED
+    ) {
+      await this.redisCacheService.insertCachedOrder(
+        cafeId.toString(),
+        order.id.toString(),
+        order.status
+      );
+    }
+
+    return new OrderStatusResDto(orderId, ORDER_STATUS[order.status]);
   }
 
   async getNewCachedOrdersV3(cafeId: number, startingOrderId: number) {

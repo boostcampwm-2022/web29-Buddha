@@ -99,4 +99,9 @@ export class RedisCacheService {
     const result = await this.redisClient.hset(cafeKey, orderId, orderStatus);
     return result;
   }
+
+  async deleteOrderStatusV3(cafeKey: string, orderId: string) {
+    const result = await this.redisClient.hdel(cafeKey, orderId);
+    return result;
+  }
 }

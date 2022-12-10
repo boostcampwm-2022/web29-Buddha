@@ -92,6 +92,21 @@ export class OrderController {
     return;
   }
 
+  @Post('/completed')
+  @UseGuards(JwtGuard)
+  @UseInterceptors(ClassSerializerInterceptor)
+  async completeOrder(@Body() updateOrderReqDto: UpdateOrderReqDto) {
+    // const user = req.user as JwtPayload;
+    // const { id } = user;
+    // cafeId를 유저의 카페로 가져와야한다.
+    const cafeId = 1;
+    await this.orderService.updateOrderStatusToCompletedV3(
+      cafeId,
+      updateOrderReqDto
+    );
+    return;
+  }
+
   @Post('')
   @HttpCode(201)
   @UseGuards(JwtGuard)

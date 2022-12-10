@@ -801,4 +801,58 @@ export class OrderService {
     }
     return;
   }
+
+  async updateOrderStatusToCompletedV3(
+    cafeId: number,
+    updateOrderReqDto: UpdateOrderReqDto
+  ): Promise<void> {
+    const orderId = updateOrderReqDto.id;
+    const targetOrderStatus = ORDER_STATUS.COMPLETED;
+    const managerCafeKey = 'cafe' + cafeId + 'Manager';
+    const clientCafeKey = 'cafe' + cafeId + 'Client';
+
+    const orderStatus = await this.redisCacheService.getCachedOrderStatusV3(
+      clientCafeKey,
+      orderId.toString()
+    );
+
+    if (orderStatus !== ORDER_STATUS.ACCEPTED) {
+      throw new BadRequestException(
+        '수락 상태가 아닌 주문을 완료할 수 없습니다.'
+      );
+    }
+
+    const queryRunner = this.dataSource.createQueryRunner();
+
+    await queryRunner.connect();
+    await queryRunner.startTransaction();
+    try {
+      // 주문 완료
+      // 1. db update status to complted
+      // 2. redis delete 고객 주문 상태 key
+
+      // db update
+      const orderEntity = Order.ofToUpdateStatus({
+        orderId: orderId,
+        orderStatus: targetOrderStatus,
+      });
+
+      await queryRunner.manager.save(orderEntity);
+
+      // redis delete
+      await this.redisCacheService.deleteOrderStatusV3(
+        clientCafeKey,
+        orderId.toString()
+      );
+
+      await queryRunner.commitTransaction();
+    } catch (err) {
+      // since we have errors lets rollback the changes we made
+      await queryRunner.rollbackTransaction();
+    } finally {
+      // you need to release a queryRunner which was manually instantiated
+      await queryRunner.release();
+    }
+    return;
+  }
 }

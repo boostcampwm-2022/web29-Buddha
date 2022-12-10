@@ -19,6 +19,7 @@ import { identity } from 'rxjs';
 import { UpdateOrderReqDto } from './dto/updateOrderReq.dto';
 import { OrderStatusResDto } from './dto/OrderStatusRes.dto';
 import { CreateOrderDto } from './dto/create-order.dto';
+import { OrdersResDto } from './dto/ordersRes.dto';
 @Controller()
 export class OrderController {
   constructor(private readonly orderService: OrderService) {}
@@ -117,5 +118,19 @@ export class OrderController {
     const user = req.user as JwtPayload;
     const { id } = user;
     return await this.orderService.createOrderV3(id, createOrderDto);
+  }
+
+  @Get('/accepted')
+  @UseGuards(JwtGuard)
+  @UseInterceptors(ClassSerializerInterceptor)
+  async getAcceptedOrders(): Promise<OrdersResDto> {
+    return await this.orderService.getAcceptedOrders();
+  }
+
+  @Get('/completed')
+  @UseGuards(JwtGuard)
+  @UseInterceptors(ClassSerializerInterceptor)
+  async getCompletedOrders(): Promise<OrdersResDto> {
+    return await this.orderService.getCompletedOrders();
   }
 }

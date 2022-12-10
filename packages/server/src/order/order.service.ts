@@ -732,7 +732,7 @@ export class OrderService {
         ORDER_STATUS.REQUESTED
       );
 
-      await await queryRunner.commitTransaction();
+      await queryRunner.commitTransaction();
     } catch (err) {
       // since we have errors lets rollback the changes we made
       await queryRunner.rollbackTransaction();

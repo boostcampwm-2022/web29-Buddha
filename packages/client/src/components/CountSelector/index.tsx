@@ -2,31 +2,31 @@ import React from 'react';
 import { Container, Minus, Plus } from './styled';
 
 interface Listener {
-  onClick: (quantity: number) => void;
+  onClick: (count: number) => void;
 }
 
 export interface Props {
-  quantity: number;
-  svgWidth: number;
-  svgHeight: number;
+  count: number;
+  svgWidth?: number;
+  svgHeight?: number;
 }
 
-function QuantitySelector({
-  quantity,
-  svgWidth,
-  svgHeight,
+function CountSelector({
+  count,
+  svgWidth = 1,
+  svgHeight = 1,
   onClick,
 }: Props & Listener) {
-  const handleClickQuantity = (event: React.MouseEvent<SVGSVGElement>) => {
+  const handleClickCount = (event: React.MouseEvent<SVGSVGElement>) => {
     const name = event.currentTarget.getAttribute('name');
 
-    if (quantity === 1 && name === 'minus')
+    if (count === 1 && name === 'minus')
       return alert('최소 1개 이상 주문 가능합니다.');
-    if (quantity === 20 && name === 'plus')
+    if (count === 20 && name === 'plus')
       return alert('최대 20개 주문 가능합니다.');
 
-    if (name === 'minus') onClick(quantity - 1);
-    else onClick(quantity + 1);
+    if (name === 'minus') onClick(count - 1);
+    else onClick(count + 1);
   };
 
   return (
@@ -34,24 +34,26 @@ function QuantitySelector({
       <>
         <Minus
           name="minus"
-          quantity={quantity}
+          data-testid="minus"
+          count={count}
           width={svgWidth}
           height={svgHeight}
-          onClick={handleClickQuantity}
+          onClick={handleClickCount}
         />
       </>
-      {quantity}
+      {count}
       <>
         <Plus
           name="plus"
-          quantity={quantity}
+          data-testid="plus"
+          count={count}
           width={svgWidth}
           height={svgHeight}
-          onClick={handleClickQuantity}
+          onClick={handleClickCount}
         />
       </>
     </Container>
   );
 }
 
-export default QuantitySelector;
+export default CountSelector;

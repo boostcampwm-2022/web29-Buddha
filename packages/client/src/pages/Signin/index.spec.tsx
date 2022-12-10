@@ -1,8 +1,8 @@
-import { fireEvent, screen, waitFor } from '@testing-library/react';
+import { fireEvent, screen } from '@testing-library/react';
 
 import { server } from '@/mocks/server';
 import { PLACEHOLDER } from '@/constants';
-import { setup } from 'utils/testSetup';
+import { setup, setupClient } from 'utils/testSetup';
 
 beforeAll(() => server.listen());
 beforeEach(() => server.resetHandlers());
@@ -56,24 +56,21 @@ describe('로그인 페이지', () => {
   it('미가입 유저 => 회원가입 페이지 이동', async () => {
     setup({ url: '/?code=qwer1234&state=1234' });
 
-    await waitFor(() => {
-      screen.getByText('고객');
-      screen.getByText('업주');
-      screen.getByPlaceholderText(PLACEHOLDER.nickname);
-      screen.getByText('회원가입');
-    });
+    await screen.findByText('고객');
+    await screen.findByText('업주');
+    await screen.findByPlaceholderText(PLACEHOLDER.nickname);
+    await screen.findByText('회원가입');
   });
 
   it('가입 유저 => 고객 주문 내역 페이지 이동', async () => {
+    setupClient();
     setup({ url: '/?code=qwer1234&state=1234' });
 
     Object.defineProperty(window.document, 'cookie', {
       value: 'name=이름;email=test@test.com',
     });
 
-    await waitFor(() => {
-      screen.getByText(/주문내역/i);
-    });
+    await screen.findByText(/주문내역/i);
   });
 
   it('스냡샷', () => {

@@ -8,5 +8,5 @@ export const cartState = atom<CartMenu[]>({
 
 export const userRoleState = atom<UserRole>({
   key: 'userRoleState',
-  default: 'CLIENT',
+  default: 'UNAUTH',
 });

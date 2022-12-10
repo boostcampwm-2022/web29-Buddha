@@ -1,3 +1,4 @@
+import { classToPlain, instanceToPlain, serialize } from 'class-transformer';
 import { Cafe } from 'src/cafe/entities/cafe.entity';
 import { Menu } from 'src/cafe/entities/menu.entity';
 import { MenuOption } from 'src/cafe/entities/menuOption.entity';
@@ -151,5 +152,33 @@ export class Order extends TimestampableEntity {
     });
 
     return menuOptionDict;
+  }
+
+  // {
+  //   newOrder: Order {
+  //     cafe: Cafe { id: 1 },
+  //     status: 'REQUESTED',
+  //     user: User { id: 1 },
+  //     orderMenus: [ [OrderMenu], [OrderMenu] ],
+  //     deleted_at: null,
+  //     created_at: 2022-12-10T01:15:05.021Z,
+  //     updated_at: 2022-12-10T01:15:05.021Z,
+  //     id: 56
+  //   }
+  // }
+  static toJson(order: Order) {
+    const data = {};
+    data['id'] = order.id;
+    data['cafe'] = order.cafe.id;
+    data['status'] = order.status;
+    data['user'] = order.user.id;
+    data['created_at'] = order.created_at;
+    data['updated_at'] = order.updated_at;
+    data['orderMenus'] = order.orderMenus.map((orderMenu: OrderMenu) =>
+      JSON.stringify(OrderMenu.toJson(orderMenu))
+    );
+    // 순환 참조 일어나 스택오버플로우 발생됨 order -> orderMenu -> order
+    // console.log(JSON.stringify(instanceToPlain(order)));
+    return JSON.stringify(data);
   }
 }

@@ -3,6 +3,7 @@ import { CafeModule } from 'src/cafe/cafe.module';
 import { OrderModuleV1 } from 'src/order/order.v1.module';
 import { OrderModuleV2 } from 'src/order/order.v2.module';
 import { OrderModuleV3 } from 'src/order/order.v3.module';
+import { RedisCacheModule } from 'src/redisCache/redisCache.module';
 import { UserModule } from 'src/user/user.module';
 
 export const routeTable = {
@@ -31,6 +32,10 @@ export const routeTable = {
     {
       path: 'v1/auth',
       module: AuthModule,
+    },
+    {
+      path: 'v3/redis',
+      module: RedisCacheModule,
     },
   ],
 };

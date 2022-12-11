@@ -10,6 +10,17 @@ export class RedisCacheService {
     this.redisClient = redisService.getClient();
   }
 
+  async reconnect() {
+    try {
+      await this.redisClient.connect();
+    } catch (err) {
+      const { message } = err as Error;
+      if (message === 'Redis is already connecting/connected') {
+        throw new BadRequestException('Redis connection이 이미 수립됐습니다.');
+      }
+    }
+  }
+
   async getCachedOrder(
     key: string,
     orderId: string

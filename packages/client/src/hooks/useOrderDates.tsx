@@ -41,7 +41,7 @@ function useOrderGroup({ list, status }: Params) {
     }
 
     setOrderGroup({ ...result });
-  }, [list]);
+  }, [list, status]);
 
   return { orderGroup };
 }

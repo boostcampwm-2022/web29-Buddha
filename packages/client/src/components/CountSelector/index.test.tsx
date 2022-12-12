@@ -30,6 +30,30 @@ describe('수량 선택 컴포넌트', () => {
     expect(handleClickCount).toHaveBeenCalledTimes(2);
   });
 
+  it('수량 최소 1개 제한', async () => {
+    setup({
+      children: <CountSelector count={1} onClick={jest.fn()} />,
+    });
+
+    Object.defineProperty(window, 'alert', { value: jest.fn() });
+
+    const minus = screen.getByTestId(/minus/);
+    fireEvent.click(minus);
+    screen.getByText('1');
+  });
+
+  it('수량 최대 20개 제한', async () => {
+    setup({
+      children: <CountSelector count={20} onClick={jest.fn()} />,
+    });
+
+    Object.defineProperty(window, 'alert', { value: jest.fn() });
+
+    const plus = screen.getByTestId(/plus/);
+    fireEvent.click(plus);
+    screen.getByText('20');
+  });
+
   it('변경 불가 알림', () => {
     const handleClickCount = jest.fn();
     setup({ children: <CountSelector count={1} onClick={handleClickCount} /> });

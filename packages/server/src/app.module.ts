@@ -12,6 +12,7 @@ import { RouterModule } from '@nestjs/core';
 import { LoggerMiddleware } from './middleware/logger.http';
 import { DataSource } from 'typeorm';
 import { OrderModuleV2 } from './order/order.v2.module';
+import { OrderModuleV3 } from './order/order.v3.module';
 
 @Module({
   imports: [
@@ -46,6 +47,7 @@ import { OrderModuleV2 } from './order/order.v2.module';
     UserModule,
     OrderModuleV1,
     OrderModuleV2,
+    OrderModuleV3,
     CafeModule,
     AuthModule,
   ],

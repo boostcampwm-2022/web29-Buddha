@@ -58,4 +58,15 @@ export class OrderMenu extends TimestampableEntity {
 
     return orderMenu;
   }
+
+  static toJson(orderMenu: OrderMenu) {
+    const data = {};
+    data['id'] = orderMenu.id;
+    data['options'] = orderMenu.options;
+    data['size'] = orderMenu.size;
+    data['type'] = orderMenu.type;
+    data['count'] = orderMenu.count;
+    data['price'] = orderMenu.price;
+    return data;
+  }
 }

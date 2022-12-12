@@ -318,6 +318,7 @@ export class OrderService {
     } catch (err) {
       // since we have errors lets rollback the changes we made
       await queryRunner.rollbackTransaction();
+      throw new InternalServerErrorException('서버에 이상이 있습니다');
     } finally {
       // you need to release a queryRunner which was manually instantiated
       await queryRunner.release();
@@ -467,8 +468,8 @@ export class OrderService {
 
       await queryRunner.commitTransaction();
     } catch (err) {
-      // since we have errors lets rollback the changes we made
       await queryRunner.rollbackTransaction();
+      throw new InternalServerErrorException('서버에 이상이 있습니다');
     } finally {
       // you need to release a queryRunner which was manually instantiated
       await queryRunner.release();
@@ -515,6 +516,7 @@ export class OrderService {
     } catch (err) {
       // since we have errors lets rollback the changes we made
       await queryRunner.rollbackTransaction();
+      throw new InternalServerErrorException('서버에 이상이 있습니다');
     } finally {
       // you need to release a queryRunner which was manually instantiated
       await queryRunner.release();
@@ -561,6 +563,7 @@ export class OrderService {
     } catch (err) {
       // since we have errors lets rollback the changes we made
       await queryRunner.rollbackTransaction();
+      throw new InternalServerErrorException('서버에 이상이 있습니다');
     } finally {
       // you need to release a queryRunner which was manually instantiated
       await queryRunner.release();
@@ -669,8 +672,6 @@ export class OrderService {
       );
     }
 
-    const order = JSON.parse(orderList[0]);
-
     const queryRunner = this.dataSource.createQueryRunner();
 
     await queryRunner.connect();
@@ -693,10 +694,9 @@ export class OrderService {
 
       await queryRunner.commitTransaction();
     } catch (err) {
-      // since we have errors lets rollback the changes we made
       await queryRunner.rollbackTransaction();
+      throw new InternalServerErrorException('서버에 이상이 있습니다');
     } finally {
-      // you need to release a queryRunner which was manually instantiated
       await queryRunner.release();
     }
     return;
@@ -847,6 +847,7 @@ export class OrderService {
     } catch (err) {
       await queryRunner.rollbackTransaction();
       console.log(err);
+      throw new InternalServerErrorException('서버에 이상이 있습니다');
     } finally {
       await queryRunner.release();
     }
@@ -898,10 +899,9 @@ export class OrderService {
 
       await queryRunner.commitTransaction();
     } catch (err) {
-      // since we have errors lets rollback the changes we made
       await queryRunner.rollbackTransaction();
+      throw new InternalServerErrorException('서버에 이상이 있습니다');
     } finally {
-      // you need to release a queryRunner which was manually instantiated
       await queryRunner.release();
     }
     return;

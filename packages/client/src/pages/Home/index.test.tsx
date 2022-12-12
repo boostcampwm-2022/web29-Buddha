@@ -37,7 +37,7 @@ describe('주문 내역 페이지', () => {
       const overviewTitle = await screen.findAllByTestId(
         'order-overview-title'
       );
-      expect(overviewTitle).toHaveLength(5);
+      expect(overviewTitle).toHaveLength(4);
       fireEvent.click(overviewTitle[1]);
     });
   });

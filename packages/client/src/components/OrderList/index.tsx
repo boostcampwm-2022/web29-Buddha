@@ -78,7 +78,10 @@ function OrderItem({ date, order }: ItemProps) {
   return (
     <ItemContainer>
       <Overview>
-        <RowContainer onClick={() => navigate(`/order/${order.id}`)}>
+        <RowContainer
+          onClick={() => navigate(`/order/${order.id}`)}
+          data-testid="order-overview-title"
+        >
           <Receipt />
           <p>
             {order.menus[0].name}

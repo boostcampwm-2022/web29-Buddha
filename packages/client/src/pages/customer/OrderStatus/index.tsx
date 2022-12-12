@@ -16,17 +16,20 @@ import useOrderStatus from '@/hooks/useOrderStatus';
 
 function OrderStatus() {
   const { orderId } = useParams();
-  const status: OrderStatusCode = useOrderStatus(orderId? orderId : '');
+  const status: OrderStatusCode = useOrderStatus(orderId ? orderId : '');
 
   return (
-    <OrderStatusWrapper>
+    <OrderStatusWrapper data-testid="order-status-page">
       <HeaderWrapper>
         <LeftArrow color={'black'} left={0.5} top={0.5} />
         <p className={'title'}>주문 현황</p>
       </HeaderWrapper>
       <ContentWrapper>
         <StatusBar data-testid={'status-bar'}>
-          <ProgressBar data-testid={status} className={PROGRESS_CLASS[status]} />
+          <ProgressBar
+            data-testid={status}
+            className={PROGRESS_CLASS[status]}
+          />
         </StatusBar>
         <Progress>
           <p>주문 요청</p>

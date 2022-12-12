@@ -7,41 +7,47 @@ interface Params {
   status?: OrderStatusCode[];
 }
 
+const d = new Date();
+
 function useOrderGroup({ list, status }: Params) {
   const [orderGroup, setOrderGroup] = useState<AnyObject>({});
+  const [today] = useState(
+    `${d.getFullYear()}-${d.getMonth() + 1}-${d.getDate()}`
+  );
 
   useEffect(() => {
-    if (!list) return;
+    if (!list || !status) return;
 
     let result;
 
-    if (status) {
+    if (!status.includes('COMPLETED')) {
       result = list.reduce((prev: AnyObject, curr) => {
         const currStatus = curr.status;
 
         if (!status.includes(currStatus)) {
           return { ...prev };
-        } else if (prev['현재 주문 상태']) {
-          return {
-            ...prev,
-            '현재 주문 상태': [...prev['현재 주문 상태'], { ...curr }],
-          };
-        } else {
-          return { ...prev, '현재 주문 상태': [{ ...curr }] };
         }
+        return {
+          ...prev,
+          '현재 주문 상태': [{ ...curr }, ...(prev['현재 주문 상태'] ?? [])],
+        };
       }, {});
     } else {
       result = list.reduce((prev: AnyObject, curr) => {
         const date = curr.date.slice(0, 10);
-        // const time = curr.date.slice(11, 19);
+        const day = curr.date.slice(17, 18);
 
-        if (!prev[date]) return { ...prev, [date]: [{ ...curr }] };
-        else return { ...prev, [date]: [...prev[date], { ...curr }] };
+        const key = date === today ? '오늘' : `${date} (${day})`;
+
+        if (curr.status === 'COMPLETED') {
+          return { ...prev, [key]: [{ ...curr }, ...(prev[key] ?? [])] };
+        }
+        return { ...prev };
       }, {});
     }
 
     setOrderGroup({ ...result });
-  }, [list, status]);
+  }, [list, status, today]);
 
   return { orderGroup };
 }

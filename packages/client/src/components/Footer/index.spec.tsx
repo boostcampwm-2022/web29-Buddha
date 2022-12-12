@@ -7,12 +7,12 @@ afterEach(() => server.resetHandlers());
 afterAll(() => server.close());
 
 describe('Footer', () => {
-  it('(고객) Home 클릭 시 주문내역 화면으로 전환', async () => {
+  it('(고객) Home 클릭 시 주문 내역 화면으로 전환', async () => {
     setupClient();
     setup({ url: '/' });
 
     fireEvent.click(await screen.findByText('Home'));
-    await screen.findByText('주문내역');
+    await screen.findByText('주문 내역');
   });
 
   it('(고객) Order 클릭 시 메뉴 내역 화면으로 전환', async () => {

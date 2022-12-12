@@ -70,7 +70,7 @@ describe('로그인 페이지', () => {
       value: 'name=이름;email=test@test.com',
     });
 
-    await screen.findByText(/주문내역/i);
+    await screen.findByText(/주문 내역/i);
   });
 
   it('스냡샷', () => {

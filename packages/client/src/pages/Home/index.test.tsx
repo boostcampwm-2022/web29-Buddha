@@ -12,7 +12,7 @@ describe('주문 내역 페이지', () => {
       setupClient();
       setup({ url: '/' });
 
-      await screen.findByText('주문내역');
+      await screen.findByText('주문 내역');
       await screen.findByText('아메리카노 외 1개');
       await screen.findByText('아메리카노');
       await screen.findByText('카페라떼');

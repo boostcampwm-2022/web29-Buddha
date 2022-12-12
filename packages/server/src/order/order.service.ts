@@ -130,6 +130,9 @@ export class OrderService {
         status: ORDER_STATUS.REQUESTED,
         cafe: cafe,
       },
+      order: {
+        created_at: 'DESC',
+      },
     });
 
     return new OrdersResDto(orders);
@@ -148,6 +151,9 @@ export class OrderService {
         status: ORDER_STATUS.ACCEPTED,
         cafe: cafe,
       },
+      order: {
+        created_at: 'DESC',
+      },
     });
 
     return new OrdersResDto(orders);
@@ -165,6 +171,9 @@ export class OrderService {
       where: {
         status: ORDER_STATUS.COMPLETED,
         cafe: cafe,
+      },
+      order: {
+        created_at: 'DESC',
       },
     });
 

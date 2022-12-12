@@ -1,9 +1,10 @@
-import { fireEvent, render, screen } from '@testing-library/react';
+import { render, screen } from '@testing-library/react';
 
 import OptionSelector from '.';
 import Layout from '@/Layout';
 import { server } from '@/mocks/server';
 import axios from 'axios';
+import MenuDetailContextProvider from '@/stores/MenuDetail';
 
 const api = process.env.REACT_APP_API_SERVER_BASE_URL;
 
@@ -13,15 +14,16 @@ afterAll(() => server.close());
 
 const setup = async () => {
   const { options } = (await axios.get(`${api}/cafe/menu/1`)).data;
-  const handleClickOption = jest.fn();
 
   const { asFragment } = render(
     <Layout>
-      <OptionSelector onClick={handleClickOption} options={options} />
+      <MenuDetailContextProvider>
+        <OptionSelector options={options} />
+      </MenuDetailContextProvider>
     </Layout>
   );
 
-  return { asFragment, handleClickOption };
+  return { asFragment };
 };
 
 describe('옵션 선택 컴포넌트', () => {

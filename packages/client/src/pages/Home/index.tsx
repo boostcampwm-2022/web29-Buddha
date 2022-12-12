@@ -4,16 +4,16 @@ import Footer from 'components/Footer';
 import Header from 'components/Header';
 import OrderDateList from 'components/OrderDateList';
 
-import { userRoleState } from 'utils/store';
-import useFetch from 'hooks/useFetch';
+import { userRoleState } from '@/stores';
 import { Container } from './styled';
+import useFetchOrderList from '@/hooks/useFetchOrderList';
 
 function Home() {
   const userRole = useRecoilValue(userRoleState);
 
-  const { jsonData: list } = useFetch({
+  const { data: list = {} } = useFetchOrderList({
+    userRole,
     url: userRole === 'CLIENT' ? '/order' : '/order/requested',
-    method: 'get',
   });
 
   return (

@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { memo, useEffect, useState } from 'react';
 import {
   CategoryContainer,
   CategoryTitle,
@@ -10,28 +10,48 @@ import {
 
 import { Category, Option } from '@/types';
 import { getPriceComma } from '@/utils';
+import { useMenuDetailDispatch, useMenuDetailState } from '@/stores/MenuDetail';
 
-interface OnClickInputProps {
-  onClick: (event: React.MouseEvent<HTMLInputElement>) => void;
-}
-
-interface Props extends OnClickInputProps {
+interface Props {
   options: Option[];
 }
 
-interface CategoryItemProps extends OnClickInputProps {
+interface CategoryItemProps {
   category: string;
-  options: Option[];
+  menuOptions: Option[];
 }
 
-interface OptionItemProps extends OnClickInputProps {
+interface OptionItemProps {
   option: Option;
 }
 
 /**
  * 하나의 옵션 아이템 컴포넌트
  */
-function OptionItem({ option, onClick }: OptionItemProps) {
+function OptionItem({ option }: OptionItemProps) {
+  const { options } = useMenuDetailState();
+  const dispatch = useMenuDetailDispatch();
+
+  const handleClickOption = (event: React.MouseEvent<HTMLInputElement>) => {
+    const category = event.currentTarget.name;
+    const prevOption = options[category];
+    const currOption = event.currentTarget.value;
+
+    // 새로운 옵션 선택
+    if (!options[category] || prevOption !== currOption)
+      return dispatch({
+        type: 'SET_OPTIONS',
+        options: { ...options, [category]: currOption },
+      });
+
+    // 동일한 옵션을 선택하면 취소
+    event.currentTarget.checked = false;
+    return dispatch({
+      type: 'SET_OPTIONS',
+      options: { ...options, [category]: undefined },
+    });
+  };
+
   return (
     <OptionItemContainer>
       <p>{option.name}</p>
@@ -42,7 +62,7 @@ function OptionItem({ option, onClick }: OptionItemProps) {
             type="radio"
             value={option.id}
             name={option.category}
-            onClick={onClick}
+            onClick={handleClickOption}
           />
         </label>
       </div>
@@ -53,55 +73,43 @@ function OptionItem({ option, onClick }: OptionItemProps) {
 /**
  * 하나의 카테고리 아이템 컴포넌트, 옵션들 모음 컴포넌트
  */
-function CategoryItem({ category, options, onClick }: CategoryItemProps) {
+function CategoryItem({ category, menuOptions }: CategoryItemProps) {
   return (
     <CategoryContainer>
       <CategoryTitle>{category}</CategoryTitle>
       <OptionsContainer>
-        {options.map((option, idx) => (
-          <OptionItem option={option} onClick={onClick} key={option.id} />
+        {menuOptions.map((option) => (
+          <OptionItem option={option} key={option.id} />
         ))}
       </OptionsContainer>
     </CategoryContainer>
   );
 }
 
-/**
- * 카테고리 리스트 컴포넌트
- *
- * (옵션들의 카테고리 모음 컴포넌트)
- */
-function OptionSelector({ options, onClick }: Props) {
+function OptionSelector({ options }: Props) {
   const [categoryGroups, setCategoryGrops] = useState<Category>({});
 
   // 옵션 목록을 카테고리별로 분리
   useEffect(() => {
     const groups = options.reduce((prev: Category, curr) => {
-      const category = curr.category as string;
+      const category = curr.category;
 
-      if (Object.keys(prev).includes(category)) {
-        return { ...prev, [category]: [...prev[category], { ...curr }] };
-      } else {
-        return { ...prev, [category]: [{ ...curr }] };
-      }
+      return { ...prev, [category]: [...(prev[category] ?? []), { ...curr }] };
     }, {});
 
     setCategoryGrops(groups);
   }, [options]);
 
   return (
-    <Container>
-      <Title>퍼스널 옵션</Title>
-      {Object.keys(categoryGroups).map((c) => (
-        <CategoryItem
-          category={c}
-          options={categoryGroups[c]}
-          key={c}
-          onClick={onClick}
-        />
-      ))}
-    </Container>
+    <>
+      <Container>
+        <Title>퍼스널 옵션</Title>
+        {Object.keys(categoryGroups).map((c) => (
+          <CategoryItem category={c} menuOptions={categoryGroups[c]} key={c} />
+        ))}
+      </Container>
+    </>
   );
 }
 
-export default OptionSelector;
+export default memo(OptionSelector);

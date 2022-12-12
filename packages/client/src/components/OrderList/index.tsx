@@ -1,9 +1,13 @@
 import { useMemo, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
+import { useMutation, useQueryClient } from '@tanstack/react-query';
 
 import OrderDetailList from 'components/OrderDetailList';
 
 import { getPriceComma } from '@/utils';
-import { Order } from '@/types';
+import { Order, OrderStatusCode } from '@/types';
+import { QUERY_KEYS } from '@/constants';
+import { customFetch } from '@/utils/fetch';
 import {
   Container,
   DownArrow,
@@ -13,8 +17,6 @@ import {
   Receipt,
   RowContainer,
 } from './styled';
-import axios from 'axios';
-import { useNavigate } from 'react-router-dom';
 
 interface Props {
   date: string;
@@ -27,27 +29,40 @@ interface ItemProps {
 }
 
 function OrderItem({ date, order }: ItemProps) {
-  const api = process.env.REACT_APP_API_SERVER_BASE_URL;
   const [isOpen, setIsOpen] = useState(false);
+  const queryClient = useQueryClient();
   const navigate = useNavigate();
 
   const handleClickOpen = () => setIsOpen(!isOpen);
+
+  const mutaion = useMutation({
+    mutationFn: ({ action }: { action: OrderStatusCode }) =>
+      customFetch({
+        url: `/order/${action.toLowerCase()}`,
+        method: 'POST',
+        data: { id: order.id, newStatus: action },
+      }),
+    onSuccess: (data, { action }) => {
+      return queryClient.invalidateQueries(
+        action !== 'COMPLETED'
+          ? [QUERY_KEYS.ORDER_LIST]
+          : [QUERY_KEYS.ACCEPTED_LIST]
+      );
+    },
+  });
 
   const handleClickOrder = (event: React.MouseEvent<HTMLButtonElement>) => {
     const text = event.currentTarget.innerHTML;
 
     const postOrder = async () => {
-      let action;
-      if (text === '수락') action = 'accepted';
-      else if (text === '거절') action = 'rejected';
-      else if (text === '제조 완료') action = 'completed';
+      let action: OrderStatusCode | undefined;
+      if (text === '수락') action = 'ACCEPTED';
+      else if (text === '거절') action = 'REJECTED';
+      else if (text === '제조 완료') action = 'COMPLETED';
 
       try {
-        await axios.post(
-          `${api}/order/${action}`,
-          { id: order.id, newStatus: action?.toUpperCase() },
-          { withCredentials: true }
-        );
+        if (!action) throw Error();
+        mutaion.mutate({ action });
       } catch (err) {
         alert('주문에 문제가 발생했습니다.');
       }

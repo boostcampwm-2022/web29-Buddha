@@ -1,0 +1,23 @@
+# BUILD
+FROM node:18.12.1 AS build
+
+WORKDIR /app
+
+COPY package*.json ./
+
+RUN npm install
+
+COPY . .
+
+RUN npm run build
+
+# RUN
+FROM node:alpine
+
+WORKDIR /app
+
+COPY --from=build /app/node_modules /app/node_modules
+COPY --from=build /app/package.json /app/package.json
+COPY --from=build /app/dist /app/dist
+
+CMD ["npm", "run", "start:prod"]

@@ -763,7 +763,7 @@ export class OrderService {
     } catch (err) {
       // since we have errors lets rollback the changes we made
       await queryRunner.rollbackTransaction();
-      console.log(err);
+      throw new InternalServerErrorException('서버에 이상이 있습니다');
     } finally {
       // you need to release a queryRunner which was manually instantiated
       await queryRunner.release();

@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { BadRequestException, Injectable } from '@nestjs/common';
 import { Redis } from 'ioredis';
 import { RedisService } from '@liaoliaots/nestjs-redis';
 import { ORDER_STATUS } from 'src/order/enum/orderStatus.enum';
@@ -81,13 +81,34 @@ export class RedisCacheService {
     return result;
   }
 
-  async getNewCachedOrdersV3(cafeKey: string, startingOrderId: number) {
+  async getNewCachedOrdersV3(
+    cafeId: number,
+    startingOrderId: number
+  ): Promise<Array<string>> {
     // 점주의 새 주문 조회(점주 기준 새 주문)
-    const result = await this.redisClient.zrangebyscore(
+    const cafeKey = 'cafe' + cafeId + 'Manager';
+    const cafeSyncKey = 'cafe' + cafeId + 'Synced';
+
+    // const result = await this.redisClient.zrangebyscore(
+    //   cafeKey,
+    //   startingOrderId,
+    //   'inf'
+    // );
+    const result = (await this.redisClient.eval(
+      `
+      local SYNCED = redis.call('get', KEYS[1])
+      if (SYNCED == false) then
+        redis.call('set', KEYS[1], 'SYNCED')
+        return false
+      else
+        return redis.call('zrangebyscore', KEYS[2], ARGV[1], '+inf')
+      end
+      `,
+      2,
+      cafeSyncKey,
       cafeKey,
-      startingOrderId,
-      'inf'
-    );
+      startingOrderId
+    )) as Array<string> | null;
     return result;
   }
 

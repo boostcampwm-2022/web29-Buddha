@@ -4,8 +4,10 @@ import { RedisCacheService } from 'src/redisCache/redisCache.service';
 import { CreateOrderDto } from 'src/order/dto/create-order.dto';
 import {
   BadRequestException,
+  HttpException,
   HttpStatus,
   Injectable,
+  InternalServerErrorException,
   UnauthorizedException,
 } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
@@ -617,9 +619,32 @@ export class OrderService {
   async getNewCachedOrdersV3(cafeId: number, startingOrderId: number) {
     const cafeKey = 'cafe' + cafeId + 'Manager';
     const newCachedOrders = await this.redisCacheService.getNewCachedOrdersV3(
-      cafeKey,
-      startingOrderId
+      cafeId,
+      startingOrderId + 1
     );
+
+    if (!newCachedOrders) {
+      this.orderRepository
+        .find({
+          where: { cafe: Cafe.byId(cafeId), status: ORDER_STATUS.REQUESTED },
+          relations: {
+            orderMenus: true,
+            cafe: true,
+            user: true,
+          },
+        })
+        .then((orders) => {
+          orders.map((order) =>
+            this.redisCacheService.insertNewOrderV3(
+              cafeKey,
+              order.id,
+              Order.toJson(order)
+            )
+          );
+        });
+      throw new HttpException('불러오는 중입니다.', 202);
+    }
+    console.log('cached');
 
     return newCachedOrders.map((newCachedOrder) => JSON.parse(newCachedOrder));
   }

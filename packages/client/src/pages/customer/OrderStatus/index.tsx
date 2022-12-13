@@ -11,12 +11,11 @@ import {
 } from './styled';
 import Footer from '@/components/Footer';
 import { PROGRESS_CLASS, PROGRESS_IMAGE } from '@/constants';
-import { OrderStatusCode } from '@/types';
 import useOrderStatus from '@/hooks/useOrderStatus';
 
 function OrderStatus() {
   const { orderId } = useParams();
-  const status: OrderStatusCode = useOrderStatus(orderId ? orderId : '');
+  const status = useOrderStatus(orderId ? orderId : '');
 
   return (
     <OrderStatusWrapper data-testid="order-status-page">

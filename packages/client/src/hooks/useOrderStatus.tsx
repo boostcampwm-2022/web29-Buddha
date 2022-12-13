@@ -1,17 +1,30 @@
 import { QUERY_KEYS } from '@/constants';
-import useCustomQuery from './useCustomQuery';
+import { useQuery } from '@tanstack/react-query';
+import { customFetch } from '@/utils/fetch';
+import { useEffect, useState } from 'react';
+import { OrderStatusCode } from '@/types';
 
 function useOrderStatus(orderId: string) {
-  const data = useCustomQuery({
-    queryKey: [QUERY_KEYS.ORDER_STATUS, orderId],
-    url: `/order/${orderId}`,
-    options: {
+  const [status, setStatus] = useState<OrderStatusCode>('REQUESTED');
+
+  const { data } = useQuery(
+    [QUERY_KEYS.ORDER_STATUS, orderId],
+    async () => {
+      const res = await customFetch({ url: `/order/${orderId}`, method: 'GET' });
+      return res.data;
+    },
+    {
       refetchInterval: 5000,
     },
-  });
+  );
 
-  if (data) return data.data.order_status;
-  return 'REQUESTED';
+  useEffect(() => {
+    if(data){
+      setStatus(data.order_status);
+    }
+  }, [status, data]);
+
+  return status;
 }
 
 export default useOrderStatus;

@@ -8,6 +8,7 @@ export const SnackBarWrapper = styled.div`
   position: fixed;
   bottom: 3rem;
   width: 100%;
+  min-width: 320px;
   max-width: 480px;
   height: 2.5rem;
   padding: 0 1rem 0 1rem;

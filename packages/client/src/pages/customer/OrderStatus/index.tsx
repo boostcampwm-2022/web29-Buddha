@@ -40,8 +40,8 @@ function OrderStatus() {
           <img
             src={PROGRESS_IMAGE[status]}
             alt={`${status} 움짤`}
-            width={150}
-            height={150}
+            width={180}
+            height={180}
           />
         </ImageContainer>
       </ContentWrapper>

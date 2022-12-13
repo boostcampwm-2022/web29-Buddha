@@ -45,7 +45,7 @@ function OrderDateList({ list, status, noBottomPadding }: Props) {
   }, [orderGroup]);
 
   return (
-    <Container noBottomPadding>
+    <Container noBottomPadding={noBottomPadding} >
       {items.length > 0 ? items : <NoOrder />}
     </Container>
   );

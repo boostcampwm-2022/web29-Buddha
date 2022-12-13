@@ -10,7 +10,6 @@ export const FixedHeader = styled.div`
   align-items: center;
   position: fixed;
   top: 0;
-  left: 0;
   width: 100%;
   max-width: 480px;
   height: 2rem;

@@ -5,9 +5,9 @@ import { ReactComponent as MypageSVG } from 'icons/mypage.svg';
 
 export const FooterWrapper = styled.footer`
   position: fixed;
-  left: 0;
   bottom: 0;
   width: 100%;
+  min-width: 320px;
   max-width: 480px;
   height: 3rem;
   background-color: white;

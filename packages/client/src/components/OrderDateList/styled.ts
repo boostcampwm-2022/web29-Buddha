@@ -1,8 +1,7 @@
 import styled from '@emotion/styled';
 
 export const Container = styled.section<{ noBottomPadding?: boolean }>`
-  padding: 0 0
-    ${({ noBottomPadding }) => (noBottomPadding === true ? '0' : '3rem')} 0;
+  padding: 0 0 ${({ noBottomPadding }) => (noBottomPadding === true ? '0' : '3rem')} 0;
 `;
 
 export const ItemContainer = styled.div`

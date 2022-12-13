@@ -39,8 +39,8 @@ function MyPage() {
           </ButtonWrapper>
         </CenterWrapper>
         <Button className={'wd-80'}>주문하러 가기</Button>
-        <Footer />
       </ContentWrapper>
+      <Footer />
     </MyPageWrapper>
   );
 }

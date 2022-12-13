@@ -8,6 +8,7 @@ export const FooterWrapper = styled.footer`
   left: 0;
   bottom: 0;
   width: 100%;
+  max-width: 480px;
   height: 3rem;
   background-color: white;
   box-shadow: 0px 0px 4px rgba(204, 204, 204, 0.5),

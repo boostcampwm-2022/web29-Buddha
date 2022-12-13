@@ -9,6 +9,7 @@ export const CartFooterWrapper = styled.div`
   left: 0;
   bottom: 0;
   width: 100%;
+  max-width: 480px;
   padding: 0.8rem 2rem 1rem 2rem;
   background-color: white;
   box-shadow: 0px 0px 4px rgba(204, 204, 204, 0.5),

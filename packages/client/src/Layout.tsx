@@ -71,14 +71,24 @@ const theme = {
 };
 
 const Container = styled.main`
-  width: 100%;
-  height: 100%;
-  min-width: 320px;
-  min-height: 448px;
   display: flex;
   flex-direction: column;
   align-items: center;
+  height: 100%;
+  min-width: 320px;
+  max-width: 480px;
+  min-height: 448px;
+  
+  @media screen and (min-width: 481px) {
+
+  }
 `;
+
+const MobileFirst = styled.div`
+  @media screen and (max-width: 480px) {
+
+  }
+`
 
 function Layout({ children }: Props) {
   return (

@@ -39,6 +39,7 @@ import { OrderModuleV3 } from './order/order.v3.module';
               database: configService.get('MYSQL_DATABASE'),
               entities: ['dist/**/*.entity{.ts,.js}'],
               synchronize: configService.get('NODE_ENV') === 'development',
+              timezone: 'UTC',
             };
           },
           inject: [ConfigService],

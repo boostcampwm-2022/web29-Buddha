@@ -22,7 +22,7 @@ describe('주문 내역 페이지', () => {
       setupClient();
       setup({ url: '/' });
 
-      const downArrow = await screen.findAllByText('down_arrow.svg');
+      const downArrow = await screen.findAllByTestId('order-detail-btn');
       const firstDownArrow = downArrow[0];
 
       fireEvent.click(firstDownArrow);
@@ -35,7 +35,7 @@ describe('주문 내역 페이지', () => {
       setup({ url: '/' });
 
       const overviewTitle = await screen.findAllByTestId(
-        'order-overview-title'
+        'order-overview'
       );
       expect(overviewTitle).toHaveLength(4);
       fireEvent.click(overviewTitle[1]);
@@ -48,7 +48,7 @@ describe('주문 내역 페이지', () => {
       setup({ url: '/' });
 
       await screen.findByText('주문 요청 내역');
-      await screen.findByText('현재 주문 상태');
+      await screen.findByText('현재 진행중인 주문');
       await screen.findByText('화이트 초콜릿 모카');
     });
 
@@ -56,10 +56,6 @@ describe('주문 내역 페이지', () => {
       setupManager();
       setup({ url: '/' });
 
-      const downArrow = await screen.findAllByText('down_arrow.svg');
-      const firstDownArrow = downArrow[0];
-
-      fireEvent.click(firstDownArrow);
       await screen.findByText('화이트 초콜릿 모카 1잔');
       await screen.findByText('에스프레소 샷 추가');
       await screen.findByText('수락');
@@ -70,10 +66,6 @@ describe('주문 내역 페이지', () => {
       setupManager();
       setup({ url: '/' });
 
-      const downArrow = await screen.findAllByText('down_arrow.svg');
-      const firstDownArrow = downArrow[0];
-
-      fireEvent.click(firstDownArrow);
       await screen.findByText('화이트 초콜릿 모카 1잔');
       await screen.findByText('에스프레소 샷 추가');
       const accept = await screen.findByText('수락');
@@ -85,10 +77,6 @@ describe('주문 내역 페이지', () => {
       setupManager();
       setup({ url: '/' });
 
-      const downArrow = await screen.findAllByText('down_arrow.svg');
-      const firstDownArrow = downArrow[0];
-
-      fireEvent.click(firstDownArrow);
       await screen.findByText('화이트 초콜릿 모카 1잔');
       await screen.findByText('에스프레소 샷 추가');
       const reject = await screen.findByText('거절');

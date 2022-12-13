@@ -29,7 +29,10 @@ function useOrderGroup({ list, status }: Params) {
         }
         return {
           ...prev,
-          '현재 주문 상태': [{ ...curr }, ...(prev['현재 주문 상태'] ?? [])],
+          '현재 진행중인 주문': [
+            { ...curr },
+            ...(prev['현재 진행중인 주문'] ?? []),
+          ],
         };
       }, {});
     } else {

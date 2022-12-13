@@ -38,7 +38,7 @@ function OrderItem({ date, order }: ItemProps) {
 
   const handleClickOpen = (event: React.MouseEvent<HTMLElement>) => {
     event.stopPropagation();
-    setIsOpen(!isOpen)
+    setIsOpen(!isOpen);
   };
 
   const mutaion = useMutation({
@@ -83,12 +83,13 @@ function OrderItem({ date, order }: ItemProps) {
   );
 
   const handleClickStatus = (event: React.MouseEvent<HTMLElement>) => {
-    if(userRole === 'CLIENT') navigate(`/order/${order.id}`);
+    event.stopPropagation();
+    if (userRole === 'CLIENT') navigate(`/order/${order.id}`);
   };
 
   return (
     <ItemContainer>
-      <Overview onClick={handleClickStatus}>
+      <Overview onClick={handleClickStatus} data-testid="order-overview">
         <RowContainer data-testid="order-overview-title">
           <Receipt />
           <p>
@@ -96,7 +97,11 @@ function OrderItem({ date, order }: ItemProps) {
             {order.menus.length > 1 ? ` 외 ${order.menus.length - 1}개` : ''}
           </p>
         </RowContainer>
-        <RowContainer className="detail-opener" onClick={handleClickOpen}>
+        <RowContainer
+          className="detail-opener"
+          onClick={handleClickOpen}
+          data-testid="order-detail-btn"
+        >
           <PriceText>{`${getPriceComma(totalPrice)} 원`}</PriceText>
           <DownArrow />
         </RowContainer>

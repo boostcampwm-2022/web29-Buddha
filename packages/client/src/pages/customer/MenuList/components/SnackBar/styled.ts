@@ -23,4 +23,5 @@ export const CartWrapper = styled.div`
   flex-direction: row;
   align-items: center;
   gap: 0.3rem;
+  cursor: pointer;
 `;

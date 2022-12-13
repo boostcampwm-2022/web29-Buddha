@@ -25,7 +25,7 @@ const NoOrder = function () {
 const OrderDateItem = memo(function ({ date, orders }: ItemProps) {
   return (
     <ItemContainer>
-      <p>{date}</p>
+      <p className='date-title'>{date}</p>
       <OrderList date={date} orders={orders} />
     </ItemContainer>
   );

@@ -26,6 +26,8 @@ export const NavWrapper = styled.nav`
 
 export const NavItem = styled.div`
   text-align: center;
+  padding: 0 1rem;
+  cursor: pointer;
 
   p {
     color: ${(props) => props.theme.colors.tertiary};

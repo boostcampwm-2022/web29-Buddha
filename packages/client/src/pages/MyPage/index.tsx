@@ -11,8 +11,19 @@ import {
   CenterWrapper,
 } from './styled';
 import Button from '@/components/Button';
+import { useRecoilValue } from 'recoil';
+import { userRoleState } from '@/stores';
+import { useNavigate } from 'react-router-dom';
 
 function MyPage() {
+  const userRole = useRecoilValue(userRoleState);
+  const navigate = useNavigate();
+
+  const handleClickButton = () => {
+    if (userRole === 'CLIENT') navigate('/menu');
+    else navigate('/');
+  };
+
   return (
     <MyPageWrapper data-testid={'my-page'}>
       <Header title={'MY'} />
@@ -38,7 +49,9 @@ function MyPage() {
             <p>회원 탈퇴</p>
           </ButtonWrapper>
         </CenterWrapper>
-        <Button className={'wd-80'}>주문하러 가기</Button>
+        <Button onClick={handleClickButton} className={'wd-80'}>
+          {userRole === 'CLIENT' ? '주문하러 가기' : '주문 받으러 가기'}
+        </Button>
       </ContentWrapper>
       <Footer />
     </MyPageWrapper>

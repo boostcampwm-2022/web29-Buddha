@@ -22,4 +22,5 @@ export const Logo = styled.img`
 
 export const NaverOAuth = styled.img`
   width: 40%;
+  cursor: pointer;
 `;

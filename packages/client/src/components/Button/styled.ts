@@ -9,6 +9,7 @@ export const CustomButton = styled.button`
   font-weight: ${(props) => props.theme.font.weight.bold700};
   border: none;
   border-radius: 50px;
+  cursor: pointer;
 
   &.wd-80 {
     width: 80%;

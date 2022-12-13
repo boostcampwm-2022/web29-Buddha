@@ -46,7 +46,7 @@ function OrderDateList({ list, status, noBottomPadding }: Props) {
 
   return (
     <Container noBottomPadding={noBottomPadding} >
-      {items.length > 0 ? items : <NoOrder />}
+      {items.length > 0 || !noBottomPadding ? items : <NoOrder />}
     </Container>
   );
 }

@@ -3,19 +3,24 @@ import { memo, useMemo } from 'react';
 import OrderList from 'components/OrderList';
 
 import { Order, OrderStatusCode } from '@/types';
-import { Container, ItemContainer } from './styled';
+import { Container, ItemContainer, NoOrderContainer } from './styled';
 import useOrderGroup from 'hooks/useOrderDates';
 import { sortDateDesc } from '@/utils';
 
 interface Props {
   list: Order[];
   status?: OrderStatusCode[];
+  noBottomPadding?: boolean;
 }
 
 interface ItemProps {
   date: string;
   orders: Order[];
 }
+
+const NoOrder = function () {
+  return <NoOrderContainer>진행중인 내역이 없습니다...</NoOrderContainer>;
+};
 
 const OrderDateItem = memo(function ({ date, orders }: ItemProps) {
   return (
@@ -26,7 +31,7 @@ const OrderDateItem = memo(function ({ date, orders }: ItemProps) {
   );
 });
 
-function OrderDateList({ list, status }: Props) {
+function OrderDateList({ list, status, noBottomPadding }: Props) {
   const { orderGroup } = useOrderGroup({ list, status });
 
   const items = useMemo(() => {
@@ -39,7 +44,11 @@ function OrderDateList({ list, status }: Props) {
       });
   }, [orderGroup]);
 
-  return <Container>{items}</Container>;
+  return (
+    <Container noBottomPadding>
+      {items.length > 0 ? items : <NoOrder />}
+    </Container>
+  );
 }
 
 export default memo(OrderDateList);

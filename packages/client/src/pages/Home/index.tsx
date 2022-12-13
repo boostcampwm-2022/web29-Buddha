@@ -20,7 +20,11 @@ function Home() {
     <Container>
       <Header title={userRole === 'CLIENT' ? '주문 내역' : '주문 요청 내역'} />
       {userRole === 'CLIENT' && (
-        <OrderDateList list={list.orders} status={['REQUESTED', 'ACCEPTED']} />
+        <OrderDateList
+          list={list.orders}
+          status={['REQUESTED', 'ACCEPTED']}
+          noBottomPadding={true}
+        />
       )}
       {list.orders && (
         <OrderDateList

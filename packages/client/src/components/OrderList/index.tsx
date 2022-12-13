@@ -17,6 +17,8 @@ import {
   Receipt,
   RowContainer,
 } from './styled';
+import { useRecoilValue } from 'recoil';
+import { userRoleState } from '@/stores';
 
 interface Props {
   date: string;
@@ -29,7 +31,8 @@ interface ItemProps {
 }
 
 function OrderItem({ date, order }: ItemProps) {
-  const [isOpen, setIsOpen] = useState(false);
+  const userRole = useRecoilValue(userRoleState);
+  const [isOpen, setIsOpen] = useState(userRole === 'MANAGER' ? true : false);
   const queryClient = useQueryClient();
   const navigate = useNavigate();
 

@@ -2,13 +2,7 @@ import { Menu } from 'src/cafe/entities/menu.entity';
 import { MENU_SIZE } from 'src/cafe/enum/menuSize.enum';
 import { MENU_TYPE } from 'src/cafe/enum/menuType.enum';
 import { TimestampableEntity } from 'src/common/entities/common.entity';
-import {
-  Column,
-  Entity,
-  ManyToOne,
-  OneToOne,
-  PrimaryGeneratedColumn,
-} from 'typeorm';
+import { Column, Entity, ManyToOne, PrimaryGeneratedColumn } from 'typeorm';
 import { Order } from './order.entity';
 @Entity()
 export class OrderMenu extends TimestampableEntity {

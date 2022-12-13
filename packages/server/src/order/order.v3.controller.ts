@@ -15,7 +15,6 @@ import { OrderService } from './order.service';
 import { JwtGuard } from 'src/auth/guard/jwt.guard';
 import { Request } from 'express';
 import { JwtPayload } from 'src/auth/interfaces/jwtPayload';
-import { identity } from 'rxjs';
 import { UpdateOrderReqDto } from './dto/updateOrderReq.dto';
 import { OrderStatusResDto } from './dto/OrderStatusRes.dto';
 import { CreateOrderDto } from './dto/create-order.dto';
@@ -29,12 +28,6 @@ export class OrderController {
     const { id, status } = body;
     await this.orderService.testInsert(id, status);
   }
-
-  /**
-   * 고객 polling - O
-   * 점주 polling
-   * 점주 주문 수락
-   */
 
   // 고객 - 주문 상태 조회 Polling
   // 응답 - orderStatus: ORDER_STATUS ENUM

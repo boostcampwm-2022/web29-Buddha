@@ -1,8 +1,7 @@
+import { OrderModuleV1 } from 'src/order/order.v1.module';
 import { BadRequestException } from '@nestjs/common';
-import { ORDER_STATUS } from './../../../src/order/enum/orderStatus.enum';
 import { OrderMenu } from './../../../src/order/entities/orderMenu.entity';
 import { OrderService } from './../../../src/order/order.service';
-import { OrderModule } from 'src/order/order.module';
 import { Repository } from 'typeorm';
 import { Test, TestingModule } from '@nestjs/testing';
 import { getMySQLTestTypeOrmModule } from 'src/utils/getMySQLTestTypeOrmModule';
@@ -11,9 +10,6 @@ import { Order } from 'src/order/entities/order.entity';
 import { MenuOption } from 'src/cafe/entities/menuOption.entity';
 import fs from 'fs';
 import path from 'path';
-import { Cafe } from 'src/cafe/entities/cafe.entity';
-import { User } from 'src/user/entities/user.entity';
-import { Menu } from 'src/cafe/entities/menu.entity';
 import { CreateOrderDto } from 'src/order/dto/create-order.dto';
 
 const mockOrder = fs.readFileSync(
@@ -31,7 +27,7 @@ describe('Order Service', () => {
 
   beforeAll(async () => {
     const module: TestingModule = await Test.createTestingModule({
-      imports: [OrderModule, getMySQLTestTypeOrmModule()],
+      imports: [OrderModuleV1, getMySQLTestTypeOrmModule()],
       providers: [
         OrderService,
         {

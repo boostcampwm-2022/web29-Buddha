@@ -1,3 +1,4 @@
+import { memo } from 'react';
 import { Container } from './styled';
 
 interface Props {
@@ -12,4 +13,4 @@ function Header({ title }: Props) {
   );
 }
 
-export default Header;
+export default memo(Header);

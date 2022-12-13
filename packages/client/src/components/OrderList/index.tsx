@@ -87,23 +87,33 @@ function OrderItem({ date, order }: ItemProps) {
     if (userRole === 'CLIENT') navigate(`/order/${order.id}`);
   };
 
+  const memorizedOverviewTitle = useMemo(() => (
+    <RowContainer data-testid="order-overview-title">
+      <Receipt />
+      <p>
+        {order.menus[0].name}
+        {order.menus.length > 1 ? ` 외 ${order.menus.length - 1}개` : ''}
+      </p>
+    </RowContainer>
+  ), [])
+
+  const memorizedOverviewPrice = useMemo(() => (
+    <>
+      <PriceText>{`${getPriceComma(totalPrice)} 원`}</PriceText>
+      <DownArrow /> 
+    </>
+  ), [])
+
   return (
     <ItemContainer>
       <Overview onClick={handleClickStatus} data-testid="order-overview">
-        <RowContainer data-testid="order-overview-title">
-          <Receipt />
-          <p>
-            {order.menus[0].name}
-            {order.menus.length > 1 ? ` 외 ${order.menus.length - 1}개` : ''}
-          </p>
-        </RowContainer>
+        {memorizedOverviewTitle}
         <RowContainer
           className="detail-opener"
           onClick={handleClickOpen}
           data-testid="order-detail-btn"
         >
-          <PriceText>{`${getPriceComma(totalPrice)} 원`}</PriceText>
-          <DownArrow />
+          {memorizedOverviewPrice}
         </RowContainer>
       </Overview>
       {isOpen && (

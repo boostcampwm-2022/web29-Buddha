@@ -37,7 +37,13 @@
 
 ## 소개
 
-> 안녕하세요
+> Buddha는 실시간으로 커피를 주문하고 알림을 받을 수 있는 서비스 입니다.
+
+> Buddha의 사용자는 고객/업주로 나눠집니다.
+>
+> 고객은 카페에 메뉴를 골라서 주문을 합니다.
+>
+> 업주는 주문 요청이 온 메뉴를 수락/거절/완료 상태로 변경하여, 고객에게 알려줍니다.
 
 <div align="left">
 
@@ -56,8 +62,60 @@
 
 ## 수련일지 🏃‍♂️
 
+> 개발을 진행하며 겪은 메인 이슈들을 트러블 슈팅한 과정입니다!
+
 <details>
-<summary>🏃‍♂️ 고민 1</summary>
+<summary>🏃‍♂️ Polling으로 주문 상태를 확인하자! 근데 이거.. 괜찮은건가?(미완)</summary>
+<br>
+
+고민
+
+- 고민거리
+
+</details>
+
+<details>
+<summary>🏃‍♂️ 실시간 데이터를 원해 ❗</summary>
+<br>
+
+고민
+
+- 고민거리
+
+</details>
+
+<details>
+<summary>🏃‍♂️ Docker 캐시 적용이 웨 않되..? 아 설마?? - Github Action에 Docker 덧붙히기</summary>
+<br>
+
+고민
+
+- 고민거리
+
+</details>
+
+<details>
+<summary>🏃‍♂️ React Memoization 으로 리렌더링 최적화</summary>
+<br>
+
+고민
+
+- 고민거리
+
+</details>
+
+<details>
+<summary>🏃‍♂️ 테스트 코드 - 주문 생성 로직의 여행기, 나는 어디에 있어야 하는거지?</summary>
+<br>
+
+고민
+
+- 고민거리
+
+</details>
+
+<details>
+<summary>🏃‍♂️ 테스트 코드로 버그를 잡아보자</summary>
 <br>
 
 고민

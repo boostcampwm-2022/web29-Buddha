@@ -52,7 +52,7 @@
 
 ## 아키텍처 설계
 
-![infra]()
+![infra](https://user-images.githubusercontent.com/76679811/207239776-1bca3209-434b-4376-b429-bbb6673c16b9.png)
 
 ## 수련일지 🏃‍♂️
 

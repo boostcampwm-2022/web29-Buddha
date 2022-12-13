@@ -64,38 +64,11 @@
 
 > 개발을 진행하며 겪은 메인 이슈들을 트러블 슈팅한 과정입니다!
 
-<details>
-<summary>🏃‍♂️ Polling으로 주문 상태를 확인하자! 근데 이거.. 괜찮은건가?(미완)</summary>
-<br>
-
-고민
-
-- 고민거리
-
-</details>
+### BE
 
 <details>
-<summary>🏃‍♂️ 실시간 데이터를 원해 ❗</summary>
-<br>
-
-고민
-
-- 고민거리
-
-</details>
-
-<details>
-<summary>🏃‍♂️ Docker 캐시 적용이 웨 않되..? 아 설마?? - Github Action에 Docker 덧붙히기</summary>
-<br>
-
-고민
-
-- 고민거리
-
-</details>
-
-<details>
-<summary>🏃‍♂️ React Memoization 으로 리렌더링 최적화</summary>
+<summary>🏃‍♂️ Polling으로 주문 상태를 확인하자! 근데 이거.. 괜찮은건가?
+</summary>
 <br>
 
 고민
@@ -115,7 +88,39 @@
 </details>
 
 <details>
+<summary>🏃‍♂️ Docker 캐시 적용이 웨 않되..? 아 설마?? - Github Action에 Docker 덧붙히기</summary>
+<br>
+
+고민
+
+- 고민거리
+
+</details>
+
+### FE
+
+<details>
+<summary>🏃‍♂️ React Memoization 으로 리렌더링 최적화</summary>
+<br>
+
+고민
+
+- 고민거리
+
+</details>
+
+<details>
 <summary>🏃‍♂️ 테스트 코드로 버그를 잡아보자</summary>
+<br>
+
+고민
+
+- 고민거리
+
+</details>
+
+<details>
+<summary>🏃‍♂️ 실시간 데이터를 원해 ❗</summary>
 <br>
 
 고민

@@ -34,11 +34,12 @@ describe('주문 내역 페이지', () => {
       setupClient();
       setup({ url: '/' });
 
-      const overviewTitle = await screen.findAllByTestId(
-        'order-overview'
-      );
+      const overviewTitle = await screen.findAllByTestId('order-overview');
       expect(overviewTitle).toHaveLength(4);
-      fireEvent.click(overviewTitle[1]);
+
+      setTimeout(() => {
+        fireEvent.click(overviewTitle[1]);
+      });
     });
   });
 

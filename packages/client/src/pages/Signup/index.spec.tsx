@@ -25,10 +25,10 @@ const getInputCorporate = () => {
 };
 
 describe('회원가입 페이지', () => {
-  it('고객/업주 전환 컴포넌트 존재 여부', () => {
+  it('고객/업주 전환 컴포넌트 존재 여부', async () => {
     setup({ url: '/signup' });
 
-    screen.getByTestId('change-form');
+    await screen.findByTestId('change-form');
   });
 
   it('고객 가입 입력폼 존재 여부', () => {

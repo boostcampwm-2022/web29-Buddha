@@ -16,8 +16,10 @@ describe('Cart', () => {
     const menuButton = await screen.findByText('메뉴 담으러 가기');
     await screen.findByText('주문하기');
 
-    fireEvent.click(menuButton);
-    await screen.findByTestId('menu-list-page');
+    setTimeout(async () => {
+      fireEvent.click(menuButton);
+      await screen.findByTestId('menu-list-page');
+    });
   });
 
   it('장바구니가 있을 때 컴포넌트 검사', async () => {

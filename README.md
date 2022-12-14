@@ -127,7 +127,7 @@ Docker는 layer라는 개념을 통해 이미지를 구성합니다. 각각의 l
 
 이 기능을 구현하기 위해 `WebSocket`과 `Polling`을 비교해보고 어떤 것이 서비스에 더 적합한 방식일 지 고민했던 내용이 담겨 있습니다.
 
-[🌸Notion 바로가기](url)
+[🌸Notion 바로가기](https://boostcamp-wm.notion.site/3a9c24692ddb4556ae8f7d2ca6ea9347)
 
 </details>
 
@@ -143,7 +143,7 @@ Docker는 layer라는 개념을 통해 이미지를 구성합니다. 각각의 l
 
 저희의 테스트 이야기가 더 궁금하시다면 Notion을 확인해주세요 !
 
-[🐙Notion 바로가기](url)
+[🐙Notion 바로가기](https://boostcamp-wm.notion.site/6a54cd86104c4610bbf2796905b1805f)
 
 </details>
 
@@ -159,7 +159,7 @@ Docker는 layer라는 개념을 통해 이미지를 구성합니다. 각각의 l
 
 자세한 이야기가 궁금하시다면 Notion을 확인해주세요 !
 
-[📝Notion 바로가기](url)
+[📝Notion 바로가기](https://boostcamp-wm.notion.site/React-Memoization-4e852481fbf1428fb80ff8beedaf590b)
 
 </details>
 

@@ -1,11 +1,9 @@
-import { instanceToPlain } from 'class-transformer';
 import { RequestedOrderDto } from './dto/requested-order.dto';
 import { RedisCacheService } from 'src/redisCache/redisCache.service';
 import { CreateOrderDto } from 'src/order/dto/create-order.dto';
 import {
   BadRequestException,
   HttpException,
-  HttpStatus,
   Injectable,
   InternalServerErrorException,
   UnauthorizedException,
@@ -14,10 +12,8 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { Cafe } from 'src/cafe/entities/cafe.entity';
 import { Menu } from 'src/cafe/entities/menu.entity';
 import { MenuOption } from 'src/cafe/entities/menuOption.entity';
-import { Option } from 'src/cafe/entities/option.entity';
 import { User } from 'src/user/entities/user.entity';
 import { DataSource, In, Repository } from 'typeorm';
-import { OrderMenuDto } from './dto/orderMenu.dto';
 import { OrdersResDto } from './dto/ordersRes.dto';
 import { UpdateOrderDto } from './dto/update-order.dto';
 import { UpdateOrderReqDto } from './dto/updateOrderReq.dto';
@@ -316,7 +312,6 @@ export class OrderService {
       });
 
       const newOrder = await queryRunner.manager.save(orderEntity);
-      console.log(newOrder.id);
       await this.redisCacheService.insertCachedOrder(
         cafeId.toString(),
         newOrder.id.toString(),
@@ -656,7 +651,6 @@ export class OrderService {
         });
       throw new HttpException('불러오는 중입니다.', 202);
     }
-    console.log('cached');
 
     return newCachedOrders.map((newCachedOrder) => JSON.parse(newCachedOrder));
   }

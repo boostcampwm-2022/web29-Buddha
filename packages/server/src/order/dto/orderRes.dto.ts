@@ -1,6 +1,5 @@
 import { Exclude, Expose } from 'class-transformer';
 import { Cafe } from 'src/cafe/entities/cafe.entity';
-import { Menu } from 'src/cafe/entities/menu.entity';
 import { Order } from '../entities/order.entity';
 import { OrderMenu } from '../entities/orderMenu.entity';
 import { ORDER_STATUS } from '../enum/orderStatus.enum';

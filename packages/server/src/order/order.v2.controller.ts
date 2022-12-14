@@ -10,7 +10,6 @@ import {
   Query,
   UseInterceptors,
   ClassSerializerInterceptor,
-  Param,
 } from '@nestjs/common';
 import { OrderService } from './order.service';
 import { JwtGuard } from 'src/auth/guard/jwt.guard';

@@ -3,11 +3,7 @@ import { Cafe } from './entities/cafe.entity';
 import {
   Controller,
   Get,
-  Post,
-  Body,
-  Patch,
   Param,
-  Delete,
   ParseIntPipe,
   ClassSerializerInterceptor,
   UseInterceptors,

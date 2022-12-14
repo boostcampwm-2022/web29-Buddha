@@ -32,7 +32,6 @@ export class AuthController {
       naverSignInDto
     );
 
-    // console.log(process.env.DOMAIN);
     res.cookie('accessToken', accessToken, {
       // domain: process.env.DOMAIN,
       // path: '/',

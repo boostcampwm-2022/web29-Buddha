@@ -1,4 +1,3 @@
-import { CafeMenu } from './entities/cafeMenu.entity';
 import { Menu } from './entities/menu.entity';
 import { Injectable, BadRequestException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';

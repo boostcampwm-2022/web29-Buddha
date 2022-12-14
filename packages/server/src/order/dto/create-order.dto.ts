@@ -5,7 +5,6 @@ import {
   IsNumber,
   ValidateNested,
 } from 'class-validator';
-import { Menu } from 'src/cafe/entities/menu.entity';
 import { OrderMenuDto } from './orderMenu.dto';
 export class CreateOrderDto {
   @IsArray()

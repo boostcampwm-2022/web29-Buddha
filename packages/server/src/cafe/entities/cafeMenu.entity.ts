@@ -1,5 +1,5 @@
 import { TimestampableEntity } from 'src/common/entities/common.entity';
-import { Column, Entity, ManyToOne, PrimaryGeneratedColumn } from 'typeorm';
+import { Entity, ManyToOne, PrimaryGeneratedColumn } from 'typeorm';
 import { Cafe } from './cafe.entity';
 import { Menu } from './menu.entity';
 

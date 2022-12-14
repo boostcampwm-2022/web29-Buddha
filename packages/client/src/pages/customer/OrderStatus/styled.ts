@@ -6,6 +6,13 @@ export const OrderStatusWrapper = styled.div`
   width: 100%;
   margin: 0 0 3rem 0;
   flex: 1;
+
+  p.reject {
+    padding: 1rem 0 0 0;
+    color: ${({ theme }) => theme.colors.primary};
+    font-size: ${({ theme }) => theme.font.size.lg};
+    font-weight: ${({ theme }) => theme.font.weight.bold500};
+  }
 `;
 
 export const HeaderWrapper = styled.div`
@@ -38,6 +45,10 @@ export const ProgressBar = styled.div`
   width: 5%;
   height: 100%;
   background: ${(props) => props.theme.colors.primary};
+
+  &.wd-0 {
+    width: 0;
+  }
 
   &.wd-10 {
     width: 10%;

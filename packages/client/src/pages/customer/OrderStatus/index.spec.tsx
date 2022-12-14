@@ -30,4 +30,12 @@ describe('MenuList', () => {
     await screen.findByTestId('status-bar');
     await screen.findByTestId('COMPLETED');
   });
+
+  it('REJECTED 상태 컴포넌트 검사', async () => {
+    setupClient();
+    setup({ url: '/order/4' });
+    
+    await screen.findByTestId('status-bar');
+    await screen.findByTestId('REJECTED');
+  });
 });

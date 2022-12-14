@@ -35,6 +35,7 @@ function OrderStatus() {
           <p>제조 중</p>
           <p>제조 완료</p>
         </Progress>
+        { status === 'REJECTED' && <p className={'reject'}>거절된 주문입니다</p> }
         <ImageContainer>
           <img
             src={PROGRESS_IMAGE[status]}

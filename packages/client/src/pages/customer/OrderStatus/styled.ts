@@ -4,7 +4,6 @@ export const OrderStatusWrapper = styled.div`
   display: flex;
   flex-direction: column;
   width: 100%;
-  padding: 0 0.5rem 0 0.5rem;
   margin: 0 0 3rem 0;
   flex: 1;
 `;
@@ -12,7 +11,7 @@ export const OrderStatusWrapper = styled.div`
 export const HeaderWrapper = styled.div`
   display: flex;
   width: 100%;
-  padding: 2.5rem 0 1.5rem 0;
+  padding: 2.5rem 0.5rem 1.5rem 0.5rem;
 
   p.title {
     font-size: ${(props) => props.theme.font.size.xl};
@@ -25,7 +24,7 @@ export const ContentWrapper = styled.div`
   flex-direction: column;
   align-items: center;
   flex: 1;
-  padding: 1rem 0 0 0;
+  padding: 1rem 0.5rem 0 0.5rem;
 `;
 
 export const StatusBar = styled.div`

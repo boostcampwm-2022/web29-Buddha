@@ -71,19 +71,50 @@ const theme = {
 };
 
 const Container = styled.main`
-  width: 100%;
-  height: 100%;
-  min-width: 320px;
-  min-height: 448px;
+  position: relative;
   display: flex;
   flex-direction: column;
   align-items: center;
+  width: 100%;
+  height: 100vh;
+  min-width: 320px;
+  max-width: 480px;
+  min-height: 448px;
+  background-color: white;
+  overflow-y: scroll;
+
+  &::-webkit-scrollbar{
+    display: none;
+  }
+
+  @media screen and (min-width: 481px) {
+    box-shadow: 0px 0px 4px rgba(204, 204, 204, 0.5),
+    0px 0px 4px rgba(0, 0, 0, 0.25);
+  }
+
+  @media screen and (min-width: 481px) {
+    left: calc(10% - 50px);
+  }
+`;
+
+const MobileFirst = styled.div`
+  
+  width: 100%;
+  height: 100vh;
+
+  @media screen and (min-width: 481px) {
+    background-image: url('https://kr.object.ncloudstorage.com/buddha-dev/logo.png');
+    background-repeat: no-repeat;
+    background-position: center;
+  }
 `;
 
 function Layout({ children }: Props) {
   return (
     <ThemeProvider theme={theme}>
-      <Container>{children}</Container>
+      <MobileFirst>
+        <Container>{children}</Container>
+      </MobileFirst>
     </ThemeProvider>
   );
 }

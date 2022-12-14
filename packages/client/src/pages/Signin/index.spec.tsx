@@ -9,11 +9,11 @@ beforeEach(() => server.resetHandlers());
 afterAll(() => server.close());
 
 describe('로그인 페이지', () => {
-  it('로고, 버튼 요소 존재 여부', () => {
+  it('로고, 버튼 요소 존재 여부', async () => {
     setup({ url: '/' });
 
-    screen.getByAltText('로고');
-    screen.getByAltText('네이버 로그인');
+    await screen.findByAltText('로고');
+    await screen.findByAltText('네이버 로그인');
     const description = screen.getAllByTitle('소개');
 
     expect(description.length).toBeGreaterThanOrEqual(1);
@@ -70,7 +70,7 @@ describe('로그인 페이지', () => {
       value: 'name=이름;email=test@test.com',
     });
 
-    await screen.findByText(/주문내역/i);
+    await screen.findByText(/주문 내역/i);
   });
 
   it('스냡샷', () => {

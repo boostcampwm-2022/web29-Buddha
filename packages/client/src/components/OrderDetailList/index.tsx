@@ -56,7 +56,6 @@ function ButtonGroup({ status, onClick }: ButtonGroupProps) {
 }
 
 function OrderDetailItem({ date, menu }: ItemProps) {
-  console.log(menu);
   return (
     <>
       <ItemContainer key={`${date}-${menu.id}`}>
@@ -84,8 +83,12 @@ function OrderDetailList({ date, menus, status, onClick }: Props) {
   /**
    * 메뉴 종류별로
    */
-  const items = menus.map((menu) => (
-    <OrderDetailItem date={date} menu={menu} key={menu.id} />
+  const items = menus.map((menu, idx) => (
+    <OrderDetailItem
+      date={date}
+      menu={menu}
+      key={`${date}-${menu.id}-${menu.id}-${idx}`}
+    />
   ));
 
   return (

@@ -8,13 +8,18 @@ export const Img = styled.img`
 export const MenuInfoContainer = styled.section`
   margin: 1rem;
 
-  & > h2,
   & > .price {
-    font-size: ${(props) => props.theme.font.size.lg};
+    font-size: ${({theme}) => theme.font.size.lg};
+  }
+
+  h2{
+    font-size: ${({theme}) => theme.font.size.xl};
+    font-weight: ${({theme}) => theme.font.weight.bold500};
   }
 
   & > .description {
     margin: 1rem 0;
-    color: ${(props) => props.theme.colors.grey600};
+    color: ${({theme}) => theme.colors.grey600};
+    font-size: ${({theme}) => theme.font.size.sm};
   }
 `;

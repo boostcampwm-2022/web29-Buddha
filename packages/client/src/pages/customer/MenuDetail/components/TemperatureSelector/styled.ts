@@ -20,6 +20,7 @@ export const Container = styled.section<{ selected: string }>`
     background-color: ${(props) => (props.selected === 'hot' ? 'red' : '')};
     color: ${(props) =>
       props.selected === 'hot' ? 'white' : props.theme.colors.grey600};
+    cursor: pointer;
   }
 
   & > .iced {
@@ -30,5 +31,6 @@ export const Container = styled.section<{ selected: string }>`
     background-color: ${(props) => (props.selected === 'iced' ? 'blue' : '')};
     color: ${(props) =>
       props.selected === 'iced' ? 'white' : props.theme.colors.grey600};
+    cursor: pointer;
   }
 `;

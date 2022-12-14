@@ -237,13 +237,14 @@ export class OrderService {
     await this.orderRepository.save(order);
   }
 
-  async getOrderStatus(userId: number, orderId: number): Promise<ORDER_STATUS> {
+  async getOrderStatus(userId: number, orderId: number): Promise<Order> {
     const order = await this.orderRepository.findOne({
       where: {
         id: orderId,
       },
       relations: {
         user: true,
+        orderMenus: { menu: true },
       },
     });
     if (order === null) {
@@ -254,7 +255,7 @@ export class OrderService {
         '해당 주문의 상태 조회에 대한 접근 권한이 없습니다.'
       );
     }
-    return order.status;
+    return order;
   }
 
   update(id: number, updateOrderDto: UpdateOrderDto) {

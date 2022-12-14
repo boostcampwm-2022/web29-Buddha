@@ -1,21 +1,53 @@
 import { useParams } from 'react-router-dom';
+
 import LeftArrow from '@/components/LeftArrow';
+import Footer from '@/components/Footer';
+
+import { PROGRESS_CLASS, PROGRESS_IMAGE } from '@/constants';
+import useOrderStatus from '@/hooks/useOrderStatus';
 import {
   ContentWrapper,
   HeaderWrapper,
   ImageContainer,
+  OrderInformationContainer,
+  OrderInformationText,
   OrderStatusWrapper,
   Progress,
   ProgressBar,
   StatusBar,
 } from './styled';
-import Footer from '@/components/Footer';
-import { PROGRESS_CLASS, PROGRESS_IMAGE } from '@/constants';
-import useOrderStatus from '@/hooks/useOrderStatus';
+import { OrderDetailMenu, OrderStatusCode } from '@/types';
+import { useMemo } from 'react';
+
+interface OrderInformationProps {
+  id: number;
+  status: OrderStatusCode;
+  menus: OrderDetailMenu[];
+}
+
+function OrderInfomation({ status, id, menus }: OrderInformationProps) {
+  const menuLength = useMemo(() => menus.length, [menus]);
+
+  return (
+    <OrderInformationContainer>
+      {status === 'REJECTED' ? (
+        <p>거절된 주문입니다.</p>
+      ) : (
+        <>
+          <p>주문 번호 : {id}</p>
+          <OrderInformationText>
+            {menus[0]?.name}
+            {menuLength > 1 && ` 외 ${menuLength - 1}개`}
+          </OrderInformationText>
+        </>
+      )}
+    </OrderInformationContainer>
+  );
+}
 
 function OrderStatus() {
   const { orderId } = useParams();
-  const status = useOrderStatus(orderId ? orderId : '');
+  const { status, id, menus } = useOrderStatus(orderId ? orderId : '');
 
   return (
     <OrderStatusWrapper data-testid="order-status-page">
@@ -23,6 +55,7 @@ function OrderStatus() {
         <LeftArrow color={'black'} left={0.5} top={0.5} />
         <p className={'title'}>주문 현황</p>
       </HeaderWrapper>
+      <OrderInfomation status={status} id={id} menus={menus} />
       <ContentWrapper>
         <StatusBar data-testid={'status-bar'}>
           <ProgressBar
@@ -35,7 +68,6 @@ function OrderStatus() {
           <p>제조 중</p>
           <p>제조 완료</p>
         </Progress>
-        { status === 'REJECTED' && <p className={'reject'}>거절된 주문입니다</p> }
         <ImageContainer>
           <img
             src={PROGRESS_IMAGE[status]}

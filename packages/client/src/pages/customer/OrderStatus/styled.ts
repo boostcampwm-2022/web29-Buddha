@@ -83,3 +83,17 @@ export const ImageContainer = styled.div`
   width: 100%;
   flex: 1;
 `;
+
+export const OrderInformationContainer = styled.div`
+  padding: 1rem 1rem;
+  margin: 0 0.5rem;
+  border-radius: 10px;
+  font-size: ${({ theme }) => theme.font.size.sm};
+  background-color: ${({ theme }) => theme.colors.fourth};
+`;
+
+export const OrderInformationText = styled.p`
+  padding: 0.5rem 0 0 0;
+  font-size: ${({ theme }) => theme.font.size.md};
+  font-weight: ${({ theme }) => theme.font.weight.bold700};
+`;

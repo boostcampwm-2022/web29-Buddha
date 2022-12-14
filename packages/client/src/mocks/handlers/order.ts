@@ -39,4 +39,7 @@ export const orderHandlers = [
   rest.get(`${api}/order/3`, (req, res, next) => {
     return res(next.json(orderStatusData.COMPLETED));
   }),
+  rest.get(`${api}/order/4`, (req, res, next) => {
+    return res(next.json(orderStatusData.REJECTED));
+  }),
 ];

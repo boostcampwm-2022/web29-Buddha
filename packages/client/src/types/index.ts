@@ -91,6 +91,8 @@ export interface OrderDetailMenu {
   price: number;
   count?: number;
   thumbnail?: string;
+  type?: Temperature;
+  size?: Size;
 }
 
 // OrderList.tsx

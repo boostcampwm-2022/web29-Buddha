@@ -1,14 +1,14 @@
 import React, { useMemo } from 'react';
 import { useRecoilValue } from 'recoil';
-import axios from 'axios';
 
 import { OrderDetailMenu, OrderStatusCode } from '@/types';
-import { getPriceComma } from '@/utils';
+import { getFirstUpper, getPriceComma } from '@/utils';
 import {
   ButtonContainer,
   Container,
   DivisionLine,
   ItemContainer,
+  OptionContainer,
   OptionText,
   PriceText,
 } from './styled';
@@ -58,16 +58,24 @@ function ButtonGroup({ status, onClick }: ButtonGroupProps) {
 function OrderDetailItem({ date, menu }: ItemProps) {
   return (
     <>
-      <ItemContainer key={`${date}-${menu.id}`}>
-        <p>
-          {menu.name} {menu.count}잔
-        </p>
-        <PriceText>{`${getPriceComma(menu.price)} 원`}</PriceText>
-      </ItemContainer>
       <div>
-        {Object.keys(menu.options).map((k) => (
-          <OptionText key={menu.options[k]}>{menu.options[k]}</OptionText>
-        ))}
+        <ItemContainer key={`${date}-${menu.id}`}>
+          <p>
+            {menu.name} {menu.count}잔
+          </p>
+          <PriceText>{`${getPriceComma(menu.price)} 원`}</PriceText>
+        </ItemContainer>
+        <OptionContainer>
+          <OptionText>
+            {(menu?.type ?? 'HOT').toUpperCase()} |{' '}
+            {getFirstUpper(menu.size ?? 'Tall')}
+          </OptionText>
+          {Object.keys(menu.options).map((k) => (
+            <OptionText key={menu.options[k]} isOption>
+              {menu.options[k]}
+            </OptionText>
+          ))}
+        </OptionContainer>
       </div>
     </>
   );
@@ -75,7 +83,7 @@ function OrderDetailItem({ date, menu }: ItemProps) {
 
 function OrderDetailList({ date, menus, status, onClick }: Props) {
   const userRole = useRecoilValue(userRoleState);
-
+  console.log(menus);
   const totalPrice = useMemo(() => {
     return menus.reduce((prev, curr) => prev + curr.price, 0);
   }, [menus]);

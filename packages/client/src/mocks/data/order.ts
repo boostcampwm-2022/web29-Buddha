@@ -89,15 +89,39 @@ export const acceptedOrderData = {
 
 export const orderStatusData = {
   REQUESTED: {
-    order_status: 'REQUESTED',
+    status: 'REQUESTED',
+    id: 1,
+    menus: [
+      {
+        name: '아메리카노',
+      },
+    ],
   },
   ACCEPTED: {
-    order_status: 'ACCEPTED',
+    status: 'ACCEPTED',
+    id: 1,
+    menus: [
+      {
+        name: '아메리카노',
+      },
+    ],
   },
   COMPLETED: {
-    order_status: 'COMPLETED',
+    status: 'COMPLETED',
+    id: 1,
+    menus: [
+      {
+        name: '아메리카노',
+      },
+    ],
   },
   REJECTED: {
-    order_status: 'REJECTED',
+    status: 'REJECTED',
+    id: 1,
+    menus: [
+      {
+        name: '아메리카노',
+      },
+    ],
   },
 };

@@ -69,6 +69,8 @@ export class OrdersOrderDto {
         price: orderMenu.price,
         options: JSON.parse(orderMenu.options),
         count: orderMenu.count,
+        size: orderMenu.size,
+        type: orderMenu.type,
       };
     });
     return menus;

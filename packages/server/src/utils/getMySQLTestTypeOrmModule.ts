@@ -1,10 +1,8 @@
-import { ConfigModule, ConfigService } from '@nestjs/config';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import * as path from 'path';
 
 // test db 접속용
 export function getMySQLTestTypeOrmModule() {
-  console.log(process.env.MYSQL_DATABASE);
   const entityPath = path.join(process.env.PWD, 'src/**/*.entity{.ts,.js}');
   return TypeOrmModule.forRoot({
     type: 'mysql',

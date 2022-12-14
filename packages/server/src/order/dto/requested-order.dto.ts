@@ -1,4 +1,4 @@
-import { ArrayMinSize, IsArray, IsNumber } from 'class-validator';
+import { ArrayMinSize, IsArray } from 'class-validator';
 
 export class RequestedOrderDto {
   @IsArray()

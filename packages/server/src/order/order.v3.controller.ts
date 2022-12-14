@@ -1,47 +1,59 @@
 import {
+  Body,
+  ClassSerializerInterceptor,
   Controller,
   Get,
-  Post,
-  Body,
-  UseGuards,
-  Req,
   HttpCode,
   ParseIntPipe,
+  Post,
   Query,
+  Req,
+  UseGuards,
   UseInterceptors,
-  ClassSerializerInterceptor,
 } from '@nestjs/common';
 import { OrderService } from './order.service';
 import { JwtGuard } from 'src/auth/guard/jwt.guard';
 import { Request } from 'express';
 import { JwtPayload } from 'src/auth/interfaces/jwtPayload';
-import { CreateOrderDto } from './dto/create-order.dto';
-import { ORDER_STATUS } from './enum/orderStatus.enum';
-import { OrdersResDto } from './dto/ordersRes.dto';
-import { RequestedOrderDto } from './dto/requested-order.dto';
-import { OldRequestedOrdersDto } from './dto/oldRequestedOrdersDto';
 import { UpdateOrderReqDto } from './dto/updateOrderReq.dto';
-
+import { OrderStatusResDto } from './dto/OrderStatusRes.dto';
+import { CreateOrderDto } from './dto/create-order.dto';
+import { OrdersResDto } from './dto/ordersRes.dto';
 @Controller()
 export class OrderController {
   constructor(private readonly orderService: OrderService) {}
 
-  @Post('/renewed-requested')
+  @Post('insert-test')
+  async testInsert(@Body() body) {
+    const { id, status } = body;
+    await this.orderService.testInsert(id, status);
+  }
+
+  // 고객 - 주문 상태 조회 Polling
+  // 응답 - orderStatus: ORDER_STATUS ENUM
+  @Get()
+  @UseGuards(JwtGuard)
+  async getOrderStatus(
+    @Query('orderId', ParseIntPipe) orderId: number,
+    @Query('cafeId', ParseIntPipe) cafeId: number
+  ): Promise<OrderStatusResDto> {
+    return await this.orderService.getOrderStatusV3(cafeId, orderId);
+  }
+
+  // 점주 - '요청 상태' 주문 내역 조회 Polling
+  // cursor 뒤에 있는 모든 order 내역 반환
+  // 응답 - Order[]
+  @Get('/requested')
   @UseGuards(JwtGuard)
   async getRenewedRequested(
     @Req() req: Request,
-    @Body() oldRequestedOrders: OldRequestedOrdersDto
+    @Query('cursor', ParseIntPipe) cursor: number
   ) {
     // const user = req.user as JwtPayload;
     // const { id } = user;
     // cafeId를 유저의 카페로 가져와야한다.
     const cafeId = 1;
-    return await this.orderService.getCachedRequestedOrdersV2(
-      cafeId.toString(),
-      new Set(
-        oldRequestedOrders.oldRequestedOrderPks.map((pk) => pk.toString())
-      )
-    );
+    return await this.orderService.getNewCachedOrdersV3(cafeId, cursor);
   }
 
   @Post('/accepted')
@@ -52,8 +64,8 @@ export class OrderController {
     // const { id } = user;
     // cafeId를 유저의 카페로 가져와야한다.
     const cafeId = 1;
-    await this.orderService.updateOrderStatusToAcceptedV2(
-      cafeId.toString(),
+    await this.orderService.updateOrderStatusToAcceptedV3(
+      cafeId,
       updateOrderReqDto
     );
     return;
@@ -67,8 +79,8 @@ export class OrderController {
     // const { id } = user;
     // cafeId를 유저의 카페로 가져와야한다.
     const cafeId = 1;
-    await this.orderService.updateOrderStatusToRejectedV2(
-      cafeId.toString(),
+    await this.orderService.updateOrderStatusToRejectedV3(
+      cafeId,
       updateOrderReqDto
     );
     return;
@@ -82,62 +94,36 @@ export class OrderController {
     // const { id } = user;
     // cafeId를 유저의 카페로 가져와야한다.
     const cafeId = 1;
-    await this.orderService.updateOrderStatusToCompletedV2(
-      cafeId.toString(),
+    await this.orderService.updateOrderStatusToCompletedV3(
+      cafeId,
       updateOrderReqDto
     );
     return;
   }
 
-  @Post('/test')
+  @Post('')
   @HttpCode(201)
   @UseGuards(JwtGuard)
-  async createOrderTest(
+  async createOrder(
     @Req() req: Request,
     @Body() createOrderDto: CreateOrderDto
   ) {
     const user = req.user as JwtPayload;
     const { id } = user;
-    await this.orderService.createV2(id, createOrderDto);
-    return;
-  }
-
-  @Get()
-  @UseGuards(JwtGuard)
-  async getOrderStatusTest(
-    @Req() req: Request,
-    @Query('id', ParseIntPipe) orderId: number
-  ) {
-    const user = req.user as JwtPayload;
-    const userId = user.id;
-    const cafeId = 1;
-
-    const status: ORDER_STATUS = await this.orderService.getOrderStatusV2(
-      userId,
-      orderId,
-      cafeId
-    );
-    return { order_status: status };
-  }
-
-  @Post('/requested')
-  @UseGuards(JwtGuard)
-  @UseInterceptors(ClassSerializerInterceptor)
-  async getRequestedOrders(
-    @Body() requestedOrderDto: RequestedOrderDto
-  ): Promise<OrdersResDto> {
-    const cafeId = 1;
-    return await this.orderService.getRequestedOrdersV2(
-      cafeId,
-      requestedOrderDto
-    );
+    return await this.orderService.createOrderV3(id, createOrderDto);
   }
 
   @Get('/accepted')
   @UseGuards(JwtGuard)
   @UseInterceptors(ClassSerializerInterceptor)
   async getAcceptedOrders(): Promise<OrdersResDto> {
-    const cafeId = 1;
-    return await this.orderService.getAcceptedOrdersV2(cafeId);
+    return await this.orderService.getAcceptedOrders();
+  }
+
+  @Get('/completed')
+  @UseGuards(JwtGuard)
+  @UseInterceptors(ClassSerializerInterceptor)
+  async getCompletedOrders(): Promise<OrdersResDto> {
+    return await this.orderService.getCompletedOrders();
   }
 }

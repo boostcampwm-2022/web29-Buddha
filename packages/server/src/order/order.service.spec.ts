@@ -22,7 +22,6 @@ import { mockOptions } from 'src/cafe/mock/option.entity.mock';
 import path from 'path';
 import fs from 'fs';
 import { BadRequestException } from '@nestjs/common';
-import { plainToClass, Expose, plainToInstance } from 'class-transformer';
 
 const mockOrder = fs.readFileSync(
   path.join(process.env.PWD, '/test/mock/create-order.json')

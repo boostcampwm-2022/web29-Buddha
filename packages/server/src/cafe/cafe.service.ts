@@ -1,4 +1,3 @@
-import { CafeMenu } from './entities/cafeMenu.entity';
 import { Menu } from './entities/menu.entity';
 import { Injectable, BadRequestException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
@@ -44,5 +43,18 @@ export class CafeService {
 
     if (menu === null) throw new BadRequestException('menuId not exist');
     return new MenuDetailResDto(menu);
+  }
+
+  async findAll(): Promise<Cafe[]> {
+    const cafes = await this.cafeRepository.find({
+      select: {
+        id: true,
+        name: true,
+        description: true,
+        address: true,
+      },
+    });
+
+    return cafes;
   }
 }

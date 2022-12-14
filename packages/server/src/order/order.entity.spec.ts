@@ -18,7 +18,6 @@ const mockMenuOptionDict = fs.readFileSync(
 describe('Order Entity Unit Test', () => {
   it('[SUCCESS] isValidMenu() 해당 카페에서 유효한 메뉴인지 확인', async () => {
     // given
-    const userId = 1;
     const order = JSON.parse(mockOrder.toString());
 
     // 유효하지 않은 메뉴 ID
@@ -32,7 +31,6 @@ describe('Order Entity Unit Test', () => {
   });
   it('[ERROR] isValidMenu() 해당 카페에서 유효한 메뉴인지 확인', async () => {
     // given
-    const userId = 1;
     const order = JSON.parse(mockOrder.toString());
 
     // 유효하지 않은 메뉴 ID
@@ -47,13 +45,7 @@ describe('Order Entity Unit Test', () => {
   });
   it('[SUCCESS] isValidOptionForMenu() 해당 메뉴에서 선택할 수 없는 옵션이 포함', async () => {
     // given
-    const userId = 1;
     const order = JSON.parse(mockOrder.toString());
-
-    const createOrderDto = CreateOrderDto.of({
-      menus: order.menus,
-      cafeId: order.cafeId,
-    });
 
     // 유효하지 않은 옵션 ID
     const validMenuAndOptionInfo = JSON.parse(mockMenuOptionDict.toString());
@@ -66,7 +58,6 @@ describe('Order Entity Unit Test', () => {
   });
   it('[ERROR] isValidOptionForMenu() 해당 메뉴에서 선택할 수 없는 옵션이 포함', async () => {
     // given
-    const userId = 1;
     const order = JSON.parse(mockOrder.toString());
 
     const createOrderDto = CreateOrderDto.of({
@@ -86,7 +77,6 @@ describe('Order Entity Unit Test', () => {
   });
   it('[SUCCESS] isValidOrderTotalPrice() 요청된 계산 총액이 올바름', async () => {
     // given
-    const userId = 1;
     const order = JSON.parse(mockOrder.toString());
     const validMenuAndOptionInfo = JSON.parse(mockMenuOptionDict.toString());
 
@@ -101,7 +91,6 @@ describe('Order Entity Unit Test', () => {
   });
   it('[ERROR] isValidOrderTotalPrice() 요청된 계산 총액이 틀림', async () => {
     // given
-    const userId = 1;
     const order = JSON.parse(mockOrder.toString());
 
     // 유효하지 않은 메뉴 가격
@@ -119,7 +108,6 @@ describe('Order Entity Unit Test', () => {
   });
   it('[SUCCESS] getTotalPrice() ', async () => {
     // given
-    const userId = 1;
     const order = JSON.parse(mockOrder.toString());
 
     const orderMenu = order.menus[1];

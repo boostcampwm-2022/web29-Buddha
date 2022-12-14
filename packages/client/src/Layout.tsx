@@ -96,7 +96,7 @@ const Container = styled.main`
     left: calc(10% - 50px);
   }
 `;
-// 535
+
 const MobileFirst = styled.div`
   
   width: 100%;

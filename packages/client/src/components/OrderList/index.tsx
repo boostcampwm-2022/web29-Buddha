@@ -36,7 +36,10 @@ function OrderItem({ date, order }: ItemProps) {
   const queryClient = useQueryClient();
   const navigate = useNavigate();
 
-  const handleClickOpen = () => setIsOpen(!isOpen);
+  const handleClickOpen = (event: React.MouseEvent<HTMLElement>) => {
+    event.stopPropagation();
+    setIsOpen(!isOpen);
+  };
 
   const mutaion = useMutation({
     mutationFn: ({ action }: { action: OrderStatusCode }) =>
@@ -55,6 +58,7 @@ function OrderItem({ date, order }: ItemProps) {
   });
 
   const handleClickOrder = (event: React.MouseEvent<HTMLButtonElement>) => {
+    event.stopPropagation();
     const text = event.currentTarget.innerHTML;
 
     const postOrder = async () => {
@@ -78,22 +82,38 @@ function OrderItem({ date, order }: ItemProps) {
     [order]
   );
 
+  const handleClickStatus = (event: React.MouseEvent<HTMLElement>) => {
+    event.stopPropagation();
+    if (userRole === 'CLIENT') navigate(`/order/${order.id}`);
+  };
+
+  const memorizedOverviewTitle = useMemo(() => (
+    <RowContainer data-testid="order-overview-title">
+      <Receipt />
+      <p>
+        {order.menus[0].name}
+        {order.menus.length > 1 ? ` 외 ${order.menus.length - 1}개` : ''}
+      </p>
+    </RowContainer>
+  ), [])
+
+  const memorizedOverviewPrice = useMemo(() => (
+    <>
+      <PriceText>{`${getPriceComma(totalPrice)} 원`}</PriceText>
+      <DownArrow /> 
+    </>
+  ), [])
+
   return (
     <ItemContainer>
-      <Overview>
+      <Overview onClick={handleClickStatus} data-testid="order-overview">
+        {memorizedOverviewTitle}
         <RowContainer
-          onClick={() => navigate(`/order/${order.id}`)}
-          data-testid="order-overview-title"
+          className="detail-opener"
+          onClick={handleClickOpen}
+          data-testid="order-detail-btn"
         >
-          <Receipt />
-          <p>
-            {order.menus[0].name}
-            {order.menus.length > 1 ? ` 외 ${order.menus.length - 1}개` : ''}
-          </p>
-        </RowContainer>
-        <RowContainer>
-          <PriceText>{`${getPriceComma(totalPrice)} 원`}</PriceText>
-          <DownArrow onClick={handleClickOpen} />
+          {memorizedOverviewPrice}
         </RowContainer>
       </Overview>
       {isOpen && (

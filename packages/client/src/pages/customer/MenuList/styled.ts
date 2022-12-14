@@ -24,4 +24,5 @@ export const CategoryItem = styled.li`
   padding: 0.2rem 0.5rem 0.2rem 0.5rem;
   color: ${(props) => props.theme.colors.secondary};
   font-size: ${(props) => props.theme.font.size.sm};
+  cursor: pointer;
 `;

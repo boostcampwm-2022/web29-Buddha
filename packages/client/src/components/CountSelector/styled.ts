@@ -19,6 +19,8 @@ export const Container = styled.div`
 export const Minus = styled(MinusSVG)<Props>`
   width: ${({ width }) => width}rem;
   height: ${({ height }) => height}rem;
+  cursor: ${({ count }) =>
+      count === 1 ? 'unset' : 'pointer'};
 
   & > path {
     fill: ${({ count, theme }) =>
@@ -29,6 +31,7 @@ export const Minus = styled(MinusSVG)<Props>`
 export const Plus = styled(PlusSVG)<Props>`
   width: ${({ width }) => width}rem;
   height: ${({ height }) => height}rem;
+  cursor: ${({ count }) => count === 20 ? 'unset' : 'pointer'};
 
   & path {
     fill: ${({ count, theme }) =>

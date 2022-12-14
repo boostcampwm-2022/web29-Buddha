@@ -25,7 +25,7 @@ const NoOrder = function () {
 const OrderDateItem = memo(function ({ date, orders }: ItemProps) {
   return (
     <ItemContainer>
-      <p>{date}</p>
+      <p className='date-title'>{date}</p>
       <OrderList date={date} orders={orders} />
     </ItemContainer>
   );
@@ -45,8 +45,8 @@ function OrderDateList({ list, status, noBottomPadding }: Props) {
   }, [orderGroup]);
 
   return (
-    <Container noBottomPadding>
-      {items.length > 0 ? items : <NoOrder />}
+    <Container noBottomPadding={noBottomPadding} >
+      {items.length > 0 || !noBottomPadding ? items : <NoOrder />}
     </Container>
   );
 }

@@ -3,6 +3,11 @@ import styled from '@emotion/styled';
 export const Container = styled.section<{ noBottomPadding?: boolean }>`
   padding: 0 0
     ${({ noBottomPadding }) => (noBottomPadding === true ? '0' : '3rem')} 0;
+  font-size: ${({ theme }) => theme.font.size.sm};
+
+  .date-title {
+    font-size: ${({ theme }) => theme.font.size.lg};
+  }
 `;
 
 export const ItemContainer = styled.div`

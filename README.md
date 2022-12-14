@@ -77,7 +77,7 @@
 
 결과적으로 캐시를 이용해 `서버의 DB 접근 작업`이 줄어들고 `응답속도를 개선`할 수 있었습니다.
 
-[🔥 Notion 바로가기](노션)
+[🔥 Notion 바로가기](https://boostcamp-wm.notion.site/Polling-a70bc28729dc4a5a9ffc32e44c4f85e2)
 
 </details>
 
@@ -93,7 +93,7 @@
 
 저희 팀에서 테스트 코드를 작성하는 방법 보다는, 테스트 코드를 작성하며 **`어떤 노동을 했고`**, **`어떤 고민을 했고`**, 또 `어떤 해결책을 떠올렸는지`에 대해 이야기합니다.
 
-[🤯 Notion 바로가기](추가예정)
+[🤯 Notion 바로가기](https://boostcamp-wm.notion.site/Service-Layer-4dfca9457e8345a68d211e52185094b9)
 
 </aside>
 

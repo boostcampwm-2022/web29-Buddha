@@ -97,4 +97,7 @@ export const orderStatusData = {
   COMPLETED: {
     order_status: 'COMPLETED',
   },
+  REJECTED: {
+    order_status: 'REJECTED',
+  },
 };

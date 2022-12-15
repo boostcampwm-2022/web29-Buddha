@@ -22,7 +22,7 @@ export const ItemContainer = styled.div`
   box-shadow: 0px 0px 10px 2px rgba(204, 204, 204, 0.5);
 
   transition: box-shadow, transform;
-  transition-duration: .5s;
+  transition-duration: 0.5s;
 
   &:hover {
     box-shadow: 0px 0px 10px 2px grey;
@@ -39,7 +39,7 @@ export const Overview = styled.div`
 export const RowContainer = styled.div`
   display: flex;
   align-items: center;
-  padding: 0.5rem .5rem;
+  padding: 0.5rem 0.5rem;
   cursor: pointer;
 `;
 

@@ -2,16 +2,20 @@
 
 exports[`헤더 컴포넌트 스냅샷 1`] = `
 <DocumentFragment>
-  <main
-    class="css-22d8cp"
+  <div
+    class="css-k2ei8d"
   >
-    <header
-      class="css-14aoe3d"
+    <main
+      class="css-10c3zcu"
     >
-      <h1>
-        주문내역
-      </h1>
-    </header>
-  </main>
+      <header
+        class="css-14aoe3d"
+      >
+        <h1>
+          주문 내역
+        </h1>
+      </header>
+    </main>
+  </div>
 </DocumentFragment>
 `;

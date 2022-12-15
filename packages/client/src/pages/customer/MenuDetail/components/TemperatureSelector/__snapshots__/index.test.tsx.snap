@@ -2,23 +2,27 @@
 
 exports[`음료 타입(핫, 아이스) 선택 컴포넌트 스냅샷 1`] = `
 <DocumentFragment>
-  <main
-    class="css-22d8cp"
+  <div
+    class="css-k2ei8d"
   >
-    <section
-      class="css-6mixyn"
+    <main
+      class="css-10c3zcu"
     >
-      <span
-        class="hot"
+      <section
+        class="css-3w5v09"
       >
-        HOT
-      </span>
-      <span
-        class="iced"
-      >
-        ICED
-      </span>
-    </section>
-  </main>
+        <span
+          class="hot"
+        >
+          HOT
+        </span>
+        <span
+          class="iced"
+        >
+          ICED
+        </span>
+      </section>
+    </main>
+  </div>
 </DocumentFragment>
 `;

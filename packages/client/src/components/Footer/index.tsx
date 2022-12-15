@@ -1,10 +1,7 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, memo } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
 import { FooterWrapper, NavWrapper, Home, Order, Mypage } from './styled';
 import NavigateItem from './NavigateItem';
-// import { ReactComponent as Home } from 'icons/home.svg';
-// import { ReactComponent as Order } from 'icons/order.svg';
-// import { ReactComponent as Mypage } from 'icons/mypage.svg';
 import { useRecoilValue } from 'recoil';
 import { userRoleState } from '@/stores';
 
@@ -67,4 +64,4 @@ function Footer() {
   );
 }
 
-export default Footer;
+export default memo(Footer);

@@ -1,3 +1,4 @@
+import { OrderResDto } from './dto/orderRes.dto';
 import { UpdateOrderReqDto } from './dto/updateOrderReq.dto';
 import {
   Controller,
@@ -90,11 +91,8 @@ export class OrderController {
   ) {
     const user = req.user as JwtPayload;
     const userId = user.id;
-    const status: ORDER_STATUS = await this.orderService.getOrderStatus(
-      userId,
-      orderId
-    );
-    return { order_status: status };
+    const order = await this.orderService.getOrderStatus(userId, orderId);
+    return new OrderResDto(order);
   }
 
   @Post()

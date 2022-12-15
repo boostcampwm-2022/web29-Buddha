@@ -25,10 +25,10 @@ const getInputCorporate = () => {
 };
 
 describe('회원가입 페이지', () => {
-  it('고객/업주 전환 컴포넌트 존재 여부', () => {
+  it('고객/업주 전환 컴포넌트 존재 여부', async () => {
     setup({ url: '/signup' });
 
-    screen.getByTestId('change-form');
+    await screen.findByTestId('change-form');
   });
 
   it('고객 가입 입력폼 존재 여부', () => {
@@ -97,7 +97,7 @@ describe('회원가입 페이지', () => {
     expect(inputNickname.value).toBe('normal nickname3');
 
     fireEvent.click(screen.getByText('회원가입'));
-    await screen.findByText('주문내역');
+    await screen.findByText('주문 내역');
   });
 
   it('정상 입력 후 가입 버튼을 눌렀을 때 페이지 이동 (업주용)', async () => {

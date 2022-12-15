@@ -25,6 +25,7 @@ export const ItemContainer = styled.div<{ isSelected: boolean }>`
   border-width: 2px;
   border-color: ${(props) =>
     props.isSelected ? props.theme.colors.primary : props.theme.colors.grey200};
+  cursor: pointer;
 `;
 
 export const SizeText = styled.p`

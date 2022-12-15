@@ -13,6 +13,7 @@ export class JwtStrategy extends PassportStrategy(Strategy) {
       ]),
       ignoreExpiration: false,
       secretOrKey: configService.get('JWT_SECRET'),
+      signOptions: { expiresIn: '1h' },
     });
   }
 

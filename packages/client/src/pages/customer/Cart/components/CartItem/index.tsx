@@ -28,7 +28,7 @@ function CartItem({ menu, setCount, deleteMenu }: CartItemProps) {
   };
 
   return (
-    <CartItemWrapper>
+    <CartItemWrapper data-testid={'cart-item'}>
       <MenuImg src={menu.thumbnail} alt="메뉴" />
       <MenuInfoWrapper>
         <p className={'menu-name'}>{menu.name}</p>
@@ -54,7 +54,7 @@ function CartItem({ menu, setCount, deleteMenu }: CartItemProps) {
           <p>{getPriceComma(menu.price * menu.count)}원</p>
         </CountWrapper>
       </MenuInfoWrapper>
-      <DeleteButton onClick={handleClickDelete} />
+      <DeleteButton data-testid={'delete'} onClick={handleClickDelete} />
     </CartItemWrapper>
   );
 }

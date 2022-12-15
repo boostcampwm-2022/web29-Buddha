@@ -11,6 +11,7 @@ export const LeftArrowSVG = styled(SVG)<Props>`
   width: ${({ width }) => width}rem;
   height: ${({ height }) => height}rem;
   color: ${(props) => props.theme.colors.grey600};
+  cursor: pointer;
 
   & path {
     fill: ${({ color, theme }: { color: string; theme: Theme }) => {

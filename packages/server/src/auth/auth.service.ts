@@ -81,4 +81,11 @@ export class AuthService {
     const accessToken = this.jwtService.sign(payload);
     return { accessToken };
   }
+
+  async mockSignIn(name: string) {
+    const user = await this.userService.findOneByName(name);
+
+    const tokens = this.setJwt(user.id, user.role);
+    return tokens;
+  }
 }

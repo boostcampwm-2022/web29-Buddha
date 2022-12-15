@@ -2,7 +2,7 @@ import { QUERY_KEYS } from '@/constants';
 import { useQuery } from '@tanstack/react-query';
 import { customFetch } from '@/utils/fetch';
 import { useEffect, useState } from 'react';
-import { Menu, OrderDetailMenu, OrderStatusCode } from '@/types';
+import { OrderDetailMenu, OrderStatusCode } from '@/types';
 
 interface Response {
   date: string;

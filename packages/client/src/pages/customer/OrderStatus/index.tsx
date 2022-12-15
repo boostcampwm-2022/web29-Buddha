@@ -1,7 +1,8 @@
+import { useMemo } from 'react';
 import { useParams } from 'react-router-dom';
 
-import LeftArrow from '@/components/LeftArrow';
-import Footer from '@/components/Footer';
+import LeftArrow from 'components/LeftArrow';
+import Footer from 'components/Footer';
 
 import { PROGRESS_CLASS, PROGRESS_IMAGE } from '@/constants';
 import useOrderStatus from '@/hooks/useOrderStatus';
@@ -17,7 +18,6 @@ import {
   StatusBar,
 } from './styled';
 import { OrderDetailMenu, OrderStatusCode } from '@/types';
-import { useMemo } from 'react';
 
 interface OrderInformationProps {
   id: number;

@@ -1,7 +1,14 @@
-import axios from 'axios';
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { useSetRecoilState } from 'recoil';
+import axios from 'axios';
+
+import Button from 'components/Button';
+
 import { PLACEHOLDER } from '@/constants';
+import { SignupRequestBody } from '@/types';
+import { userRoleState, toastMessageState } from '@/stores';
+
 import {
   PageWrapper,
   ChangeForm,
@@ -10,10 +17,6 @@ import {
   InputTitle,
   Input,
 } from './styled';
-import { SignupRequestBody } from '@/types';
-import Button from 'components/Button';
-import { userRoleState, toastMessageState } from '@/stores';
-import { useSetRecoilState } from 'recoil';
 
 function Signup() {
   const api = process.env.REACT_APP_API_SERVER_BASE_URL;

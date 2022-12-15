@@ -1,16 +1,19 @@
 import { useState } from 'react';
+
+import Header from '@/components/Header';
+import Footer from '@/components/Footer';
+import SnackBar from './components/SnackBar';
+import MenuItem from './components/MenuItem';
+
+import { Menu } from '@/types';
+import useMenuListData from '@/hooks/useMenuListData';
+
 import {
   CategoryBarWrapper,
   CategoryItem,
   MenuListPageWrapper,
   MenuListWrapper,
 } from './styled';
-import SnackBar from '@/pages/customer/MenuList/components/SnackBar';
-import MenuItem from '@/pages/customer/MenuList/components/MenuItem';
-import Header from '@/components/Header';
-import Footer from '@/components/Footer';
-import { Menu } from '@/types';
-import useMenuListData from '@/hooks/useMenuListData';
 
 function MenuList() {
   const [category, setCategory] = useState<string>('전체');

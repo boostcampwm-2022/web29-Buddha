@@ -33,12 +33,6 @@ export const getCartPrice = () => {
   return price;
 };
 
-export const getMenu = (menu: CartMenu) => {
-  return getCart().find((cart: CartMenu) => {
-    return isEqualJSON(menu, cart);
-  });
-};
-
 export const getMenuIdx = (menu: CartMenu) => {
   return getCart().findIndex((cart: CartMenu) => {
     return isEqualJSON(menu, cart);

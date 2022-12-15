@@ -1,7 +1,8 @@
 import React, { Suspense } from 'react';
+import { useRecoilValue } from 'recoil';
 import { Route, Routes } from 'react-router-dom';
 import { userRoleState } from '@/stores';
-import { useRecoilValue } from 'recoil';
+
 const Signup = React.lazy(() => import('pages/Signup'));
 const Signin = React.lazy(() => import('pages/Signin'));
 const MenuList = React.lazy(() => import('pages/customer/MenuList'));

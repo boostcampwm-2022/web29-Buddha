@@ -40,7 +40,7 @@ function useFetch({ url, method, data }: Params) {
       }
     };
     fetch();
-  }, [api, url, method, data, navigate]);
+  }, [api, url, method, data, navigate, setToastMessage]);
 
   return { jsonData };
 }

@@ -45,12 +45,13 @@
 >
 > 업주는 주문 요청이 온 메뉴를 수락/거절/완료 상태로 변경하여, 고객에게 알려줍니다.
 
+
 <div align="left">
   
-| <img width=250 object-fit=cover src="https://user-images.githubusercontent.com/76679811/207070062-dc1ad6e9-aee9-4cc4-a7c1-d807fe1f690d.gif"> | <img width=250  object-fit=cover src="https://user-images.githubusercontent.com/84773475/207660521-159a7963-ac19-435a-861d-383db178bebd.gif"> | <img width=250  object-fit=cover src="https://user-images.githubusercontent.com/84773475/207654426-33922d33-e382-4ca5-b444-4c63c27f81c2.gif"> |
+| <img width=250 object-fit=cover src="https://user-images.githubusercontent.com/26592436/207783106-fe22bf08-75f8-47a9-916d-2774d5e918e9.gif"> | <img width=250  object-fit=cover src="https://user-images.githubusercontent.com/26592436/207783118-0849a84a-f7d8-4da0-942c-572e50c661c6.gif"> | <img width=250  object-fit=cover src="https://user-images.githubusercontent.com/26592436/207783241-fde77532-6070-452f-9962-123d79a27ba5.gif"> |
 | :------------------------------------------------------------------------------------------------------------------------------------------: | :-------------------------------------------------------------------------------------------------------------------------------------------: | :-------------------------------------------------------------------------------------------------------------------------------------------: |
 |                                                          `네이버 로그인, 회원가입`                                                           |                                                               `카페 메뉴 조회`                                                                |                                                                `장바구니 관리`                                                                |
-| <img width=250 object-fit=cover src="https://user-images.githubusercontent.com/84773475/207654676-2a2b9f41-ce87-42e3-9b64-6cccd02595c6.gif"> | <img width=250 object-fit=cover src="https://user-images.githubusercontent.com/84773475/207654792-8f5feaf9-3710-4016-a275-40f29352731f.gif">  | <img width=250 object-fit=cover src="https://user-images.githubusercontent.com/84773475/207656403-8712dfa6-e14a-4fc3-b532-065e8a5223b8.gif"> |
+| <img width=250 object-fit=cover src="https://user-images.githubusercontent.com/26592436/207783249-e2bcb081-161f-462d-8b10-f2aae036e2d2.gif"> | <img width=250 object-fit=cover src="https://user-images.githubusercontent.com/26592436/207783253-696bc942-b439-4639-9b31-cb0e824d1655.gif">  | <img width=250 object-fit=cover src="https://user-images.githubusercontent.com/26592436/207783232-e80f41a0-d075-41e2-bc44-60bb43c0e42b.gif"> |
 |                                                           `주문 내역 및 현황 조회`                                                                |                                                               `실시간 주문 현황 조회`                                                                |                                                                `주문 수락/거절/제조완료`                                                                |
 
 </div>

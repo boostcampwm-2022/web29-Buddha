@@ -12,6 +12,7 @@ import {
   Container,
   DownArrow,
   ItemContainer,
+  OrderIdText,
   Overview,
   PriceText,
   Receipt,
@@ -113,6 +114,7 @@ function OrderItem({ date, order }: ItemProps) {
 
   return (
     <ItemContainer>
+      <OrderIdText>주문 번호 : {order.id}</OrderIdText>
       <Overview onClick={handleClickStatus} data-testid="order-overview">
         {memorizedOverviewTitle}
         <RowContainer

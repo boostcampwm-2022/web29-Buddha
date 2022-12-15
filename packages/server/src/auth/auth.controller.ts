@@ -67,4 +67,18 @@ export class AuthController {
     const { userRole } = req.user as JwtPayload;
     return { role: userRole };
   }
+
+  // 회원가입
+  @Post('mock-signin')
+  @HttpCode(201)
+  async mockSignIn(@Req() req: Request, @Res() res: Response, @Body() body) {
+    const { name } = body;
+    const { accessToken } = await this.authService.mockSignIn(name);
+
+    res.cookie('accessToken', accessToken, {
+      httpOnly: true,
+    });
+
+    return res.end();
+  }
 }

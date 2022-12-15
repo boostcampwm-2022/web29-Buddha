@@ -1,0 +1,87 @@
+name: Backend prod cd test
+
+on:
+  push:
+    branches: ['feat/be/pm2']
+    paths:
+      - 'packages/server/**'
+      - '.github/workflows/test.yml'
+
+jobs:
+  Push-Docker-Image:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: './packages/server'
+
+    steps:
+      - name: checkout to the branch
+        uses: actions/checkout@v3
+
+      - name: Docker Buildx
+        uses: docker/setup-buildx-action@v2
+
+      - name: Sign In To Docker Registry
+        uses: docker/login-action@v2
+        with:
+          username: ${{secrets.DOCKER_REGISTRY_USERNAME}}
+          password: ${{secrets.BUDDAH_REGISTRY_TOKEN}}
+
+      - name: Build Docker Image And Push
+        uses: docker/build-push-action@v3
+        with:
+          push: true
+          context: 'packages/server'
+          file: 'packages/server/Dockerfile.prod'
+          tags: |
+            ${{secrets.DOCKER_REGISTRY_USERNAME}}/${{secrets.DOCKER_PROD_REGISTRY}}:latest
+            ${{secrets.DOCKER_REGISTRY_USERNAME}}/${{secrets.DOCKER_PROD_REGISTRY}}:${{ github.sha }}
+          cache-from: type=registry,ref=${{secrets.DOCKER_REGISTRY_USERNAME}}/${{secrets.DOCKER_PROD_REGISTRY}}:buildcache
+          cache-to: type=registry,ref=${{secrets.DOCKER_REGISTRY_USERNAME}}/${{secrets.DOCKER_PROD_REGISTRY}}:buildcache,mode=max
+
+  Transfer:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: './packages/server'
+
+    steps:
+      - name: checkout to the branch
+        uses: actions/checkout@v3
+
+      - name: make a directory to transfer
+        run: mkdir transfer
+
+      - name: move deploy file to src
+        run: mv ./scripts/prod.deploy.sh transfer
+
+      - name: Inject Environment Variables
+        run: echo "$BE_PROD_ENV" > ./transfer/.prod.env
+        env:
+          BE_PROD_ENV: ${{ secrets.BE_PROD_ENV }}
+
+      - name: Transfer to Remote Server
+        uses: appleboy/scp-action@master
+        with:
+          host: ${{ secrets.PROD_REMOTE_SSH_HOST }}
+          username: ${{ secrets.PROD_REMOTE_SSH_USERNAME }}
+          password: ${{ secrets.PROD_REMOTE_SSH_PASSWORD }}
+          port: ${{ secrets.PROD_REMOTE_SSH_PORT }}
+          source: 'packages/server/transfer/*'
+          target: '~/server'
+          strip_components: 3
+
+  Deploy:
+    needs: ['Push-Docker-Image', 'Transfer']
+
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Deploy To Server
+        uses: appleboy/ssh-action@master
+        with:
+          host: ${{ secrets.PROD_REMOTE_SSH_HOST }}
+          username: ${{ secrets.PROD_REMOTE_SSH_USERNAME }}
+          password: ${{ secrets.PROD_REMOTE_SSH_PASSWORD }}
+          port: ${{ secrets.PROD_REMOTE_SSH_PORT }}
+          script: . ~/server/prod.deploy.sh ${{secrets.DOCKER_REGISTRY_USERNAME}} ${{secrets.DOCKER_PROD_REGISTRY}} ${{secrets.BUDDAH_CONTAINER_NAME}}

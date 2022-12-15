@@ -16,7 +16,7 @@ fi
 
 docker create -p 8080:8080 -v ~/server/src:/app/src --name $3 $1/$2:latest
 
-docker cp .dev.env $3:/app
+docker cp ~/server/src/.dev.env $3:/app
 
 docker start $3
 

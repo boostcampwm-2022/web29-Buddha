@@ -3,10 +3,10 @@
 exports[`로그인 페이지 스냡샷 1`] = `
 <DocumentFragment>
   <div
-    class="css-k2ei8d"
+    class="css-1j3fa3d"
   >
     <main
-      class="css-10c3zcu"
+      class="css-lut1ux"
     >
       <div
         class="css-rnshl2"
@@ -31,6 +31,25 @@ exports[`로그인 페이지 스냡샷 1`] = `
           class="css-95entt"
           src="https://kr.object.ncloudstorage.com/buddha-dev/naver_oauth_btn.png"
         />
+        <section
+          class="css-q6br0c"
+        >
+          <p>
+            캠퍼 로그인
+          </p>
+          <input
+            class="css-1dmtqq4"
+            maxlength="4"
+            placeholder="대소문자 유의 ex)J117"
+            type="text"
+            value=""
+          />
+          <button
+            class="css-oazekv"
+          >
+            로그인
+          </button>
+        </section>
       </div>
     </main>
   </div>

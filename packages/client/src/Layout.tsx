@@ -83,13 +83,13 @@ const Container = styled.main`
   background-color: white;
   overflow-y: scroll;
 
-  &::-webkit-scrollbar{
+  &::-webkit-scrollbar {
     display: none;
   }
 
   @media screen and (min-width: 481px) {
     box-shadow: 0px 0px 4px rgba(204, 204, 204, 0.5),
-    0px 0px 4px rgba(0, 0, 0, 0.25);
+      0px 0px 4px rgba(0, 0, 0, 0.25);
   }
 
   @media screen and (min-width: 481px) {
@@ -98,7 +98,6 @@ const Container = styled.main`
 `;
 
 const MobileFirst = styled.div`
-  
   width: 100%;
   height: 100vh;
 

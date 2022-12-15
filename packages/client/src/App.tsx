@@ -4,6 +4,7 @@ import Router from '@/Router';
 import Layout from '@/Layout';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import UserRoleProvider from './UserRoleProvider';
+import Toast from '@/components/Toast';
 
 function App() {
   const queryClient = new QueryClient();
@@ -16,6 +17,7 @@ function App() {
             <Layout>
               <BrowserRouter>
                 <Router></Router>
+                <Toast />
               </BrowserRouter>
             </Layout>
           </UserRoleProvider>

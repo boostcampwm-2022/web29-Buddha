@@ -10,3 +10,13 @@ export const userRoleState = atom<UserRole>({
   key: 'userRoleState',
   default: 'UNAUTH',
 });
+
+export const isToastState = atom({
+  key: 'isToastState',
+  default: false,
+});
+
+export const toastMessageState = atom({
+  key: 'toastMessageState',
+  default: '',
+});

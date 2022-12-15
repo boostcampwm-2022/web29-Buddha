@@ -1,3 +1,4 @@
+import { useState } from 'react';
 import Button from 'components/Button';
 import { CartFooterWrapper, CartFooterInfoWrapper } from './styled';
 import { getPriceComma } from 'utils/index';
@@ -6,6 +7,8 @@ import { CartMenu } from '@/types';
 import { CART_KEY } from '@/constants';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
+import { toastMessageState } from '@/stores';
+import { useSetRecoilState } from 'recoil';
 
 interface CartFooterProps {
   count: number;
@@ -14,11 +17,14 @@ interface CartFooterProps {
 
 function CartFooter({ count, price }: CartFooterProps) {
   const navigate = useNavigate();
+  const setToastMessage = useSetRecoilState(toastMessageState);
+  const [isActive, setIsActive] = useState(true);
   const api = process.env.REACT_APP_API_SERVER_BASE_URL;
   const cafeId = 1;
 
   const handleSubmit = async () => {
-    if (count === 0) return;
+    if (count === 0 || !isActive) return;
+    setIsActive(false);
     const menus = getCart().map((menu: CartMenu) => ({
       id: menu.id,
       name: menu.name,
@@ -36,7 +42,7 @@ function CartFooter({ count, price }: CartFooterProps) {
         { withCredentials: true }
       );
       window.localStorage.removeItem(CART_KEY);
-      alert('주문 완료');
+      setToastMessage('주문 완료');
       navigate('/');
     } catch (err) {
       console.log(err);

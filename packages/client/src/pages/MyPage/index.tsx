@@ -1,5 +1,13 @@
+import { useRecoilValue, useSetRecoilState } from 'recoil';
+import { useNavigate } from 'react-router-dom';
+
 import Header from 'components/Header';
 import Footer from 'components/Footer';
+import Button from 'components/Button';
+
+import { userRoleState, toastMessageState } from '@/stores';
+import useFetch from '@/hooks/useFetch';
+
 import {
   ButtonWrapper,
   MyPageWrapper,
@@ -10,18 +18,21 @@ import {
   Withdrawal,
   CenterWrapper,
 } from './styled';
-import Button from '@/components/Button';
-import { useRecoilValue } from 'recoil';
-import { userRoleState } from '@/stores';
-import { useNavigate } from 'react-router-dom';
 
 function MyPage() {
   const userRole = useRecoilValue(userRoleState);
   const navigate = useNavigate();
+  const setToastMessage = useSetRecoilState(toastMessageState);
+
+  const { jsonData: user } = useFetch({ url: '/user', method: 'GET' });
 
   const handleClickButton = () => {
     if (userRole === 'CLIENT') navigate('/menu');
     else navigate('/');
+  };
+
+  const handleClickDefault = () => {
+    setToastMessage('미구현 기능입니다');
   };
 
   return (
@@ -30,21 +41,21 @@ function MyPage() {
       <ContentWrapper>
         <MyPageTitleWrapper>
           <span>
-            <p className={'nickname'}>닉네임</p>
+            <p className={'nickname'}>{user.nickname ?? '닉네임'}</p>
             <p>님</p>
           </span>
           <p>환영합니다!</p>
         </MyPageTitleWrapper>
         <CenterWrapper>
-          <ButtonWrapper>
+          <ButtonWrapper onClick={handleClickDefault}>
             <EditNickname />
             <p>닉네임 수정</p>
           </ButtonWrapper>
-          <ButtonWrapper>
+          <ButtonWrapper onClick={handleClickDefault}>
             <Signout />
             <p>로그아웃</p>
           </ButtonWrapper>
-          <ButtonWrapper>
+          <ButtonWrapper onClick={handleClickDefault}>
             <Withdrawal />
             <p>회원 탈퇴</p>
           </ButtonWrapper>

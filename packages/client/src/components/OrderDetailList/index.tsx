@@ -83,7 +83,6 @@ function OrderDetailItem({ date, menu }: ItemProps) {
 
 function OrderDetailList({ date, menus, status, onClick }: Props) {
   const userRole = useRecoilValue(userRoleState);
-  console.log(menus);
   const totalPrice = useMemo(() => {
     return menus.reduce((prev, curr) => prev + curr.price, 0);
   }, [menus]);

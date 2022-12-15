@@ -1,8 +1,11 @@
 import { BrowserRouter } from 'react-router-dom';
 import { RecoilRoot } from 'recoil';
+import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
+
 import Router from '@/Router';
 import Layout from '@/Layout';
-import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
+import Toast from '@/components/Toast';
+
 import UserRoleProvider from './UserRoleProvider';
 
 function App() {
@@ -16,6 +19,7 @@ function App() {
             <Layout>
               <BrowserRouter>
                 <Router></Router>
+                <Toast />
               </BrowserRouter>
             </Layout>
           </UserRoleProvider>

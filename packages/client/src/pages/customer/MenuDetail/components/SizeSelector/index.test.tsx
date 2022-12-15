@@ -1,7 +1,7 @@
 import Layout from '@/Layout';
 import MenuDetailContextProvider from '@/stores/MenuDetail';
 import { Size } from '@/types';
-import { fireEvent, render, screen } from '@testing-library/react';
+import { render, screen } from '@testing-library/react';
 import SizeSelector from '.';
 
 interface Setup {

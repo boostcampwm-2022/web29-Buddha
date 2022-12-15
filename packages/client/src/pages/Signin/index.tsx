@@ -1,16 +1,27 @@
-import axios, { AxiosError } from 'axios';
-import { useCallback } from 'react';
+import { useCallback, useState } from 'react';
 import { useNavigate, useSearchParams } from 'react-router-dom';
+import { useSetRecoilState } from 'recoil';
+import axios, { AxiosError } from 'axios';
 
 import { ChkUser } from '@/types';
-import { Container, Logo, NaverOAuth } from './styled';
 import { userRoleState } from '@/stores';
-import { useSetRecoilState } from 'recoil';
+import Button from '@/components/Button';
+import { customFetch } from '@/utils/fetch';
+
+import {
+  Container,
+  Logo,
+  NaverOAuth,
+  TempInput,
+  TempSigninContainer,
+} from './styled';
 
 function Signin() {
   const storageUrl = process.env.REACT_APP_NCLOUD_STORAGE_BASE_URL;
   const naverOAuthURL = process.env.REACT_APP_NAVER_OAUTH_URL;
   const api = process.env.REACT_APP_API_SERVER_BASE_URL;
+
+  const [camperId, setCamperId] = useState('');
   const [searchParams] = useSearchParams();
   const setUserRole = useSetRecoilState(userRoleState);
   const navigate = useNavigate();
@@ -25,6 +36,30 @@ function Signin() {
 
     window.location.assign(naverOAuthURL);
   }, [naverOAuthURL]);
+
+  const handleClickCamperLogin = async () => {
+    try {
+      const res = await customFetch({
+        url: `/auth/mock-signin`,
+        method: 'post',
+        data: { name: camperId },
+      });
+      if (res.status === 201) {
+        try {
+          const res = await customFetch({
+            url: `/auth`,
+            method: 'get',
+          });
+          setUserRole(res.data.role);
+          navigate('/');
+        } catch (err) {
+          console.log(err);
+        }
+      }
+    } catch (err) {
+      console.log(err);
+    }
+  };
 
   /**
    * 네이버 OAuth 리다이렉트 받은 이후 가입 여부 확인
@@ -90,6 +125,17 @@ function Signin() {
         alt="네이버 로그인"
         onClick={handleClickOAuth}
       ></NaverOAuth>
+      <TempSigninContainer>
+        <p>캠퍼 로그인</p>
+        <TempInput
+          type="text"
+          value={camperId}
+          onChange={(e) => setCamperId(e.currentTarget.value)}
+          maxLength={4}
+          placeholder="대소문자 유의 ex)J117"
+        />
+        <Button onClick={handleClickCamperLogin}>로그인</Button>
+      </TempSigninContainer>
     </Container>
   );
 }

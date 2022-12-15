@@ -1,7 +1,14 @@
-import axios from 'axios';
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { useSetRecoilState } from 'recoil';
+import axios from 'axios';
+
+import Button from 'components/Button';
+
 import { PLACEHOLDER } from '@/constants';
+import { SignupRequestBody } from '@/types';
+import { userRoleState, toastMessageState } from '@/stores';
+
 import {
   PageWrapper,
   ChangeForm,
@@ -10,10 +17,6 @@ import {
   InputTitle,
   Input,
 } from './styled';
-import { SignupRequestBody } from '@/types';
-import Button from 'components/Button';
-import { userRoleState } from '@/stores';
-import { useSetRecoilState } from 'recoil';
 
 function Signup() {
   const api = process.env.REACT_APP_API_SERVER_BASE_URL;
@@ -21,6 +24,7 @@ function Signup() {
   const [nickname, setNickname] = useState<string>('');
   const [corporate, setCorporate] = useState<string>('');
   const setUserRole = useSetRecoilState(userRoleState);
+  const setToastMessage = useSetRecoilState(toastMessageState);
   const navigate = useNavigate();
 
   const handleClickCustomer = () => {
@@ -86,13 +90,13 @@ function Signup() {
 
   const isValidateNickname = () => {
     if (nickname.length > 2) return true;
-    alert('닉네임 입력이 잘못됐습니다');
+    setToastMessage('닉네임 입력이 잘못됐습니다');
     return false;
   };
 
   const isValidateCorporate = () => {
     if (corporate.length >= 10) return true;
-    alert('사업자 등록 번호 입력이 잘못됐습니다');
+    setToastMessage('사업자 등록 번호 입력이 잘못됐습니다');
     return false;
   };
 

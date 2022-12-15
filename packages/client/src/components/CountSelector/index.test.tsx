@@ -4,9 +4,14 @@ import { ReactNode } from 'react';
 import CountSelector from '.';
 
 import Layout from '@/Layout';
+import { RecoilRoot } from 'recoil';
 
 const setup = ({ children }: { children: ReactNode }) => {
-  const { asFragment } = render(<Layout>{children}</Layout>);
+  const { asFragment } = render(
+    <RecoilRoot>
+      <Layout>{children}</Layout>
+    </RecoilRoot>
+  );
   return { asFragment };
 };
 
@@ -35,8 +40,6 @@ describe('수량 선택 컴포넌트', () => {
       children: <CountSelector count={1} onClick={jest.fn()} />,
     });
 
-    Object.defineProperty(window, 'alert', { value: jest.fn() });
-
     const minus = screen.getByTestId(/minus/);
     fireEvent.click(minus);
     screen.getByText('1');
@@ -47,8 +50,6 @@ describe('수량 선택 컴포넌트', () => {
       children: <CountSelector count={20} onClick={jest.fn()} />,
     });
 
-    Object.defineProperty(window, 'alert', { value: jest.fn() });
-
     const plus = screen.getByTestId(/plus/);
     fireEvent.click(plus);
     screen.getByText('20');
@@ -57,8 +58,6 @@ describe('수량 선택 컴포넌트', () => {
   it('변경 불가 알림', () => {
     const handleClickCount = jest.fn();
     setup({ children: <CountSelector count={1} onClick={handleClickCount} /> });
-
-    Object.defineProperty(window, 'alert', { value: jest.fn() });
 
     const minus = screen.getByTestId(/minus/);
     fireEvent.click(minus);

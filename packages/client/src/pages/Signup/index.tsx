@@ -12,7 +12,7 @@ import {
 } from './styled';
 import { SignupRequestBody } from '@/types';
 import Button from 'components/Button';
-import { userRoleState } from '@/stores';
+import { userRoleState, toastMessageState } from '@/stores';
 import { useSetRecoilState } from 'recoil';
 
 function Signup() {
@@ -21,6 +21,7 @@ function Signup() {
   const [nickname, setNickname] = useState<string>('');
   const [corporate, setCorporate] = useState<string>('');
   const setUserRole = useSetRecoilState(userRoleState);
+  const setToastMessage = useSetRecoilState(toastMessageState);
   const navigate = useNavigate();
 
   const handleClickCustomer = () => {
@@ -86,13 +87,13 @@ function Signup() {
 
   const isValidateNickname = () => {
     if (nickname.length > 2) return true;
-    alert('닉네임 입력이 잘못됐습니다');
+    setToastMessage('닉네임 입력이 잘못됐습니다');
     return false;
   };
 
   const isValidateCorporate = () => {
     if (corporate.length >= 10) return true;
-    alert('사업자 등록 번호 입력이 잘못됐습니다');
+    setToastMessage('사업자 등록 번호 입력이 잘못됐습니다');
     return false;
   };
 

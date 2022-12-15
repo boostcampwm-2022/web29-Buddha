@@ -60,7 +60,6 @@ describe('Cart', () => {
     setup({ url: '/cart' });
 
     const orderButton = await screen.findByText('주문하기');
-    Object.defineProperty(window, 'alert', { value: jest.fn() });
     fireEvent.click(orderButton);
     await screen.findByText('주문 내역');
   });

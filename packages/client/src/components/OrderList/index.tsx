@@ -17,8 +17,8 @@ import {
   Receipt,
   RowContainer,
 } from './styled';
-import { useRecoilValue } from 'recoil';
-import { userRoleState } from '@/stores';
+import { useRecoilValue, useSetRecoilState } from 'recoil';
+import { userRoleState, toastMessageState } from '@/stores';
 
 interface Props {
   date: string;
@@ -32,6 +32,7 @@ interface ItemProps {
 
 function OrderItem({ date, order }: ItemProps) {
   const userRole = useRecoilValue(userRoleState);
+  const setToastMessage = useSetRecoilState(toastMessageState);
   const [isOpen, setIsOpen] = useState(userRole === 'MANAGER' ? true : false);
   const queryClient = useQueryClient();
   const navigate = useNavigate();
@@ -71,7 +72,7 @@ function OrderItem({ date, order }: ItemProps) {
         if (!action) throw Error();
         mutaion.mutate({ action });
       } catch (err) {
-        alert('주문에 문제가 발생했습니다.');
+        setToastMessage('주문에 문제가 발생했습니다.');
       }
     };
     postOrder();
@@ -87,22 +88,28 @@ function OrderItem({ date, order }: ItemProps) {
     if (userRole === 'CLIENT') navigate(`/order/${order.id}`);
   };
 
-  const memorizedOverviewTitle = useMemo(() => (
-    <RowContainer data-testid="order-overview-title">
-      <Receipt />
-      <p>
-        {order.menus[0].name}
-        {order.menus.length > 1 ? ` 외 ${order.menus.length - 1}개` : ''}
-      </p>
-    </RowContainer>
-  ), [])
+  const memorizedOverviewTitle = useMemo(
+    () => (
+      <RowContainer data-testid="order-overview-title">
+        <Receipt />
+        <p>
+          {order.menus[0].name}
+          {order.menus.length > 1 ? ` 외 ${order.menus.length - 1}개` : ''}
+        </p>
+      </RowContainer>
+    ),
+    []
+  );
 
-  const memorizedOverviewPrice = useMemo(() => (
-    <>
-      <PriceText>{`${getPriceComma(totalPrice)} 원`}</PriceText>
-      <DownArrow /> 
-    </>
-  ), [])
+  const memorizedOverviewPrice = useMemo(
+    () => (
+      <>
+        <PriceText>{`${getPriceComma(totalPrice)} 원`}</PriceText>
+        <DownArrow />
+      </>
+    ),
+    []
+  );
 
   return (
     <ItemContainer>

@@ -1,11 +1,11 @@
-import { useRecoilValue } from 'recoil';
+import { useRecoilValue, useSetRecoilState } from 'recoil';
 import { useNavigate } from 'react-router-dom';
 
 import Header from 'components/Header';
 import Footer from 'components/Footer';
 import Button from 'components/Button';
 
-import { userRoleState } from '@/stores';
+import { userRoleState, toastMessageState } from '@/stores';
 import useFetch from '@/hooks/useFetch';
 
 import {
@@ -22,6 +22,7 @@ import {
 function MyPage() {
   const userRole = useRecoilValue(userRoleState);
   const navigate = useNavigate();
+  const setToastMessage = useSetRecoilState(toastMessageState);
 
   const { jsonData: user } = useFetch({ url: '/user', method: 'GET' });
 
@@ -31,7 +32,7 @@ function MyPage() {
   };
 
   const handleClickDefault = () => {
-    alert('미구현 기능입니다');
+    setToastMessage('미구현 기능입니다');
   };
 
   return (

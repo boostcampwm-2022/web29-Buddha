@@ -23,4 +23,9 @@ export class UserService {
     const user: User = await this.userRepository.findOneBy({ id });
     return user;
   }
+
+  async findOneByName(name: string) {
+    const user: User | null = await this.userRepository.findOneBy({ name });
+    return user;
+  }
 }

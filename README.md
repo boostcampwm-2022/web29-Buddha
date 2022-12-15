@@ -67,7 +67,7 @@
 ### BE
 
 <details>
-<summary>🏃‍♂️ Polling으로 주문 상태를 확인하자! 근데 이거.. 괜찮은건가?
+<summary>🏃‍♂️ Polling으로 주문 상태를 확인하자! 근데 이거.. 괜찮은건가? - 캐시 도입기
 </summary>
 <br>
 
@@ -77,12 +77,12 @@
 
 결과적으로 캐시를 이용해 `서버의 DB 접근 작업`이 줄어들고 `응답속도를 개선`할 수 있었습니다.
 
-[🔥 Notion 바로가기](https://boostcamp-wm.notion.site/Polling-a70bc28729dc4a5a9ffc32e44c4f85e2)
+[🔥 Notion 바로가기](https://gonnnnn.notion.site/Polling-5adf75a173c64d67a4e1cd61e36734f4)
 
 </details>
 
 <details>
-<summary>🏃‍♂️ 테스트 코드 - 주문 생성 로직의 여행기, 나는 어디에 있어야 하는거지?</summary>
+<summary>🏃‍♂️ 주문 생성 로직의 여행기, 나는 어디에 있어야 하는거지?- 테스트 코드 & 리팩토링</summary>
 <br>
 
 <aside>
@@ -93,7 +93,7 @@
 
 저희 팀에서 테스트 코드를 작성하는 방법 보다는, 테스트 코드를 작성하며 **`어떤 노동을 했고`**, **`어떤 고민을 했고`**, 또 `어떤 해결책을 떠올렸는지`에 대해 이야기합니다.
 
-[🤯 Notion 바로가기](https://boostcamp-wm.notion.site/Service-Layer-4dfca9457e8345a68d211e52185094b9)
+[🤯 Notion 바로가기](https://gonnnnn.notion.site/59d8049f9da04c1781b2268ad4f29c50)
 
 </aside>
 
@@ -109,7 +109,7 @@ Docker는 layer라는 개념을 통해 이미지를 구성합니다. 각각의 l
 
 `github action runner`상에서 docker 이미지를 위한 `캐싱을 적용하는 방법`을 알아봅니다.
 
-[🐳 Notion 바로가기](https://boostcamp-wm.notion.site/Docker-Github-Action-Docker-578883cb440e480a836eab01c773ac54)
+[🐳 Notion 바로가기](https://gonnnnn.notion.site/Docker-3c1fdf306c354458a17752ccd2b0cae0)
 
 </details>
 
@@ -127,7 +127,7 @@ Docker는 layer라는 개념을 통해 이미지를 구성합니다. 각각의 l
 
 이 기능을 구현하기 위해 `WebSocket`과 `Polling`을 비교해보고 어떤 것이 서비스에 더 적합한 방식일 지 고민했던 내용이 담겨 있습니다.
 
-[🌸Notion 바로가기](https://boostcamp-wm.notion.site/3a9c24692ddb4556ae8f7d2ca6ea9347)
+[🌸Notion 바로가기](https://gonnnnn.notion.site/3271e8f85840445c84cf5fa956b62751)
 
 </details>
 
@@ -143,7 +143,7 @@ Docker는 layer라는 개념을 통해 이미지를 구성합니다. 각각의 l
 
 저희의 테스트 이야기가 더 궁금하시다면 Notion을 확인해주세요 !
 
-[🐙Notion 바로가기](https://boostcamp-wm.notion.site/6a54cd86104c4610bbf2796905b1805f)
+[🐙Notion 바로가기](https://gonnnnn.notion.site/4fbea9e56f8f44c49288d35462025291)
 
 </details>
 
@@ -159,7 +159,7 @@ Docker는 layer라는 개념을 통해 이미지를 구성합니다. 각각의 l
 
 자세한 이야기가 궁금하시다면 Notion을 확인해주세요 !
 
-[📝Notion 바로가기](https://boostcamp-wm.notion.site/React-Memoization-4e852481fbf1428fb80ff8beedaf590b)
+[📝Notion 바로가기](https://gonnnnn.notion.site/React-Memoization-6a8e36771b69458289ca9f146731eab8)
 
 </details>
 

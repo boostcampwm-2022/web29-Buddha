@@ -1,3 +1,4 @@
+import { useState } from 'react';
 import Button from 'components/Button';
 import { CartFooterWrapper, CartFooterInfoWrapper } from './styled';
 import { getPriceComma } from 'utils/index';
@@ -17,11 +18,13 @@ interface CartFooterProps {
 function CartFooter({ count, price }: CartFooterProps) {
   const navigate = useNavigate();
   const setToastMessage = useSetRecoilState(toastMessageState);
+  const [isActive, setIsActive] = useState(true);
   const api = process.env.REACT_APP_API_SERVER_BASE_URL;
   const cafeId = 1;
 
   const handleSubmit = async () => {
-    if (count === 0) return;
+    if (count === 0 || !isActive) return;
+    setIsActive(false);
     const menus = getCart().map((menu: CartMenu) => ({
       id: menu.id,
       name: menu.name,

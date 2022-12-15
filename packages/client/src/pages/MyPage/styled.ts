@@ -34,6 +34,7 @@ export const ButtonWrapper = styled.div`
   display: flex;
   flex-direction: row;
   gap: 0.3rem;
+  cursor: pointer;
 
   p {
     color: ${(props) => props.theme.colors.grey600};

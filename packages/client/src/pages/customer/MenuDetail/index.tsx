@@ -25,6 +25,14 @@ function MenuDetail() {
   const dispatch = useMenuDetailDispatch();
   const { menuId } = useParams();
 
+  console.log('--------------------');
+  console.log(menu);
+  console.log(count);
+  console.log(temperature);
+  console.log(size);
+  console.log(options);
+  console.log(price);
+
   const newMenu = useFetch({
     url: `/cafe/menu/${menuId}`,
     method: 'get',
@@ -64,9 +72,7 @@ function MenuDetail() {
 
   return (
     <Container data-testid={'menu-detail-page'}>
-      {!menu ? (
-        <p>메뉴 정보를 불러오는 중...</p>
-      ) : (
+      {menu && Object.keys(menu).length > 0 && price > 0 && (
         <>
           {memorizedLeftArrow}
           <MenuInformation menu={menu} />

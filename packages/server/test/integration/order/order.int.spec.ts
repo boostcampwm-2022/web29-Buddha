@@ -1,3 +1,4 @@
+import { ORDER_STATUS } from './../../../src/order/enum/orderStatus.enum';
 import { OrderModuleV1 } from 'src/order/order.v1.module';
 import { BadRequestException } from '@nestjs/common';
 import { OrderMenu } from './../../../src/order/entities/orderMenu.entity';
@@ -11,6 +12,7 @@ import { MenuOption } from 'src/cafe/entities/menuOption.entity';
 import fs from 'fs';
 import path from 'path';
 import { CreateOrderDto } from 'src/order/dto/create-order.dto';
+import { RedisCacheService } from 'src/redisCache/redisCache.service';
 
 const mockOrder = fs.readFileSync(
   path.join(process.env.PWD, '/test/mock/create-order.json')
@@ -20,7 +22,7 @@ const mockCafe = fs.readFileSync(
 );
 
 describe('Order Service', () => {
-  let sut: OrderService;
+  let service: OrderService;
   let orderRepository: Repository<Order>;
   let menuOptionRepository: Repository<MenuOption>;
   let orderMenuRepository: Repository<OrderMenu>;
@@ -42,10 +44,11 @@ describe('Order Service', () => {
           provide: getRepositoryToken(OrderMenu),
           useClass: Repository,
         },
+        RedisCacheService,
       ],
     }).compile();
 
-    sut = module.get<OrderService>(OrderService);
+    service = module.get<OrderService>(OrderService);
     orderRepository = module.get<Repository<Order>>(getRepositoryToken(Order));
     menuOptionRepository = module.get<Repository<MenuOption>>(
       getRepositoryToken(MenuOption)
@@ -71,7 +74,7 @@ describe('Order Service', () => {
       const repoSpy = jest.spyOn(orderRepository, 'find');
 
       // when
-      const res = await sut.getOrders(userId);
+      const res = await service.getOrders(userId);
 
       // then
       expect(repoSpy).toBeCalled();
@@ -84,19 +87,22 @@ describe('Order Service', () => {
       const cafeId = 1;
       const order = JSON.parse(mockOrder.toString());
 
-      await sut.create(
+      await service.create(
         userId,
         CreateOrderDto.of({ menus: order.menus, cafeId: cafeId })
       );
-
       const repoSpy = jest.spyOn(orderRepository, 'find');
 
       // when
-      const res = await sut.getOrders(userId);
+      const res = await service.getOrders(userId);
 
       // then
       expect(repoSpy).toBeCalled();
       expect(res.orders).toHaveLength(1);
+
+      expect(res.orders[0].status).toBe(ORDER_STATUS.REQUESTED);
+      expect(res.orders[0].cafeId).toBe(cafeId);
+      expect(res.orders[0].menus).toHaveLength(order.menus.length);
     });
   });
   describe('create() - 주문 하기', () => {
@@ -108,13 +114,17 @@ describe('Order Service', () => {
       const repoSpy = jest.spyOn(orderRepository, 'save');
 
       // when
-      const res = await sut.create(
+      const res = await service.create(
         userId,
         CreateOrderDto.of({ menus: order.menus, cafeId: cafeId })
       );
 
       // then
       expect(repoSpy).toBeCalled();
+      expect(res.orderMenus).toHaveLength(order.menus.length);
+      expect(res.status).toBe(ORDER_STATUS.REQUESTED);
+      expect(res.cafe.id).toBe(cafeId);
+      expect(res.user.id).toBe(userId);
       expect(res.orderMenus).toHaveLength(order.menus.length);
     });
 
@@ -129,7 +139,7 @@ describe('Order Service', () => {
       // then
       await expect(
         async () =>
-          await sut.create(
+          await service.create(
             userId,
             CreateOrderDto.of({ menus: order.menus, cafeId: cafeId })
           )

@@ -30,6 +30,10 @@ function MyPage() {
     else navigate('/');
   };
 
+  const handleClickDefault = () => {
+    alert('미구현 기능입니다');
+  };
+
   return (
     <MyPageWrapper data-testid={'my-page'}>
       <Header title={'MY'} />
@@ -42,15 +46,15 @@ function MyPage() {
           <p>환영합니다!</p>
         </MyPageTitleWrapper>
         <CenterWrapper>
-          <ButtonWrapper>
+          <ButtonWrapper onClick={handleClickDefault}>
             <EditNickname />
             <p>닉네임 수정</p>
           </ButtonWrapper>
-          <ButtonWrapper>
+          <ButtonWrapper onClick={handleClickDefault}>
             <Signout />
             <p>로그아웃</p>
           </ButtonWrapper>
-          <ButtonWrapper>
+          <ButtonWrapper onClick={handleClickDefault}>
             <Withdrawal />
             <p>회원 탈퇴</p>
           </ButtonWrapper>

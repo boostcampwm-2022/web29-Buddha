@@ -12,6 +12,7 @@ import {
   Container,
   DownArrow,
   ItemContainer,
+  OrderIdText,
   Overview,
   PriceText,
   Receipt,
@@ -88,25 +89,32 @@ function OrderItem({ date, order }: ItemProps) {
     if (userRole === 'CLIENT') navigate(`/order/${order.id}`);
   };
 
-  const memorizedOverviewTitle = useMemo(() => (
-    <RowContainer data-testid="order-overview-title">
-      <Receipt />
-      <p>
-        {order.menus[0].name}
-        {order.menus.length > 1 ? ` 외 ${order.menus.length - 1}개` : ''}
-      </p>
-    </RowContainer>
-  ), [])
+  const memorizedOverviewTitle = useMemo(
+    () => (
+      <RowContainer data-testid="order-overview-title">
+        <Receipt />
+        <p>
+          {order.menus[0].name}
+          {order.menus.length > 1 ? ` 외 ${order.menus.length - 1}개` : ''}
+        </p>
+      </RowContainer>
+    ),
+    []
+  );
 
-  const memorizedOverviewPrice = useMemo(() => (
-    <>
-      <PriceText>{`${getPriceComma(totalPrice)} 원`}</PriceText>
-      <DownArrow /> 
-    </>
-  ), [])
+  const memorizedOverviewPrice = useMemo(
+    () => (
+      <>
+        <PriceText>{`${getPriceComma(totalPrice)} 원`}</PriceText>
+        <DownArrow />
+      </>
+    ),
+    []
+  );
 
   return (
     <ItemContainer>
+      <OrderIdText>주문 번호 : {order.id}</OrderIdText>
       <Overview onClick={handleClickStatus} data-testid="order-overview">
         {memorizedOverviewTitle}
         <RowContainer

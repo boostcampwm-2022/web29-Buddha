@@ -57,3 +57,9 @@ export const PriceText = styled.p`
   margin: 0 0 0 0.7rem;
   white-space: nowrap;
 `;
+
+export const OrderIdText = styled.p`
+  padding: 0.5rem 0 0 0.6rem;
+  font-size: ${({ theme }) => theme.font.size.xs};
+  color: ${({ theme }) => theme.colors.grey800};
+`;

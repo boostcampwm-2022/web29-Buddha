@@ -1,12 +1,15 @@
 import Button from '@/components/Button';
 import { CART_KEY } from '@/constants';
+import { toastMessageState } from '@/stores';
 import { useMenuDetailState } from '@/stores/MenuDetail';
 import { CartMenu, Option } from '@/types';
 import { getCart, setLocalStorage } from '@/utils/localStorage';
 import { useNavigate } from 'react-router-dom';
+import { useSetRecoilState } from 'recoil';
 import { Container } from './styled';
 
 function OrderButton() {
+  const setToastMessage = useSetRecoilState(toastMessageState);
   const { menu, temperature, size, price, options, count } =
     useMenuDetailState();
   const navigate = useNavigate();
@@ -65,7 +68,7 @@ function OrderButton() {
     }
 
     setLocalStorage(CART_KEY, JSON.stringify(currCart));
-    alert('장바구니에 담겼습니다.');
+    setToastMessage('장바구니에 담겼습니다.');
     navigate('/menu');
   };
 

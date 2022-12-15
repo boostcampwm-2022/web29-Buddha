@@ -28,8 +28,6 @@ describe('메뉴 상세 조회 페이지', () => {
 
   it('조회 실패', async () => {
     detailSetup({ menuId: 2 });
-
-    Object.defineProperty(window, 'alert', { value: jest.fn() });
   });
 
   it('옵션 선택', async () => {

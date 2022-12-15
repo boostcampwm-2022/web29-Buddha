@@ -21,6 +21,7 @@ export const setup = ({ url }: { url: string }) => {
           <Layout>
             <MemoryRouter initialEntries={[url]}>
               <Router />
+              <Toast />
             </MemoryRouter>
           </Layout>
         </UserRoleProvider>

@@ -1,4 +1,4 @@
-import { useCallback } from 'react';
+import { useCallback, memo } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { LeftArrowSVG } from './styled';
 
@@ -30,4 +30,4 @@ function LeftArrow({ color, top, left, width = 1, height = 1 }: Props) {
   );
 }
 
-export default LeftArrow;
+export default memo(LeftArrow);

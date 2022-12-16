@@ -13,7 +13,7 @@ const setup = ({ title }: { title: string }) => {
 };
 
 describe('헤더 컴포넌트', () => {
-  const title = '주문내역';
+  const title = '주문 내역';
   it('요소 존재 여부', () => {
     setup({ title });
 

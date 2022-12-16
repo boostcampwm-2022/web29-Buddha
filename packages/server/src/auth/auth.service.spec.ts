@@ -1,6 +1,5 @@
 import { SignUpDto } from './dto/signup.dto';
 import { HttpException, HttpStatus } from '@nestjs/common';
-import { ConfigModule, ConfigService } from '@nestjs/config';
 import { JwtModule, JwtService } from '@nestjs/jwt';
 import { Test, TestingModule } from '@nestjs/testing';
 import { Request } from 'express';

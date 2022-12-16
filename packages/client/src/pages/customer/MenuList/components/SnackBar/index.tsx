@@ -1,7 +1,8 @@
+import { memo } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { SnackBarWrapper, CartWrapper } from './styled';
 import { ReactComponent as Cart } from 'icons/cart.svg';
 import { getCartCount } from 'utils/localStorage';
+import { SnackBarWrapper, CartWrapper } from './styled';
 
 function SnackBar() {
   const navigate = useNavigate();
@@ -21,4 +22,4 @@ function SnackBar() {
   );
 }
 
-export default SnackBar;
+export default memo(SnackBar);

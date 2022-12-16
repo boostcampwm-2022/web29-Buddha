@@ -1,7 +1,6 @@
 import { DateTimeUtil } from './../../utils/dateTime.util';
 import { Exclude, Expose } from 'class-transformer';
 import { Cafe } from 'src/cafe/entities/cafe.entity';
-import { Menu } from 'src/cafe/entities/menu.entity';
 import { Order } from '../entities/order.entity';
 import { OrderMenu } from '../entities/orderMenu.entity';
 import { ORDER_STATUS } from '../enum/orderStatus.enum';
@@ -67,8 +66,11 @@ export class OrdersOrderDto {
       return {
         id: orderMenu.menu.id,
         name: orderMenu.menu.name,
-        price: orderMenu.menu.price,
+        price: orderMenu.price,
         options: JSON.parse(orderMenu.options),
+        count: orderMenu.count,
+        size: orderMenu.size,
+        type: orderMenu.type,
       };
     });
     return menus;

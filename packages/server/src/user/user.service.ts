@@ -18,4 +18,14 @@ export class UserService {
     const userObjInserted = await this.userRepository.save(user);
     return userObjInserted;
   }
+
+  async findById(id: number): Promise<User> {
+    const user: User = await this.userRepository.findOneBy({ id });
+    return user;
+  }
+
+  async findOneByName(name: string) {
+    const user: User | null = await this.userRepository.findOneBy({ name });
+    return user;
+  }
 }

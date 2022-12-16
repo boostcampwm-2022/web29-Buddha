@@ -2,33 +2,56 @@
 
 exports[`로그인 페이지 스냡샷 1`] = `
 <DocumentFragment>
-  <main
-    class="css-22d8cp"
+  <div
+    class="css-1j3fa3d"
   >
-    <div
-      class="css-hqnxmh"
+    <main
+      class="css-lut1ux"
     >
-      <img
-        alt="로고"
-        class="css-ak39sn"
-        src="https://kr.object.ncloudstorage.com/buddha-dev/logo.png"
-      />
-      <section
-        title="소개"
+      <div
+        class="css-rnshl2"
       >
-        <p>
-          오직 당신만을 위한 카페 주문
-        </p>
-        <p>
-          부따 (부스트 다방, Buddha)
-        </p>
-      </section>
-      <img
-        alt="네이버 로그인"
-        class="css-ak39sn"
-        src="https://kr.object.ncloudstorage.com/buddha-dev/naver_oauth_btn.png"
-      />
-    </div>
-  </main>
+        <img
+          alt="로고"
+          class="css-1vgx9f6"
+          src="https://kr.object.ncloudstorage.com/buddha-dev/logo.png"
+        />
+        <section
+          title="소개"
+        >
+          <p>
+            오직 당신만을 위한 카페 주문
+          </p>
+          <p>
+            부따 (부스트 다방, Buddha)
+          </p>
+        </section>
+        <img
+          alt="네이버 로그인"
+          class="css-95entt"
+          src="https://kr.object.ncloudstorage.com/buddha-dev/naver_oauth_btn.png"
+        />
+        <section
+          class="css-q6br0c"
+        >
+          <p>
+            캠퍼 로그인
+          </p>
+          <input
+            class="css-1dmtqq4"
+            maxlength="4"
+            placeholder="대소문자 유의 ex)J117"
+            type="text"
+            value=""
+          />
+          <button
+            class="css-oazekv"
+          >
+            로그인
+          </button>
+        </section>
+      </div>
+    </main>
+  </div>
 </DocumentFragment>
 `;

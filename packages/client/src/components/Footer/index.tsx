@@ -1,22 +1,22 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, memo } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
-import { FooterWrapper, NavWrapper } from './styled';
+import { FooterWrapper, NavWrapper, Home, Order, Mypage } from './styled';
 import NavigateItem from './NavigateItem';
-import { ReactComponent as Home } from 'icons/home.svg';
-import { ReactComponent as Order } from 'icons/order.svg';
-import { ReactComponent as Mypage } from 'icons/mypage.svg';
+import { useRecoilValue } from 'recoil';
+import { userRoleState } from '@/stores';
 
 function Footer() {
   const navigate = useNavigate();
   const location = useLocation();
   const [currentPath, setCurrentPath] = useState<string>();
+  const userRole = useRecoilValue(userRoleState);
 
   const handleClickHome = (e: React.MouseEvent) => {
-    navigate('/home');
+    navigate('/');
   };
 
   const handleClickOrder = (e: React.MouseEvent) => {
-    navigate('/menu');
+    navigate(userRole === 'CLIENT' ? '/menu' : '/manager/accept');
   };
 
   const handleClickMY = (e: React.MouseEvent) => {
@@ -24,8 +24,8 @@ function Footer() {
   };
 
   const findPath = () => {
-    if (/home/.test(location.pathname)) setCurrentPath('home');
-    else if (/menu|order/.test(location.pathname)) setCurrentPath('order');
+    if (/\/$|order/.test(location.pathname)) setCurrentPath('home');
+    else if (/menu|manager/.test(location.pathname)) setCurrentPath('order');
     else if (/mypage/.test(location.pathname)) setCurrentPath('mypage');
   };
 
@@ -41,7 +41,7 @@ function Footer() {
           className={currentPath === 'home' ? 'selected' : ''}
         >
           <Home />
-          <p>Home</p>
+          <p>{userRole === 'CLIENT' ? 'Home' : '새 주문'}</p>
         </NavigateItem>
 
         <NavigateItem
@@ -49,7 +49,7 @@ function Footer() {
           className={currentPath === 'order' ? 'selected' : ''}
         >
           <Order />
-          <p>Order</p>
+          <p>{userRole === 'CLIENT' ? 'Order' : '진행중'}</p>
         </NavigateItem>
 
         <NavigateItem
@@ -64,4 +64,4 @@ function Footer() {
   );
 }
 
-export default Footer;
+export default memo(Footer);

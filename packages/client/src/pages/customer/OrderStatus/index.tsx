@@ -1,49 +1,67 @@
-import axios from 'axios';
+import { useMemo } from 'react';
 import { useParams } from 'react-router-dom';
-import { useEffect, useState } from 'react';
-import LeftArrow from '@/components/LeftArrow';
+
+import LeftArrow from 'components/LeftArrow';
+import Footer from 'components/Footer';
+
+import { PROGRESS_CLASS, PROGRESS_IMAGE } from '@/constants';
+import useOrderStatus from '@/hooks/useOrderStatus';
 import {
   ContentWrapper,
   HeaderWrapper,
   ImageContainer,
+  OrderInformationContainer,
+  OrderInformationText,
   OrderStatusWrapper,
   Progress,
   ProgressBar,
   StatusBar,
 } from './styled';
-import Footer from '@/components/Footer';
-import { PROGRESS_CLASS, PROGRESS_IMAGE } from '@/constants';
-import { OrderStatusCode } from '@/types';
+import { OrderDetailMenu, OrderStatusCode } from '@/types';
 
-function OrderStatus() {
-  const api = process.env.REACT_APP_API_SERVER_BASE_URL;
-  const { orderId } = useParams();
-  const [status, setStatus] = useState<OrderStatusCode>('REQUESTED');
+interface OrderInformationProps {
+  id: number;
+  status: OrderStatusCode;
+  menus: OrderDetailMenu[];
+}
 
-  const fetchOrderStatus = async () => {
-    try {
-      const res = await axios.get(`${api}/order/${orderId}`, {
-        withCredentials: true,
-      });
-      setStatus(res.data.order_status);
-    } catch (err) {
-      console.log(err);
-    }
-  };
-
-  useEffect(() => {
-    fetchOrderStatus();
-  }, []);
+function OrderInfomation({ status, id, menus }: OrderInformationProps) {
+  const menuLength = useMemo(() => menus.length, [menus]);
 
   return (
-    <OrderStatusWrapper>
+    <OrderInformationContainer>
+      {status === 'REJECTED' ? (
+        <p>거절된 주문입니다.</p>
+      ) : (
+        <>
+          <p>주문 번호 : {id}</p>
+          <OrderInformationText>
+            {menus[0]?.name}
+            {menuLength > 1 && ` 외 ${menuLength - 1}개`}
+          </OrderInformationText>
+        </>
+      )}
+    </OrderInformationContainer>
+  );
+}
+
+function OrderStatus() {
+  const { orderId } = useParams();
+  const { status, id, menus } = useOrderStatus(orderId ? orderId : '');
+
+  return (
+    <OrderStatusWrapper data-testid="order-status-page">
       <HeaderWrapper>
         <LeftArrow color={'black'} left={0.5} top={0.5} />
         <p className={'title'}>주문 현황</p>
       </HeaderWrapper>
+      <OrderInfomation status={status} id={id} menus={menus} />
       <ContentWrapper>
-        <StatusBar>
-          <ProgressBar className={PROGRESS_CLASS[status]} />
+        <StatusBar data-testid={'status-bar'}>
+          <ProgressBar
+            data-testid={status}
+            className={PROGRESS_CLASS[status]}
+          />
         </StatusBar>
         <Progress>
           <p>주문 요청</p>
@@ -54,8 +72,8 @@ function OrderStatus() {
           <img
             src={PROGRESS_IMAGE[status]}
             alt={`${status} 움짤`}
-            width={150}
-            height={150}
+            width={180}
+            height={180}
           />
         </ImageContainer>
       </ContentWrapper>

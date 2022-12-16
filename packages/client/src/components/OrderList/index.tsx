@@ -1,20 +1,25 @@
 import { useMemo, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
+import { useMutation, useQueryClient } from '@tanstack/react-query';
 
 import OrderDetailList from 'components/OrderDetailList';
 
 import { getPriceComma } from '@/utils';
-import { Order } from '@/types';
+import { Order, OrderStatusCode } from '@/types';
+import { QUERY_KEYS } from '@/constants';
+import { customFetch } from '@/utils/fetch';
 import {
   Container,
   DownArrow,
   ItemContainer,
+  OrderIdText,
   Overview,
   PriceText,
   Receipt,
   RowContainer,
 } from './styled';
-import axios from 'axios';
-import { useNavigate } from 'react-router-dom';
+import { useRecoilValue, useSetRecoilState } from 'recoil';
+import { userRoleState, toastMessageState } from '@/stores';
 
 interface Props {
   date: string;
@@ -27,29 +32,48 @@ interface ItemProps {
 }
 
 function OrderItem({ date, order }: ItemProps) {
-  const api = process.env.REACT_APP_API_SERVER_BASE_URL;
-  const [isOpen, setIsOpen] = useState(false);
+  const userRole = useRecoilValue(userRoleState);
+  const setToastMessage = useSetRecoilState(toastMessageState);
+  const [isOpen, setIsOpen] = useState(userRole === 'MANAGER' ? true : false);
+  const queryClient = useQueryClient();
   const navigate = useNavigate();
 
-  const handleClickOpen = () => setIsOpen(!isOpen);
+  const handleClickOpen = (event: React.MouseEvent<HTMLElement>) => {
+    event.stopPropagation();
+    setIsOpen(!isOpen);
+  };
+
+  const mutaion = useMutation({
+    mutationFn: ({ action }: { action: OrderStatusCode }) =>
+      customFetch({
+        url: `/order/${action.toLowerCase()}`,
+        method: 'POST',
+        data: { id: order.id, newStatus: action },
+      }),
+    onSuccess: (data, { action }) => {
+      return queryClient.invalidateQueries(
+        action !== 'COMPLETED'
+          ? [QUERY_KEYS.ORDER_LIST]
+          : [QUERY_KEYS.ACCEPTED_LIST]
+      );
+    },
+  });
 
   const handleClickOrder = (event: React.MouseEvent<HTMLButtonElement>) => {
+    event.stopPropagation();
     const text = event.currentTarget.innerHTML;
 
     const postOrder = async () => {
-      let action;
-      if (text === '수락') action = 'accepted';
-      else if (text === '거절') action = 'rejected';
-      else if (text === '제조 완료') action = 'completed';
+      let action: OrderStatusCode | undefined;
+      if (text === '수락') action = 'ACCEPTED';
+      else if (text === '거절') action = 'REJECTED';
+      else if (text === '제조 완료') action = 'COMPLETED';
 
       try {
-        await axios.post(
-          `${api}/order/${action}`,
-          { id: order.id, newStatus: action?.toUpperCase() },
-          { withCredentials: true }
-        );
+        if (!action) throw Error();
+        mutaion.mutate({ action });
       } catch (err) {
-        alert('주문에 문제가 발생했습니다.');
+        setToastMessage('주문에 문제가 발생했습니다.');
       }
     };
     postOrder();
@@ -60,19 +84,45 @@ function OrderItem({ date, order }: ItemProps) {
     [order]
   );
 
+  const handleClickStatus = (event: React.MouseEvent<HTMLElement>) => {
+    event.stopPropagation();
+    if (userRole === 'CLIENT') navigate(`/order/${order.id}`);
+  };
+
+  const memorizedOverviewTitle = useMemo(
+    () => (
+      <RowContainer data-testid="order-overview-title">
+        <Receipt />
+        <p>
+          {order.menus[0].name}
+          {order.menus.length > 1 ? ` 외 ${order.menus.length - 1}개` : ''}
+        </p>
+      </RowContainer>
+    ),
+    []
+  );
+
+  const memorizedOverviewPrice = useMemo(
+    () => (
+      <>
+        <PriceText>{`${getPriceComma(totalPrice)} 원`}</PriceText>
+        <DownArrow />
+      </>
+    ),
+    []
+  );
+
   return (
     <ItemContainer>
-      <Overview>
-        <RowContainer onClick={() => navigate(`/order/${order.id}`)}>
-          <Receipt />
-          <p>
-            {order.menus[0].name}
-            {order.menus.length > 1 ? ` 외 ${order.menus.length - 1}개` : ''}
-          </p>
-        </RowContainer>
-        <RowContainer>
-          <PriceText>{`${getPriceComma(totalPrice)} 원`}</PriceText>
-          <DownArrow onClick={handleClickOpen} />
+      <OrderIdText>주문 번호 : {order.id}</OrderIdText>
+      <Overview onClick={handleClickStatus} data-testid="order-overview">
+        {memorizedOverviewTitle}
+        <RowContainer
+          className="detail-opener"
+          onClick={handleClickOpen}
+          data-testid="order-detail-btn"
+        >
+          {memorizedOverviewPrice}
         </RowContainer>
       </Overview>
       {isOpen && (

@@ -17,6 +17,10 @@ export const ItemContainer = styled.div`
   align-items: center;
 `;
 
+export const OptionContainer = styled.div`
+  padding: 0.3rem 0;
+`;
+
 export const DivisionLine = styled.div`
   height: 1px;
   /* 
@@ -35,4 +39,10 @@ export const ButtonContainer = styled.div`
   display: flex;
   justify-content: flex-end;
   gap: 1rem;
+`;
+
+export const OptionText = styled.p<{ isOption?: boolean }>`
+  padding: ${(props) => (props.isOption ? '0' : '0.2rem')} 0;
+  font-size: ${(props) => props.theme.font.size.xs};
+  color: ${(props) => props.theme.colors.grey400};
 `;

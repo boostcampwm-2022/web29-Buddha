@@ -15,8 +15,9 @@ export const MyPageWrapper = styled.div`
 export const ContentWrapper = styled.div`
   display: flex;
   flex-direction: column;
-  justify-content: space-between;
+  justify-content: center;
   align-items: center;
+  gap: 3rem;
   flex: 0.8;
   width: 100%;
   padding: 0 0 3rem 0;
@@ -33,6 +34,7 @@ export const ButtonWrapper = styled.div`
   display: flex;
   flex-direction: row;
   gap: 0.3rem;
+  cursor: pointer;
 
   p {
     color: ${(props) => props.theme.colors.grey600};

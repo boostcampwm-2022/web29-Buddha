@@ -1,0 +1,28 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`음료 타입(핫, 아이스) 선택 컴포넌트 스냅샷 1`] = `
+<DocumentFragment>
+  <div
+    class="css-1j3fa3d"
+  >
+    <main
+      class="css-lut1ux"
+    >
+      <section
+        class="css-3w5v09"
+      >
+        <span
+          class="hot"
+        >
+          HOT
+        </span>
+        <span
+          class="iced"
+        >
+          ICED
+        </span>
+      </section>
+    </main>
+  </div>
+</DocumentFragment>
+`;

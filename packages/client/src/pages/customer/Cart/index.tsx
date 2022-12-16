@@ -18,9 +18,9 @@ function Cart() {
   const [cartCount, setCartCount] = useState<number>(getCartCount());
   const [cartPrice, setCartPrice] = useState<number>(getCartPrice());
 
-  const setQuantity = (idx: number, quantity: number) => {
+  const setCount = (idx: number, count: number) => {
     let newCart = [...cart];
-    newCart[idx].quantity = quantity;
+    newCart[idx].count = count;
     setNewCart(newCart);
   };
 
@@ -53,7 +53,7 @@ function Cart() {
               <CartItem
                 key={idx}
                 menu={menu}
-                setQuantity={setQuantity}
+                setCount={setCount}
                 deleteMenu={deleteMenu}
               />
             ))}

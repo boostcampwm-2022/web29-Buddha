@@ -1,5 +1,6 @@
 import { useNavigate } from 'react-router-dom';
 import { Menu } from '@/types';
+import { getPriceComma } from '@/utils';
 import { MenuImg, MenuWrapper, MenuInfoWrapper } from './styled';
 
 function MenuItem(props: Menu) {
@@ -18,7 +19,7 @@ function MenuItem(props: Menu) {
       <MenuImg src={props.thumbnail} alt="메뉴 이미지" />
       <MenuInfoWrapper>
         <p>{props.name}</p>
-        <p>{props.price}원</p>
+        <p>{getPriceComma(props.price)}원</p>
       </MenuInfoWrapper>
     </MenuWrapper>
   );

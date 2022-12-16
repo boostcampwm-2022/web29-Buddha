@@ -10,13 +10,13 @@ export function setNestApp<T extends INestApplication>(app: T): void {
   app.useGlobalInterceptors(new ClassSerializerInterceptor(app.get(Reflector)));
 
   app.enableCors({
-    origin: process.env.CLIENT_URI,
+    origin: [process.env.CLIENT_URI1, process.env.CLIENT_URI2],
     credentials: true,
   });
   app.use(cookieParser());
   app.use(
     session({
-      secret: 'buddah!@#$',
+      secret: process.env.SESSION_PASSWORD,
       resave: false,
       saveUninitialized: false,
       cookie: {

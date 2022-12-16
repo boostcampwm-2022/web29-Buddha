@@ -16,7 +16,7 @@ export function setNestApp<T extends INestApplication>(app: T): void {
   app.use(cookieParser());
   app.use(
     session({
-      secret: 'buddah!@#$',
+      secret: process.env.SESSION_PASSWORD,
       resave: false,
       saveUninitialized: false,
       cookie: {

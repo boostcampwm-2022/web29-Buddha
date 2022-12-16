@@ -25,14 +25,6 @@ function MenuDetail() {
   const dispatch = useMenuDetailDispatch();
   const { menuId } = useParams();
 
-  console.log('--------------------');
-  console.log(menu);
-  console.log(count);
-  console.log(temperature);
-  console.log(size);
-  console.log(options);
-  console.log(price);
-
   const newMenu = useFetch({
     url: `/cafe/menu/${menuId}`,
     method: 'get',
